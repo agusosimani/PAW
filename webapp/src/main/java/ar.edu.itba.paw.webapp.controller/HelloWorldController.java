@@ -2,30 +2,39 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
 @Controller
 public class HelloWorldController {
-	
+
 	@Autowired
 	private UserService us;
-	
+
 	@RequestMapping("/") //Le digo que url mappeo
 	public ModelAndView helloWorld() {
 		final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
 		mav.addObject("greeting", "PAW"); //Popular model
 		return mav;
 	}
-	
+
 	@RequestMapping("/login") //Le digo que url mappeo
 	public ModelAndView login() {
 		final ModelAndView mav = new ModelAndView("login"); //Seleccionar lista
 		mav.addObject("greeting", "PAW"); //Popular model
 		return mav;
 	}
-	
+
 	@RequestMapping("/logout") //Le digo que url mappeo
 	public ModelAndView logout() {
 		final ModelAndView mav = new ModelAndView("logout"); //Seleccionar lista
