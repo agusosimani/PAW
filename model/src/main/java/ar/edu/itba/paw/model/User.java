@@ -15,6 +15,10 @@ public class User
     private int gender;
     private int status;
 
+    public User(String email) {
+        this.email = email;
+    }
+
     public int getStatus() {
         return status;
     }

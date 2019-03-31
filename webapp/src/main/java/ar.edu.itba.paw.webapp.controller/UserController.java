@@ -1,36 +1,30 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.UserService;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.interfaces.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
-
 
 
 @Path("users")
 @Component
 public class UserController {
     @Autowired
-    private UserService us;
+    private UserDao us;
     @Context
     private UriInfo uriInfo;
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response listUsers() {
-        return Response.ok(new String("HOLA MUNDO")).build();
+        return Response.ok(us.getById(1)).build();
     }
 
     /*@POST
