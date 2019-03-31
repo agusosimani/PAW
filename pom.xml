@@ -129,7 +129,7 @@
   <repositories>
     <repository>
       <id>jersey-snapshot</id>
-      <url>https://maven.java.net/content/repositories/sna pshots/</url>
+      <url>https://maven.java.net/content/repositories/snapshots/</url>
       <name>Jersey Snapshots</name>
       <snapshots>
         <enabled>true</enabled>
