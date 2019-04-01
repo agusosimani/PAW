@@ -24,7 +24,7 @@ public class UserController {
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response listUsers() {
-        return Response.ok(us.getById(1)).build();
+        return Response.ok(us.getById(1).getEmail()).build();
     }
 
     /*@POST
