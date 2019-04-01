@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class UserJdbcDao implements UserDao {
+public class UserDaoImpl implements UserDao {
     private JdbcTemplate jdbcTemplate;
     private final static RowMapper<User> ROW_MAPPER = new RowMapper<User>() {
         @Override
@@ -23,7 +23,7 @@ public class UserJdbcDao implements UserDao {
     };
 
     @Autowired
-    public UserJdbcDao(final DataSource ds) {
+    public UserDaoImpl(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
     }
 

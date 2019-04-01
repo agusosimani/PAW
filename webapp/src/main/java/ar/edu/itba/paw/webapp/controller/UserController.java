@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +17,9 @@ import javax.ws.rs.core.UriInfo;
 @Component
 public class UserController {
     @Autowired
-    private UserDao us;
-    @Context
-    private UriInfo uriInfo;
+    private UserService us;
+//    @Context
+//    private UriInfo uriInfo;
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})

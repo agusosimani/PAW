@@ -4,8 +4,7 @@ package ar.edu.itba.paw.model;
  * Hello world!
  *
  */
-public class User 
-{
+public class User {
     private int id;
     private String email;
     private String password;
