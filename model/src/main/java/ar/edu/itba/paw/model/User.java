@@ -14,8 +14,15 @@ public class User {
     private int gender;
     private int status;
 
-    public User(String email) {
+    public User(int id, String email, String password, String name, String surname, String username, int gender, int status) {
+        this.id = id;
         this.email = email;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.gender = gender;
+        this.status = status;
     }
 
     public int getStatus() {

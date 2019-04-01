@@ -6,6 +6,8 @@ import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -13,7 +15,7 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
 
     @Override
-    public User getById(int id) {
+    public Optional<User> getById(int id) {
         return userDao.getById(id);
     }
 }

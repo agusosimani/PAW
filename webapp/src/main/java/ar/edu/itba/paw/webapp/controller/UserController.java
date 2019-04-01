@@ -1,16 +1,19 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.Optional;
 
 
 @Path("users")
@@ -22,9 +25,16 @@ public class UserController {
 //    private UriInfo uriInfo;
 
     @GET
-    @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response listUsers() {
-        return Response.ok(us.getById(1).getEmail()).build();
+    @Path("{id}")
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    public Response listUsers(@PathParam("id") int id) {
+        //User u = us.getById(id);
+        Optional<User> u = us.getById(id);
+
+        if(u.isPresent())
+            return Response.ok(u.get().getName()).build();
+        else
+            return Response.noContent().build();
     }
 
     /*@POST
