@@ -17,6 +17,27 @@ public class Recipe {
     //private List<Comment> comments;
 
 
+    private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
+                  String instructions, int userId, int status, float yourRating, float globalRating) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+        this.userId = userId;
+        this.status = status;
+        this.yourRating = yourRating;
+        this.globalRating = globalRating;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -81,5 +102,8 @@ public class Recipe {
         this.globalRating = globalRating;
     }
 
+    public class RecipeBuilder{
+        //TODO ARMARLO
+    }
 
 }

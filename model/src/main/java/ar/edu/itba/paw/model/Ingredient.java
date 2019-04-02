@@ -16,6 +16,32 @@ public class Ingredient {
     private String typeOfServing;
     private String userId;
 
+    private Ingredient(int id, String name, boolean isVegetarian, boolean isVegan, boolean taccFree,
+                      double calories, double protein, double carbohydrates, double totalFat,
+                      double sugar, double serving, String typeOfServing, String userId) {
+        this.id = id;
+        this.name = name;
+        this.isVegetarian = isVegetarian;
+        this.isVegan = isVegan;
+        this.taccFree = taccFree;
+        this.calories = calories;
+        this.protein = protein;
+        this.carbohydrates = carbohydrates;
+        this.totalFat = totalFat;
+        this.sugar = sugar;
+        this.serving = serving;
+        this.typeOfServing = typeOfServing;
+        this.userId = userId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -110,5 +136,9 @@ public class Ingredient {
 
     public void setTypeOfServing(String typeOfServing) {
         this.typeOfServing = typeOfServing;
+    }
+
+    public static class IngredientBuilder {
+        //TODO ARMARLO
     }
 }

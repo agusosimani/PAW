@@ -81,4 +81,15 @@ public class User {
         this.gender = gender;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public static class UserBuilder{
+        //TODO ARMARLO
+    }
 }
