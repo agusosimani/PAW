@@ -23,6 +23,7 @@
         <jersey.version>3.0-SNAPSHOT</jersey.version>
         <org.postgresql.version>9.3-1102-jdbc41</org.postgresql.version>
         <mockito.version>2.25.1</mockito.version>
+        <jackson.version>2.9.7</jackson.version>
     </properties>
 
     <build>
@@ -137,6 +138,11 @@
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
