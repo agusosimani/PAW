@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
  *
  * login-register modal
@@ -8,8 +9,6 @@
  */
  
 /*  Shake animation  */
-
-@charset "UTF-8";
 
 .animated {
   -webkit-animation-duration: 1s;
@@ -164,7 +163,7 @@
     color: #FFFFFF;
     display: block;
     margin: 0 auto;
-    padding: 15px 50px;
+    padding: 15px 40px;
     text-transform: uppercase;
     width: 100%;
 }
@@ -209,10 +208,10 @@
     color: #FFFFFF;
     border-radius: 7px;
     border-width: 2px;
-    font-size: 14px;
+    font-size: 10px;
     font-style: normal;
     font-weight: 200;
-    padding: 16px 60px;
+    padding: 6px 18px;
     text-transform: uppercase;
     transition: all 0.3s ease 0s;
 }

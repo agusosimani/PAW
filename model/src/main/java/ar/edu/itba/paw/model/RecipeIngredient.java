@@ -46,4 +46,27 @@ public class RecipeIngredient {
         this.observation = observation;
     }
 
+    public class Builder {
+
+        private int id;
+        private Ingredient ingredient;
+        private int amount;
+        private String observation = "";
+
+        public Builder(int id, Ingredient ingredient,int amount) {
+            this.id = id;
+            this.ingredient = ingredient;
+            this.amount = amount;
+        }
+
+        public Builder observation(String observation) {
+            this.observation = observation;
+            return this;
+        }
+
+        public RecipeIngredient build() {
+            return new RecipeIngredient(id, ingredient, amount, observation);
+        }
+    }
+
 }

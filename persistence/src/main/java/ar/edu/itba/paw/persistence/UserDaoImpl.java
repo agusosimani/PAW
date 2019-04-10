@@ -19,16 +19,21 @@ public class UserDaoImpl implements UserDao {
     private final static RowMapper<User> ROW_MAPPER = new RowMapper<User>() {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new User(
-                    rs.getInt("user_id"),
-                    rs.getString("mail"),
-                    rs.getString("password"),
-                    rs.getString("name"),
-                    rs.getString("surname"),
-                    rs.getString("username"),
-                    rs.getInt("gender"),
-                    rs.getInt("status")
-            );
+            return new User.Builder(rs.getInt("user_id"),rs.getString("username"),
+                    rs.getString("password"),rs.getString("mail"))
+                    .gender(rs.getInt("gender")).name(rs.getString("name"))
+                    .surname(rs.getString("surname")).status(rs.getInt("status")).build();
+
+//            return new User(
+//                    rs.getInt("user_id"),
+//                    rs.getString("mail"),
+//                    rs.getString("password"),
+//                    rs.getString("name"),
+//                    rs.getString("surname"),
+//                    rs.getString("username"),
+//                    rs.getInt("gender"),
+//                    rs.getInt("status")
+//            );
         }
     };
 

@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.model;
 
+import javafx.util.Builder;
+
 /**
  * Hello world!
  *
@@ -14,7 +16,7 @@ public class User {
     private int gender;
     private int status;
 
-    public User(int id, String email, String password, String name, String surname, String username, int gender, int status) {
+    private User(int id, String email, String password, String name, String surname, String username, int gender, int status) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -89,7 +91,46 @@ public class User {
         this.id = id;
     }
 
-    public static class UserBuilder{
-        //TODO ARMARLO
+    public static class Builder{
+
+        private int id = 0;
+        private String email;
+        private String password;
+        private String name = "";
+        private String surname  = "";
+        private String username;
+        private int gender = 0;
+        private int status = 0;
+
+        public Builder(int id, String username, String password, String email) {
+            this.id = id;
+            this.email = email;
+            this.password = password;
+            this.username = username;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder surname(String surname) {
+            this.surname = surname;
+            return this;
+        }
+
+        public Builder gender(int gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public Builder status(int status) {
+            this.status = status;
+            return this;
+        }
+
+        public User build() {
+            return new User(id, email, password, name, surname, username, gender, status);
+        }
     }
 }

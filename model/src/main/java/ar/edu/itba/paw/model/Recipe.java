@@ -102,8 +102,49 @@ public class Recipe {
         this.globalRating = globalRating;
     }
 
-    public class RecipeBuilder{
-        //TODO ARMARLO
+    public class Builder{
+        private int id;
+        private String name;
+        private String description = "";
+        private List<RecipeIngredient> ingredients;
+        private String instructions;
+        private int userId;
+        private int status;
+        private float yourRating = 0;
+        private float globalRating= 0;
+        //private List<Comment> comments;
+
+        public Builder(int id, String name, List<RecipeIngredient> ingredients, String instructions,
+                       int userId, int status) {
+
+            this.id = id;
+            this.name = name;
+            this.ingredients = ingredients;
+            this.instructions = instructions;
+            this.userId = userId;
+            this.status = status;
+
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder yourRating(float rating){
+            this.yourRating = rating;
+            return this;
+        }
+
+        public Builder globalRating(float rating) {
+            this.globalRating = rating;
+            return this;
+        }
+
+        public Recipe build() {
+            return new Recipe(id,name, description, ingredients, instructions,
+                    userId, status, yourRating, globalRating);
+        }
     }
 
 }

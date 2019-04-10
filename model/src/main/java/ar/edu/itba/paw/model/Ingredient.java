@@ -14,11 +14,11 @@ public class Ingredient {
     private double sugar;
     private double serving;
     private String typeOfServing;
-    private String userId;
+    private int userId;
 
     private Ingredient(int id, String name, boolean isVegetarian, boolean isVegan, boolean taccFree,
                       double calories, double protein, double carbohydrates, double totalFat,
-                      double sugar, double serving, String typeOfServing, String userId) {
+                      double sugar, double serving, String typeOfServing, int userId) {
         this.id = id;
         this.name = name;
         this.isVegetarian = isVegetarian;
@@ -42,11 +42,11 @@ public class Ingredient {
         this.id = id;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -138,7 +138,72 @@ public class Ingredient {
         this.typeOfServing = typeOfServing;
     }
 
-    public static class IngredientBuilder {
-        //TODO ARMARLO
+    public static class Builder {
+        private int id;
+        private String name;
+        private boolean isVegetarian = false;
+        private boolean isVegan = false;
+        private boolean taccFree = false;
+        private double calories = 0;
+        private double protein = 0;
+        private double carbohydrates = 0;
+        private double totalFat = 0;
+        private double sugar = 0;
+        private double serving;
+        private String typeOfServing;
+        private int userId;
+
+        public Builder(int id, String name, int serving, String typeOfServing, int userId) {
+            this.id = id;
+            this.name = name;
+            this.serving = serving;
+            this.typeOfServing = typeOfServing;
+            this.userId = userId;
+        }
+
+        public Builder isVegetararian() {
+            this.isVegetarian =true;
+            return this;
+        }
+
+        public Builder isVegan() {
+            this.isVegan =true;
+            return this;
+        }
+
+        public Builder taccFree() {
+            this.taccFree =true;
+            return this;
+        }
+
+        public Builder calories(int cals) {
+            this.calories = cals;
+            return this;
+        }
+
+        public Builder proteins(int protein) {
+            this.protein = protein;
+            return this;
+        }
+
+        public Builder carbohydrates(int carbohydrates) {
+            this.carbohydrates = carbohydrates;
+            return this;
+        }
+
+        public Builder totalFat(int totalFat) {
+            this.totalFat = totalFat;
+            return this;
+        }
+
+        public Builder sugar(int sugar) {
+            this.sugar = sugar;
+            return this;
+        }
+
+        public Ingredient build() {
+            return new Ingredient(id,name, isVegetarian, isVegan, taccFree, calories, protein,
+                    carbohydrates, totalFat, sugar, serving, typeOfServing, userId);
+        }
     }
 }

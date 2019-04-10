@@ -24,6 +24,8 @@
         <org.postgresql.version>9.3-1102-jdbc41</org.postgresql.version>
         <mockito.version>2.25.1</mockito.version>
         <jackson.version>2.9.7</jackson.version>
+        <javax.validation-api.version>1.0.0.GA</javax.validation-api.version>
+        <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
     </properties>
 
     <build>
@@ -143,6 +145,16 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${org.hibernate.validator}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${javax.validation-api.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
