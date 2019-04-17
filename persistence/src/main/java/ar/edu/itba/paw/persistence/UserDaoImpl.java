@@ -51,4 +51,14 @@ public class UserDaoImpl implements UserDao {
 
         return Optional.of(list.get(0));
     }
+
+    @Override
+    public Optional<User> findByUsername(final String username) {
+        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	username	=	?", ROW_MAPPER, username);
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        return Optional.of(list.get(0));
+    }
 }
