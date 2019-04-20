@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -17,7 +18,7 @@ public class HelloWorldController {
 		return mav;
 	}
 
-	@RequestMapping("/login") //Le digo que url mappeo
+	@RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
 	public ModelAndView login() {
 		final ModelAndView mav = new ModelAndView("login"); //Seleccionar lista
 		mav.addObject("greeting", "PAW"); //Popular model

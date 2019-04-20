@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.model;
 
-import javafx.util.Builder;
-
 /**
  * Hello world!
  *
