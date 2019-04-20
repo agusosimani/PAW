@@ -41,7 +41,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(org.postgresql.Driver.class);
-        ds.setUrl("jdbc:postgresql://192.168.0.17/foodify");
+        ds.setUrl("jdbc:postgresql://localhost/foodify");
         ds.setUsername("postgres");
         ds.setPassword("scogar");
         return ds;

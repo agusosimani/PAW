@@ -1,30 +1,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
-<head>
-    <title>Login</title>
-</head>
-    <body>
-        <form action="">
-            <div class="container">
-                <label><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
-
-                <label><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-
-                <button type="submit">Login</button>
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
-            </div>
-
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
-            </div>
-        </form>
-        <script src="<c:url value="/resources/js/jquery-3.2.1.min.js"/>"></script>
-
-    </body>
+<body>
+<c:url value="/login" var="loginUrl" />
+<form action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
+    <div>
+        <label for="username">Username: </label>
+        <input id="username" name="j_username" type="text"/>
+    </div>
+    <div>
+        <label for="password">Password: </label>
+        <input id="password" name="j_password" type="password"/>
+    </div>
+    <div>
+        <label><input name="j_rememberme" type="checkbox"/> <spring:message code="remember_me"/></label>
+    </div>
+    <div>
+        <input type="submit" value="Login!"/>
+    </div>
+</form>
+</body>
 </html>
