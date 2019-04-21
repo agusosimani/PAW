@@ -1,4 +1,49 @@
+.index_logo {
+    width: 100%;
+}
+
+.login {
+    background: url('../img/background_login.jpeg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.register {
+    background: url('../img/background_register.jpeg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;}
+
+.logo {
+    height: 30%;
+    min-height: 180px;
+    margin-bottom: 10%;
+}
+
 .btn-nav {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
+}
+
+.offset_login {
+    height: 20%;
+}
+
+.offset_register {
+    height: 10%;
+}
+
+.centered_login {
+    height: 60%;
+    background: rgba(221,221,221,0.8);
+    border-radius: 2%;
+}
+
+.centered_register {
+    height: 80%;
+    background: rgba(221,221,221,0.8);
+    border-radius: 2%;
 }

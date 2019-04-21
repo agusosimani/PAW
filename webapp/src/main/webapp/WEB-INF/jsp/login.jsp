@@ -1,24 +1,74 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
-<body>
-<c:url value="/login" var="loginUrl" />
-<form action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded">
-    <div>
-        <label for="username">Username: </label>
-        <input id="username" name="j_username" type="text"/>
-    </div>
-    <div>
-        <label for="password">Password: </label>
-        <input id="password" name="j_password" type="password"/>
-    </div>
-    <div>
-        <label><input name="j_rememberme" type="checkbox"/> <spring:message code="remember_me"/></label>
-    </div>
-    <div>
-        <input type="submit" value="Login!"/>
-    </div>
-</form>
-</body>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Foodify</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<c:url value="/resources/img/foodify_tab.png"/>" />
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link href="<c:url value="/resources/css/bootstrap.css"/>" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="<c:url value="/resources/css/mdb.css"/>" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
+    </head>
+
+    <body class="login">
+    <!-- Default form login -->
+    <c:url value="/login" var="loginUrl" />
+    <div class="offset_login"></div>
+    <form action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded" class="centered_login text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
+
+        <img class="logo" src="./resources/img/foodify_2.png" alt="LOGO">
+
+        <!-- Username -->
+        <input type="text" id="username" name="j_username" class="form-control mb-4" placeholder="Username">
+
+        <!-- Password -->
+        <input type="password" id="password" name="j_password" class="form-control mb-4" placeholder="Password">
+
+        <div class="d-flex justify-content-around">
+            <div>
+                <!-- Remember me -->
+                <div class="custom-control custom-checkbox">
+                    <input name="j_rememberme" type="checkbox" class="custom-control-input" id="defaultLoginFormRemember"/>
+                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                </div>
+            </div>
+            <div>
+                <!-- Forgot password -->
+                <a href="">Forgot password?</a>
+            </div>
+        </div>
+
+        <!-- Sign in button -->
+        <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+
+        <!-- Register -->
+        <p>Not a member?
+            <a href="">Register</a>
+        </p>
+
+    </form>
+    <div class="offset_login"></div>
+
+
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="<c:url value="/resources/js/popper.min.js"/>"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
+
+    </body>
 </html>
