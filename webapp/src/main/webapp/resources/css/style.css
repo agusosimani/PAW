@@ -28,6 +28,10 @@
     box-shadow: none !important;
 }
 
+.btn-info {
+    background-color: #1ED760 !important;
+}
+
 .offset_login {
     height: 20%;
 }

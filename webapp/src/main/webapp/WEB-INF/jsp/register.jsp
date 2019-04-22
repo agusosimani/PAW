@@ -25,7 +25,7 @@
   <div class="offset_register"></div>
   <!-- Default form register -->
   <form action="${registerUrl}" method=" TODO NI IDEA" enctype="application/x-www-form-urlencoded" class="centered_register text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
-    <img class="logo" src="./resources/img/foodify_2.png" alt="LOGO">
+    <img class="logo" src="./resources/img/foodify.png" alt="LOGO">
 
     <div class="form-row mb-4">
       <div class="col">
