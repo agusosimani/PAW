@@ -1,5 +1,5 @@
 body {
-  background: #aaa;
+  background: #fff;
   font-family: 'Roboto', sans-serif;
 }
 body a {
@@ -166,7 +166,7 @@ body a:hover {
   flex-flow: row nowrap;
   align-items: center;
 }
-.navigation__list__item:hover {
+.navigation__list__item:hover, .item_active {
   color: white;
   text-decoration: none;
   border-right: 3px solid rgb(30, 215, 96);

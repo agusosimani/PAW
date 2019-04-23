@@ -51,3 +51,11 @@
     background: rgba(221,221,221,0.8);
     border-radius: 2%;
 }
+
+.category_title {
+    margin: 2% 0;
+}
+
+.text-green {
+    color: #1ED760;
+}

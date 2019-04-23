@@ -21,10 +21,10 @@
     <link href="<c:url value="/resources/css/style_spotify.css"/>" rel="stylesheet">
   </head>
 
-  <body>
-    <section class="content">
+  <body class="row">
+    <section class="content col-2">
 
-      <div class="content__left">
+      <div>
 
         <section class="navigation">
 
@@ -42,7 +42,7 @@
 
             <div class="collapse in" id="main">
 
-              <a href="#" class="navigation__list__item">
+              <a href="#" class="navigation__list__item item_active">
                 <i class="ion-ios-browsers"></i>
                 <span>Browse</span>
               </a>
@@ -196,17 +196,169 @@
       </div>
 
     </section>
+    <!-- Section: Blog v.2 -->
+    <section class="text-center col-10">
 
-    <div class="row">
-      <div class="col-2">
-        <button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-home"></i> Inicio</button>
-        <button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-search"></i> Search</button>
-        <button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-book-open"></i> Biblioteca</button>
-      </div>
-      <div class="col-10">
+      <h2 class="font-weight-bold text-left category_title">Most Rated</h2>
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+
+          <!-- Featured image -->
+          <div class="view overlay rounded z-depth-2 mb-4">
+            <img class="img-fluid" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!-- Post title -->
+          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
+          <!-- Excerpt -->
+          <p class="dark-grey-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
+            quo minus id quod maxime placeat facere possimus voluptas.</p>
+          <!-- Read more button -->
+          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+
+          <!-- Featured image -->
+          <div class="view overlay rounded z-depth-2 mb-4">
+            <img class="img-fluid" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!-- Post title -->
+          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
+          <!-- Excerpt -->
+          <p class="dark-grey-text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+            voluptatum deleniti atque corrupti quos dolores.</p>
+          <!-- Read more button -->
+          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-lg-4 col-md-6 mb-0">
+
+          <!-- Featured image -->
+          <div class="view overlay rounded z-depth-2 mb-4">
+            <img class="img-fluid" src="<c:url value="/resources/img/recipe_3.png"/>" alt="Sample image">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!-- Post title -->
+          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
+          <!-- Excerpt -->
+          <p class="dark-grey-text">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+            quia consequuntur magni dolores eos qui ratione.</p>
+          <!-- Read more button -->
+          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+
+        </div>
+        <!-- Grid column -->
 
       </div>
-    </div>
+      <!-- Grid row -->
+
+      <h2 class="font-weight-bold text-left category_title">Recently added</h2>
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+
+          <!-- Featured image -->
+          <div class="view overlay rounded z-depth-2 mb-4">
+            <img class="img-fluid" src="<c:url value="/resources/img/recipe_4.png"/>" alt="Sample image">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!-- Post title -->
+          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
+          <!-- Excerpt -->
+          <p class="dark-grey-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
+            quo minus id quod maxime placeat facere possimus voluptas.</p>
+          <!-- Read more button -->
+          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+
+          <!-- Featured image -->
+          <div class="view overlay rounded z-depth-2 mb-4">
+            <img class="img-fluid" src="<c:url value="/resources/img/recipe_5.png"/>" alt="Sample image">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!-- Post title -->
+          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
+          <!-- Excerpt -->
+          <p class="dark-grey-text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+            voluptatum deleniti atque corrupti quos dolores.</p>
+          <!-- Read more button -->
+          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-lg-4 col-md-6 mb-0">
+
+          <!-- Featured image -->
+          <div class="view overlay rounded z-depth-2 mb-4">
+            <img class="img-fluid" src="<c:url value="/resources/img/recipe_6.png"/>" alt="Sample image">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!-- Post title -->
+          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
+          <!-- Excerpt -->
+          <p class="dark-grey-text">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+            quia consequuntur magni dolores eos qui ratione.</p>
+          <!-- Read more button -->
+          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </section>
+    <!-- Section: Blog v.2 -->
+    <%--<div class="row">--%>
+      <%--<div class="col-2">--%>
+        <%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-home"></i> Inicio</button>--%>
+        <%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-search"></i> Search</button>--%>
+        <%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-book-open"></i> Biblioteca</button>--%>
+      <%--</div>--%>
+      <%--<div class="col-10">--%>
+
+      <%--</div>--%>
+    <%--</div>--%>
 
 
     <!-- SCRIPTS -->
