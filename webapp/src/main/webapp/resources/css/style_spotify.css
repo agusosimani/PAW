@@ -145,6 +145,8 @@ body a:hover {
   background: #282828;
   color: #aaaaaa;
   overflow-y: scroll;
+  width: 15%;
+  float: left;
 }
 .navigation__list {
   display: flex;
@@ -175,7 +177,6 @@ body a:hover {
   width: 25px;
   display: block;
 }
-
 .nav_logo {
   width: 100% !important;
   margin-bottom: 10%;
@@ -186,6 +187,7 @@ body a:hover {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
+      width: 100%;
   }
   .navigation__list {
     margin-bottom: 0;
@@ -204,6 +206,9 @@ body a:hover {
   }
   .navigation__list__item:hover {
     border: none;
+  }
+  .nav_logo{
+      display: none;
   }
 }
 .playlist {
