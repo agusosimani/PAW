@@ -102,7 +102,7 @@ public class Recipe {
         this.globalRating = globalRating;
     }
 
-    public class Builder{
+    public static class Builder{
         private int id;
         private String name;
         private String description = "";

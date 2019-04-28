@@ -1,5 +1,9 @@
 package ar.edu.itba.paw.model;
 
+import javafx.util.Builder;
+
+import java.util.List;
+
 /**
  * Hello world!
  *
@@ -13,8 +17,10 @@ public class User {
     private String username;
     private int gender;
     private int status;
+    private List<RecipeIngredient> ingredients;
+    private List<Recipe> recipes;
 
-    private User(int id, String email, String password, String name, String surname, String username, int gender, int status) {
+    private User(int id, String email, String password, String name, String surname, String username, int gender, int status, List<RecipeIngredient> ingredients, List<Recipe> recipes) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -23,6 +29,8 @@ public class User {
         this.username = username;
         this.gender = gender;
         this.status = status;
+        this.ingredients = ingredients;
+        this.recipes = recipes;
     }
 
     public int getStatus() {
@@ -81,6 +89,22 @@ public class User {
         this.gender = gender;
     }
 
+    public List<RecipeIngredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<RecipeIngredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
     public int getId() {
         return id;
     }
@@ -99,6 +123,8 @@ public class User {
         private String username;
         private int gender = 0;
         private int status = 0;
+        private List<RecipeIngredient> ingredients = null;
+        private List<Recipe> recipes = null;
 
         public Builder(int id, String username, String password, String email) {
             this.id = id;
@@ -127,8 +153,19 @@ public class User {
             return this;
         }
 
+        public Builder ingredients(List<RecipeIngredient> ingredients) {
+            this.ingredients = ingredients;
+            return this;
+        }
+
+        public Builder recipes(List<Recipe> recipes) {
+            this.recipes = recipes;
+            return this;
+        }
+
         public User build() {
-            return new User(id, email, password, name, surname, username, gender, status);
+            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes);
         }
     }
+
 }
