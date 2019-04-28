@@ -79,6 +79,17 @@
     float:right;
 }
 
+.user_image {
+    float: left;
+    width: 20%;
+}
+
+.user_title {
+    float:right;
+    margin-top: 20px;
+    width: 80%;
+}
+
 .row {
     margin-bottom: 20px;
 }

@@ -35,7 +35,7 @@
                 <!-- Featured image -->
                 <div class="card">
                     <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="img-fluid" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>
@@ -51,7 +51,7 @@
 
                 <div class="card">
                     <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="img-fluid" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>
@@ -67,7 +67,7 @@
 
                 <div class="card">
                     <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="img-fluid" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>
@@ -89,7 +89,7 @@
 
                 <div class="card">
                     <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="img-fluid" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>
@@ -108,7 +108,7 @@
 
                 <div class="card">
                     <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="img-fluid" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>
@@ -131,9 +131,12 @@
     <section class="side_card">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Nombre de usuario</h5>
-                <br/><br/><br/>
-                <p class="card-text">Aca va informacion del usuario</p>
+                <img class="user_image" src="<c:url value="/resources/img/user.png"/>">
+                <h5 class="user_title">Miguel123456</h5>
+                <br/><br/></br></br>
+                <p class="card-text">1/5 estrellas en sus recetas</p>
+                <p class="card-text">232 recetas</p>
+                <p class="card-text">100 comentarios</p>
             </div>
         </div>
     </section>

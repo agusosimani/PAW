@@ -82,7 +82,7 @@
             <div class="card">
               <!-- Featured image -->
               <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="img-fluid" src="<c:url value="/resources/img/recipe_3.png"/>" alt="Sample image">
+                <img class="card-img-top" src="<c:url value="/resources/img/recipe_3.png"/>" alt="Sample image">
                 <a>
                   <div class="mask rgba-white-slight"></div>
                 </a>
@@ -113,7 +113,7 @@
             <!-- Featured image -->
             <div class="card">
               <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="img-fluid" src="<c:url value="/resources/img/recipe_4.png"/>" alt="Sample image">
+                <img class="card-img-top" src="<c:url value="/resources/img/recipe_4.png"/>" alt="Sample image">
                 <a>
                   <div class="mask rgba-white-slight"></div>
                 </a>
@@ -139,7 +139,7 @@
             <div class="card">
             <!-- Featured image -->
               <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="img-fluid" src="<c:url value="/resources/img/recipe_5.png"/>" alt="Sample image">
+                <img class="card-img-top" src="<c:url value="/resources/img/recipe_5.png"/>" alt="Sample image">
                 <a>
                   <div class="mask rgba-white-slight"></div>
                 </a>
@@ -165,7 +165,7 @@
             <div class="card">
               <!-- Featured image -->
               <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="img-fluid" src="<c:url value="/resources/img/recipe_6.png"/>" alt="Sample image">
+                <img class="card-img-top" src="<c:url value="/resources/img/recipe_6.png"/>" alt="Sample image">
                 <a>
                   <div class="mask rgba-white-slight"></div>
                 </a>
