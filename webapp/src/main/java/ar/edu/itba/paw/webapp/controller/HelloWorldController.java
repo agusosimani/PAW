@@ -25,6 +25,13 @@ public class HelloWorldController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/my_account", method = RequestMethod.GET) //Le digo que url mappeo
+	public ModelAndView myAccount() {
+		final ModelAndView mav = new ModelAndView("my_account"); //Seleccionar lista
+		mav.addObject("greeting", "PAW"); //Popular model
+		return mav;
+	}
+
 	@RequestMapping(value = "/register", method = RequestMethod.GET) //Le digo que url mappeo
 	public ModelAndView register() {
 		final ModelAndView mav = new ModelAndView("register"); //Seleccionar lista

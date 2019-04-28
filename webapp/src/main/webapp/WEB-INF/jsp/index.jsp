@@ -22,312 +22,254 @@
   </head>
 
   <body><!--class="row"-->
-    <section class="navigation">
-
-      <!-- Main -->
-      <div class="navigation__list">
-        <img class="nav_logo" src="<c:url value="/resources/img/foodify_inline.png"/>" alt="LOGO">
-        <div class="navigation__list__header"
-             role="button"
-             data-toggle="collapse"
-             href="#main"
-             aria-expanded="true"
-             aria-controls="main">
-          Main
-        </div>
-
-        <div class="collapse in" id="main">
-
-          <a href="#" class="navigation__list__item item_active">
-            <i class="ion-ios-browsers"></i>
-            <span>Browse</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-person-stalker"></i>
-            <span>Activity</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-radio-waves"></i>
-            <span>Radio</span>
-          </a>
-
-        </div>
-
-      </div>
-      <!-- / -->
-
-      <!-- Your Music -->
-      <div class="navigation__list">
-
-        <div class="navigation__list__header"
-             role="button"
-             data-toggle="collapse"
-             href="#yourMusic"
-             aria-expanded="true"
-             aria-controls="yourMusic">
-          Your Music
-        </div>
-
-        <div class="collapse in" id="yourMusic">
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-headphone"></i>
-            <span>Songs</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Albums</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-person"></i>
-            <span>Artists</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-document"></i>
-            <span>Local Files</span>
-          </a>
-
-        </div>
-
-      </div>
-      <!-- / -->
-
-      <!-- Playlists -->
-      <div class="navigation__list">
-
-        <div class="navigation__list__header"
-             role="button"
-             data-toggle="collapse"
-             href="#playlists"
-             aria-expanded="true"
-             aria-controls="playlists">
-          Playlists
-        </div>
-
-        <div class="collapse in" id="playlists">
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Doo Wop</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Pop Classics</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Love $ongs</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Hipster</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>New Music Friday</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Techno Poppers</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Summer Soothers</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Hard Rap</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Pop Rap</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>5 Stars</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Dope Dancin</span>
-          </a>
-
-          <a href="#" class="navigation__list__item">
-            <i class="ion-ios-musical-notes"></i>
-            <span>Sleep</span>
-          </a>
-
-        </div>
-
-      </div>
-      <!-- / -->
-
-    </section>
+    <%@include file="sidebar.jsp" %>
     <!-- Section: Blog v.2 -->
-    <section class="browse text-center">
 
-      <h2 class="font-weight-bold text-left category_title">Most Rated</h2>
+    <section class="main_container">
+      <section class="browse text-center">
 
-      <!-- Grid row -->
-      <div class="row">
+        <!-- Grid row -->
+        <div class="row">
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+          <!-- Grid column -->
+          <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-          <!-- Featured image -->
-          <div class="view overlay rounded z-depth-2 mb-4">
-            <img class="img-fluid" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
+            <div class="card">
+              <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+
+              <div class="card-body">
+            <!-- Post title -->
+                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
+                <!-- Excerpt -->
+                <p class="card-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
+                  quo minus id quod maxime placeat facere possimus voluptas.</p>
+                <!-- Read more button -->
+                <a class="btn btn-green btn-rounded btn-md">Read more</a>
+              </div>
+
+            </div>
           </div>
 
-          <!-- Post title -->
-          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
-          <!-- Excerpt -->
-          <p class="dark-grey-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
-            quo minus id quod maxime placeat facere possimus voluptas.</p>
-          <!-- Read more button -->
-          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+          <!-- Grid column -->
+          <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
 
-        </div>
-        <!-- Grid column -->
+            <div class="card">
+              <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+              <div class="card-body">
+                <!-- Post title -->
+                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
+                <!-- Excerpt -->
+                <p class="card-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
+                  quo minus id quod maxime placeat facere possimus voluptas.</p>
+                <!-- Read more button -->
+                <a class="btn btn-green btn-rounded btn-md">Read more</a>
+              </div>
 
-          <!-- Featured image -->
-          <div class="view overlay rounded z-depth-2 mb-4">
-            <img class="img-fluid" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
+            </div>
           </div>
+          <!-- Grid column -->
 
-          <!-- Post title -->
-          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
-          <!-- Excerpt -->
-          <p class="dark-grey-text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-            voluptatum deleniti atque corrupti quos dolores.</p>
-          <!-- Read more button -->
-          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+          <!-- Grid column -->
+          <div class="col-lg-4 col-md-6 mb-0">
 
-        </div>
-        <!-- Grid column -->
+            <div class="card">
+              <!-- Featured image -->
+              <div class="view overlay rounded z-depth-2 mb-4">
+                <img class="img-fluid" src="<c:url value="/resources/img/recipe_3.png"/>" alt="Sample image">
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-0">
+              <div class="card-body">
+                <!-- Post title -->
+                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
+                <!-- Excerpt -->
+                <p class="card-text">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+                  quia consequuntur magni dolores eos qui ratione.</p>
+                <!-- Read more button -->
+                <a class="btn btn-green btn-rounded btn-md">Read more</a>
+              </div>
+            </div>
 
-          <!-- Featured image -->
-          <div class="view overlay rounded z-depth-2 mb-4">
-            <img class="img-fluid" src="<c:url value="/resources/img/recipe_3.png"/>" alt="Sample image">
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
           </div>
-
-          <!-- Post title -->
-          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
-          <!-- Excerpt -->
-          <p class="dark-grey-text">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
-            quia consequuntur magni dolores eos qui ratione.</p>
-          <!-- Read more button -->
-          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+          <!-- Grid column -->
 
         </div>
-        <!-- Grid column -->
 
-      </div>
-      <!-- Grid row -->
+        <!-- Grid row -->
+        <div class="row">
 
-      <h2 class="font-weight-bold text-left category_title">Recently added</h2>
+          <!-- Grid column -->
+          <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-      <!-- Grid row -->
-      <div class="row">
+            <!-- Featured image -->
+            <div class="card">
+              <div class="view overlay rounded z-depth-2 mb-4">
+                <img class="img-fluid" src="<c:url value="/resources/img/recipe_4.png"/>" alt="Sample image">
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+              <div class="card-body">
+                <!-- Post title -->
+                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
+                <!-- Excerpt -->
+                <p class="card-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
+                  quo minus id quod maxime placeat facere possimus voluptas.</p>
+                <!-- Read more button -->
+                <a class="btn btn-green btn-rounded btn-md">Read more</a>
+              </div>
+            </div>
 
-          <!-- Featured image -->
-          <div class="view overlay rounded z-depth-2 mb-4">
-            <img class="img-fluid" src="<c:url value="/resources/img/recipe_4.png"/>" alt="Sample image">
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
           </div>
+          <!-- Grid column -->
 
-          <!-- Post title -->
-          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
-          <!-- Excerpt -->
-          <p class="dark-grey-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
-            quo minus id quod maxime placeat facere possimus voluptas.</p>
-          <!-- Read more button -->
-          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+          <!-- Grid column -->
+          <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
 
-        </div>
-        <!-- Grid column -->
+            <div class="card">
+            <!-- Featured image -->
+              <div class="view overlay rounded z-depth-2 mb-4">
+                <img class="img-fluid" src="<c:url value="/resources/img/recipe_5.png"/>" alt="Sample image">
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+              <div class="card-body">
+                <!-- Post title -->
+                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
+                <!-- Excerpt -->
+                <p class="card-text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                  voluptatum deleniti atque corrupti quos dolores.</p>
+                <!-- Read more button -->
+                <a class="btn btn-green btn-rounded btn-md">Read more</a>
+              </div>
+            </div>
 
-          <!-- Featured image -->
-          <div class="view overlay rounded z-depth-2 mb-4">
-            <img class="img-fluid" src="<c:url value="/resources/img/recipe_5.png"/>" alt="Sample image">
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
           </div>
+          <!-- Grid column -->
 
-          <!-- Post title -->
-          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
-          <!-- Excerpt -->
-          <p class="dark-grey-text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-            voluptatum deleniti atque corrupti quos dolores.</p>
-          <!-- Read more button -->
-          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+          <!-- Grid column -->
+          <div class="col-lg-4 col-md-6 mb-0">
 
-        </div>
-        <!-- Grid column -->
+            <div class="card">
+              <!-- Featured image -->
+              <div class="view overlay rounded z-depth-2 mb-4">
+                <img class="img-fluid" src="<c:url value="/resources/img/recipe_6.png"/>" alt="Sample image">
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-0">
-
-          <!-- Featured image -->
-          <div class="view overlay rounded z-depth-2 mb-4">
-            <img class="img-fluid" src="<c:url value="/resources/img/recipe_6.png"/>" alt="Sample image">
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
+              <div class="card-body">
+                <!-- Post title -->
+                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
+                <!-- Excerpt -->
+                <p class="card-text">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+                  quia consequuntur magni dolores eos qui ratione.</p>
+                <!-- Read more button -->
+                <a class="btn btn-green btn-rounded btn-md">Read more</a>
+              </div>
+            </div>
           </div>
-
-          <!-- Post title -->
-          <h4 class="font-weight-bold mb-3"><strong>Title of the recipe</strong></h4>
-          <!-- Excerpt -->
-          <p class="dark-grey-text">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
-            quia consequuntur magni dolores eos qui ratione.</p>
-          <!-- Read more button -->
-          <a class="btn btn-green btn-rounded btn-md">Read more</a>
+          <!-- Grid column -->
 
         </div>
-        <!-- Grid column -->
+        <!-- Grid row -->
 
-      </div>
-      <!-- Grid row -->
+      </section>
 
+      <section class="side_card">
+        <div class="card">
+          <div class="card-body">
+
+            <h4>Filtros de busqueda</h4>
+            <br/>
+
+            <div class="navigation__list">
+
+              <div class="navigation__list__header"
+                   role="button"
+                   data-toggle="collapse"
+                   href="#sortBy"
+                   aria-expanded="true"
+                   aria-controls="yourMusic">
+                Ordenar por
+              </div>
+
+              <div class="collapse in" id="sortBy">
+
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="groupOfDefaultRadios">
+                  <label class="custom-control-label" for="defaultGroupExample1">Rising</label>
+                </div>
+
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="defaultGroupExample2" name="groupOfDefaultRadios" checked>
+                  <label class="custom-control-label" for="defaultGroupExample2">New</label>
+                </div>
+
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="defaultGroupExample3" name="groupOfDefaultRadios">
+                  <label class="custom-control-label" for="defaultGroupExample3">Top</label>
+                </div>
+
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="defaultGroupExample4" name="groupOfDefaultRadios">
+                  <label class="custom-control-label" for="defaultGroupExample4">Hot</label>
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="navigation__list">
+
+              <div class="navigation__list__header"
+                   role="button"
+                   data-toggle="collapse"
+                   href="#foodType"
+                   aria-expanded="true"
+                   aria-controls="yourMusic">
+                Tipo de cocina
+              </div>
+
+              <div class="collapse in" id="foodType">
+
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                  <label class="custom-control-label" for="defaultUnchecked">Italiana</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked2">
+                  <label class="custom-control-label" for="defaultUnchecked2">China</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked3">
+                  <label class="custom-control-label" for="defaultUnchecked3">Española</label>
+                </div>
+
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked4">
+                  <label class="custom-control-label" for="defaultUnchecked4">Vegana</label>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
     </section>
     <!-- Section: Blog v.2 -->
     <%--<div class="row">--%>
