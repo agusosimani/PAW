@@ -61,7 +61,7 @@
 }
 
 .browse {
-    float: left;
+    float: right;
     width: 81%;
     margin: 0 2%;
 }
@@ -71,5 +71,6 @@
         float: left;
         width: 95%;
         margin: 0 2.5%;
+        margin-top: 9%;
     }
 }

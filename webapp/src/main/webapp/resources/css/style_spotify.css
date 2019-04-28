@@ -146,7 +146,9 @@ body a:hover {
   color: #aaaaaa;
   overflow-y: scroll;
   width: 15%;
+  height: 100%;
   float: left;
+  position: fixed;
 }
 .navigation__list {
   display: flex;
@@ -187,7 +189,8 @@ body a:hover {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-      width: 100%;
+    width: 100%;
+    z-index: 1;
   }
   .navigation__list {
     margin-bottom: 0;
