@@ -1,3 +1,7 @@
+body {
+    z-index: 1000;
+}
+
 .index_logo {
     width: 100%;
 }
@@ -62,20 +66,20 @@
 
 .browse {
     float: left;
-    width: calc(100% - 330px);
+    width: 78%;
 }
 
 .main_container{
     margin-left: 16%;
     float: left;
     max-width: 84%;
-    margin-top: 20px;
+    margin-top: 1%;
 }
 
 .side_card{
-    margin-right: 10px;
-    margin-left: 20px;
-    width: 300px;
+    margin-right: 1%;
+    margin-left: 1%;
+    width: 20%;
     float:right;
 }
 
@@ -91,22 +95,92 @@
 }
 
 .row {
-    margin-bottom: 20px;
+    margin-bottom: 3.5%;
 }
 
 @media (max-width: 768px) {
     .browse {
         float: left;
         width: 95%;
-        margin: 0 2.5%;
-        margin-top: 9%;
+        margin: 9% 2.5% 0 2.5%;
     }
 
     .main_container{
-        margin: 20px;
+        margin: 2.5%;
+        max-width: 95%;
     }
 
     .side_card{
         visibility: hidden;
     }
+}
+
+.add {
+    border-radius: 50%;
+    font-size: 3rem;
+    position: fixed;
+    z-index: 1;
+    bottom: 5%;
+    right: 5%;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 10px;
+    display: none;
+    height: 80%;
+    width: 60%;
+    position: fixed;
+    top: 10%;
+    left: 20%;
+}
+.modal.modal-is-visible {
+    display: block;
+    z-index: 1050;
+}
+.modal h1 {
+    margin: 0;
+    padding: 0;
+}
+.modal .modal-body {
+    height: 100%;
+    overflow: auto;
+    overflow-y: scroll;
+}
+
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 980;
+}
+.modal-overlay.modal-is-visible {
+    display: block;
+    z-index: 1050;
+}
+
+.modal-dialog {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+}
+
+.modal-header, .modal-footer {
+    height: 10%;
+}
+
+.modal-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-body {
+    height: 80%;
 }

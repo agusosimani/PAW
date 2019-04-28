@@ -6903,6 +6903,8 @@ a.btn:not([href]):not([tabindex]):hover {
 
 body.modal-open {
   overflow: auto;
+  width: 100%;
+  height: 100%;
   padding-right: 0 !important; }
 
 body.scrollable {
