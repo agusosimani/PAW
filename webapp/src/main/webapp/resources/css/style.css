@@ -69,18 +69,18 @@
     margin-left: 16%;
     float: left;
     max-width: 84%;
+    margin-top: 20px;
 }
 
 .side_card{
     margin-right: 10px;
     margin-left: 20px;
-    margin-top: 20px;
     width: 300px;
     float:right;
 }
 
 .row {
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
