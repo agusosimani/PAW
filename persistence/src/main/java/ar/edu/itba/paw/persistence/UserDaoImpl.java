@@ -42,8 +42,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User signUpUser(User user) {
-
-        return Transactions.executeInTransaction(jdbcTemplate,() -> create(user));
+        //return Transactions.executeInTransaction(jdbcTemplate,() -> create(user));
+        return create(user);
     }
 
     @Override

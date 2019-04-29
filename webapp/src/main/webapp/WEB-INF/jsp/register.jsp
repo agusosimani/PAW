@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -21,31 +22,38 @@
   </head>
 
   <body class="register">
-  <c:url value="/register" var="registerUrl" />
+  <c:url value="/create" var="createUrl" />
   <div class="offset_register"></div>
   <!-- Default form register -->
-  <form action="${registerUrl}" method=" TODO NI IDEA" enctype="application/x-www-form-urlencoded" class="centered_register text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
+  <form:form modelAttribute="registerForm" action="${createUrl}" method="post" enctype="application/x-www-form-urlencoded" class="centered_register text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
     <img class="logo" src="./resources/img/foodify.png" alt="LOGO">
 
     <div class="form-row mb-4">
       <div class="col">
         <!-- First name -->
-        <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name">
+        <form:input path="name" type="text"  id="defaultRegisterFormFirstName" class="form-control" placeholder="First name"/>
       </div>
       <div class="col">
         <!-- Last name -->
-        <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name">
+        <form:input path="surname" type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"/>
       </div>
     </div>
 
     <!-- E-mail -->
-    <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
+    <form:input path="email" type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail"/>
+
+    <!-- username -->
+    <form:input path="username" type="text" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="username"/>
 
     <!-- Password -->
-    <input type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock">
+    <form:input path="password" type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock"/>
     <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
       At least 8 characters and 1 digit
     </small>
+
+    <!-- Repeat password -->
+    <form:input path="repeatPassword" type="password" id="defaultRegisterFormRepeatPassword" class="form-control mb-4" placeholder="Repeat password"/>
+
 
     <!-- Phone number -->
     <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock">
@@ -67,7 +75,7 @@
       <em>Sign up</em> you agree to our
       <a href="" target="_blank">terms of service</a>
 
-  </form>
+  </form:form>
   <div class="offset_register"></div>
 
 

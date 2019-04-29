@@ -8,4 +8,6 @@ public interface UserService {
     Optional<User> getById(final int id);
 
     Optional<User> findByUsername(final String username);
+
+    User signUpUser(User user);
 }
