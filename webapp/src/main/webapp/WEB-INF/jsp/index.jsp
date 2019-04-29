@@ -284,12 +284,219 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>Cupcake ipsum dolor sit amet icing unerdwear.com topping. I love muffin icing bonbon halvah. Jelly halvah macaroon I love pastry bonbon. Cookie carrot cake sweet roll. Gingerbread biscuit applicake soufflé liquorice candy canes tart jujubes muffin. Tiramisu I love biscuit dessert. Jelly tootsie roll candy canes marshmallow biscuit fruitcake. I love chocolate bar danish. I love marzipan pastry cupcake topping cookie wafer. Ice cream gingerbread topping donut soufflé. Jelly beans chocolate bar gummies pudding chocolate bar applicake cheesecake chocolate cake. Jelly beans ice cream sweet candy canes. Apple pie cake I love apple pie. Sweet roll I love toffee tart.</p>
-            <p>Cupcake ipsum dolor sit amet icing unerdwear.com topping. I love muffin icing bonbon halvah. Jelly halvah macaroon I love pastry bonbon. Cookie carrot cake sweet roll. Gingerbread biscuit applicake soufflé liquorice candy canes tart jujubes muffin. Tiramisu I love biscuit dessert. Jelly tootsie roll candy canes marshmallow biscuit fruitcake. I love chocolate bar danish. I love marzipan pastry cupcake topping cookie wafer. Ice cream gingerbread topping donut soufflé. Jelly beans chocolate bar gummies pudding chocolate bar applicake cheesecake chocolate cake. Jelly beans ice cream sweet candy canes. Apple pie cake I love apple pie. Sweet roll I love toffee tart.</p>
-            <p>Cupcake ipsum dolor sit amet icing unerdwear.com topping. I love muffin icing bonbon halvah. Jelly halvah macaroon I love pastry bonbon. Cookie carrot cake sweet roll. Gingerbread biscuit applicake soufflé liquorice candy canes tart jujubes muffin. Tiramisu I love biscuit dessert. Jelly tootsie roll candy canes marshmallow biscuit fruitcake. I love chocolate bar danish. I love marzipan pastry cupcake topping cookie wafer. Ice cream gingerbread topping donut soufflé. Jelly beans chocolate bar gummies pudding chocolate bar applicake cheesecake chocolate cake. Jelly beans ice cream sweet candy canes. Apple pie cake I love apple pie. Sweet roll I love toffee tart.</p>
-            <p>Cupcake ipsum dolor sit amet icing unerdwear.com topping. I love muffin icing bonbon halvah. Jelly halvah macaroon I love pastry bonbon. Cookie carrot cake sweet roll. Gingerbread biscuit applicake soufflé liquorice candy canes tart jujubes muffin. Tiramisu I love biscuit dessert. Jelly tootsie roll candy canes marshmallow biscuit fruitcake. I love chocolate bar danish. I love marzipan pastry cupcake topping cookie wafer. Ice cream gingerbread topping donut soufflé. Jelly beans chocolate bar gummies pudding chocolate bar applicake cheesecake chocolate cake. Jelly beans ice cream sweet candy canes. Apple pie cake I love apple pie. Sweet roll I love toffee tart.</p>
-            <p>Cupcake ipsum dolor sit amet icing unerdwear.com topping. I love muffin icing bonbon halvah. Jelly halvah macaroon I love pastry bonbon. Cookie carrot cake sweet roll. Gingerbread biscuit applicake soufflé liquorice candy canes tart jujubes muffin. Tiramisu I love biscuit dessert. Jelly tootsie roll candy canes marshmallow biscuit fruitcake. I love chocolate bar danish. I love marzipan pastry cupcake topping cookie wafer. Ice cream gingerbread topping donut soufflé. Jelly beans chocolate bar gummies pudding chocolate bar applicake cheesecake chocolate cake. Jelly beans ice cream sweet candy canes. Apple pie cake I love apple pie. Sweet roll I love toffee tart.</p>
-            <p>Cupcake ipsum dolor sit amet icing unerdwear.com topping. I love muffin icing bonbon halvah. Jelly halvah macaroon I love pastry bonbon. Cookie carrot cake sweet roll. Gingerbread biscuit applicake soufflé liquorice candy canes tart jujubes muffin. Tiramisu I love biscuit dessert. Jelly tootsie roll candy canes marshmallow biscuit fruitcake. I love chocolate bar danish. I love marzipan pastry cupcake topping cookie wafer. Ice cream gingerbread topping donut soufflé. Jelly beans chocolate bar gummies pudding chocolate bar applicake cheesecake chocolate cake. Jelly beans ice cream sweet candy canes. Apple pie cake I love apple pie. Sweet roll I love toffee tart.</p>
+            <form class="">
+
+              <div class="input-group mb-4 w-50">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="fileInput" aria-describedby="fileInput">
+                  <label class="custom-file-label" for="fileInput">Image</label>
+                </div>
+              </div>
+
+              <label for="recipe_title">Recipe Title
+                <a href="#" class="tooltip-test" title="Be descriptive — but don't get crazy. Succinct titles with well-chosen adjectives and key ingredients are memorable and they catch our attention, like 'One-Pot Kale and Quinoa Pilaf', 'Aunt Mariah's Lemon Sponge Cups' or 'Tipsy Maple Corn'. (You want to go cook all three, don't you?)">
+                  <i class="fas fa-info-circle"></i>
+                </a>
+              </label>
+              <input type="text" id="recipe_title" class="form-control mb-4" placeholder="What's the title of your recipe?">
+
+              <label for="recipe_description">Recipe Description
+                <a href="#" class="tooltip-test" title="This will be your recipe's introduction! We love a good story behind a dish, along with helpful tips and variations.
+If you've adapted from someone else's recipe, this is where you should give credit and tell us how you've made it your own. Not sure if your recipe is adapted enough?">
+                  <i class="fas fa-info-circle"></i>
+                </a>
+              </label>
+              <input type="text" id="recipe_description" class="form-control mb-4" placeholder="Tell us about your recipe.">
+
+              <label for="textarea">Instructions</label>
+              <textarea id="textarea" class="form-control mb-4" placeholder="How is it done?"></textarea>
+
+              <div class="line mb-4">
+                <label class="label-name left">This recipe</label>
+                <select class="browser-default custom-select left mb-4" id="select">
+                  <option value="Serves" selected="">Serves</option>
+                  <option value="Makes">Makes</option>
+                </select>
+                <input id="serving_size_field" class="input-form left mb-4" type="text" name="recipe[serving_size]">
+              </div>
+
+              <div class="line mb-4">
+                <label class="label-name left" for="prep_time">Prep Time
+                  <a href="#" class="tooltip-test label-name" title="What is prep time?
+How long it takes to get your ingredients ready, both active (scrubbing potatoes or chopping carrots) and inactive (dough rising or meat resting). We all slice and dice differently, so don't stress too much about counting minutes.">
+                    <i class="fas fa-info-circle"></i>
+                  </a>
+                </label>
+                <input class="input-form w-10" type="number" min="0" data-name="prep_time" data-interval="hrs" value="">
+                <span>hrs</span>
+                <input class="input-form w-10" type="number" min="0" max="55" data-name="prep_time" data-interval="min" step="5" value="">
+                <span>min</span>
+                <input id="prep_time" value="" type="hidden" name="recipe[prep_time]">
+              </div>
+
+              <div class="line mb-4">
+                <label class="label-name left" for="cook_time">Cook Time
+                  <a href="#" class="tooltip-test label-name" title="What is cook time?
+How long it takes every part of the recipe to cook or bake, both active (stir-frying greens or scrambling eggs) and inactive (braising chicken or baking cake—mmm, cake).">
+                    <i class="fas fa-info-circle"></i>
+                  </a>
+                </label>
+                <input class="input-form w-10" type="number" min="0" data-name="cook_time" data-interval="hrs" value="">
+                <span>hrs</span>
+                <input class="input-form w-10" type="number" min="0" data-name="cook_time" data-interval="min" step="5" value="">
+                <span>min</span>
+                <input id="cook_time" value="" type="hidden" name="recipe[cook_time]">
+              </div>
+
+              <div class="js-recipe-components">
+                <fieldset class="fieldset fieldset--border">
+                  <label class="recipe-form__label">
+                    List your ingredients one at a time
+                    <span class="recipe-form__tooltip-icon">
+                      <div class="tooltip tooltip--small recipe-form__tooltip">
+                        <div class="tooltip__arrow"></div>
+                         We've chosen most common measurements to standardize recipes across the site, but don't worry if you don't see what you need. Say your recipe calls for 5 large bananas—no "cups", no "bunches". Just enter "5" under Quantity, skip the Measurement, and write in "large bananas" under Item. (It'll work, we promise.)
+                      </div>
+                    </span>
+                  </label>
+                  <%--TODO autocomplete--%>
+                  <%--<div class="md-form">--%>
+                    <%--<input type="search" id="form-autocomplete" class="form-control mdb-autocomplete">--%>
+                    <%--<button class="mdb-autocomplete-clear">--%>
+                      <%--<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="https://www.w3.org/2000/svg">--%>
+                        <%--<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />--%>
+                        <%--<path d="M0 0h24v24H0z" fill="none" />--%>
+                      <%--</svg>--%>
+                    <%--</button>--%>
+                    <%--<label for="form-autocomplete" class="active">What is your favorite US state?</label>--%>
+                  <%--</div>--%>
+                      <%--<div class="recipe-form__ingredient-fields" id="recipe_ingredients_field">--%>
+                        <%--<div class="ingredient">--%>
+                          <%--<label class="recipe-form__label--small">Quantity</label>--%>
+                          <%--<input id="quantity" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][0][quantity]">--%>
+                        <%--</div>--%>
+                        <%--<div class="ingredient">--%>
+                          <%--<label class="recipe-form__label--small" id="measurement">Measurement</label>--%>
+                          <%--<select name="recipe_components[component_0][ingredients][0][measurement_id]" id="recipe_components_component_0_ingredients_0_measurement_id"><option value="10"> (none)</option>--%>
+                            <%--<option value="3">cup</option>--%>
+                            <%--<option value="21">teaspoon</option>--%>
+                            <%--<option value="20">tablespoon</option>--%>
+                            <%--<option value="1">bunch</option>--%>
+                            <%--<option value="2">cake</option>--%>
+                            <%--<option value="4">dash</option>--%>
+                            <%--<option value="5">drop</option>--%>
+                            <%--<option value="6">gallon</option>--%>
+                            <%--<option value="23">gram</option>--%>
+                            <%--<option value="7">handful</option>--%>
+                            <%--<option value="8">liter</option>--%>
+                            <%--<option value="9">milliliter</option>--%>
+                            <%--<option value="11">ounce</option>--%>
+                            <%--<option value="12">packet</option>--%>
+                            <%--<option value="13">piece</option>--%>
+                            <%--<option value="14">pinch</option>--%>
+                            <%--<option value="22">pint</option>--%>
+                            <%--<option value="15">pound</option>--%>
+                            <%--<option value="16">quart</option>--%>
+                            <%--<option value="17">shot</option>--%>
+                            <%--<option value="18">splash</option>--%>
+                            <%--<option value="19">sprig</option></select>--%>
+                        <%--</div>--%>
+                        <%--<div class="ingredient" id="last">--%>
+                          <%--<label class="recipe-form__label--small">Item</label>--%>
+                          <%--<input id="item" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][0][item]">--%>
+                        <%--</div>--%>
+                      <%--</div>--%>
+                      <%--<input value="0" id="position" type="hidden" name="recipe_components[component_0][ingredients][0][position]">--%>
+                      <%--<a href="javascript:void(0);" class="remove recipe-form__remove js-remove-ingredient"></a>--%>
+
+                      <%--<div class="recipe-form__ingredient-fields">--%>
+                        <%--<div class="ingredient">--%>
+                          <%--<label class="recipe-form__label--small">Quantity</label>--%>
+                          <%--<input id="quantity" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][1][quantity]">--%>
+                        <%--</div>--%>
+                        <%--<div class="ingredient">--%>
+                          <%--<label class="recipe-form__label--small" id="measurement">Measurement</label>--%>
+                          <%--<select name="recipe_components[component_0][ingredients][1][measurement_id]" id="recipe_components_component_0_ingredients_1_measurement_id"><option value="10"> (none)</option>--%>
+                            <%--<option value="3">cup</option>--%>
+                            <%--<option value="21">teaspoon</option>--%>
+                            <%--<option value="20">tablespoon</option>--%>
+                            <%--<option value="1">bunch</option>--%>
+                            <%--<option value="2">cake</option>--%>
+                            <%--<option value="4">dash</option>--%>
+                            <%--<option value="5">drop</option>--%>
+                            <%--<option value="6">gallon</option>--%>
+                            <%--<option value="23">gram</option>--%>
+                            <%--<option value="7">handful</option>--%>
+                            <%--<option value="8">liter</option>--%>
+                            <%--<option value="9">milliliter</option>--%>
+                            <%--<option value="11">ounce</option>--%>
+                            <%--<option value="12">packet</option>--%>
+                            <%--<option value="13">piece</option>--%>
+                            <%--<option value="14">pinch</option>--%>
+                            <%--<option value="22">pint</option>--%>
+                            <%--<option value="15">pound</option>--%>
+                            <%--<option value="16">quart</option>--%>
+                            <%--<option value="17">shot</option>--%>
+                            <%--<option value="18">splash</option>--%>
+                            <%--<option value="19">sprig</option></select>--%>
+                        <%--</div>--%>
+                        <%--<div class="ingredient" id="last">--%>
+                          <%--<label class="recipe-form__label--small">Item</label>--%>
+                          <%--<input id="item" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][1][item]">--%>
+                        <%--</div>--%>
+                      <%--</div>--%>
+                      <%--<input value="1" id="position" type="hidden" name="recipe_components[component_0][ingredients][1][position]">--%>
+                      <%--<a href="javascript:void(0);" class="remove recipe-form__remove js-remove-ingredient"></a>--%>
+
+                      <%--<div class="recipe-form__ingredient-fields">--%>
+                        <%--<div class="ingredient">--%>
+                          <%--<label class="recipe-form__label--small">Quantity</label>--%>
+                          <%--<input id="quantity" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][2][quantity]">--%>
+                        <%--</div>--%>
+                        <%--<div class="ingredient">--%>
+                          <%--<label class="recipe-form__label--small" id="measurement">Measurement</label>--%>
+                          <%--<select name="recipe_components[component_0][ingredients][2][measurement_id]" id="recipe_components_component_0_ingredients_2_measurement_id"><option value="10"> (none)</option>--%>
+                            <%--<option value="3">cup</option>--%>
+                            <%--<option value="21">teaspoon</option>--%>
+                            <%--<option value="20">tablespoon</option>--%>
+                            <%--<option value="1">bunch</option>--%>
+                            <%--<option value="2">cake</option>--%>
+                            <%--<option value="4">dash</option>--%>
+                            <%--<option value="5">drop</option>--%>
+                            <%--<option value="6">gallon</option>--%>
+                            <%--<option value="23">gram</option>--%>
+                            <%--<option value="7">handful</option>--%>
+                            <%--<option value="8">liter</option>--%>
+                            <%--<option value="9">milliliter</option>--%>
+                            <%--<option value="11">ounce</option>--%>
+                            <%--<option value="12">packet</option>--%>
+                            <%--<option value="13">piece</option>--%>
+                            <%--<option value="14">pinch</option>--%>
+                            <%--<option value="22">pint</option>--%>
+                            <%--<option value="15">pound</option>--%>
+                            <%--<option value="16">quart</option>--%>
+                            <%--<option value="17">shot</option>--%>
+                            <%--<option value="18">splash</option>--%>
+                            <%--<option value="19">sprig</option></select>--%>
+                        <%--</div>--%>
+                        <%--<div class="ingredient" id="last">--%>
+                          <%--<label class="recipe-form__label--small">Item</label>--%>
+                          <%--<input id="item" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][2][item]">--%>
+                        <%--</div>--%>
+                      <%--</div>--%>
+                      <%--<input value="2" id="position" type="hidden" name="recipe_components[component_0][ingredients][2][position]">--%>
+                      <%--<a href="javascript:void(0);" class="remove recipe-form__remove js-remove-ingredient"></a>--%>
+
+                  <%--<div class="recipe-form__error at-least-one" style="display: none;">--%>
+                    <%--You must have at least one ingredient in your recipe.--%>
+                  <%--</div>--%>
+
+                  <%--<a id="add_ingredient" href="javascript:void(0);" class="recipe-form__add js-add-ingredient" data-recipe-obj="recipe_components[component_0]">Add Another Ingredient</a>--%>
+                <%--</fieldset>--%>
+
+              <%--</div>--%>
+
+            </form>
           </div>
           <div class="modal-footer">
             <a class="btn btn-blue-grey" data-dismiss="modal">Close</a>
@@ -298,287 +505,6 @@
         </div>
       </div>
     </div>
-          <%--<div class="modal-body">--%>
-            <%--<form class="recipe-form" id="recipe-submit-form" enctype="multipart/form-data" action="/recipes" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="9enO0ov8oaZbzOX/LUMVKyzhcd18eSRWMNlJLqc/DAkdCIwBuxe/aRqIQyDkaGpM2ncIJfxezt/a7iFeIvnzog==">--%>
-              <%--<div class="form_inner recipe-form__inner">--%>
-                <%--<fieldset class="fieldset">--%>
-                  <%--<label class="recipe-form__label" for="title_field">--%>
-                    <%--Recipe Title: *--%>
-                    <%--<span class="recipe-form__tooltip-icon">--%>
-          <%--<div class="tooltip tooltip--small recipe-form__tooltip">--%>
-            <%--<div class="tooltip__arrow"></div>--%>
-             <%--Be descriptive — but don't get crazy. Succinct titles with well-chosen adjectives and key ingredients are memorable and they catch our attention, like "One-Pot Kale and Quinoa Pilaf", "Aunt Mariah's Lemon Sponge Cups" or "Tipsy Maple Corn". (You want to go cook all three, don't you?)--%>
-          <%--</div>--%>
-        <%--</span>--%>
-                  <%--</label>--%>
-
-                  <%--<input id="title_field" maxlength="80" class="input--light" placeholder="What's the title of your recipe?" size="80" type="text" name="recipe[title]">--%>
-                <%--</fieldset>--%>
-
-                <%--<fieldset class="fieldset fieldset--border">--%>
-                  <%--<label class="recipe-form__label" for="description_field">--%>
-                    <%--Recipe Description:--%>
-                    <%--<span class="recipe-form__tooltip-icon">--%>
-          <%--<div class="tooltip tooltip--small recipe-form__tooltip">--%>
-            <%--<div class="tooltip__arrow"></div>--%>
-            <%--This will be your recipe's introduction! We love a good story behind a dish, along with helpful tips and variations. <br><br>If you've adapted from someone else's recipe, this is where you should give credit and tell us how you've made it your own. Not sure if your recipe is adapted enough?--%>
-          <%--</div>--%>
-        <%--</span>--%>
-                  <%--</label>--%>
-
-                  <%--<textarea id="description_field" class="textarea--light" placeholder="Tell us about your recipe." name="recipe[description]"></textarea>--%>
-                <%--</fieldset>--%>
-
-                <%--<fieldset class="fieldset">--%>
-                  <%--<div class="recipe-form__row--narrow recipe-form__row--inline">--%>
-        <%--<span class="recipe-form__label--serves">This recipe <select name="recipe[makes_serves]" id="recipe_makes_serves"><option selected="selected" value="Serves">Serves</option>--%>
-<%--<option value="Makes">Makes</option></select>: *</span>--%>
-                    <%--<span><input id="serving_size_field" class="input--light" type="text" name="recipe[serving_size]"></span>--%>
-                  <%--</div>--%>
-                <%--</fieldset>--%>
-
-                <%--<fieldset class="fieldset">--%>
-                  <%--<div class="recipe-form__row--narrow recipe-form__row--inline" id="prep_time_field">--%>
-        <%--<span class="recipe-form__label--time">--%>
-          <%--Prep Time: *--%>
-          <%--<span class="recipe-form__tooltip-icon">--%>
-            <%--<div class="tooltip tooltip--small recipe-form__tooltip">--%>
-              <%--<div class="tooltip__arrow"></div>--%>
-              <%--<strong>What is prep time?</strong><br>How long it takes to get your ingredients ready, both active (scrubbing potatoes or chopping carrots) and inactive (dough rising or meat resting). We all slice and dice differently, so don't stress too much about counting minutes.--%>
-            <%--</div>--%>
-          <%--</span>--%>
-        <%--</span>--%>
-
-                    <%--<div class="recipe-form__input-inset">--%>
-                      <%--<input class="input--light js-time-input" type="number" min="0" data-name="prep_time" data-interval="hrs" value="">--%>
-                      <%--<span>hrs</span>--%>
-                    <%--</div>--%>
-                    <%--<div class="recipe-form__input-inset">--%>
-                      <%--<input class="input--light js-time-input" type="number" min="0" data-name="prep_time" data-interval="min" step="5" value="">--%>
-                      <%--<span>min</span>--%>
-                    <%--</div>--%>
-                    <%--<input id="prep_time" value="" type="hidden" name="recipe[prep_time]">--%>
-                  <%--</div>--%>
-                <%--</fieldset>--%>
-
-                <%--<fieldset class="fieldset fieldset--border">--%>
-                  <%--<div class="recipe-form__row--narrow recipe-form__row--inline" id="cook_time_field">--%>
-        <%--<span class="recipe-form__label--time">--%>
-          <%--Cook Time: *--%>
-          <%--<span class="recipe-form__tooltip-icon">--%>
-            <%--<div class="tooltip tooltip--small recipe-form__tooltip">--%>
-              <%--<div class="tooltip__arrow"></div>--%>
-              <%--<strong>What is cook time?</strong><br>How long it takes every part of the recipe to cook or bake, both active (stir-frying greens or scrambling eggs) and inactive (braising chicken or baking cake—mmm, cake).--%>
-            <%--</div>--%>
-          <%--</span>--%>
-        <%--</span>--%>
-
-                    <%--<div class="recipe-form__input-inset">--%>
-                      <%--<input class="input--light js-time-input" type="number" min="0" data-name="cook_time" data-interval="hrs" value="">--%>
-                      <%--<span>hrs</span>--%>
-                    <%--</div>--%>
-                    <%--<div class="recipe-form__input-inset">--%>
-                      <%--<input class="input--light js-time-input" type="number" min="0" data-name="cook_time" data-interval="min" step="5" value="">--%>
-                      <%--<span>min</span>--%>
-                    <%--</div>--%>
-                    <%--<input id="cook_time" value="" type="hidden" name="recipe[cook_time]"><p></p>--%>
-                  <%--</div>--%>
-                <%--</fieldset>--%>
-
-                <%--<div class="js-recipe-components">--%>
-
-                  <%--<input value="AB_RECIPE_NO_TITLE" type="hidden" name="recipe_components[component_0][name]" id="recipe_components_component_0_name">--%>
-                  <%--<input value="ab" type="hidden" name="recipe_components[component_0][recipe_style]" id="recipe_components_component_0_recipe_style">--%>
-                  <%--<fieldset class="fieldset fieldset--border">--%>
-                    <%--<label class="recipe-form__label">--%>
-                      <%--List your ingredients one at a time: *--%>
-                      <%--<span class="recipe-form__tooltip-icon">--%>
-      <%--<div class="tooltip tooltip--small recipe-form__tooltip">--%>
-        <%--<div class="tooltip__arrow"></div>--%>
-         <%--We've chosen most common measurements to standardize recipes across the site, but don't worry if you don't see what you need. Say your recipe calls for 5 large bananas—no "cups", no "bunches". Just enter "5" under Quantity, skip the Measurement, and write in "large bananas" under Item. (It'll work, we promise.)--%>
-      <%--</div>--%>
-    <%--</span>--%>
-                    <%--</label>--%>
-
-                    <%--<ul id="sortable1" class="ingredients clearfix ui-sortable">--%>
-                      <%--<li class="ingredient_single_form recipe-form__sortable-item ui-sortable-handle">--%>
-                        <%--<span class="recipe-form__dragger dragger"></span>--%>
-
-
-                        <%--<div class="recipe-form__ingredient-fields" id="recipe_ingredients_field">--%>
-                          <%--<div class="ingredient">--%>
-                            <%--<label class="recipe-form__label--small">Quantity</label>--%>
-                            <%--<input id="quantity" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][0][quantity]">--%>
-                          <%--</div>--%>
-                          <%--<div class="ingredient">--%>
-                            <%--<label class="recipe-form__label--small" id="measurement">Measurement</label>--%>
-                            <%--<select name="recipe_components[component_0][ingredients][0][measurement_id]" id="recipe_components_component_0_ingredients_0_measurement_id"><option value="10"> (none)</option>--%>
-                              <%--<option value="3">cup</option>--%>
-                              <%--<option value="21">teaspoon</option>--%>
-                              <%--<option value="20">tablespoon</option>--%>
-                              <%--<option value="1">bunch</option>--%>
-                              <%--<option value="2">cake</option>--%>
-                              <%--<option value="4">dash</option>--%>
-                              <%--<option value="5">drop</option>--%>
-                              <%--<option value="6">gallon</option>--%>
-                              <%--<option value="23">gram</option>--%>
-                              <%--<option value="7">handful</option>--%>
-                              <%--<option value="8">liter</option>--%>
-                              <%--<option value="9">milliliter</option>--%>
-                              <%--<option value="11">ounce</option>--%>
-                              <%--<option value="12">packet</option>--%>
-                              <%--<option value="13">piece</option>--%>
-                              <%--<option value="14">pinch</option>--%>
-                              <%--<option value="22">pint</option>--%>
-                              <%--<option value="15">pound</option>--%>
-                              <%--<option value="16">quart</option>--%>
-                              <%--<option value="17">shot</option>--%>
-                              <%--<option value="18">splash</option>--%>
-                              <%--<option value="19">sprig</option></select>--%>
-                          <%--</div>--%>
-                          <%--<div class="ingredient" id="last">--%>
-                            <%--<label class="recipe-form__label--small">Item</label>--%>
-                            <%--<input id="item" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][0][item]">--%>
-                          <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<input value="0" id="position" type="hidden" name="recipe_components[component_0][ingredients][0][position]">--%>
-                        <%--<a href="javascript:void(0);" class="remove recipe-form__remove js-remove-ingredient"></a>--%>
-                      <%--</li>--%>
-
-                      <%--<li class="ingredient_single_form recipe-form__sortable-item ui-sortable-handle">--%>
-                        <%--<span class="recipe-form__dragger dragger"></span>--%>
-
-
-                        <%--<div class="recipe-form__ingredient-fields">--%>
-                          <%--<div class="ingredient">--%>
-                            <%--<label class="recipe-form__label--small">Quantity</label>--%>
-                            <%--<input id="quantity" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][1][quantity]">--%>
-                          <%--</div>--%>
-                          <%--<div class="ingredient">--%>
-                            <%--<label class="recipe-form__label--small" id="measurement">Measurement</label>--%>
-                            <%--<select name="recipe_components[component_0][ingredients][1][measurement_id]" id="recipe_components_component_0_ingredients_1_measurement_id"><option value="10"> (none)</option>--%>
-                              <%--<option value="3">cup</option>--%>
-                              <%--<option value="21">teaspoon</option>--%>
-                              <%--<option value="20">tablespoon</option>--%>
-                              <%--<option value="1">bunch</option>--%>
-                              <%--<option value="2">cake</option>--%>
-                              <%--<option value="4">dash</option>--%>
-                              <%--<option value="5">drop</option>--%>
-                              <%--<option value="6">gallon</option>--%>
-                              <%--<option value="23">gram</option>--%>
-                              <%--<option value="7">handful</option>--%>
-                              <%--<option value="8">liter</option>--%>
-                              <%--<option value="9">milliliter</option>--%>
-                              <%--<option value="11">ounce</option>--%>
-                              <%--<option value="12">packet</option>--%>
-                              <%--<option value="13">piece</option>--%>
-                              <%--<option value="14">pinch</option>--%>
-                              <%--<option value="22">pint</option>--%>
-                              <%--<option value="15">pound</option>--%>
-                              <%--<option value="16">quart</option>--%>
-                              <%--<option value="17">shot</option>--%>
-                              <%--<option value="18">splash</option>--%>
-                              <%--<option value="19">sprig</option></select>--%>
-                          <%--</div>--%>
-                          <%--<div class="ingredient" id="last">--%>
-                            <%--<label class="recipe-form__label--small">Item</label>--%>
-                            <%--<input id="item" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][1][item]">--%>
-                          <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<input value="1" id="position" type="hidden" name="recipe_components[component_0][ingredients][1][position]">--%>
-                        <%--<a href="javascript:void(0);" class="remove recipe-form__remove js-remove-ingredient"></a>--%>
-                      <%--</li>--%>
-
-                      <%--<li class="ingredient_single_form recipe-form__sortable-item ui-sortable-handle">--%>
-                        <%--<span class="recipe-form__dragger dragger"></span>--%>
-
-
-                        <%--<div class="recipe-form__ingredient-fields">--%>
-                          <%--<div class="ingredient">--%>
-                            <%--<label class="recipe-form__label--small">Quantity</label>--%>
-                            <%--<input id="quantity" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][2][quantity]">--%>
-                          <%--</div>--%>
-                          <%--<div class="ingredient">--%>
-                            <%--<label class="recipe-form__label--small" id="measurement">Measurement</label>--%>
-                            <%--<select name="recipe_components[component_0][ingredients][2][measurement_id]" id="recipe_components_component_0_ingredients_2_measurement_id"><option value="10"> (none)</option>--%>
-                              <%--<option value="3">cup</option>--%>
-                              <%--<option value="21">teaspoon</option>--%>
-                              <%--<option value="20">tablespoon</option>--%>
-                              <%--<option value="1">bunch</option>--%>
-                              <%--<option value="2">cake</option>--%>
-                              <%--<option value="4">dash</option>--%>
-                              <%--<option value="5">drop</option>--%>
-                              <%--<option value="6">gallon</option>--%>
-                              <%--<option value="23">gram</option>--%>
-                              <%--<option value="7">handful</option>--%>
-                              <%--<option value="8">liter</option>--%>
-                              <%--<option value="9">milliliter</option>--%>
-                              <%--<option value="11">ounce</option>--%>
-                              <%--<option value="12">packet</option>--%>
-                              <%--<option value="13">piece</option>--%>
-                              <%--<option value="14">pinch</option>--%>
-                              <%--<option value="22">pint</option>--%>
-                              <%--<option value="15">pound</option>--%>
-                              <%--<option value="16">quart</option>--%>
-                              <%--<option value="17">shot</option>--%>
-                              <%--<option value="18">splash</option>--%>
-                              <%--<option value="19">sprig</option></select>--%>
-                          <%--</div>--%>
-                          <%--<div class="ingredient" id="last">--%>
-                            <%--<label class="recipe-form__label--small">Item</label>--%>
-                            <%--<input id="item" class="input--light" value="" type="text" name="recipe_components[component_0][ingredients][2][item]">--%>
-                          <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<input value="2" id="position" type="hidden" name="recipe_components[component_0][ingredients][2][position]">--%>
-                        <%--<a href="javascript:void(0);" class="remove recipe-form__remove js-remove-ingredient"></a>--%>
-                      <%--</li>--%>
-
-                    <%--</ul>--%>
-
-                    <%--<div class="recipe-form__error at-least-one" style="display: none;">--%>
-                      <%--You must have at least one ingredient in your recipe.--%>
-                    <%--</div>--%>
-
-                    <%--<a id="add_ingredient" href="javascript:void(0);" class="recipe-form__add js-add-ingredient" data-recipe-obj="recipe_components[component_0]">Add Another Ingredient</a>--%>
-                  <%--</fieldset>--%>
-                  <%--<fieldset class="fieldset fieldset--border">--%>
-                    <%--<label class="recipe-form__label">--%>
-                      <%--Add your instructions one at a time:--%>
-                      <%--<span class="recipe-form__tooltip-icon">--%>
-      <%--<div class="tooltip tooltip--small recipe-form__tooltip">--%>
-        <%--<div class="tooltip__arrow"></div>--%>
-         <%--Walk us through your recipe, in your voice. Visual and other descriptive clues are always helpful, along with details like time and temperature. For example: "Saute the onions in a large frying pan over medium heat until soft and caramelized, about 15 minutes."--%>
-      <%--</div>--%>
-    <%--</span>--%>
-                    <%--</label>--%>
-
-                    <%--<ul id="sortable2" class="ingredients clearfix ui-sortable">--%>
-
-                      <%--<li class="instruction_single_form recipe-form__sortable-item ui-sortable-handle">--%>
-
-                        <%--<span class="recipe-form__dragger dragger" id="tall"></span>--%>
-                        <%--<div class="recipe-form__instruction-fields">--%>
-                          <%--<textarea id="grow" class="textarea--light" name="recipe_components[component_0][instructions][0][body]"></textarea>--%>
-                          <%--<input value="0" id="position" type="hidden" name="recipe_components[component_0][instructions][0][position]">--%>
-                        <%--</div>--%>
-                        <%--<a href="javascript:void(0);" class="recipe-form__remove remove js-remove-instruction"></a>--%>
-                      <%--</li>--%>
-                      <%--<li class="instruction_single_form recipe-form__sortable-item ui-sortable-handle">--%>
-
-                        <%--<span class="recipe-form__dragger dragger" id="tall"></span>--%>
-                        <%--<div class="recipe-form__instruction-fields">--%>
-                          <%--<textarea id="grow" class="textarea--light" name="recipe_components[component_0][instructions][1][body]"></textarea>--%>
-                          <%--<input value="1" id="position" type="hidden" name="recipe_components[component_0][instructions][1][position]">--%>
-                        <%--</div>--%>
-                        <%--<a href="javascript:void(0);" class="recipe-form__remove remove js-remove-instruction"></a>--%>
-                      <%--</li>--%>
-
-                    <%--</ul>--%>
-                    <%--<a id="add_instruction" href="javascript:void(0);" class="recipe-form__add js-add-instruction" data-recipe-obj="recipe_components[component_0]"><span class="small_header" id="left">Add Another Step</span></a>--%>
-                  <%--</fieldset>--%>
-
-
-                <%--</div>--%>
 
                 <%--<fieldset class="fieldset fieldset--border">--%>
                   <%--<label class="recipe-form__label">--%>
@@ -1528,18 +1454,6 @@
         <%--</div>--%>
       <%--</div>--%>
     <%--</div>--%>
-
-    <%--<div class="row">--%>
-      <%--<div class="col-2">--%>
-        <%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-home"></i> Inicio</button>--%>
-        <%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-search"></i> Search</button>--%>
-        <%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-book-open"></i> Biblioteca</button>--%>
-      <%--</div>--%>
-      <%--<div class="col-10">--%>
-
-      <%--</div>--%>
-    <%--</div>--%>
-
 
     <!-- SCRIPTS -->
     <!-- JQuery -->

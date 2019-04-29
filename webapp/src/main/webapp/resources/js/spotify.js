@@ -56,3 +56,17 @@ $(window).on("resize load", function(){
 
     }
 });
+
+// $("body").on("focus", ".mdb-autocomplete", function() {
+//     var states = [
+//         "Alabana",
+//         "Alaska",
+//         "Arizona",
+//         "Arkansas",
+//         "California"];
+//     $(this).autocomplete({
+//         source: states,
+//         minLength:0,
+//     });
+//     return false;
+// }).bind('focus', function(){ $(this).autocomplete("search"); } );
