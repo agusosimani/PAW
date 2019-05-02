@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -28,9 +27,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.userDetailsService(userDetailsService)
-                .sessionManagement()
-                .invalidSessionUrl("/")
+        http.sessionManagement().invalidSessionUrl("/")
                 .and().authorizeRequests()
                     .antMatchers("/**").permitAll()
                     //.antMatchers("/admin/**").hasRole("ADMIN")
@@ -42,7 +39,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                 .and().rememberMe()
                     .rememberMeParameter("j_rememberme")
-                    .userDetailsService(userDetailsService)
                     .key("mysupersecretketthatnobodyknowsabout")
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()
@@ -58,8 +54,9 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/css/**", "/resources/js/**", "/resources/img/**",
                         "/resources/favicon.ico", "/403");
     }
+
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 }

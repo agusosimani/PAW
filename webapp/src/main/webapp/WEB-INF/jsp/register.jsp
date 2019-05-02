@@ -31,44 +31,50 @@
     <div class="form-row mb-4">
       <div class="col">
         <!-- First name -->
-        <form:input path="name" type="text"  id="defaultRegisterFormFirstName" class="form-control" placeholder="First name"/>
+        <spring:message code="User.name" var="name"/>
+        <form:input path="name" type="text"  id="defaultRegisterFormFirstName" class="form-control" placeholder="${name}"/>
+        <form:errors path="name" cssClass="form-text text-muted" element="small"/>
       </div>
       <div class="col">
         <!-- Last name -->
-        <form:input path="surname" type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"/>
+        <spring:message code="User.surname" var="surname"/>
+        <form:input path="surname" type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="${surname}"/>
+        <form:errors path="surname" cssClass="form-text text-muted" element="small"/>
       </div>
     </div>
 
     <!-- E-mail -->
-    <form:input path="email" type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail"/>
+    <div class="form-row mb-4">
+    <spring:message code="User.email" var="email"/>
+    <form:input path="email" type="text" id="defaultRegisterFormEmail" class="form-control" placeholder="${email}"/>
+    <form:errors path="email" cssClass="form-text text-muted" element="small"/>
+    </div>
 
     <!-- username -->
-    <form:input path="username" type="text" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="username"/>
+    <div class="form-row mb-4">
+    <spring:message code="User.username" var="username"/>
+    <form:input path="username" type="text" id="defaultRegisterFormEmail" class="form-control" placeholder="${username}"/>
+    <form:errors path="username" cssClass="form-text text-muted" element="small"/>
+    </div>
 
     <!-- Password -->
-    <form:input path="password" type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock"/>
-    <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
-      At least 8 characters and 1 digit
-    </small>
+    <div class="form-row mb-4">
+    <spring:message code="User.password" var="password"/>
+    <form:input path="password" type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="${password}" aria-describedby="defaultRegisterFormPasswordHelpBlock"/>
+    <form:errors path="password" cssClass="form-text text-muted" element="small"/>
+    </div>
 
     <!-- Repeat password -->
-    <form:input path="repeatPassword" type="password" id="defaultRegisterFormRepeatPassword" class="form-control mb-4" placeholder="Repeat password"/>
-
-
-    <!-- Phone number -->
-    <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock">
-    <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4">
-      Optional - for two step authentication
-    </small>
-
-    <!-- Newsletter -->
-    <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="defaultRegisterFormNewsletter">
-      <label class="custom-control-label" for="defaultRegisterFormNewsletter">Subscribe to our newsletter</label>
+    <div class="form-row mb-4">
+    <spring:message code="User.repeatPassword" var="repeatPassword"/>
+    <form:input path="repeatPassword" type="password" id="defaultRegisterFormRepeatPassword" class="form-control" placeholder="${repeatPassword}"/>
+    <form:errors path="repeatPassword" cssClass="form-text text-muted" element="small"/>
     </div>
 
     <!-- Sign up button -->
-    <button class="btn btn-info my-4 btn-block" type="submit">Sign up</button>
+    <button class="btn btn-info my-4 btn-block" type="submit">
+      <spring:message code="Register.signUp"/>
+    </button>
 
     <!-- Terms of service -->
     <p>By clicking

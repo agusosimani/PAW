@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class UserForm {
+public class RegisterForm {
     @Size(min = 2, max = 100)
     private String name;
 
@@ -33,13 +33,12 @@ public class UserForm {
 
     private int gender;
 
-
     private int status;
 
     //TODO: poner las otras validaciones
 
     public String getRepeatPassword() {
-        return repeatPassword;
+            return repeatPassword;
     }
 
     public void setRepeatPassword(String repeatPassword) {
