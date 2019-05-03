@@ -63,6 +63,21 @@ var ingredients = ["Bean","Beef","Cheese","Chicken Breast","Chicken Thigh",
     "Ground Beef","Lamb","Pickle","Pork","Potato","Seafood",
     "Summer Squash","Swiss Chard","Vegetable"];
 
+var special_considerations = ["Alcohol-Free Drinks", "Gluten-Free", "Vegan", "Vegetarian"];
+
+var cuisine = ["African", "American", "Argentine", "Ashkenazi", "Asian", "Australian/New Zealander",
+    "Austrian", "Bangladeshi", "Basque", "Belgian", "Brazilian", "British", "Cajun/Creole", "Californian",
+    "Canadian", "Cantonese", "Caribbean", "Central American", "Central Asian", "Chilean", "Chinese",
+    "Colombian", "Cuban", "Czech", "Danish", "Drinks", "Dutch", "East African", "Eastern European",
+    "Egyptian", "Ethiopian", "European", "Filipino", "Finnish", "French", "French Provençal",
+    "German", "Greek", "Hunan", "Hungarian", "Indian", "Indonesian", "Irish", "Israeli", "Italian",
+    "Jamaican", "Japanese", "Jewish", "Korean", "Latin-American", "Lebanese", "Malaysian", "Mediterranean",
+    "Mexican", "Middle Eastern", "Midwestern", "Moroccan", "New England", "North African", "Northern Italian",
+    "Norwegian", "Nuevo Latino", "Pacific Northwest", "Pakistani", "Persian", "Peruvian", "Polish", "Portuguese",
+    "Puerto Rican", "Quebec", "Russian", "Scandinavian", "Scottish", "Sephardic", "South African",
+    "South American", "South Asian", "Southeast Asian", "Southern", "Southern Italian", "Southwestern",
+    "Spanish", "Swedish", "Swiss", "Szechuan", "Tex-Mex", "Thai", "Turkish", "Tuscan", "Vietnamese", "Welsh"];
+
 function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
@@ -159,3 +174,17 @@ function autocomplete(inp, arr) {
         closeAllLists(e.target);
     });
 }
+
+document.getElementById("add_ingredient_item").onclick = function () {
+    $("<div class=\"line mb-4\">\n" +
+        "                <label class=\"label-name left\" for=\"Item\">Item</label>\n" +
+        "                <div class=\"autocomplete\">\n" +
+        "                  <input class=\"input-form\" id=\"Item\" type=\"text\">\n" +
+        "                </div>\n" +
+        "                <span>Quantity</span>\n" +
+        "                <input class=\"input-form w-10\" id=\"Qty\" type=\"number\">\n" +
+        "                <span>tbs</span>\n" +
+        "              </div>").insertBefore($("#add_ingredient_item"));
+    $("#add-new-recipe").modal();
+    return false;
+};

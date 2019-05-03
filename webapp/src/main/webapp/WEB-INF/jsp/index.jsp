@@ -271,7 +271,7 @@
     </section>
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-green add" data-toggle="modal" data-target="#add-new-recipe">+</button>
+    <button type="button" class="btn btn-green add" data-toggle="modal" id="add_recipe" data-target="#add-new-recipe">+</button>
     <%@include file="new_recipe.jsp" %>
 
     <!-- SCRIPTS -->
@@ -288,6 +288,8 @@
     <%--TODO no deberia estar aca    --%>
     <script>
         autocomplete(document.getElementById("Item"), ingredients);
+        autocomplete(document.getElementById("cuisine"), cuisine);
+        autocomplete(document.getElementById("special_consideration"), special_considerations);
     </script>
 
   </body>
