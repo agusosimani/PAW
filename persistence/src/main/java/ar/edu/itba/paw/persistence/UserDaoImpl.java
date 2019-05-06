@@ -25,6 +25,7 @@ public class UserDaoImpl implements UserDao {
             .gender(rs.getInt("gender")).name(rs.getString("name"))
             .surname(rs.getString("surname")).status(rs.getInt("status")).build();
 
+
     @Autowired
     public UserDaoImpl(final DataSource ds) {
 
@@ -42,13 +43,32 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User signUpUser(User user) {
-        //return Transactions.executeInTransaction(jdbcTemplate,() -> create(user));
-        return create(user);
+        final Map<String, Object> map = new HashMap<>();
+
+        map.put("username",user.getUsername());
+        map.put("password",user.getPassword());
+        map.put("mail",user.getEmail());
+
+        if(!user.getName().isEmpty() && !user.getName().equals(""))
+            map.put("name",user.getName());
+        if(!user.getSurname().isEmpty() && !user.getSurname().equals(""))
+            map.put("surname",user.getSurname());
+        if(!(user.getGender() == 0))
+            map.put("gender",user.getGender());
+        if(!(user.getStatus() == 0))
+            map.put("status",user.getStatus());
+
+
+        final Number userId = jdbcInsert.executeAndReturnKey(map);
+
+        user.setId(userId.intValue());
+
+        return user;
     }
 
     @Override
     public void update(User user, Map<String,Object> changes) {
-        changes.forEach((k, v) -> Transactions.executeInTransaction(jdbcTemplate,() -> update(user, k, v)));
+        changes.forEach((k, v) -> update(user, k, v));
     }
 
     //TODO: UPDATE DEL OBJETO USUARIO
@@ -75,32 +95,6 @@ public class UserDaoImpl implements UserDao {
         }
 
         return Optional.of(list.get(0));
-    }
-
-
-
-    private User create(User user) {
-        final Map<String, Object> map = new HashMap<>();
-
-        map.put("username",user.getUsername());
-        map.put("password",user.getPassword());
-        map.put("mail",user.getEmail());
-
-        if(!user.getName().isEmpty() && !user.getName().equals(""))
-            map.put("name",user.getName());
-        if(!user.getSurname().isEmpty() && !user.getSurname().equals(""))
-            map.put("surname",user.getSurname());
-        if(!(user.getGender() == 0))
-            map.put("gender",user.getGender());
-        if(!(user.getStatus() == 0))
-            map.put("status",user.getStatus());
-
-
-        final Number userId = jdbcInsert.executeAndReturnKey(map);
-
-        user.setId(userId.intValue());
-
-        return user;
     }
 
 }

@@ -12,8 +12,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +129,20 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     @Override
+    public Optional<Ingredient> getByIngredientName(String name) {
+        final List<Ingredient> list =
+                jdbcTemplate.query("SELECT * FROM (ingredients JOIN serving_types"+
+                                " ON ingredients.serving_type_id = serving_types.serving_type_id)"+
+                                " WHERE  name	= ?",
+                        INGREDIENT_ROW_MAPPER, name);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list.get(0));
+    }
+
+    @Override
     public Optional<List<RecipeIngredient>> getByUserId(int id) {
         final List<RecipeIngredient> list =
                 jdbcTemplate.query("SELECT * FROM (user_ingredients JOIN" +
@@ -162,10 +174,6 @@ public class IngredientsDaoImpl implements IngredientsDao {
 
     @Override
     public Ingredient addNewIngredient(Ingredient ing) {
-        return Transactions.executeInTransaction(jdbcTemplate,() -> insertNewIngredient(ing));
-    }
-
-    private Ingredient insertNewIngredient(Ingredient ing) {
         final Map<String, Object> map = new HashMap<>();
 
         map.put("name",ing.getName());
@@ -215,13 +223,69 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     @Override
-    public RecipeIngredient addNewRecipeIngredient(RecipeIngredient recIng) {
-        return null;
+    public RecipeIngredient addNewRecipeIngredient(Recipe rec, RecipeIngredient recIng) {
+        final Map<String, Object> map = new HashMap<>();
+
+        map.put("ingredient_id",recIng.getIngredient().getId());
+        map.put("recipe_id",rec.getId());
+        map.put("serving_amount",recIng.getAmount());
+
+        if(recIng.getObservation() != null && !recIng.getObservation().equals(""))
+            map.put("obs",recIng.getObservation());
+
+        jdbcInsertRecIng.execute(map);
+
+        return recIng;
+
     }
 
     @Override
     public RecipeIngredient addNewUserIngredient(User user, RecipeIngredient recipeIngredient) {
-        return null;
+        final Map<String, Object> map = new HashMap<>();
+
+        if(recipeIngredient.getObservation() != null && !recipeIngredient.getObservation().equals(""))
+            map.put("obs",recipeIngredient.getObservation());
+
+        map.put("ingredient_id",recipeIngredient.getIngredient().getId());
+        map.put("user_id",user.getId());
+        map.put("serving_amount",recipeIngredient.getAmount());
+
+        jdbcInsertUserIng.execute(map);
+
+        return recipeIngredient;
+    }
+
+    @Override
+    public void updateIngredient(Ingredient ingredient, Map<String, Object> changes) {
+        changes.forEach((k, v) -> update(ingredient, k, v));
+    }
+
+    private Ingredient update(Ingredient ingredient, String k, Object v) {
+        jdbcTemplate.update("UPDATE ingredients SET ? = ? WHERE ingredient_id = ?",k,v,ingredient.getId());
+        return ingredient;
+    }
+
+    @Override
+    public void updateRecipeIngredient(RecipeIngredient ingredient, Map<String, Object> changes, Recipe recipe) {
+            changes.forEach((k, v) -> updateRIR(ingredient, k, v,recipe));
+    }
+
+    @Override
+    public void updateUserIngredient(RecipeIngredient ingredient, Map<String, Object> changes, User user) {
+        changes.forEach((k, v) -> updateRIU(ingredient, k, v,user));
+
+    }
+
+    private RecipeIngredient updateRIR(RecipeIngredient ingredient, String k, Object v, Recipe recipe) {
+        jdbcTemplate.update("UPDATE recipes_ingredients SET ? = ? WHERE recipe_id = ? AND ingredient_id = ?"
+                ,k,v,recipe.getId(),ingredient.getIngredient().getId());
+        return ingredient;
+    }
+
+    private RecipeIngredient updateRIU(RecipeIngredient ingredient, String k, Object v, User user) {
+        jdbcTemplate.update("UPDATE user_ingredients SET ? = ? WHERE ingredient_id = ? AND user_id = ?",
+                k,v,ingredient.getIngredient().getId(),user.getId());
+        return ingredient;
     }
 
 

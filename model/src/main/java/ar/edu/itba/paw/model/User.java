@@ -3,6 +3,7 @@ package ar.edu.itba.paw.model;
 import javafx.util.Builder;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Hello world!
@@ -113,6 +114,44 @@ public class User {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                gender == user.gender &&
+                status == user.status &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(ingredients, user.ingredients) &&
+                Objects.equals(recipes, user.recipes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, password, name, surname, username, gender, status, ingredients, recipes);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
+                ", gender=" + gender +
+                ", status=" + status +
+                ", ingredients=" + ingredients +
+                ", recipes=" + recipes +
+                '}';
+    }
+
     public static class Builder{
 
         private int id = 0;
@@ -132,6 +171,13 @@ public class User {
             this.password = password;
             this.username = username;
         }
+
+        public Builder(String username, String password, String email) {
+            this.email = email;
+            this.password = password;
+            this.username = username;
+        }
+
 
         public Builder name(String name) {
             this.name = name;

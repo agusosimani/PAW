@@ -3,8 +3,16 @@ package ar.edu.itba.paw.model;
 import java.util.List;
 import java.util.Map;
 
+
+
+//TODO: Hacer los constructores package private para usar hibernate
+//TODO: agregar las dependencias de hibernate
+//TODO: @Entity en los models con @Table(name = recipes)
 public class Recipe {
 
+    //TODO: @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipes_generator")
+    // @SequenceGenerator(name = "recipes_generator", sequenceName = "recipes_generator", allocationSize = 1)
+    // @Column()
     private int id;
     private String name;
     private String description;
@@ -15,6 +23,10 @@ public class Recipe {
     private float yourRating;
     private float globalRating;
     //private List<Comment> comments;
+
+    /* package */ Recipe() {
+        //hibernate
+    }
 
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
@@ -118,6 +130,16 @@ public class Recipe {
                        int userId, int status) {
 
             this.id = id;
+            this.name = name;
+            this.ingredients = ingredients;
+            this.instructions = instructions;
+            this.userId = userId;
+            this.status = status;
+
+        }
+
+        public Builder(String name, List<RecipeIngredient> ingredients, String instructions,
+                       int userId, int status) {
             this.name = name;
             this.ingredients = ingredients;
             this.instructions = instructions;
