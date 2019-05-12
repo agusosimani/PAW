@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeIngredient;
+import ar.edu.itba.paw.model.RecipeTag;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,5 +105,22 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void deleteRecipe(Recipe recipe) {
         this.update(recipe,"status", 0);
+    }
+
+    @Override
+    public Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe) {
+        return recipeDao.getAllRecipeTags(recipe);
+    }
+
+    @Transactional
+    @Override
+    public void removeTagFromRecipe(Recipe recipe, RecipeTag tag) {
+        recipeDao.removeTagFromRecipe(recipe, tag);
+    }
+
+    @Transactional
+    @Override
+    public void addNewRecipeTag(Recipe recipe, RecipeTag tag) {
+        recipeDao.addNewRecipeTag(recipe, tag);
     }
 }

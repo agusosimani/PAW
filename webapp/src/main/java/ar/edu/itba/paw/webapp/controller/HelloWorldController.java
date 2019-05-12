@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -53,7 +55,6 @@ public class HelloWorldController {
 		return mav;
 	}
 
-
 	@RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
 	public ModelAndView login() {
 		final ModelAndView mav = new ModelAndView("login");
@@ -61,11 +62,23 @@ public class HelloWorldController {
 	}
 
 	@RequestMapping(value = "/my_account", method = RequestMethod.GET)
-	public ModelAndView myAccount(Authentication authentication) {
+	public ModelAndView myAccount() {
 		final ModelAndView mav = new ModelAndView("my_account");
-		mav.addObject("user", authentication.getName());
+		mav.addObject("user", new User.Builder("Noobmaster69", "asd", "asd@gmail.com").build());
 		return mav;
 	}
+
+	//CON EL ID LLAMO A SERVICES Y LA TRAIGO
+	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
+	public ModelAndView recipe(@RequestParam Integer recipeId) {
+		final ModelAndView mav = new ModelAndView("recipe");
+		mav.addObject("recipe",new Recipe.Builder(0, "receta4", null, "asd", 0,0)
+				.description("la rechfgfgheta")
+				.build());
+		mav.addObject("user", new User.Builder("Miguel", "asd", "asd@gmail.com").build());
+		return mav;
+	}
+
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm form) {
