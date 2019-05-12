@@ -29,7 +29,7 @@ public class Recipe {
     }
 
 
-    private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
+    public Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId, int status, float yourRating, float globalRating) {
         this.id = id;
         this.name = name;

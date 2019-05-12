@@ -88,6 +88,10 @@ body {
     width: 20%;
 }
 
+.col-lg-4,.col-md-12,.mb-lg-0, .mb-4{
+    margin-bottom: 200px;
+}
+
 .user_title {
     float:right;
     margin-top: 20px;

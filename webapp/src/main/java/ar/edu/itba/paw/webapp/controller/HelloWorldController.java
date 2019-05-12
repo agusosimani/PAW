@@ -1,5 +1,9 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.model.Recipe;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
@@ -12,6 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -27,10 +34,16 @@ public class HelloWorldController {
 	@RequestMapping("/") //Le digo que url mappeo
 	public ModelAndView helloWorld() {
 		final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
+		recipeList.clear();
+		recipeList.add(new Recipe(0,"receta","buen receta", null, "intrucciones", 0,0,3,(float)4.4));
+		recipeList.add(new Recipe(0,"receta2","buen receta2", null, "intrucciones", 0,0,3,(float)4.4));
+		recipeList.add(new Recipe(0,"receta2","buen receta2", null, "intrucciones", 0,0,3,(float)4.4));
+		mav.addObject("RecipeList", recipeList); //Popular model
 		return mav;
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
 	public ModelAndView login() {
 		final ModelAndView mav = new ModelAndView("login");
 		return mav;
@@ -66,6 +79,7 @@ public class HelloWorldController {
 		mav.addObject("greeting", "PAW");
 		return mav;
 	}
+
 	//No quiero repetirle todo el tiempo el path "WEB-INF/jsp/.." entonces configuro mi propio view resolver en web config
 
 //	@ModelAttribute("user")

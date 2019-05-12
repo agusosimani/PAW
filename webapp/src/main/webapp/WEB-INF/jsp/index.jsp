@@ -27,163 +27,29 @@
 
     <section class="main_container">
       <section class="browse text-center">
-
-        <!-- Grid row -->
         <div class="row">
+          <c:forEach var="recipe" items="${RecipeList}">
+            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-          <!-- Grid column -->
-          <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+              <div class="card">
+                <div class="view overlay rounded z-depth-2 mb-4">
+                  <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+                  <a>
+                    <div class="mask rgba-white-slight"></div>
+                  </a>
+                </div>
 
-            <div class="card">
-              <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
+                <div class="card-body">
+                  <h4 class="card-title"><strong>${recipe.name}</strong></h4>
+                  <p class="card-text">${recipe.description}</p>
+                  <a class="btn btn-green btn-rounded btn-md">Read more</a>
+                </div>
 
-              <div class="card-body">
-            <!-- Post title -->
-                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
-                <!-- Excerpt -->
-                <p class="card-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
-                  quo minus id quod maxime placeat facere possimus voluptas.</p>
-                <!-- Read more button -->
-                <a class="btn btn-green btn-rounded btn-md">Read more</a>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Grid column -->
-          <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
-
-            <div class="card">
-              <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-
-              <div class="card-body">
-                <!-- Post title -->
-                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
-                <!-- Excerpt -->
-                <p class="card-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
-                  quo minus id quod maxime placeat facere possimus voluptas.</p>
-                <!-- Read more button -->
-                <a class="btn btn-green btn-rounded btn-md">Read more</a>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Grid column -->
-          <div class="col-lg-4 col-md-6 mb-0">
-
-            <div class="card">
-              <!-- Featured image -->
-              <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="card-img-top" src="<c:url value="/resources/img/recipe_3.png"/>" alt="Sample image">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-
-              <div class="card-body">
-                <!-- Post title -->
-                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
-                <!-- Excerpt -->
-                <p class="card-text">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
-                  quia consequuntur magni dolores eos qui ratione.</p>
-                <!-- Read more button -->
-                <a class="btn btn-green btn-rounded btn-md">Read more</a>
               </div>
             </div>
-
-          </div>
-
+          </c:forEach>
         </div>
 
-        <!-- Grid row -->
-        <div class="row">
-
-          <!-- Grid column -->
-          <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
-
-            <!-- Featured image -->
-            <div class="card">
-              <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="card-img-top" src="<c:url value="/resources/img/recipe_4.png"/>" alt="Sample image">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-
-              <div class="card-body">
-                <!-- Post title -->
-                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
-                <!-- Excerpt -->
-                <p class="card-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit
-                  quo minus id quod maxime placeat facere possimus voluptas.</p>
-                <!-- Read more button -->
-                <a class="btn btn-green btn-rounded btn-md">Read more</a>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Grid column -->
-          <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
-
-            <div class="card">
-            <!-- Featured image -->
-              <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="card-img-top" src="<c:url value="/resources/img/recipe_5.png"/>" alt="Sample image">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-
-              <div class="card-body">
-                <!-- Post title -->
-                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
-                <!-- Excerpt -->
-                <p class="card-text">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-                  voluptatum deleniti atque corrupti quos dolores.</p>
-                <!-- Read more button -->
-                <a class="btn btn-green btn-rounded btn-md">Read more</a>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Grid column -->
-          <div class="col-lg-4 col-md-6 mb-0">
-
-            <div class="card">
-              <!-- Featured image -->
-              <div class="view overlay rounded z-depth-2 mb-4">
-                <img class="card-img-top" src="<c:url value="/resources/img/recipe_6.png"/>" alt="Sample image">
-                <a>
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-
-              <div class="card-body">
-                <!-- Post title -->
-                <h4 class="card-title"><strong>Title of the recipe</strong></h4>
-                <!-- Excerpt -->
-                <p class="card-text">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
-                  quia consequuntur magni dolores eos qui ratione.</p>
-                <!-- Read more button -->
-                <a class="btn btn-green btn-rounded btn-md">Read more</a>
-              </div>
-            </div>
-          </div>
-
-        </div>
 
       </section>
 
