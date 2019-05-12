@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -30,6 +31,7 @@ public class HelloWorldController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	public List<Recipe> recipeList = new LinkedList<>();
 
 	@RequestMapping("/") //Le digo que url mappeo
 	public ModelAndView helloWorld() {
