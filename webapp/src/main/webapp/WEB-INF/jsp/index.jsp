@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -26,6 +27,7 @@
     <%@include file="sidebar.jsp" %>
 
     <section class="main_container">
+
       <section class="browse text-center">
         <div class="row">
 
@@ -44,12 +46,18 @@
                 </div>
                 <!--/.Card image-->
 
+
                 <!--Card content-->
                 <div class="card-body card-body-cascade">
                   <h5 class="pink-text"><i class="fas fa-utensils"></i> CategoriaX</h5>
                   <h4 class="card-title"><strong>${recipe.name}</strong></h4>
                   <p class="card-text">${recipe.description}</p>
-                  <a class="btn btn-unique waves-effect waves-light">Read more</a>
+
+                  <c:url value="/recipe" var="recipeUrl">
+                    <c:param name="recipeId" value="${recipe.id}"/>
+                  </c:url>
+                  <a class="btn btn-unique waves-effect waves-light" href="${recipeUrl}">Read more</a>
+
                 </div>
                 <!--/.Card content-->
 
