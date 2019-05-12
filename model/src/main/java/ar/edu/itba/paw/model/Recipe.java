@@ -29,10 +29,16 @@ public class Recipe {
         //hibernate
     }
 
+<<<<<<< HEAD
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId, int status,
                    List<String> tags, List<Rating> rating) {
+=======
+    //TODO: TIENE QUE SER PRIVATE
+    public Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
+                  String instructions, int userId, int status, float yourRating, float globalRating) {
+>>>>>>> DB
         this.id = id;
         this.name = name;
         this.description = description;
