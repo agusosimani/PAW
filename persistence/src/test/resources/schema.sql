@@ -55,6 +55,7 @@ CREATE TABLE recipes (
                        description varchar(255) DEFAULT NULL,
                        instructions varchar(1000000),
                        status int DEFAULT '0',
+                       category varchar(255),
                        FOREIGN KEY (user_id) REFERENCES users(user_id)
 ) ;
 
