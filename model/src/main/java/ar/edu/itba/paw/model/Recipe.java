@@ -21,7 +21,6 @@ public class Recipe {
     private String instructions;
     private int userId;
     private int status;
-    private List<Rating> rating;
     private List<String> tags;
     //private List<Comment> comments;
 
@@ -31,7 +30,7 @@ public class Recipe {
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId, int status,
-                   List<String> tags, List<Rating> rating) {
+                   List<String> tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,7 +39,6 @@ public class Recipe {
         this.userId = userId;
         this.status = status;
         this.tags = tags;
-        this.rating = rating;
     }
 
     public int getId() {
@@ -99,14 +97,6 @@ public class Recipe {
         this.status = status;
     }
 
-    public List<Rating> getRating() {
-        return rating;
-    }
-
-    public void setRating(List<Rating> rating) {
-        this.rating = rating;
-    }
-
     public List<String> getTags() {
         return tags;
     }
@@ -124,7 +114,6 @@ public class Recipe {
         private int userId;
         private int status;
         private List<String> tags;
-        private List<Rating> rating;
         //private List<Comment> comments;
 
         public Builder(int id, String name, List<RecipeIngredient> ingredients, String instructions,
@@ -159,14 +148,10 @@ public class Recipe {
             return this;
         }
 
-        public Builder rating(List<Rating> rating){
-            this.rating = rating;
-            return this;
-        }
 
         public Recipe build() {
             return new Recipe(id,name, description, ingredients, instructions,
-                    userId, status, tags, rating);
+                    userId, status, tags);
         }
     }
 

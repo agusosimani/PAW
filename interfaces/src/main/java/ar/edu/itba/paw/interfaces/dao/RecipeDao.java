@@ -16,6 +16,8 @@ public interface RecipeDao {
 
     Recipe addNewRecipe(Recipe recipe);
 
+    Optional<List<Recipe>> getAllRecipesOrderedByRating();
+
     void update(Recipe recipe, Map<String,Object> changes);
 
     Optional<RecipeTag> getTagByName(String name);

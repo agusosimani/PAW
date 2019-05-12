@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
-import ar.edu.itba.paw.model.Rating;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeTag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,8 @@ public class RecipeDaoImpl implements RecipeDao {
 
     private final static RowMapper<RecipeTag> TAG_ROW_MAPPER = (rs, rowNum) ->
             new RecipeTag(rs.getInt("tag_id"),rs.getString("name"));
-    
+
+
 
 
     @Autowired
@@ -82,6 +82,17 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
+    public Optional<List<Recipe>> getAllRecipesOrderedByRating() {
+        final List<Recipe> list =
+                jdbcTemplate.query("SELECT	*	FROM recipes ORDER BY rating", ROW_MAPPER);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list);
+    }
+
+    @Override
     public Recipe addNewRecipe(Recipe recipe) {
         final Map<String, Object> map = new HashMap<>();
 
@@ -105,9 +116,8 @@ public class RecipeDaoImpl implements RecipeDao {
         changes.forEach((k, v) -> update(recipe, k, v));
     }
 
-    private Recipe update(Recipe recipe, String k, Object v) {
+    private void update(Recipe recipe, String k, Object v) {
         jdbcTemplate.update("UPDATE recipes SET ? = ? WHERE recipe_id = ?",k,v,recipe.getId());
-        return recipe;
     }
 
     @Override
