@@ -15,10 +15,11 @@ public class Ingredient {
     private double serving;
     private String typeOfServing;
     private int userId;
+    private int status;
 
     private Ingredient(int id, String name, boolean isVegetarian, boolean isVegan, boolean taccFree,
                       double calories, double protein, double carbohydrates, double totalFat,
-                      double sugar, double serving, String typeOfServing, int userId) {
+                      double sugar, double serving, String typeOfServing, int userId,int status) {
         this.id = id;
         this.name = name;
         this.isVegetarian = isVegetarian;
@@ -32,6 +33,7 @@ public class Ingredient {
         this.serving = serving;
         this.typeOfServing = typeOfServing;
         this.userId = userId;
+        this.status = status;
     }
 
     public int getId() {
@@ -138,6 +140,14 @@ public class Ingredient {
         this.typeOfServing = typeOfServing;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public static class Builder {
         private int id;
         private String name;
@@ -151,28 +161,30 @@ public class Ingredient {
         private double sugar = 0;
         private double serving;
         private String typeOfServing;
+        private int status;
         private int userId;
 
-        public Builder(int id, String name, int serving, String typeOfServing, int userId) {
+        public Builder(int id, String name, int serving, String typeOfServing, int userId, int status) {
             this.id = id;
             this.name = name;
             this.serving = serving;
             this.typeOfServing = typeOfServing;
             this.userId = userId;
+            this.status = status;
         }
 
-        public Builder isVegetararian() {
-            this.isVegetarian =true;
+        public Builder isVegetararian(boolean isVegetarian) {
+            this.isVegetarian =isVegetarian;
             return this;
         }
 
-        public Builder isVegan() {
-            this.isVegan =true;
+        public Builder isVegan(boolean isVegan) {
+            this.isVegan =isVegan;
             return this;
         }
 
-        public Builder taccFree() {
-            this.taccFree =true;
+        public Builder taccFree(boolean isTaccFree) {
+            this.taccFree =isTaccFree;
             return this;
         }
 
@@ -203,7 +215,7 @@ public class Ingredient {
 
         public Ingredient build() {
             return new Ingredient(id,name, isVegetarian, isVegan, taccFree, calories, protein,
-                    carbohydrates, totalFat, sugar, serving, typeOfServing, userId);
+                    carbohydrates, totalFat, sugar, serving, typeOfServing, userId,status);
         }
     }
 }

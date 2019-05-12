@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 @ComponentScan({"ar.edu.itba.paw.service", "ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.persistence"})
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
-    @Value("classpath:script.sql")
+    @Value("classpath:schema.sql")
     private Resource scriptSql;
 
     @Bean
@@ -41,9 +41,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(org.postgresql.Driver.class);
+        //ds.setUrl("jdbc:postgresql://localhost/paw-2019a-2");
+        //ds.setUsername("paw-2019a-2");
+        //ds.setPassword("1sz6lIwcK");
         ds.setUrl("jdbc:postgresql://localhost/foodify");
-        ds.setUsername("postgres");
-        ds.setPassword("scogar");
+        ds.setUsername("pedroremigiopingarilho");
+        ds.setPassword("pedroremigiopingarilho");
         return ds;
     }
 
@@ -63,6 +66,21 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
+    }
+
+
+    /*@Bean
+    public DataSourceInitializer dataSourceInitializer(final DataSource ds) {
+        final DataSourceInitializer dsi = new DataSourceInitializer();
+        dsi.setDataSource(ds);
+        dsi.setDatabasePopulator(databasePopulator());
+        return dsi;
+    }*/
+
+    private DatabasePopulator databasePopulator() {
+        final ResourceDatabasePopulator dbp = new ResourceDatabasePopulator();
+        dbp.addScript(scriptSql);
+        return dbp;
     }
 
 }

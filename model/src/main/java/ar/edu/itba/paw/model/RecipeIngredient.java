@@ -2,25 +2,25 @@ package ar.edu.itba.paw.model;
 
 public class RecipeIngredient {
 
-    private int id;
+    //private int id;
     private Ingredient ingredient;
     private int amount;
     private String observation;
 
-    private RecipeIngredient(int id, Ingredient ingredient, int amount, String observation) {
-        this.id = id;
+    private RecipeIngredient(Ingredient ingredient, int amount, String observation) {
+        //this.id = id;
         this.ingredient = ingredient;
         this.amount = amount;
         this.observation = observation;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public Ingredient getIngredient() {
         return ingredient;
@@ -46,15 +46,15 @@ public class RecipeIngredient {
         this.observation = observation;
     }
 
-    public class Builder {
+    public static class Builder {
 
-        private int id;
+//        private int id;
         private Ingredient ingredient;
         private int amount;
         private String observation = "";
 
-        public Builder(int id, Ingredient ingredient,int amount) {
-            this.id = id;
+        public Builder( Ingredient ingredient,int amount) {
+//            this.id = id;
             this.ingredient = ingredient;
             this.amount = amount;
         }
@@ -65,7 +65,7 @@ public class RecipeIngredient {
         }
 
         public RecipeIngredient build() {
-            return new RecipeIngredient(id, ingredient, amount, observation);
+            return new RecipeIngredient(ingredient, amount, observation);
         }
     }
 

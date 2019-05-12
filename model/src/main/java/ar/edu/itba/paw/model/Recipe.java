@@ -1,10 +1,19 @@
 package ar.edu.itba.paw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
+
+//TODO: Hacer los constructores package private para usar hibernate
+//TODO: agregar las dependencias de hibernate
+//TODO: @Entity en los models con @Table(name = recipes)
 public class Recipe {
 
+    //TODO: @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipes_generator")
+    // @SequenceGenerator(name = "recipes_generator", sequenceName = "recipes_generator", allocationSize = 1)
+    // @Column()
     private int id;
     private String name;
     private String description;
@@ -12,13 +21,17 @@ public class Recipe {
     private String instructions;
     private int userId;
     private int status;
-    private float yourRating;
-    private float globalRating;
+    private List<Rating> rating;
+    private List<String> tags;
     //private List<Comment> comments;
 
+    /* package */ Recipe() {
+        //hibernate
+    }
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
-                  String instructions, int userId, int status, float yourRating, float globalRating) {
+                  String instructions, int userId, int status,
+                   List<String> tags, List<Rating> rating) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -26,8 +39,8 @@ public class Recipe {
         this.instructions = instructions;
         this.userId = userId;
         this.status = status;
-        this.yourRating = yourRating;
-        this.globalRating = globalRating;
+        this.tags = tags;
+        this.rating = rating;
     }
 
     public int getId() {
@@ -86,23 +99,23 @@ public class Recipe {
         this.status = status;
     }
 
-    public float getYourRating() {
-        return yourRating;
+    public List<Rating> getRating() {
+        return rating;
     }
 
-    public void setYourRating(float yourRating) {
-        this.yourRating = yourRating;
+    public void setRating(List<Rating> rating) {
+        this.rating = rating;
     }
 
-    public float getGlobalRating() {
-        return globalRating;
+    public List<String> getTags() {
+        return tags;
     }
 
-    public void setGlobalRating(float globalRating) {
-        this.globalRating = globalRating;
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
-    public class Builder{
+    public static class Builder{
         private int id;
         private String name;
         private String description = "";
@@ -110,8 +123,8 @@ public class Recipe {
         private String instructions;
         private int userId;
         private int status;
-        private float yourRating = 0;
-        private float globalRating= 0;
+        private List<String> tags;
+        private List<Rating> rating;
         //private List<Comment> comments;
 
         public Builder(int id, String name, List<RecipeIngredient> ingredients, String instructions,
@@ -126,24 +139,34 @@ public class Recipe {
 
         }
 
+        public Builder(String name, List<RecipeIngredient> ingredients, String instructions,
+                       int userId, int status) {
+            this.name = name;
+            this.ingredients = ingredients;
+            this.instructions = instructions;
+            this.userId = userId;
+            this.status = status;
+
+        }
+
         public Builder description(String description) {
             this.description = description;
             return this;
         }
 
-        public Builder yourRating(float rating){
-            this.yourRating = rating;
+        public Builder tags(List<String> tags) {
+            this.tags = tags;
             return this;
         }
 
-        public Builder globalRating(float rating) {
-            this.globalRating = rating;
+        public Builder rating(List<Rating> rating){
+            this.rating = rating;
             return this;
         }
 
         public Recipe build() {
             return new Recipe(id,name, description, ingredients, instructions,
-                    userId, status, yourRating, globalRating);
+                    userId, status, tags, rating);
         }
     }
 

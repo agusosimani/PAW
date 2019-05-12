@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -21,53 +22,66 @@
   </head>
 
   <body class="register">
-  <c:url value="/register" var="registerUrl" />
+  <c:url value="/create" var="createUrl" />
   <div class="offset_register"></div>
   <!-- Default form register -->
-  <form action="${registerUrl}" method=" TODO NI IDEA" enctype="application/x-www-form-urlencoded" class="centered_register text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
+  <form:form modelAttribute="registerForm" action="${createUrl}" method="post" enctype="application/x-www-form-urlencoded" class="centered_register text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
     <img class="logo" src="./resources/img/foodify.png" alt="LOGO">
 
     <div class="form-row mb-4">
       <div class="col">
         <!-- First name -->
-        <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name">
+        <spring:message code="User.name" var="name"/>
+        <form:input path="name" type="text"  id="defaultRegisterFormFirstName" class="form-control" placeholder="${name}"/>
+        <form:errors path="name" cssClass="form-text text-muted" element="small"/>
       </div>
       <div class="col">
         <!-- Last name -->
-        <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name">
+        <spring:message code="User.surname" var="surname"/>
+        <form:input path="surname" type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="${surname}"/>
+        <form:errors path="surname" cssClass="form-text text-muted" element="small"/>
       </div>
     </div>
 
     <!-- E-mail -->
-    <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
+    <div class="form-row mb-4">
+    <spring:message code="User.email" var="email"/>
+    <form:input path="email" type="text" id="defaultRegisterFormEmail" class="form-control" placeholder="${email}"/>
+    <form:errors path="email" cssClass="form-text text-muted" element="small"/>
+    </div>
+
+    <!-- username -->
+    <div class="form-row mb-4">
+    <spring:message code="User.username" var="username"/>
+    <form:input path="username" type="text" id="defaultRegisterFormEmail" class="form-control" placeholder="${username}"/>
+    <form:errors path="username" cssClass="form-text text-muted" element="small"/>
+    </div>
 
     <!-- Password -->
-    <input type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock">
-    <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
-      At least 8 characters and 1 digit
-    </small>
+    <div class="form-row mb-4">
+    <spring:message code="User.password" var="password"/>
+    <form:input path="password" type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="${password}" aria-describedby="defaultRegisterFormPasswordHelpBlock"/>
+    <form:errors path="password" cssClass="form-text text-muted" element="small"/>
+    </div>
 
-    <!-- Phone number -->
-    <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock">
-    <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4">
-      Optional - for two step authentication
-    </small>
-
-    <!-- Newsletter -->
-    <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="defaultRegisterFormNewsletter">
-      <label class="custom-control-label" for="defaultRegisterFormNewsletter">Subscribe to our newsletter</label>
+    <!-- Repeat password -->
+    <div class="form-row mb-4">
+    <spring:message code="User.repeatPassword" var="repeatPassword"/>
+    <form:input path="repeatPassword" type="password" id="defaultRegisterFormRepeatPassword" class="form-control" placeholder="${repeatPassword}"/>
+    <form:errors path="repeatPassword" cssClass="form-text text-muted" element="small"/>
     </div>
 
     <!-- Sign up button -->
-    <button class="btn btn-info my-4 btn-block" type="submit">Sign up</button>
+    <button class="btn btn-info my-4 btn-block" type="submit">
+      <spring:message code="Register.signUp"/>
+    </button>
 
     <!-- Terms of service -->
     <p>By clicking
       <em>Sign up</em> you agree to our
       <a href="" target="_blank">terms of service</a>
 
-  </form>
+  </form:form>
   <div class="offset_register"></div>
 
 
