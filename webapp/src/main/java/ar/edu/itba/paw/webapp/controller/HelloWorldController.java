@@ -37,9 +37,18 @@ public class HelloWorldController {
 	public ModelAndView helloWorld() {
 		final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
 		recipeList.clear();
-		recipeList.add(new Recipe(0,"receta","buen receta", null, "intrucciones", 0,0,3,(float)4.4));
-		recipeList.add(new Recipe(0,"receta2","buen receta2", null, "intrucciones", 0,0,3,(float)4.4));
-		recipeList.add(new Recipe(0,"receta2","buen receta2", null, "intrucciones", 0,0,3,(float)4.4));
+		recipeList.add(new Recipe.Builder(0, "receta1", null, "asd", 0,0)
+				.description("la recefghhfgta")
+				.build());
+		recipeList.add(new Recipe.Builder(0, "receta2", null, "asd", 0,0)
+				.description("la recgfdeta")
+				.build());
+		recipeList.add(new Recipe.Builder(0, "receta3", null, "asd", 0,0)
+				.description("la recetadsa")
+				.build());
+		recipeList.add(new Recipe.Builder(0, "receta4", null, "asd", 0,0)
+				.description("la rechfgfgheta")
+				.build());
 		mav.addObject("RecipeList", recipeList); //Popular model
 		return mav;
 	}
