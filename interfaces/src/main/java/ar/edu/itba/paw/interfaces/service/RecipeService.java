@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.model.Recipe;
+import ar.edu.itba.paw.model.RecipeTag;
 import ar.edu.itba.paw.model.User;
 
 import java.util.List;
@@ -27,4 +28,9 @@ public interface RecipeService {
 
     void deleteRecipe(Recipe recipe);
 
+    Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe);
+
+    void removeTagFromRecipe(Recipe recipe, RecipeTag tag);
+
+    void addNewRecipeTag(Recipe recipe, RecipeTag tag);
 }
