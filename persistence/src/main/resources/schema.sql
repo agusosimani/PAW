@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS ratings (
                        recipe_id int NOT NULL,
                        rating float DEFAULT NULL,
                        date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                       status int NOT NULL DEFAULT '1',
                        PRIMARY KEY (user_id,recipe_id),
                        CONSTRAINT ratings_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (user_id),
                        CONSTRAINT ratings_ibfk_2 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id)
