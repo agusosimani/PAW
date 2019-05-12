@@ -28,7 +28,7 @@ public class Recipe {
         //hibernate
     }
 
-
+    //TODO: TIENE QUE SER PRIVATE
     public Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId, int status, float yourRating, float globalRating) {
         this.id = id;
