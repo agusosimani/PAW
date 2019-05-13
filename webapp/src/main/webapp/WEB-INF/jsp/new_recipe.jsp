@@ -41,7 +41,16 @@
                         </a>
                     </form:label>
                     <form:input path="description" type="text" id="recipe_description" class="form-control mb-4"
-                           placeholder="Tell us about your recipe."/>
+                                placeholder="Tell us about your recipe."/>
+
+                    <form:label path="instructions" for="recipe_description">Recipe Instructions
+                        <a href="#" class="tooltip-test" title="This will be your recipe's introduction! We love a good story behind a dish, along with helpful tips and variations.
+    If you've adapted from someone else's recipe, this is where you should give credit and tell us how you've made it your own. Not sure if your recipe is adapted enough?">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </form:label>
+                    <form:input path="instructions" type="text" id="recipe_description" class="form-control mb-4"
+                                placeholder="Tell us about your recipe."/>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-blue-grey" data-dismiss="modal">Close</a>

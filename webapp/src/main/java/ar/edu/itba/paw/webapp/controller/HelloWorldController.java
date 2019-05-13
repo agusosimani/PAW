@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -49,20 +50,10 @@ public class HelloWorldController {
 	@RequestMapping("/") //Le digo que url mappeo
 	public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
 		final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
-		recipeList.clear();
-		recipeList.add(new Recipe.Builder(0, "receta1", null, "asd", 0,0)
-				.description("la recefghhfgta")
-				.build());
-		recipeList.add(new Recipe.Builder(0, "receta2", null, "asd", 0,0)
-				.description("la recgfdeta")
-				.build());
-		recipeList.add(new Recipe.Builder(0, "receta3", null, "asd", 0,0)
-				.description("la recetadsa")
-				.build());
-		recipeList.add(new Recipe.Builder(0, "receta4", null, "asd", 0,0)
-				.description("la rechfgfgheta")
-				.build());
-		mav.addObject("RecipeList", recipeList); //Popular model
+
+		Optional<List<Recipe>> maybeList = recipeService.getRecipes();
+
+		mav.addObject("RecipeList", maybeList.get()); //Popular model
 		return mav;
 	}
 
@@ -71,7 +62,7 @@ public class HelloWorldController {
 		if (errors.hasErrors()) {
 			return null;
 		}
-		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), null, recipeForm.getInstructions(), 0,0)
+		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), null, recipeForm.getInstructions(), 1,1)
 				.description(recipeForm.getDescription())
 				.build();
 		recipeService.addNewRecipe(recipeToAdd);
@@ -122,9 +113,10 @@ public class HelloWorldController {
 			System.out.println("File not found");
 		}
 
-		mav.addObject("recipe",new Recipe.Builder(0, "receta4", null, "asd", 0,0)
-				.description("la rechfgfgheta").image(bytes)
-				.build());
+		Recipe recipe = recipeService.getById(recipeId).get();
+		recipe.setImage(bytes);
+
+		mav.addObject("recipe",recipe);
 		mav.addObject("user", new User.Builder("Miguel", "asd", "asd@gmail.com").build());
 		return mav;
 	}

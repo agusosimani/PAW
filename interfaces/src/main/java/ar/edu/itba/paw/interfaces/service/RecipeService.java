@@ -12,6 +12,8 @@ public interface RecipeService {
 
     Optional<Recipe> getById(final int id);
 
+    Optional<List<Recipe>> getRecipes();
+
     Optional<Recipe> getByIdWithIngredients(final int id);
 
     Optional<Recipe> findByName(final String name);

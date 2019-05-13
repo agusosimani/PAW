@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao {
     private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) ->
             new User.Builder(rs.getInt("user_id"),rs.getString("username"),
             rs.getString("password"),rs.getString("mail"))
-            .gender(rs.getInt("gender")).name(rs.getString("name"))
+            .gender(rs.getBoolean("gender")).name(rs.getString("name"))
             .surname(rs.getString("surname")).status(rs.getInt("status")).build();
 
 
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
             map.put("name",user.getName());
         if(!user.getSurname().isEmpty() && !user.getSurname().equals(""))
             map.put("surname",user.getSurname());
-        if(!(user.getGender() == 0))
+        if(!(user.getGender()))//todo pasarlo a int o hacerlo obligatorio
             map.put("gender",user.getGender());
         if(!(user.getStatus() == 0))
             map.put("status",user.getStatus());

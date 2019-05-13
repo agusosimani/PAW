@@ -10,6 +10,7 @@ public class Rating {
 
     private int rating;
 
+    //cambialo a timestamp TODO
     private Date date;
 
     private int status;

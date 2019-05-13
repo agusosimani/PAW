@@ -38,7 +38,7 @@ public class UserDaoSignUpImplTest {
     private static final String EMAIL = "michaelJ@gmail.com";
     private static final String NAME = "Michael";
     private static final String SURNAME = "Joseph Jackson";
-    private static final Integer GENDER = 1;
+    private static final Boolean GENDER = false;
     private static final Integer STATUS = 1;
 
 
@@ -78,7 +78,7 @@ public class UserDaoSignUpImplTest {
         assertEquals(NAME, user.getName());
         assertEquals(SURNAME, user.getSurname());
         assertEquals((int) STATUS, user.getStatus());
-        assertEquals((int) GENDER, user.getGender());
+        assertEquals(GENDER.booleanValue(), user.getGender());
 
 
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
@@ -100,7 +100,7 @@ public class UserDaoSignUpImplTest {
         assertEquals(NAME, user.getName());
         assertEquals(SURNAME, user.getSurname());
         assertNotEquals(0, user.getStatus());
-        assertEquals((int) GENDER, user.getGender());
+        assertEquals(GENDER.booleanValue(), user.getGender());
 
 
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));

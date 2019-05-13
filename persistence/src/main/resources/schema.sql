@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS users (
                      name varchar(255) DEFAULT NULL,
                      surname varchar(255) DEFAULT NULL,
                      username varchar(255) DEFAULT NULL,
-                     gender bit(1) DEFAULT NULL,
-                     status int DEFAULT '0',
+                     gender boolean DEFAULT NULL,
+                     status int DEFAULT '1',
                      PRIMARY KEY (user_id)
 );
 

@@ -33,7 +33,7 @@ public class RecipeDaoImpl implements RecipeDao {
                     rs.getInt("user_id"),
                     rs.getInt("status"))
             .description(rs.getString("description"))
-                    .image(rs.getBytes("image"))
+            //        .image(rs.getBytes("image"))
                     .build();
 
     private final static RowMapper<RecipeTag> TAG_ROW_MAPPER = (rs, rowNum) ->
@@ -77,6 +77,16 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public Optional<List<Recipe>> getByUserId(int id) {
         final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   user_id	=	? AND status != 0", ROW_MAPPER, id);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list);
+    }
+
+    @Override
+    public Optional<List<Recipe>> getAllRecipes() {
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE status != 0", ROW_MAPPER);
         if (list.isEmpty()) {
             return Optional.empty();
         }

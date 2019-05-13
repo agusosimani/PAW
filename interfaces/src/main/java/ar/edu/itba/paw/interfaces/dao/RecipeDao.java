@@ -14,6 +14,9 @@ public interface RecipeDao {
 
     Optional<List<Recipe>> getByUserId(final int id);
 
+    //PA QUILOMBO, RAJARLO ASI QUE VEAS COMO MANDAR DE A POCO. HABLARLE A ALVARO SOS
+    Optional<List<Recipe>> getAllRecipes();
+
     Recipe addNewRecipe(Recipe recipe);
 
     Optional<List<Recipe>> getAllRecipesOrderedByRating();

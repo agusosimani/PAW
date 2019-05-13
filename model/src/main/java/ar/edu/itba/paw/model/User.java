@@ -16,12 +16,12 @@ public class User {
     private String name;
     private String surname;
     private String username;
-    private int gender;
+    private boolean gender;
     private int status;
     private List<RecipeIngredient> ingredients;
     private List<Recipe> recipes;
 
-    private User(int id, String email, String password, String name, String surname, String username, int gender, int status, List<RecipeIngredient> ingredients, List<Recipe> recipes) {
+    private User(int id, String email, String password, String name, String surname, String username, boolean gender, int status, List<RecipeIngredient> ingredients, List<Recipe> recipes) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -82,11 +82,11 @@ public class User {
         this.password = password;
     }
 
-    public int getGender() {
+    public boolean getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(boolean gender) {
         this.gender = gender;
     }
 
@@ -160,7 +160,7 @@ public class User {
         private String name = "";
         private String surname  = "";
         private String username;
-        private int gender = 0;
+        private boolean gender = false;
         private int status = 0;
         private List<RecipeIngredient> ingredients = null;
         private List<Recipe> recipes = null;
@@ -189,7 +189,7 @@ public class User {
             return this;
         }
 
-        public Builder gender(int gender) {
+        public Builder gender(boolean gender) {
             this.gender = gender;
             return this;
         }

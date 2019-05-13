@@ -32,7 +32,7 @@ public class UserDaoMImplTest {
     private static final String EMAIL1 = "michaelJ@gmail.com";
     private static final String NAME1 = "Michael";
     private static final String SURNAME1 = "Joseph Jackson";
-    private static final Integer GENDER1 = 1;
+    private static final Boolean GENDER1 = false;
     private static final Integer STATUS1 = 1;
 
     private static final String USERNAME2 = "jLennon";
@@ -40,7 +40,7 @@ public class UserDaoMImplTest {
     private static final String EMAIL2 = "LennonPeace@yahoo.com";
     private static final String NAME2 = "John";
     private static final String SURNAME2 = "Lennon";
-    private static final Integer GENDER2 = 1;
+    private static final Boolean GENDER2 = false;
     private static final Integer STATUS2 = 1;
 
     private static final String USERNAME3 = "aFranklin";
@@ -48,7 +48,7 @@ public class UserDaoMImplTest {
     private static final String EMAIL3 = "theArethaFranklin@gmail.com";
     private static final String NAME3 = "Aretha Louise";
     private static final String SURNAME3 = "Franklin";
-    private static final Integer GENDER3 = 0;
+    private static final Boolean GENDER3 = true;
     private static final Integer STATUS3 = 1;
 
     private static final String USERNAME4 = "aWineHouse";
@@ -56,7 +56,7 @@ public class UserDaoMImplTest {
     private static final String EMAIL4 = "winehouseAmy@gmail.com";
     private static final String NAME4 = "Amy Jade";
     private static final String SURNAME4 = "Winehouse";
-    private static final Integer GENDER4 = 0;
+    private static final Boolean GENDER4 = true;
     private static final Integer STATUS4 = 1;
 
     @Mock
