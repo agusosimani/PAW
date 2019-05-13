@@ -85,6 +85,7 @@ public class HelloWorldController {
 	@RequestMapping(value = "/my_account", method = RequestMethod.GET)
 	public ModelAndView myAccount() {
 		final ModelAndView mav = new ModelAndView("my_account");
+		mav.addObject("recipes_amount",846684);
 		mav.addObject("user", new User.Builder("Noobmaster69", "asd", "asd@gmail.com").build());
 		return mav;
 	}
@@ -116,6 +117,7 @@ public class HelloWorldController {
 		Recipe recipe = recipeService.getById(recipeId).get();
 		recipe.setImage(bytes);
 
+		mav.addObject("recipes_amount",recipeService.getAllRecipesByUserId(recipe.getUserId()));
 		mav.addObject("recipe",recipe);
 		mav.addObject("user", new User.Builder("Miguel", "asd", "asd@gmail.com").build());
 		return mav;

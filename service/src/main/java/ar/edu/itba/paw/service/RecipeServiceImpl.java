@@ -153,6 +153,12 @@ public class RecipeServiceImpl implements RecipeService {
     public void deleteRating(User user, Recipe recipe, int rating) {
         ratingsDao.update(user,recipe,"status",0);
     }
+
+    @Override
+    public Optional<List<Recipe>> getAllRecipesByUserId(int userId) {
+        return recipeDao.getAllRecipesByUserId(userId);
+    }
+
     @Override
     public Optional<List<Recipe>> getRecipes() {
         return recipeDao.getAllRecipes();

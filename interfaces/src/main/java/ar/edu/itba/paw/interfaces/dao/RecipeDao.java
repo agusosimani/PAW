@@ -31,4 +31,5 @@ public interface RecipeDao {
 
     void addNewRecipeTag(Recipe recipe, RecipeTag tag);
 
+    Optional<List<Recipe>> getAllRecipesByUserId(int userId);
 }

@@ -39,4 +39,6 @@ public interface RecipeService {
     void updateRating(User user, Recipe recipe, int rating);
 
     void deleteRating(User user, Recipe recipe, int rating);
+
+    Optional<List<Recipe>> getAllRecipesByUserId(int userId);
 }

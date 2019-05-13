@@ -176,5 +176,16 @@ public class RecipeDaoImpl implements RecipeDao {
         jdbcInsertTag.execute(map);
     }
 
+    @Override
+    public Optional<List<Recipe>> getAllRecipesByUserId(int userId){
+        final List<Recipe> list = jdbcTemplate.query(
+                "SELECT	*	FROM recipes WHERE user_id = ? AND status != 0",
+                ROW_MAPPER, userId);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list);
+    }
 
 }
