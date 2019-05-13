@@ -1,6 +1,11 @@
 package ar.edu.itba.paw.model;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +26,11 @@ public class Recipe {
     private String instructions;
     private int userId;
     private int status;
+
+    private byte[] image;
+
     private List<RecipeTag> tags;
+
     //private List<Comment> comments;
 
     /* package */ Recipe() {
@@ -30,7 +39,8 @@ public class Recipe {
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId, int status,
-                   List<RecipeTag> tags) {
+                   List<RecipeTag> tags, byte[] image) {
+
         this.id = id;
         this.name = name;
         this.description = description;
@@ -39,6 +49,7 @@ public class Recipe {
         this.userId = userId;
         this.status = status;
         this.tags = tags;
+        this.image = image;
     }
 
     public int getId() {
@@ -105,6 +116,18 @@ public class Recipe {
         this.tags = tags;
     }
 
+    public String getEncodedImage() {
+        return Base64.getEncoder().encodeToString(image);
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public static class Builder{
         private int id;
         private String name;
@@ -114,6 +137,8 @@ public class Recipe {
         private int userId;
         private int status;
         private List<RecipeTag> tags;
+        private byte[] image;
+
         //private List<Comment> comments;
 
         public Builder(int id, String name, List<RecipeIngredient> ingredients, String instructions,
@@ -148,13 +173,15 @@ public class Recipe {
             return this;
         }
 
+        public Builder image(byte[] image) {
+            this.image = image;
+            return this;
+        }
+
 
         public Recipe build() {
             return new Recipe(id,name, description, ingredients, instructions,
-                    userId, status, tags);
+                    userId, status, tags, image);
         }
     }
-
-
-
 }

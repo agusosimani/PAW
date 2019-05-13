@@ -56,6 +56,7 @@ CREATE TABLE recipes (
                        instructions varchar(1000000),
                        status int DEFAULT '0',
                        category varchar(255),
+                       image bytea,
                        FOREIGN KEY (user_id) REFERENCES users(user_id)
 ) ;
 
