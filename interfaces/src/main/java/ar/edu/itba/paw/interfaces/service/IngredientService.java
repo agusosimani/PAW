@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface IngredientService {
 
+    Optional<List<Ingredient>> getAllIngredients();
+
     Optional<Ingredient> getById(final int id);
 
     Optional<Ingredient> findByName(final String name);

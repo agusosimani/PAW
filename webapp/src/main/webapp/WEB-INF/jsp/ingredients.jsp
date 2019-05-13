@@ -1,7 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,38 +27,21 @@
 <%@include file="sidebar.jsp" %>
 
 <section class="main_container">
-    <section class="browse text-center">
-        <!-- Card -->
-        <div class="card">
 
-            <div class="flex">
-                <div class="recipe-body">
-                    <h4 class="card-title">${recipe.name}</h4>
-                    <p class="card-text">${recipe.description}</p>
-                    <br/>
-                    <%--
-                    <c:forEach var="ingredient" items="${recipe.ingredients}">
-                        <div>
-                            <p class="float-left">${ingredient.ingredient.name}</p>
-                            <p class="card-text">${ingredient.amount}</p>
-                        </div>
-                    </c:forEach>
-                    --%>
-                    <br/>
-                    <p class="card-text">${recipe.instructions}</p>
-                </div>
-                <div class="recipe-image-container">
-                    <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>
-                </div>
-            </div>
-        </div>
-        <!-- Card -->
-    </section>
+    <div>
+
+    </div>
 
     <%@include file="userbar.jsp" %>
 
 </section>
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-green add" data-toggle="modal" id="add_recipe" data-target="#add-new-recipe">+</button>
+<%@include file="new_recipe.jsp" %>
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="<c:url value="/resources/js/popper.min.js"/>"></script>
@@ -64,6 +49,14 @@
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
+
+<%--TODO no deberia estar aca    --%>
+<script>
+    autocomplete(document.getElementById("Item"), ingredients);
+    autocomplete(document.getElementById("cuisine"), cuisine);
+    autocomplete(document.getElementById("special_consideration"), special_considerations);
+</script>
+
 </body>
+
 </html>

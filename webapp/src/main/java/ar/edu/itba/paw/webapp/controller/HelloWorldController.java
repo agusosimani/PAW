@@ -39,7 +39,6 @@ public class HelloWorldController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	public List<Recipe> recipeList = new LinkedList<>();
 
 	@RequestMapping("/") //Le digo que url mappeo
 	public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
@@ -47,7 +46,11 @@ public class HelloWorldController {
 
 		Optional<List<Recipe>> maybeList = recipeService.getRecipes();
 
-		mav.addObject("RecipeList", maybeList.get()); //Popular model
+		List<Recipe> recipeList = new LinkedList<>();
+		if(maybeList.isPresent())
+			recipeList = maybeList.get();
+
+		mav.addObject("RecipeList", recipeList); //Popular model
 		return mav;
 	}
 
@@ -130,15 +133,33 @@ public class HelloWorldController {
 			return register(form);
 		}
 		String hashedPassword = passwordEncoder.encode(form.getPassword());
-		final User u = userService.signUpUser(new User.Builder(-1, form.getUsername(), hashedPassword, form.getEmail())
+		final User u = userService.signUpUser(new User.Builder(form.getUsername(), hashedPassword, form.getEmail())
 				.name(form.getName()).surname(form.getSurname()).build());
-		return new ModelAndView("redirect:/user?userId=" + u.getId());
+		return new ModelAndView("redirect:/login");
 	}
 
 	@RequestMapping("/logout")
 	public ModelAndView logout() {
 		final ModelAndView mav = new ModelAndView("logout");
 		mav.addObject("greeting", "PAW");
+		return mav;
+	}
+
+
+	@RequestMapping("/user_recipes") //Le digo que url mappeo
+	public ModelAndView userRecipes(@RequestParam int userId) {
+
+		final ModelAndView mav = new ModelAndView("user_recipes");
+
+		Optional<List<Recipe>> maybeList = recipeService.getAllRecipesByUserId(userId);
+
+		List<Recipe> recipeList = new LinkedList<>();
+		if(maybeList.isPresent())
+			recipeList = maybeList.get();
+
+		mav.addObject("RecipeList", recipeList);
+		mav.addObject(userService.getById(userId).get());
+		mav.addObject("recipes_amount",846684);
 		return mav;
 	}
 

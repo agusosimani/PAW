@@ -31,6 +31,11 @@ public class IngredientServiceImpl implements IngredientService {
 
 
     @Override
+    public Optional<List<Ingredient>> getAllIngredients() {
+        return ingredientsDao.getAllIngredients();
+    }
+
+    @Override
     public Optional<Ingredient> getById(int id) {
         return ingredientsDao.getById(id);
     }

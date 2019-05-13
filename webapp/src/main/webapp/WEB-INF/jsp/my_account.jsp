@@ -30,19 +30,25 @@
         <div class="row">
 
             <!-- Grid column -->
+
+
             <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
+                <c:url value="/user_recipes" var="userRecipesUrl">
+                    <c:param name="userId" value="${user.id}"/>
+                </c:url>
                 <!-- Featured image -->
-                <div class="card">
+                <div class="card" >
+
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
-                        <a>
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
                     </div>
+
+
                     <div class="card-body">
                         <h4 class="card-title"><strong>Mis recetas</strong></h4>
                         <p class="card-text">Vea las recetas creadas por usted mismo</p>
+                        <a href="${userRecipesUrl}" class="stretched-link"></a>
                     </div>
                 </div>
             </div>
@@ -58,7 +64,8 @@
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><strong>Mis listas</strong></h4>
-                        <p class="card-text">Aqui se encuentran las listas creadas con sus recetas y recetas de terceros</p>
+                        <p class="card-text">Aqui se encuentran las listas creadas con sus recetas y recetas de
+                            terceros</p>
                     </div>
                 </div>
             </div>
@@ -116,7 +123,8 @@
                     <div class="card-body">
                         <h4 class="card-title"><strong>Favoritas</strong></h4>
 
-                        <p class="card-text">Aqui se muestran las recetas que califico con una calificacion mayor o igual a 4 estrellas</p>
+                        <p class="card-text">Aqui se muestran las recetas que califico con una calificacion mayor o
+                            igual a 4 estrellas</p>
                     </div>
                 </div>
                 <!-- Post title -->
@@ -128,7 +136,7 @@
 
     </section>
 
-    <%@include file="userbar.jsp"%>
+    <%@include file="userbar.jsp" %>
 </section>
 
 

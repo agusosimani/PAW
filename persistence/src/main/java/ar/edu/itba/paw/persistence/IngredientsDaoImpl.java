@@ -118,12 +118,25 @@ public class IngredientsDaoImpl implements IngredientsDao {
         final List<Ingredient> list =
                 jdbcTemplate.query("SELECT * FROM (ingredients NATURAL JOIN serving_types)" +
                                 " WHERE ingredient_id	= ? AND status != 0",
-                INGREDIENT_ROW_MAPPER, id);
+                        INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
         }
 
         return Optional.of(list.get(0));
+    }
+
+    @Override
+    public Optional<List<Ingredient>> getAllIngredients() {
+        final List<Ingredient> list =
+                jdbcTemplate.query("SELECT * FROM (ingredients NATURAL JOIN serving_types)" +
+                                " WHERE status != 0",
+                        INGREDIENT_ROW_MAPPER);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list);
     }
 
     @Override

@@ -161,7 +161,7 @@ public class User {
         private String surname  = "";
         private String username;
         private boolean gender = false;
-        private int status = 0;
+        private int status = 1;
         private List<RecipeIngredient> ingredients = null;
         private List<Recipe> recipes = null;
 

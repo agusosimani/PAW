@@ -28,46 +28,7 @@
 
     <section class="main_container">
 
-      <section class="browse text-center">
-        <div class="row">
-
-
-          <c:forEach var="recipe" items="${RecipeList}">
-
-            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
-              <div class="card card-cascade narrower mb-4">
-
-                <!--Card image-->
-                <div class="view view-cascade">
-                  <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
-                  <a>
-                    <div class="mask rgba-white-slight"></div>
-                  </a>
-                </div>
-                <!--/.Card image-->
-
-
-                <!--Card content-->
-                <div class="card-body card-body-cascade">
-                  <h5 class="pink-text"><i class="fas fa-utensils"></i> CategoriaX</h5>
-                  <h4 class="card-title"><strong>${recipe.name}</strong></h4>
-                  <p class="card-text">${recipe.description}</p>
-
-                  <c:url value="/recipe" var="recipeUrl">
-                    <c:param name="recipeId" value="${recipe.id}"/>
-                  </c:url>
-                  <a class="btn btn-unique waves-effect waves-light" href="${recipeUrl}">Read more</a>
-
-                </div>
-                <!--/.Card content-->
-
-              </div>
-            </div>
-          </c:forEach>
-        </div>
-
-
-      </section>
+      <%@include file="recipe_cards.jsp" %>
 
       <section class="side_card">
         <div class="card">
