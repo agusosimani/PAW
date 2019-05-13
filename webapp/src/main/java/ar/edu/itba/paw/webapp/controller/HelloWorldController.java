@@ -1,6 +1,9 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.service.IngredientService;
+import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.Recipe;
+import ar.edu.itba.paw.webapp.form.RecipeForm;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +35,17 @@ public class HelloWorldController {
 	private UserService us;
 
 	@Autowired
+	private RecipeService recipeService;
+
+	@Autowired
+	private IngredientService ingredientService;
+
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	public List<Recipe> recipeList = new LinkedList<>();
 
 	@RequestMapping("/") //Le digo que url mappeo
-	public ModelAndView helloWorld() {
+	public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
 		final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
 		recipeList.clear();
 		recipeList.add(new Recipe.Builder(0, "receta1", null, "asd", 0,0)
@@ -53,6 +62,25 @@ public class HelloWorldController {
 				.build());
 		mav.addObject("RecipeList", recipeList); //Popular model
 		return mav;
+	}
+
+	@RequestMapping(value = "/create_recipe", method = { RequestMethod.POST })
+	public ModelAndView createRecipe(@Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
+		if (errors.hasErrors()) {
+			return null;
+		}
+		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), null, recipeForm.getInstructions(), 0,0)
+				.description(recipeForm.getDescription())
+				.build();
+		recipeService.addNewRecipe(recipeToAdd);
+		return new ModelAndView("redirect:/");
+	}
+
+
+	/* ESTO ESTA HORRIBLE . PODRIA SER MUUUUCHO MEJOR*/
+	@RequestMapping(value = "/new_recipe")
+	public ModelAndView newRecipe(@Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
+		return new ModelAndView("new_recipe");
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
@@ -72,7 +100,7 @@ public class HelloWorldController {
 	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
 	public ModelAndView recipe(@RequestParam Integer recipeId) {
 		final ModelAndView mav = new ModelAndView("recipe");
-		mav.addObject("recipe",new Recipe.Builder(0, "receta4", null, "asd", 0,0)
+		mav.addObject("recipe",new Recipe.Builder(0, "receta4", null, "adsadsintruccionessd", 0,0)
 				.description("la rechfgfgheta")
 				.build());
 		mav.addObject("user", new User.Builder("Miguel", "asd", "asd@gmail.com").build());

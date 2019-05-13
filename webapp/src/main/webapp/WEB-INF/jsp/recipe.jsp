@@ -33,6 +33,8 @@
                 <div class="recipe-body">
                     <h4 class="card-title">${recipe.name}</h4>
                     <p class="card-text">${recipe.description}</p>
+                    <br/>
+                    <p class="card-text">${recipe.instructions}</p>
                 </div>
                 <div class="recipe-image-container">
                     <img class="recipe-image" src="<c:url value="/resources/img/recipe_1.png"/>"/>
