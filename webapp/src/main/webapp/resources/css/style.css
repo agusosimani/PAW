@@ -116,6 +116,16 @@ body {
     width: 80%;
 }
 
+.float_left{
+    float: left;
+}
+
+.bar_arrow{
+    float: left;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
 .row {
     margin-bottom: 3.5%;
 }
@@ -165,13 +175,11 @@ body {
     bottom: 5%;
     right: 5%;
 }
-
+/*
 .modal {
     background-color: white;
     border-radius: 10px;
     display: none;
-    height: 80%;
-    width: 60%;
     position: fixed;
     top: 10%;
     left: 20%;
@@ -185,7 +193,6 @@ body {
     padding: 0;
 }
 .modal .modal-body {
-    height: 100%;
     overflow: auto;
     overflow-y: scroll;
 }
@@ -225,7 +232,7 @@ body {
 
 .modal-body {
     height: 80%;
-}
+}*/
 
 textarea.form-control {
     height: 20% !important;

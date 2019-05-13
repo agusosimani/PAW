@@ -4,17 +4,12 @@ import ar.edu.itba.paw.interfaces.service.IngredientService;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.webapp.form.RecipeForm;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +29,7 @@ import javax.validation.Valid;
 public class HelloWorldController {
 
 	@Autowired
-	private UserService us;
+	private UserService userService;
 
 	@Autowired
 	private RecipeService recipeService;
@@ -117,9 +111,9 @@ public class HelloWorldController {
 		Recipe recipe = recipeService.getById(recipeId).get();
 		recipe.setImage(bytes);
 
-		mav.addObject("recipes_amount",recipeService.getAllRecipesByUserId(recipe.getUserId()));
+		mav.addObject("recipes_amount",recipeService.getAllRecipesByUserId(recipe.getUserId()).get().size());
 		mav.addObject("recipe",recipe);
-		mav.addObject("user", new User.Builder("Miguel", "asd", "asd@gmail.com").build());
+		mav.addObject("user", userService.getById(recipe.getUserId()).get());
 		return mav;
 	}
 
@@ -136,7 +130,7 @@ public class HelloWorldController {
 			return register(form);
 		}
 		String hashedPassword = passwordEncoder.encode(form.getPassword());
-		final User u = us.signUpUser(new User.Builder(-1, form.getUsername(), hashedPassword, form.getEmail())
+		final User u = userService.signUpUser(new User.Builder(-1, form.getUsername(), hashedPassword, form.getEmail())
 				.name(form.getName()).surname(form.getSurname()).build());
 		return new ModelAndView("redirect:/user?userId=" + u.getId());
 	}
