@@ -1,13 +1,11 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.dao.IngredientsDao;
+import ar.edu.itba.paw.interfaces.dao.RatingsDao;
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
-import ar.edu.itba.paw.model.Recipe;
-import ar.edu.itba.paw.model.RecipeIngredient;
-import ar.edu.itba.paw.model.RecipeTag;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +26,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     IngredientsDao ingredientsDao;
+
+    @Autowired
+    RatingsDao ratingsDao;
 
     @Override
     public Optional<Recipe> getById(int id) {
@@ -84,27 +85,34 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void update(Recipe recipe, String change, Object value) {
-        Map<String,Object> map = new HashMap<>();
-        map.put(change,value);
-        this.update(recipe,map);
+    @Transactional
+    public void update(Recipe recipe) {
+        Optional<Recipe> maybeOldRecipe = recipeDao.getById(recipe.getId());
+        if(maybeOldRecipe.isPresent()) {
+           Recipe oldRecipe = maybeOldRecipe.get();
+           Map<String,Object> map = new HashMap<>();
+
+           if(!oldRecipe.getDescription().equals(recipe.getDescription())){
+               map.put("description",recipe.getDescription());
+           }
+           if(!oldRecipe.getName().equals(recipe.getName())){
+               map.put("name",recipe.getName());
+           }
+           if(!oldRecipe.getInstructions().equals(recipe.getInstructions())) {
+               map.put("instructions",recipe.getInstructions());
+           }
+
+            recipeDao.update(recipe,map);
+        }
+
     }
 
     @Transactional
     @Override
-    public void update(Recipe recipe, Map<String, Object> map) throws RuntimeException {
-        map.forEach((k,v)->{
-            if(!k.equals("name") && !k.equals("description") && !k.equals("instructions") &&
-                    !k.equals("status")) {
-                throw new RuntimeException();
-            }
-        });
-        recipeDao.update(recipe,map);
-    }
-
-    @Override
     public void deleteRecipe(Recipe recipe) {
-        this.update(recipe,"status", 0);
+        Map<String,Object> map = new HashMap<>();
+        map.put("status",0);
+        recipeDao.update(recipe,map);
     }
 
     @Override
@@ -122,5 +130,27 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void addNewRecipeTag(Recipe recipe, RecipeTag tag) {
         recipeDao.addNewRecipeTag(recipe, tag);
+    }
+
+    @Override
+    @Transactional
+    public void addNewRating(User user, Recipe recipe, int rating) {
+        Optional<Rating> maybeRating = ratingsDao.getSpecificRating(user, recipe);
+        if (maybeRating.isPresent())
+            ratingsDao.update(user,recipe,"status",1);
+        else
+            ratingsDao.addNewRating(user, recipe, rating);
+    }
+
+    @Override
+    @Transactional
+    public void updateRating(User user, Recipe recipe, int rating) {
+        ratingsDao.update(user,recipe,"rating",rating);
+    }
+
+    @Override
+    @Transactional
+    public void deleteRating(User user, Recipe recipe, int rating) {
+        ratingsDao.update(user,recipe,"status",0);
     }
 }

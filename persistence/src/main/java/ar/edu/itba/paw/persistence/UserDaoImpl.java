@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> getById(final int id) {
-        return jdbcTemplate.query("SELECT	*	FROM	users	WHERE	user_id	=	?",
+        return jdbcTemplate.query("SELECT	*	FROM	users	WHERE	user_id	=	? AND status != 0",
                 ROW_MAPPER, id).stream().findAny();
     }
 
@@ -79,7 +79,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findByUsername(final String username) {
-        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	username	=	?", ROW_MAPPER, username);
+        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	username	=	? AND status != 0", ROW_MAPPER, username);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -89,7 +89,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findByEmail(final String email) {
-        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	email	=	?", ROW_MAPPER, email);
+        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	email	=	? AND status != 0", ROW_MAPPER, email);
         if (list.isEmpty()) {
             return Optional.empty();
         }

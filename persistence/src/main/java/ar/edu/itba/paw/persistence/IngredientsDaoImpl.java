@@ -104,7 +104,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
         final List<RecipeIngredient> list =
                 jdbcTemplate.query("SELECT * FROM (user_ingredients" +
                                 " NATURAL JOIN (ingredients NATURAL JOIN serving_types)" +
-                                " AS foo) WHERE ingredient_id	= ?",
+                                " AS foo) WHERE ingredient_id	= ? AND status != 0",
                         RECIPE_INGREDIENT_ROW_MAPPER, recipeId);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -117,7 +117,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     public Optional<Ingredient> getById(int id) {
         final List<Ingredient> list =
                 jdbcTemplate.query("SELECT * FROM (ingredients NATURAL JOIN serving_types)" +
-                                " WHERE ingredient_id	= ?",
+                                " WHERE ingredient_id	= ? AND status != 0",
                 INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -130,7 +130,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     public Optional<Ingredient> getByIngredientName(String name) {
         final List<Ingredient> list =
                 jdbcTemplate.query("SELECT * FROM (ingredients NATURAL JOIN serving_types)"+
-                                " WHERE  name	= ?",
+                                " WHERE  name	= ? AND status != 0",
                         INGREDIENT_ROW_MAPPER, name);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -143,7 +143,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     public Optional<List<RecipeIngredient>> getByUserId(int id) {
         final List<RecipeIngredient> list =
                 jdbcTemplate.query("SELECT * FROM (user_ingredients NATURAL JOIN" +
-                                " (ingredients NATURAL JOIN serving_types)) WHERE user_id	= ?",
+                                " (ingredients NATURAL JOIN serving_types)) WHERE user_id	= ? AND status != 0",
                         RECIPE_INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -157,7 +157,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
         final List<RecipeIngredient> list =
                 jdbcTemplate.query("SELECT * FROM (recipe_ingredients NATURAL JOIN" +
                                 " (ingredients NATURAL JOIN serving_types "+
-                                ")) WHERE recipe_id	= ?",
+                                ")) WHERE recipe_id	= ? AND status != 0",
                         RECIPE_INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();

@@ -70,29 +70,40 @@ public class UserServiceImpl implements UserService {
         return userDao.signUpUser(user);
     }
 
-    @Override
-    public void update(User user,String change, Object value) throws RuntimeException{
-        Map<String,Object> map = new HashMap<>();
-        map.put(change,value);
-        this.update(user,map);
-    }
-
-    //TODO meter excepcion
     @Transactional
     @Override
-    public void update(User user, Map<String, Object> map) throws RuntimeException{
-        map.forEach((k,v)->{
-            if(!k.equals("name") && !k.equals("surname") && !k.equals("password") &&
-                    !k.equals("gender") && !k.equals("status")  && !k.equals("email")) {
-                throw new RuntimeException();
+    public void update(User user){
+        Optional<User> maybeOldUser = userDao.getById(user.getId());
+        if(maybeOldUser.isPresent()) {
+            User oldUser = maybeOldUser.get();
+            Map<String,Object> map = new HashMap<>();
+
+            if(!oldUser.getSurname().equals(user.getSurname())){
+                map.put("surname",user.getSurname());
             }
-        });
-        userDao.update(user,map);
+            if(!oldUser.getName().equals(user.getName())){
+                map.put("name",user.getName());
+            }
+            if(!oldUser.getPassword().equals(user.getPassword())) {
+                map.put("password",user.getPassword());
+            }
+            if(!oldUser.getEmail().equals(user.getEmail())) {
+                map.put("email",user.getEmail());
+            }
+            if(!(oldUser.getGender() == user.getGender())) {
+                map.put("gender",user.getGender());
+            }
+
+            userDao.update(user,map);
+        }
     }
 
+    @Transactional
     @Override
     public void deleteAccount(User user) {
-        this.update(user,"status",0);
+        Map<String,Object> map = new HashMap<>();
+        map.put("status",0);
+        userDao.update(user,map);
     }
 
 

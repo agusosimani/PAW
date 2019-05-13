@@ -16,5 +16,6 @@ public interface RatingsDao {
     Optional<List<Rating>> getRatingsRecipe(Recipe recipe);
 
     Optional<List<Rating>> getRatingsUser(User user);
-    
+
+    Optional<Rating> getSpecificRating(User user, Recipe recipe);
 }

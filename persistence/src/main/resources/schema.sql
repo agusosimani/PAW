@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS recipes_ingredients (
                                    ingredient_id int NOT NULL,
                                    obs varchar(255) DEFAULT NULL,
                                    serving_amount float DEFAULT NULL,
+                                   status int NOT NULL DEFAULT '1',
                                    PRIMARY KEY (recipe_id,ingredient_id),
                                    CONSTRAINT recipes_ingredients_ibfk_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
                                    CONSTRAINT recipes_ingredients_ibfk_2 FOREIGN KEY (ingredient_id) REFERENCES ingredients (ingredient_id)
@@ -81,6 +82,7 @@ CREATE TABLE IF NOT EXISTS user_ingredients (
                                 ingredient_id int NOT NULL,
                                 obs varchar(255) DEFAULT NULL,
                                 serving_amount float DEFAULT NULL,
+                                status int NOT NULL DEFAULT '1',
                                 PRIMARY KEY (user_id,ingredient_id),
                                 CONSTRAINT user_ingredients_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (user_id),
                                 CONSTRAINT user_ingredients_ibfk_2 FOREIGN KEY (ingredient_id) REFERENCES ingredients (ingredient_id)

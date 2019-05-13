@@ -22,9 +22,7 @@ public interface RecipeService {
 
     Recipe addNewRecipe(Recipe recipe);
 
-    void update(Recipe recipe, String change, Object value);
-
-    void update(Recipe recipe, Map<String,Object> map);
+    void update(Recipe recipe);
 
     void deleteRecipe(Recipe recipe);
 
@@ -33,4 +31,10 @@ public interface RecipeService {
     void removeTagFromRecipe(Recipe recipe, RecipeTag tag);
 
     void addNewRecipeTag(Recipe recipe, RecipeTag tag);
+
+    void addNewRating(User user, Recipe recipe, int rating);
+
+    void updateRating(User user, Recipe recipe, int rating);
+
+    void deleteRating(User user, Recipe recipe, int rating);
 }
