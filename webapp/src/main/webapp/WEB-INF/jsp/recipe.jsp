@@ -35,7 +35,7 @@
                     <p class="card-text">${recipe.description}</p>
                 </div>
                 <div class="recipe-image-container">
-                    <img class="recipe-image" src="<c:url value="/resources/img/recipe_1.png"/>"/>
+                    <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>
                 </div>
             </div>
         </div>

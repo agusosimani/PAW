@@ -31,6 +31,7 @@ public class RecipeDaoImpl implements RecipeDao {
                     rs.getInt("user_id"),
                     rs.getInt("status"))
             .description(rs.getString("description"))
+                    .image(rs.getBytes("image"))
                     .build();
 
     private final static RowMapper<RecipeTag> TAG_ROW_MAPPER = (rs, rowNum) ->
@@ -104,6 +105,9 @@ public class RecipeDaoImpl implements RecipeDao {
         if(!recipe.getDescription().isEmpty() && !recipe.getDescription().equals(""))
             map.put("description",recipe.getDescription());
 
+        if (recipe.getImage() != null) {
+            map.put("image", recipe.getImage());
+        }
 
         final Number recipeId = jdbcInsertRecipe.executeAndReturnKey(map);
 
