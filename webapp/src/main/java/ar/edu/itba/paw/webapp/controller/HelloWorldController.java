@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -100,8 +102,28 @@ public class HelloWorldController {
 	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
 	public ModelAndView recipe(@RequestParam Integer recipeId) {
 		final ModelAndView mav = new ModelAndView("recipe");
-		mav.addObject("recipe",new Recipe.Builder(0, "receta4", null, "adsadsintruccionessd", 0,0)
-				.description("la rechfgfgheta")
+
+		byte[] bytes = null;
+
+		try {
+            InputStream fis = new URL("https://i.blogs.es/36938e/istock-840527124/450_1000.jpg").openStream();
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			byte[] buf = new byte[1024];
+			try {
+				for (int readNum; (readNum = fis.read(buf)) != -1;) {
+					bos.write(buf, 0, readNum);
+				}
+			} catch (IOException ex) {
+			}
+			bytes = bos.toByteArray();
+
+		} catch (Exception f)
+		{
+			System.out.println("File not found");
+		}
+
+		mav.addObject("recipe",new Recipe.Builder(0, "receta4", null, "asd", 0,0)
+				.description("la rechfgfgheta").image(bytes)
 				.build());
 		mav.addObject("user", new User.Builder("Miguel", "asd", "asd@gmail.com").build());
 		return mav;
