@@ -13,14 +13,18 @@
 
         <!-- Main -->
         <div class="navigation__list">
-            <img class="nav_logo" src="<c:url value="/resources/img/foodify_inline.png"/>" alt="LOGO">
+            <c:url value="/" var="homeUrl"/>
+            <a class="bg-transparent" href="${homeUrl}">
+                <img class="nav_logo" src="<c:url value="/resources/img/foodify_inline.png"/>" alt="LOGO">
+            </a>
+
             <div class="navigation__list__header"
-                 role="button"
-                 data-toggle="collapse"
-                 href="#main"
-                 aria-expanded="true"
-                 aria-controls="main">
-                Main
+                     role="button"
+                     data-toggle="collapse"
+                     href="#main"
+                     aria-expanded="true"
+                     aria-controls="main">
+                    Main
             </div>
 
             <div class="collapse in" id="main">

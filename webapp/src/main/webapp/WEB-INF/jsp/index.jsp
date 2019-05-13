@@ -156,16 +156,6 @@
     <button type="button" class="btn btn-green add" data-toggle="modal" id="add_recipe" data-target="#add-new-recipe">+</button>
     <%@include file="new_recipe.jsp" %>
 
-
-<c:url value="/create_recipe" var="createRecipe"/>
-<form:form autocomplete="off" method="post" modelAttribute="recipeForm" action="${createRecipe}">
-  <div>
-  <form:label path="name">Username: </form:label>
-    <form:input type="text" path="name"/>
-
-  </div>
-</form:form>
-
     <!-- SCRIPTS -->
     <!-- JQuery -->
     <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
