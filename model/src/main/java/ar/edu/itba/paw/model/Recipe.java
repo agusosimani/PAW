@@ -21,7 +21,7 @@ public class Recipe {
     private String instructions;
     private int userId;
     private int status;
-    private List<String> tags;
+    private List<RecipeTag> tags;
     //private List<Comment> comments;
 
     /* package */ Recipe() {
@@ -30,7 +30,7 @@ public class Recipe {
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId, int status,
-                   List<String> tags) {
+                   List<RecipeTag> tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -97,11 +97,11 @@ public class Recipe {
         this.status = status;
     }
 
-    public List<String> getTags() {
+    public List<RecipeTag> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(List<RecipeTag> tags) {
         this.tags = tags;
     }
 
@@ -113,7 +113,7 @@ public class Recipe {
         private String instructions;
         private int userId;
         private int status;
-        private List<String> tags;
+        private List<RecipeTag> tags;
         //private List<Comment> comments;
 
         public Builder(int id, String name, List<RecipeIngredient> ingredients, String instructions,
@@ -143,7 +143,7 @@ public class Recipe {
             return this;
         }
 
-        public Builder tags(List<String> tags) {
+        public Builder tags(List<RecipeTag> tags) {
             this.tags = tags;
             return this;
         }
@@ -154,5 +154,7 @@ public class Recipe {
                     userId, status, tags);
         }
     }
+
+
 
 }

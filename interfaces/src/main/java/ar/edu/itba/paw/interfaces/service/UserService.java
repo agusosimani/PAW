@@ -14,9 +14,7 @@ public interface UserService {
 
     User signUpUser(User user);
 
-    void update(User user, String change, Object value);
-
-    void update(User user, Map<String, Object> map);
+    void update(User user);
 
     void deleteAccount(User user);
 

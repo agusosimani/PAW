@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.model;
 
 import java.sql.Date;
-import java.util.Map;
 
 public class Rating {
 

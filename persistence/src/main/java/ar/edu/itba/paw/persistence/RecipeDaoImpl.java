@@ -1,8 +1,10 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
+import ar.edu.itba.paw.model.Rating;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeTag;
+import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -53,7 +55,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public Optional<Recipe> getById(int id) {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   recipe_id	=	?", ROW_MAPPER, id);
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   recipe_id	=	? AND status != 0", ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -63,7 +65,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public Optional<Recipe> getByName(String name) {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   name	=	?", ROW_MAPPER, name);
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   name	=	? AND status != 0", ROW_MAPPER, name);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -73,7 +75,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public Optional<List<Recipe>> getByUserId(int id) {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   user_id	=	?", ROW_MAPPER, id);
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   user_id	=	? AND status != 0", ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -84,7 +86,7 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public Optional<List<Recipe>> getAllRecipesOrderedByRating() {
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes ORDER BY rating", ROW_MAPPER);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE status != 0 ORDER BY rating", ROW_MAPPER);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -122,7 +124,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public Optional<RecipeTag> getTagByName(String name) {
-        final List<RecipeTag> list = jdbcTemplate.query("SELECT	*	FROM tags WHERE   name	=	?", TAG_ROW_MAPPER, name);
+        final List<RecipeTag> list = jdbcTemplate.query("SELECT	*	FROM tags WHERE   name	=	? AND status != 0", TAG_ROW_MAPPER, name);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -134,11 +136,12 @@ public class RecipeDaoImpl implements RecipeDao {
     public Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe) {
 
         final List<RecipeTag> list = jdbcTemplate
-                .query("SELECT	 *	FROM (recipe_tags natural join tags) WHERE   recipe_id	=	?",
+                .query("SELECT	 *	FROM (recipe_tags natural join tags) WHERE   recipe_id	=	? AND status != 0",
                         TAG_ROW_MAPPER, recipe.getId());
         if (list.isEmpty()) {
             return Optional.empty();
         }
+        recipe.setTags(list);
 
         return Optional.of(list);
     }
