@@ -59,7 +59,7 @@ public class HelloWorldController {
 		if (errors.hasErrors()) {
 			return null;
 		}
-		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), null, recipeForm.getInstructions(), 1,1)
+		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), null, recipeForm.getInstructions(),1)
 				.description(recipeForm.getDescription())
 				.build();
 		recipeService.addNewRecipe(recipeToAdd);

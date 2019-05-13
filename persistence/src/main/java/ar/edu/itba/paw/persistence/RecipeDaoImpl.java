@@ -30,8 +30,7 @@ public class RecipeDaoImpl implements RecipeDao {
                     rs.getString("name"),
             null,
                     rs.getString("instructions"),
-                    rs.getInt("user_id"),
-                    rs.getInt("status"))
+                    rs.getInt("user_id"))
             .description(rs.getString("description"))
             //        .image(rs.getBytes("image"))
                     .build();
@@ -111,7 +110,6 @@ public class RecipeDaoImpl implements RecipeDao {
 
         map.put("name",recipe.getName());
         map.put("instructions",recipe.getInstructions());
-        map.put("status",recipe.getStatus());
         map.put("user_id",recipe.getUserId());
 
         if(!recipe.getDescription().isEmpty() && !recipe.getDescription().equals(""))

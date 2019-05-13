@@ -25,7 +25,6 @@ public class Recipe {
     private List<RecipeIngredient> ingredients;
     private String instructions;
     private int userId;
-    private int status;
 
     private byte[] image;
 
@@ -38,7 +37,7 @@ public class Recipe {
     }
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
-                  String instructions, int userId, int status,
+                  String instructions, int userId,
                    List<RecipeTag> tags, byte[] image) {
 
         this.id = id;
@@ -47,7 +46,6 @@ public class Recipe {
         this.ingredients = ingredients;
         this.instructions = instructions;
         this.userId = userId;
-        this.status = status;
         this.tags = tags;
         this.image = image;
     }
@@ -100,14 +98,6 @@ public class Recipe {
         this.userId = userId;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public List<RecipeTag> getTags() {
         return tags;
     }
@@ -135,31 +125,28 @@ public class Recipe {
         private List<RecipeIngredient> ingredients;
         private String instructions;
         private int userId;
-        private int status;
         private List<RecipeTag> tags;
         private byte[] image;
 
         //private List<Comment> comments;
 
         public Builder(int id, String name, List<RecipeIngredient> ingredients, String instructions,
-                       int userId, int status) {
+                       int userId) {
 
             this.id = id;
             this.name = name;
             this.ingredients = ingredients;
             this.instructions = instructions;
             this.userId = userId;
-            this.status = status;
 
         }
 
         public Builder(String name, List<RecipeIngredient> ingredients, String instructions,
-                       int userId, int status) {
+                       int userId) {
             this.name = name;
             this.ingredients = ingredients;
             this.instructions = instructions;
             this.userId = userId;
-            this.status = status;
 
         }
 
@@ -181,7 +168,7 @@ public class Recipe {
 
         public Recipe build() {
             return new Recipe(id,name, description, ingredients, instructions,
-                    userId, status, tags, image);
+                    userId, tags, image);
         }
     }
 }
