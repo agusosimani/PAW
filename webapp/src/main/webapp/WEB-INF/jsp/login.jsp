@@ -39,21 +39,21 @@
                 <!-- Remember me -->
                 <div class="custom-control custom-checkbox">
                     <input name="j_rememberme" type="checkbox" class="custom-control-input" id="defaultLoginFormRemember"/>
-                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                    <label class="custom-control-label" for="defaultLoginFormRemember"><spring:message code="rememberMe"/></label>
                 </div>
             </div>
             <div>
                 <!-- Forgot password -->
-                <a href="">Forgot password?</a>
+                <a href=""><spring:message code="forgotPassword"/></a>
             </div>
         </div>
 
         <!-- Sign in button -->
-        <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+        <button class="btn btn-info btn-block my-4" type="submit"><spring:message code="signIn"/></button>
 
         <!-- Register -->
-        <p>Not a member?
-            <a href="">Register</a>
+        <p><spring:message code="notAmember"/>
+            <a href=""><spring:message code="register"/></a>
         </p>
 
     </form>
@@ -71,4 +71,5 @@
         <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 
     </body>
+
 </html>

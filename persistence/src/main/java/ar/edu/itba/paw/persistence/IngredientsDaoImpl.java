@@ -27,9 +27,9 @@ public class IngredientsDaoImpl implements IngredientsDao {
 
 
     private final static RowMapper<Ingredient> INGREDIENT_ROW_MAPPER = (rs, rowNum) -> new Ingredient.Builder(rs.getInt("ingredient_id"),
-            rs.getString("ingredients.name"),
+            rs.getString("name"),
             rs.getInt("serving"),
-            rs.getString("serving_types.name"),rs.getInt("user_id"),rs.getInt("status"))
+            rs.getString("name"),rs.getInt("user_id"),rs.getInt("status"))
             .calories(rs.getInt("calorie_count"))
             .carbohydrates(rs.getInt("carbohydrate_count"))
             .isVegan(rs.getInt("is_vegan") == 1)
@@ -121,7 +121,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     public Optional<Ingredient> getById(int id) {
         final List<Ingredient> list =
                 jdbcTemplate.query("SELECT * FROM (ingredients LEFT OUTER JOIN serving_types ON " +
-                                " ingredients.serving_types_id = serving_types.serving_type_id)" +
+                                " ingredients.serving_type_id = serving_types.serving_type_id)" +
                                 " WHERE ingredient_id	= ? AND status = 1",
                         INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
@@ -135,7 +135,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     public Optional<List<Ingredient>> getAllIngredients() {
         final List<Ingredient> list =
                 jdbcTemplate.query("SELECT * FROM (ingredients LEFT OUTER JOIN serving_types ON" +
-                                " ingredients.serving_types_id = serving_types.serving_type_id)" +
+                                " ingredients.serving_type_id = serving_types.serving_type_id)" +
                                 " WHERE status = 1",
                         INGREDIENT_ROW_MAPPER);
         if (list.isEmpty()) {
@@ -149,7 +149,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     public Optional<Ingredient> getByIngredientName(String name) {
         final List<Ingredient> list =
                 jdbcTemplate.query("SELECT * FROM (ingredients " +
-                                "LEFT OUTER JOIN serving_types ON ingredients.serving_types_id = serving_types.serving_type_id)"+
+                                "LEFT OUTER JOIN serving_types ON ingredients.serving_type_id = serving_types.serving_type_id)"+
                                 " WHERE  ingredients.name	= ? AND status != 0",
                         INGREDIENT_ROW_MAPPER, name);
         if (list.isEmpty()) {
@@ -288,9 +288,8 @@ public class IngredientsDaoImpl implements IngredientsDao {
         changes.forEach((k, v) -> update(ingredient, k, v));
     }
 
-    private Ingredient update(Ingredient ingredient, String k, Object v) {
+    private void update(Ingredient ingredient, String k, Object v) {
         jdbcTemplate.update("UPDATE ingredients SET ? = ? WHERE ingredient_id = ?",k,v,ingredient.getId());
-        return ingredient;
     }
 
     @Override
@@ -304,16 +303,14 @@ public class IngredientsDaoImpl implements IngredientsDao {
 
     }
 
-    private RecipeIngredient updateRIR(RecipeIngredient ingredient, String k, Object v, Recipe recipe) {
+    private void updateRIR(RecipeIngredient ingredient, String k, Object v, Recipe recipe) {
         jdbcTemplate.update("UPDATE recipes_ingredients SET ? = ? WHERE recipe_id = ? AND ingredient_id = ?"
                 ,k,v,recipe.getId(),ingredient.getIngredient().getId());
-        return ingredient;
     }
 
-    private RecipeIngredient updateRIU(RecipeIngredient ingredient, String k, Object v, User user) {
+    private void updateRIU(RecipeIngredient ingredient, String k, Object v, User user) {
         jdbcTemplate.update("UPDATE user_ingredients SET ? = ? WHERE ingredient_id = ? AND user_id = ?",
                 k,v,ingredient.getIngredient().getId(),user.getId());
-        return ingredient;
     }
 
 
