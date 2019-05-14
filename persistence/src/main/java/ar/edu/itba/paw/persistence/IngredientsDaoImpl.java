@@ -100,9 +100,15 @@ public class IngredientsDaoImpl implements IngredientsDao {
     @Override
     public Optional<RecipeIngredient> getUserIngById(int recipeId) {
         final List<RecipeIngredient> list =
-                jdbcTemplate.query("SELECT * FROM (user_ingredients" +
-                                " NATURAL JOIN (ingredients NATURAL JOIN serving_types)" +
-                                " AS foo) WHERE ingredient_id	= ? AND status != 0",
+                jdbcTemplate.query("SELECT * FROM (user_ingredients LEFT OUTER JOIN" +
+                                " (SELECT ingredient_id,ingredients.name as ingredientName,is_vegetarian,is_vegan," +
+                                "tacc_free,protein_count,calorie_count,carbohydrate_count,fat_count,sugar_count," +
+                                "serving,status,user_id, serving_types.name as servingName" +
+                                " FROM ingredients left outer join " +
+                                "serving_types on ingredients.serving_type_id = " +
+                                "serving_types.serving_type_id where status = 1) AS foo ON  " +
+                                "user_ingredients.ingredient_id = foo.ingredient_id) " +
+                                " WHERE ingredient_id	= ? AND status = 1",
                         RECIPE_INGREDIENT_ROW_MAPPER, recipeId);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -114,8 +120,9 @@ public class IngredientsDaoImpl implements IngredientsDao {
     @Override
     public Optional<Ingredient> getById(int id) {
         final List<Ingredient> list =
-                jdbcTemplate.query("SELECT * FROM (ingredients NATURAL JOIN serving_types)" +
-                                " WHERE ingredient_id	= ? AND status != 0",
+                jdbcTemplate.query("SELECT * FROM (ingredients LEFT OUTER JOIN serving_types ON " +
+                                " ingredients.serving_types_id = serving_types.serving_type_id)" +
+                                " WHERE ingredient_id	= ? AND status = 1",
                         INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -127,8 +134,9 @@ public class IngredientsDaoImpl implements IngredientsDao {
     @Override
     public Optional<List<Ingredient>> getAllIngredients() {
         final List<Ingredient> list =
-                jdbcTemplate.query("SELECT * FROM (ingredients NATURAL JOIN serving_types)" +
-                                " WHERE status != 0",
+                jdbcTemplate.query("SELECT * FROM (ingredients LEFT OUTER JOIN serving_types ON" +
+                                " ingredients.serving_types_id = serving_types.serving_type_id)" +
+                                " WHERE status = 1",
                         INGREDIENT_ROW_MAPPER);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -140,8 +148,9 @@ public class IngredientsDaoImpl implements IngredientsDao {
     @Override
     public Optional<Ingredient> getByIngredientName(String name) {
         final List<Ingredient> list =
-                jdbcTemplate.query("SELECT * FROM (ingredients NATURAL JOIN serving_types)"+
-                                " WHERE  name	= ? AND status != 0",
+                jdbcTemplate.query("SELECT * FROM (ingredients " +
+                                "LEFT OUTER JOIN serving_types ON ingredients.serving_types_id = serving_types.serving_type_id)"+
+                                " WHERE  ingredients.name	= ? AND status != 0",
                         INGREDIENT_ROW_MAPPER, name);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -174,9 +183,15 @@ public class IngredientsDaoImpl implements IngredientsDao {
     @Override
     public Optional<List<RecipeIngredient>> getByRecipeId(int id) {
         final List<RecipeIngredient> list =
-                jdbcTemplate.query("SELECT * FROM (recipe_ingredients NATURAL JOIN" +
-                                " (ingredients NATURAL JOIN serving_types "+
-                                ")) WHERE recipe_id	= ? AND status != 0",
+                jdbcTemplate.query("SELECT * FROM (recipes_ingredients LEFT OUTER JOIN" +
+                                " (SELECT ingredient_id,ingredients.name as ingredientName,is_vegetarian,is_vegan," +
+                                "tacc_free,protein_count,calorie_count,carbohydrate_count,fat_count,sugar_count," +
+                                "serving,status,user_id, serving_types.name as servingName" +
+                                " FROM ingredients left outer join " +
+                                "serving_types on ingredients.serving_type_id = " +
+                                "serving_types.serving_type_id where status = 1) AS foo ON  " +
+                                "recipes_ingredients.ingredient_id = foo.ingredient_id) " +
+                                "WHERE (recipes_ingredients.user_id= ?) AND (recipes_ingredients.status != 0);",
                         RECIPE_INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
