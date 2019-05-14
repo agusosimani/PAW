@@ -111,6 +111,7 @@ public class RecipeDaoImpl implements RecipeDao {
         map.put("name",recipe.getName());
         map.put("instructions",recipe.getInstructions());
         map.put("user_id",recipe.getUserId());
+        map.put("status",1);
 
         if(!recipe.getDescription().isEmpty() && !recipe.getDescription().equals(""))
             map.put("description",recipe.getDescription());

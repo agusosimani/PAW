@@ -46,8 +46,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Optional<List<RecipeIngredient>> findByUser(User user) {
-        Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByUserId(user.getId());
+    public Optional<List<RecipeIngredient>> findByUser(int userId) {
+        Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByUserId(userId);
 
         if(maybeList.isPresent()) {
             List<RecipeIngredient> list = maybeList.get();
@@ -55,6 +55,7 @@ public class IngredientServiceImpl implements IngredientService {
                 Optional<Ingredient> ingredient = ingredientsDao.getById(i.getIngredient().getId());
                 ingredient.ifPresent(i::setIngredient);
             }
+            System.out.printf("service %d\n",list.size());
             return Optional.of(list);
         }
 
@@ -63,7 +64,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public RecipeIngredient findUserIngredientByName(User u, String name) {
+    public RecipeIngredient findUserIngredientByName(int u, String name) {
         Optional<List<RecipeIngredient>> op = this.findByUser(u);
         if(op.isPresent()){
             List<RecipeIngredient> list = op.get();

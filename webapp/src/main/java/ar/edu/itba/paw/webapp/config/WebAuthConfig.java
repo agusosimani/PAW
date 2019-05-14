@@ -39,6 +39,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                 .and().rememberMe()
                     .rememberMeParameter("j_rememberme")
+                //TODO: cambiar esto
                     .key("mysupersecretketthatnobodyknowsabout")
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()

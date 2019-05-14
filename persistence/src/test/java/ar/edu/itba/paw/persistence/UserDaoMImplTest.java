@@ -60,18 +60,6 @@ public class UserDaoMImplTest {
     private static final Integer STATUS4 = 1;
 
     @Mock
-    User u1;
-
-    @Mock
-    User u2;
-
-    @Mock
-    User u3;
-
-    @Mock
-    User u4;
-
-    @InjectMocks//TODO APRENDER A AHCER ESTO
     private UserDao userDao;
 
 
@@ -94,19 +82,19 @@ public class UserDaoMImplTest {
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
 
-        u1 = userDao.signUpUser(new User.Builder(USERNAME1,PASSWORD1,EMAIL1)
+        User u1 = userDao.signUpUser(new User.Builder(USERNAME1, PASSWORD1, EMAIL1)
                 .status(STATUS1).gender(GENDER1).surname(SURNAME1).name(NAME1)
                 .build());
 
-        u2 = userDao.signUpUser(new User.Builder(USERNAME2,PASSWORD2,EMAIL2)
+        User u2 = userDao.signUpUser(new User.Builder(USERNAME2, PASSWORD2, EMAIL2)
                 .status(STATUS2).gender(GENDER2).surname(SURNAME2).name(NAME2)
                 .build());
 
-        u3 = userDao.signUpUser(new User.Builder(USERNAME3,PASSWORD3,EMAIL3)
+        User u3 = userDao.signUpUser(new User.Builder(USERNAME3, PASSWORD3, EMAIL3)
                 .status(STATUS3).gender(GENDER3).surname(SURNAME3).name(NAME3)
                 .build());
 
-        u4 = userDao.signUpUser(new User.Builder(USERNAME4,PASSWORD4,EMAIL4)
+        User u4 = userDao.signUpUser(new User.Builder(USERNAME4, PASSWORD4, EMAIL4)
                 .status(STATUS4).gender(GENDER4).surname(SURNAME4).name(NAME4)
                 .build());
     }

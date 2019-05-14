@@ -2,12 +2,16 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.IngredientService;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
+import ar.edu.itba.paw.model.Ingredient;
 import ar.edu.itba.paw.model.Recipe;
+import ar.edu.itba.paw.model.RecipeIngredient;
+import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.form.RecipeForm;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -80,10 +85,30 @@ public class HelloWorldController {
 	}
 
 	@RequestMapping(value = "/my_account", method = RequestMethod.GET)
-	public ModelAndView myAccount() {
+	public ModelAndView myAccount(Authentication authentication) {
 		final ModelAndView mav = new ModelAndView("my_account");
 		mav.addObject("recipes_amount",846684);
-		mav.addObject("user", new User.Builder("Noobmaster69", "asd", "asd@gmail.com").build());
+		//User user = ((PawUserDetails) authentication.getPrincipal()).getUser();
+		//mav.addObject("user", new User.Builder(user.getUsername(), user.getPassword(), user.getEmail()).build());
+		int id = 1;//((PawUserDetails)authentication.getPrincipal()).getId();
+		mav.addObject("user", new User.Builder(String.valueOf(id), String.valueOf(id), "ppingarilho"/*authentication.getName()*/).build());
+		return mav;
+	}
+
+	@RequestMapping(value = "/my_ingredients", method = RequestMethod.GET)
+	public ModelAndView myIngredients(Authentication authentication) {
+		final ModelAndView mav = new ModelAndView("ingredients");
+
+		int id = 1;//((PawUserDetails)authentication.getPrincipal()).getId();
+
+		List<RecipeIngredient> ingredientList = new ArrayList<>();
+		Optional<List<RecipeIngredient>> maybeList = ingredientService.findByUser(id);
+		if(maybeList.isPresent())
+			ingredientList = maybeList.get();
+
+		System.out.printf("fasfs %d", ingredientList.size());
+
+		mav.addObject("ingredientsList", ingredientList);
 		return mav;
 	}
 

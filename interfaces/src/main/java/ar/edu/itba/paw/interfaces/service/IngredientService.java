@@ -17,11 +17,11 @@ public interface IngredientService {
 
     Optional<Ingredient> findByName(final String name);
 
-    Optional<List<RecipeIngredient>> findByUser(User user);
+    Optional<List<RecipeIngredient>> findByUser(int userId);
 
     Optional<List<RecipeIngredient>> findByRecipe(Recipe recipe);
 
-    RecipeIngredient findUserIngredientByName(User u, String name);
+    RecipeIngredient findUserIngredientByName(int u, String name);
 
     RecipeIngredient findRecipeIngredientByName(Recipe recipe, String name);
 

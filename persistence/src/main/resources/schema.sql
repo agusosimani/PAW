@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS ingredients (
                            tacc_free bit(1) DEFAULT NULL,
                            protein_count float DEFAULT NULL,
                            calorie_count float DEFAULT NULL,
+                           carbohydrate_count float DEFAULT NULL,
                            fat_count float DEFAULT NULL,
                            sugar_count float DEFAULT NULL,
                            serving_type_id int DEFAULT NULL,

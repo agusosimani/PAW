@@ -32,7 +32,6 @@ public class IngredientsDaoImpl implements IngredientsDao {
             rs.getString("serving_types.name"),rs.getInt("user_id"),rs.getInt("status"))
             .calories(rs.getInt("calorie_count"))
             .carbohydrates(rs.getInt("carbohydrate_count"))
-            .calories(rs.getInt("calories_count"))
             .isVegan(rs.getInt("is_vegan") == 1)
             .isVegetararian(rs.getInt("is_vegetarian") == 1)
             .taccFree(rs.getInt("tacc_free") == 1).build();
@@ -40,12 +39,11 @@ public class IngredientsDaoImpl implements IngredientsDao {
     private final static RowMapper<RecipeIngredient> RECIPE_INGREDIENT_ROW_MAPPER = (rs, rowNum) -> {
 
         Ingredient ing = new Ingredient.Builder(rs.getInt("ingredient_id"),
-                rs.getString("ingredients.name"),
+                rs.getString("ingredientName"),
                 rs.getInt("serving"),
-                rs.getString("serving_types.name"),rs.getInt("user_id"),rs.getInt("status"))
+                rs.getString("servingName"),rs.getInt("user_id"),rs.getInt("status"))
                 .calories(rs.getInt("calorie_count"))
                 .carbohydrates(rs.getInt("carbohydrate_count"))
-                .calories(rs.getInt("calories_count"))
                 .isVegan(rs.getInt("is_vegan") == 1)
                 .isVegetararian(rs.getInt("is_vegetarian") == 1)
                 .taccFree(rs.getInt("tacc_free") == 1).build();
@@ -152,11 +150,19 @@ public class IngredientsDaoImpl implements IngredientsDao {
         return Optional.of(list.get(0));
     }
 
+
     @Override
     public Optional<List<RecipeIngredient>> getByUserId(int id) {
         final List<RecipeIngredient> list =
-                jdbcTemplate.query("SELECT * FROM (user_ingredients NATURAL JOIN" +
-                                " (ingredients NATURAL JOIN serving_types)) WHERE user_id	= ? AND status != 0",
+                jdbcTemplate.query("SELECT * FROM (user_ingredients LEFT OUTER JOIN" +
+                                " (SELECT ingredient_id,ingredients.name as ingredientName,is_vegetarian,is_vegan," +
+                                "tacc_free,protein_count,calorie_count,carbohydrate_count,fat_count,sugar_count," +
+                                "serving,status,user_id, serving_types.name as servingName" +
+                                " FROM ingredients left outer join " +
+                                "serving_types on ingredients.serving_type_id = " +
+                                "serving_types.serving_type_id where status = 1) AS foo ON  " +
+                                "user_ingredients.ingredient_id = foo.ingredient_id) " +
+                                "WHERE (user_ingredients.user_id= ?) AND (user_ingredients.status != 0);",
                         RECIPE_INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();

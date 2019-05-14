@@ -17,6 +17,7 @@ import java.util.Set;
 public class PawUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService us;
+
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         final User user = us.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No such user"));
@@ -24,6 +25,7 @@ public class PawUserDetailsService implements UserDetailsService {
         final Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+        return new PawUserDetails(username, user.getPassword(), user.getId(), authorities);
+        //return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
     }
 }

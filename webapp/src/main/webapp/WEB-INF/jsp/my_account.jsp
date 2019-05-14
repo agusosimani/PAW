@@ -80,6 +80,8 @@
                         </a>
                     </div>
                     <div class="card-body">
+                        <c:url value="/my_ingredients" var="myIngredientsUrl"/>
+                        <a href="${myIngredientsUrl}" class="stretched-link"></a>
                         <h4 class="card-title"><strong>Mis ingredientes</strong></h4>
                         <p class="card-text">Visualize y modifique sus ingredientes</p>
                     </div>

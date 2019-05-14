@@ -29,16 +29,18 @@
 <section class="main_container">
 
     <div>
-
+        <c:forEach var="ingredient" items="${ingredientsList}">
+            <div class="row">
+                <p class="float_left">${ingredient.ingredient.name}</p>
+                <p>${ingredient.amount}</p>
+            </div>
+        </c:forEach>
     </div>
 
     <%@include file="userbar.jsp" %>
 
 </section>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-green add" data-toggle="modal" id="add_recipe" data-target="#add-new-recipe">+</button>
-<%@include file="new_recipe.jsp" %>
 
 <!-- SCRIPTS -->
 <!-- JQuery -->
