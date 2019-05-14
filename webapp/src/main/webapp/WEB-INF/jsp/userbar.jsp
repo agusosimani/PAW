@@ -19,7 +19,8 @@
                     </div>
                 </a>
                 <br/><br/></br></br>
-                <p class="card-text">${recipes_amount} recetas subidas</p>
+                <p class="card-text"><spring:message code="Recipe.amount" arguments="${recipes_amount}" /></p>
+<%--                ${recipes_amount} recetas subidas--%>
             </div>
         </div>
     </section>

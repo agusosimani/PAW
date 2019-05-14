@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 
@@ -46,8 +47,8 @@
 
 
                     <div class="card-body">
-                        <h4 class="card-title"><strong>Mis recetas</strong></h4>
-                        <p class="card-text">Vea las recetas creadas por usted mismo</p>
+                        <h4 class="card-title"><strong><spring:message code="myRecipes"/></strong></h4>
+                        <p class="card-text"><spring:message code="myRecipesExplanation"/></p>
                         <a href="${userRecipesUrl}" class="stretched-link"></a>
                     </div>
                 </div>
@@ -63,9 +64,8 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"><strong>Mis listas</strong></h4>
-                        <p class="card-text">Aqui se encuentran las listas creadas con sus recetas y recetas de
-                            terceros</p>
+                        <h4 class="card-title"><strong><spring:message code="myLists"/></strong></h4>
+                        <p class="card-text"><spring:message code="myListsExplanation"/></p>
                     </div>
                 </div>
             </div>
@@ -82,8 +82,8 @@
                     <div class="card-body">
                         <c:url value="/my_ingredients" var="myIngredientsUrl"/>
                         <a href="${myIngredientsUrl}" class="stretched-link"></a>
-                        <h4 class="card-title"><strong>Mis ingredientes</strong></h4>
-                        <p class="card-text">Visualize y modifique sus ingredientes</p>
+                        <h4 class="card-title"><strong><spring:message code="myIngredients"/></strong></h4>
+                        <p class="card-text"><spring:message code="myIngredientsExplanation"/></p>
                     </div>
                 </div>
 
@@ -123,10 +123,9 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"><strong>Favoritas</strong></h4>
+                        <h4 class="card-title"><strong><spring:message code="myFavouriteRecipes"/></strong></h4>
 
-                        <p class="card-text">Aqui se muestran las recetas que califico con una calificacion mayor o
-                            igual a 4 estrellas</p>
+                        <p class="card-text"><spring:message code="myFavouriteRecipesExplanation"/></p>
                     </div>
                 </div>
                 <!-- Post title -->
