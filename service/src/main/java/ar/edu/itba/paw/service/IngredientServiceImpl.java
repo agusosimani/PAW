@@ -127,6 +127,7 @@ public class IngredientServiceImpl implements IngredientService {
             if (maybeDeleted.isPresent()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("status", 1);
+                map.put("serving_amount",0);
                 ingredientsDao.updateRecipeIngredient(ri.getIngredient().getId(), map, recipe);
                 this.updateRI(ri, recipe);
 
@@ -159,6 +160,7 @@ public class IngredientServiceImpl implements IngredientService {
             if (maybeDeleted.isPresent()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("status", 1);
+                map.put("serving_amount",0);
                 ingredientsDao.updateUserIngredient(ri.getIngredient().getId(), map, user);
                 this.updateUI(ri, user);
 
@@ -211,11 +213,12 @@ public class IngredientServiceImpl implements IngredientService {
     private Map<String,Object> updateRUIInternal(RecipeIngredient ri,RecipeIngredient recipeIngredient) {
         Map<String, Object> map = new HashMap<>();
         if (!ri.getObservation().equals(recipeIngredient.getObservation())) {
-            map.put("obs", ri.getObservation());
+            map.put("obs", recipeIngredient.getObservation());
         }
-        if (ri.getAmount() != ri.getAmount()) {
-            map.put("serving_amount", ri.getAmount());
+        if (ri.getAmount() != recipeIngredient.getAmount()) {
+            map.put("serving_amount", recipeIngredient.getAmount());
         }
+        System.out.printf("entro");
         return map;
     }
 

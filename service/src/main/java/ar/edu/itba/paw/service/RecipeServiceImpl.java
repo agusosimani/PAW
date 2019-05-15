@@ -139,6 +139,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     @Override
     public void addNewRecipeTag(Recipe recipe, RecipeTag tag) {
+
         recipeDao.addNewRecipeTag(recipe, tag);
     }
 
