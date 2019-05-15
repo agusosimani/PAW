@@ -274,6 +274,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
         if(recipeIngredient.getObservation() != null && !recipeIngredient.getObservation().equals(""))
             map.put("obs",recipeIngredient.getObservation());
 
+        map.put("status",1);
         map.put("ingredient_id",recipeIngredient.getIngredient().getId());
         map.put("user_id",user.getId());
         map.put("serving_amount",recipeIngredient.getAmount());
