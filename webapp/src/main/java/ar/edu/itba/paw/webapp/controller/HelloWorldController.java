@@ -75,6 +75,18 @@ public class HelloWorldController {
 		return new ModelAndView("redirect:/");
 	}
 
+	@RequestMapping(value = "/add_ingredient_user", method = { RequestMethod.POST })
+	public ModelAndView addIngredientUser(@Valid @ModelAttribute("recipeForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
+		if (errors.hasErrors()) {
+			return null;
+		}
+
+		RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(addIngredientForm.getIngredient(),addIngredientForm.getAmount()).build();
+
+		System.out.printf("%s", ingredientToAdd.getIngredient().getName());
+		return new ModelAndView("redirect:/my_ingredients");
+	}
+
 	@RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
 	public ModelAndView cookRecipes(@RequestParam int recipeId) {
 
@@ -87,15 +99,13 @@ public class HelloWorldController {
 	}
 
 
-	/* ESTO ESTA HORRIBLE . PODRIA SER MUUUUCHO MEJOR*/
-	@RequestMapping(value = "/new_recipe")
+
 	public ModelAndView newRecipe(@Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
 		return new ModelAndView("new_recipe");
 	}
 
-	/* ESTO ESTA HORRIBLE . PODRIA SER MUUUUCHO MEJOR*/
-	@RequestMapping(value = "/add_ingredient")
 	public ModelAndView addIngredient(@Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
+		System.out.printf("ESTOY EN add_ingredient");
 		return new ModelAndView("add_ingredients");
 	}
 
@@ -123,10 +133,17 @@ public class HelloWorldController {
 		int id = 1;//((PawUserDetails)authentication.getPrincipal()).getId();
 
 		List<RecipeIngredient> ingredientList = new ArrayList<>();
-		Optional<List<RecipeIngredient>> maybeList = ingredientService.findByUser(id);
-		if(maybeList.isPresent())
-			ingredientList = maybeList.get();
+		Optional<List<RecipeIngredient>> maybeListIngredients = ingredientService.findByUser(id);
+		if(maybeListIngredients.isPresent())
+			ingredientList = maybeListIngredients.get();
 
+
+		List<Ingredient> allIngredientsList = new ArrayList<>();
+		Optional<List<Ingredient>> maybeListAllIngredients = ingredientService.getAllIngredients();
+		if(maybeListAllIngredients.isPresent())
+			allIngredientsList = maybeListAllIngredients.get();
+
+		mav.addObject("allIngredients", allIngredientsList);
 		mav.addObject("ingredientsList", ingredientList);
 		return mav;
 	}

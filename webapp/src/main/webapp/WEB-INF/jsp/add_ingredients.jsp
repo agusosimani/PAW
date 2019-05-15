@@ -16,23 +16,21 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <c:url value="/create_recipe" var="createRecipe"/>
-            <form:form autocomplete="off" modelAttribute="addIngredientForm" action="${createRecipe}">
+            <c:url value="/add_ingredient_user" var="addIngredient"/>
+            <form:form autocomplete="off" modelAttribute="addIngredientForm" action="${addIngredient}" method="post">
                 <div class="modal-body">
-                    <div>
-                        <spring:message code="addIngredient.name" var="addIngredient.name"/>
-                        <form:label path="name" for="recipe_title"><spring:message code="Recipe.name"/>
+
+                        <form:label path="ingredient"><spring:message code="addIngredient.select"/>
                         </form:label>
-                        <form:select path="ingredientId" class="browser-default custom-select">
+                        <form:select path="ingredient" class="form-control mb-4">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
-                                <form:option value="${allIngredients.id}">${allIngredients.name}</form:option>
+                                <form:option value="${ingredient_type}">${ingredient_type.name}</form:option>
                             </c:forEach>
                         </form:select>
-                    </div>
-                    <div>
-                        <spring:message code="addIngredient.amount" var="recipeNameTitle"/>
-                        <form:input path="amount" />
-                    </div>
+
+                        <form:label path="amount"><spring:message code="addIngredient.amount"/>
+                        </form:label>
+                        <form:input class="form-control mb-4" path="amount" />
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>
