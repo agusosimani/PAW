@@ -27,17 +27,23 @@
 <%@include file="sidebar.jsp" %>
 
 <section class="main_container">
+    <%@include file="userbar.jsp" %>
+
+    <h3>My ingredients</h3>
+
+    <br/>
 
     <div class="browse">
-        <c:forEach var="ingredient" items="${ingredientsList}">
-            <div class="row">
-                <p class="float_left">${ingredient.ingredient.name}</p>
-                <p>${ingredient.amount}</p>
-            </div>
-        </c:forEach>
-    </div>
 
-    <%@include file="userbar.jsp" %>
+        <ul class="list-group">
+            <c:forEach var="ingredient" items="${ingredientsList}">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${ingredient.ingredient.name}
+                    <span class="badge badge-primary badge-pill">${ingredient.amount}</span>
+                </li>
+            </c:forEach>
+        </ul>
+    </div>
 
 </section>
 
