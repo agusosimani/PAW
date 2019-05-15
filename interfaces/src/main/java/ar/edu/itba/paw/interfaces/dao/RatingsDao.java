@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface RatingsDao {
 
-    void addNewRating(User user, Recipe recipe, int rating);
+    void addNewRating(int userId, int recipeId, int rating);
 
-    void update(User user, Recipe recipe, String k, Object v);
+    void update(int userId, int recipeId, String k, Object v);
 
-    Optional<List<Rating>> getRatingsRecipe(Recipe recipe);
+    Optional<List<Rating>> getRatingsRecipe(int recipeId);
 
-    Optional<List<Rating>> getRatingsUser(User user);
+    Optional<List<Rating>> getRatingsUser(int userId);
 
-    Optional<Rating> getSpecificRating(User user, Recipe recipe);
+    Optional<Rating> getSpecificRating(int userId, int recipeId);
 }

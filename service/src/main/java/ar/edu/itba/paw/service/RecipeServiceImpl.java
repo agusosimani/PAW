@@ -59,13 +59,23 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Optional<List<Recipe>> findByUser(User user) {
-        return recipeDao.getByUserId(user.getId());
+    public Optional<List<Recipe>> findByUser(int userId) {
+        return recipeDao.getByUserId(userId);
     }
 
     @Override
-    public Recipe findUserRecipeByName(User u, String name) {
-        Optional<List<Recipe>> op = this.findByUser(u);
+    public int userRecipesNumber(int userId) {
+        int count = 0;
+        Optional<List<Recipe>> maybeRecipe = findByUser(userId);
+        if(maybeRecipe.isPresent()) {
+            count = maybeRecipe.get().size();
+        }
+        return count;
+    }
+
+    @Override
+    public Recipe findUserRecipeByName(int userId, String name) {
+        Optional<List<Recipe>> op = this.findByUser(userId);
         if(op.isPresent()){
             List<Recipe> list = op.get();
             for(Recipe r : list) {
@@ -134,7 +144,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public void addNewRating(User user, Recipe recipe, int rating) {
+    public void addNewRating(int user, int recipe, int rating) {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(user, recipe);
         if (maybeRating.isPresent())
             ratingsDao.update(user,recipe,"status",1);
@@ -144,13 +154,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public void updateRating(User user, Recipe recipe, int rating) {
+    public void updateRating(int user, int recipe, int rating) {
         ratingsDao.update(user,recipe,"rating",rating);
     }
 
     @Override
     @Transactional
-    public void deleteRating(User user, Recipe recipe, int rating) {
+    public void deleteRating(int user, int recipe, int rating) {
         ratingsDao.update(user,recipe,"status",0);
     }
 

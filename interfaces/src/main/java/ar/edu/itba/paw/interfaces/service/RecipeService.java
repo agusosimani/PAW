@@ -18,9 +18,11 @@ public interface RecipeService {
 
     Optional<Recipe> findByName(final String name);
 
-    Optional<List<Recipe>> findByUser(User user);
+    Optional<List<Recipe>> findByUser(int userId);
 
-    Recipe findUserRecipeByName(User u, String name);
+    int userRecipesNumber(int userId);
+
+    Recipe findUserRecipeByName(int userId, String name);
 
     Recipe addNewRecipe(Recipe recipe);
 
@@ -34,11 +36,11 @@ public interface RecipeService {
 
     void addNewRecipeTag(Recipe recipe, RecipeTag tag);
 
-    void addNewRating(User user, Recipe recipe, int rating);
+    void addNewRating(int user, int recipe, int rating);
 
-    void updateRating(User user, Recipe recipe, int rating);
+    void updateRating(int user, int recipe, int rating);
 
-    void deleteRating(User user, Recipe recipe, int rating);
+    void deleteRating(int user, int recipe, int rating);
 
     Optional<List<Recipe>> getAllRecipesByUserId(int userId);
 }

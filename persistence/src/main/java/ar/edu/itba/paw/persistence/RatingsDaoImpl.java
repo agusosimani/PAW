@@ -37,28 +37,35 @@ public class RatingsDaoImpl implements RatingsDao {
 
 
     @Override
-    public void addNewRating(User user, Recipe recipe, int rating) {
-        Map<String,Object> map = new HashMap<>();
+    public void addNewRating(int user, int recipe, int rating) {
+        Map<String, Object> map = new HashMap<>();
 
-        map.put("user_id",user.getId());
-        map.put("recipe_id",recipe.getId());
-        map.put("rating",rating);
+        map.put("user_id", user);
+        map.put("recipe_id", recipe);
+        map.put("rating", rating);
 
         jdbcInsertRating.execute(map);
     }
 
     @Override
-    public void update(User user, Recipe recipe, String k, Object v) {
-        jdbcTemplate.update(
-                "UPDATE ratings SET ? = ? WHERE user_id = ? AND recipe_id = ? AND status != 0",
-                k,v,user.getId(),recipe.getId());
+    public void update(int user, int recipe, String k, Object v) {
+        if (k.equals("status")) {
+            jdbcTemplate.update(
+                    "UPDATE ratings SET status = ? WHERE user_id = ? AND recipe_id = ? AND status != 0",
+                    v, user, recipe);
+        }
+        if (k.equals("rating")) {
+            jdbcTemplate.update(
+                    "UPDATE ratings SET ratings = ? WHERE user_id = ? AND recipe_id = ? AND status != 0",
+                    v, user, recipe);
+        }
     }
 
     @Override
-    public Optional<List<Rating>> getRatingsRecipe(Recipe recipe) {
+    public Optional<List<Rating>> getRatingsRecipe(int recipe) {
         final List<Rating> list =
                 jdbcTemplate.query("SELECT * FROM ratings WHERE recipe_id	= ? AND status != 0",
-                        ROW_MAPPER, recipe.getId());
+                        ROW_MAPPER, recipe);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -67,10 +74,10 @@ public class RatingsDaoImpl implements RatingsDao {
     }
 
     @Override
-    public Optional<List<Rating>> getRatingsUser(User user) {
+    public Optional<List<Rating>> getRatingsUser(int user) {
         final List<Rating> list =
                 jdbcTemplate.query("SELECT * FROM ratings WHERE user_id	= ? AND status != 0",
-                        ROW_MAPPER, user.getId());
+                        ROW_MAPPER, user);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -79,10 +86,10 @@ public class RatingsDaoImpl implements RatingsDao {
     }
 
     @Override
-    public Optional<Rating> getSpecificRating(User user, Recipe recipe) {
+    public Optional<Rating> getSpecificRating(int user, int recipe) {
         final List<Rating> list =
                 jdbcTemplate.query("SELECT * FROM ratings WHERE user_id	= ? AND recipe_id = ? AND status != 0",
-                        ROW_MAPPER, user.getId(), recipe.getId());
+                        ROW_MAPPER, user, recipe);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -90,7 +97,6 @@ public class RatingsDaoImpl implements RatingsDao {
         return Optional.of(list.get(0));
 
     }
-
 
 
 }
