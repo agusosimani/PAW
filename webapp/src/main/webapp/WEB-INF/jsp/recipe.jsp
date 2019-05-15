@@ -54,7 +54,7 @@
                 <c:param name="recipeId" value="${recipe.id}"/>
             </c:url>
             <form:form action="${cookRecipe}" method="post">
-                <button type="submit" class="btn btn-unique waves-effect waves-light">Cook!</button>
+                <button type="submit" class="btn btn-unique waves-effect waves-light"><spring:message code="cookButton"/></button>
             </form:form>
         </div>
         <!-- Card -->

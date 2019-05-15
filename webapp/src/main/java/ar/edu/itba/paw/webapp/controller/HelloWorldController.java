@@ -93,7 +93,8 @@ public class HelloWorldController {
 		final ModelAndView mav = new ModelAndView("redirect:/recipe");
 		mav.addObject("recipeId",recipeId);
 
-		System.out.printf("vamo perro!!!!!!");
+
+		//ingredientService.updateUI();
 
 		return mav;
 	}

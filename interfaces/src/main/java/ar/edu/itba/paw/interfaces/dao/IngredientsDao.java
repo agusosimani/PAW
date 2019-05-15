@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface IngredientsDao {
 
-    Optional<RecipeIngredient> getUserIngById(final int recipeId);
+    Optional<RecipeIngredient> getUserIngById(final int ingredientId,final int userId);
     Optional<List<Ingredient>> getAllIngredients();
     Optional<Ingredient> getById(final int id);
     Optional<Ingredient> getByIngredientName(String name);

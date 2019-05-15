@@ -72,9 +72,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     //TODO: UPDATE DEL OBJETO USUARIO
-    private User update(User user, String k, Object v) {
+    private void update(User user, String k, Object v) {
         jdbcTemplate.update("UPDATE users SET ? = ? WHERE user_id = ?",k,v,user.getId());
-        return user;
     }
 
     @Override

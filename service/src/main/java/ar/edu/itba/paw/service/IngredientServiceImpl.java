@@ -164,6 +164,11 @@ public class IngredientServiceImpl implements IngredientService {
         this.updateRI(ingredient,recipe,map);
     }
 
+    @Override
+    public void updateRI(RecipeIngredient ingredient, Recipe recipe) {
+
+    }
+
 
     //TODO: Agregar status a ri y ui en la db
     @Transactional
@@ -177,23 +182,31 @@ public class IngredientServiceImpl implements IngredientService {
         ingredientsDao.updateRecipeIngredient(ingredient,map,recipe);
     }
 
-    @Override
-    public void updateUI(RecipeIngredient ingredient, User user, String change, Object value) {
-        Map<String,Object> map = new HashMap<>();
-        map.put(change,value);
-        this.updateUI(ingredient,user,map);
-    }
+
 
     @Transactional
     @Override
-    public void updateUI(RecipeIngredient ingredient, User user, Map<String, Object> map) {
-        map.forEach((k,v)->{
-            if(!k.equals("obs") && !k.equals("serving_amount")) {
-                throw new RuntimeException();
+    public void updateUI(RecipeIngredient ri, User user) {
+        Optional<RecipeIngredient> maybeRI = ingredientsDao.getUserIngById(ri.getIngredient().getId(),user.getId());
+        if(maybeRI.isPresent()) {
+            RecipeIngredient recipeIngredient = maybeRI.get();
+            Map<String,Object> map = new HashMap<>();
+            if(!recipeIngredient.getObservation().equals(ri.getObservation())) {
+                map.put("obs",ri.getObservation());
             }
-        });
-        ingredientsDao.updateUserIngredient(ingredient,map,user);
+            if(recipeIngredient.getAmount() != ri.getAmount()) {
+                if(recipeIngredient.getAmount()-ri.getAmount() <= 0){
+                    this.deleteUI(recipeIngredient,user);
+                    return;
+                }
+                else {
+                    map.put("serving_amount",ri.getAmount());
+                }
+            }
+            ingredientsDao.updateUserIngredient(recipeIngredient,map,user);
+        }
     }
+
 
     @Override
     public void deleteRI(RecipeIngredient ri,Recipe recipe) {
@@ -201,9 +214,10 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void deleteUI(RecipeIngredient ui, User user) {
-        this.updateUI(ui, user,"status",0);
-
+    public void deleteUI(RecipeIngredient ri, User user) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("status",0);
+        ingredientsDao.updateUserIngredient(ri,map,user);
     }
 
     @Override

@@ -39,11 +39,11 @@ public interface IngredientService {
 
     void updateRI(RecipeIngredient ingredient, Recipe recipe, String change, Object value);
 
+    void updateRI(RecipeIngredient ingredient, Recipe recipe);
+
     void updateRI(RecipeIngredient ingredient, Recipe recipe, Map<String, Object> map);
 
-    void updateUI(RecipeIngredient ingredient, User user, String change, Object value);
-
-    void updateUI(RecipeIngredient ingredient, User user, Map<String, Object> map);
+    void updateUI(RecipeIngredient ri, User user);
 
     void deleteRI(RecipeIngredient ri, Recipe recipe);
 

@@ -98,7 +98,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
 
 
     @Override
-    public Optional<RecipeIngredient> getUserIngById(int recipeId) {
+    public Optional<RecipeIngredient> getUserIngById(int ingredientId, int userId) {
         final List<RecipeIngredient> list =
                 jdbcTemplate.query("SELECT * FROM (user_ingredients LEFT OUTER JOIN" +
                                 " (SELECT ingredient_id,ingredients.name as ingredientName,is_vegetarian,is_vegan," +
@@ -108,8 +108,8 @@ public class IngredientsDaoImpl implements IngredientsDao {
                                 "serving_types on ingredients.serving_type_id = " +
                                 "serving_types.serving_type_id where status = 1) AS foo ON  " +
                                 "user_ingredients.ingredient_id = foo.ingredient_id) " +
-                                " WHERE ingredient_id	= ? AND status = 1",
-                        RECIPE_INGREDIENT_ROW_MAPPER, recipeId);
+                                " WHERE ingredient_id	= ? AND user_id = ? AND status = 1",
+                        RECIPE_INGREDIENT_ROW_MAPPER, ingredientId,userId);
         if (list.isEmpty()) {
             return Optional.empty();
         }
