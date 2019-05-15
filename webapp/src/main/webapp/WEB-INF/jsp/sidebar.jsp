@@ -91,15 +91,15 @@
 
 
 </section>
-<%--<div class="row">--%>
-<%--<div class="col-2">--%>
-<%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-home"></i> Inicio</button>--%>
-<%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-search"></i> Search</button>--%>
-<%--<button type="button" class="btn btn-nav btn-lg btn-block"><i class="fas fa-book-open"></i> Biblioteca</button>--%>
-<%--</div>--%>
-<%--<div class="col-10">--%>
 
-<%--</div>--%>
-<%--</div>--%>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="<c:url value="/resources/js/popper.min.js"/>"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
+
 </body>
 </html>

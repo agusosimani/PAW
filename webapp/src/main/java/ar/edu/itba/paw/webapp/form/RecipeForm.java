@@ -1,6 +1,10 @@
 package ar.edu.itba.paw.webapp.form;
 
+import ar.edu.itba.paw.model.RecipeTag;
+
 import javax.validation.constraints.Size;
+import java.awt.*;
+import java.util.List;
 
 public class RecipeForm {
 
@@ -11,9 +15,19 @@ public class RecipeForm {
     @Size(min = 12, max = 100)
     private String instructions;
 
+    private List<String> tags;
+
 
     private int ingredientOneAmount;
     private int ingredientOne;
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
     public int getIngredientOne() {
         return ingredientOne;

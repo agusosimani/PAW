@@ -91,7 +91,13 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     @Override
     public Recipe addNewRecipe(Recipe recipe) {
-        return recipeDao.addNewRecipe(recipe);
+        Recipe rec =  recipeDao.addNewRecipe(recipe);
+
+        for (RecipeTag rt : recipe.getTags()) {
+            recipeDao.addNewRecipeTag(rec,rt);
+        }
+
+        return rec;
     }
 
     @Override
@@ -173,5 +179,10 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Optional<List<Recipe>> getRecipes() {
         return recipeDao.getAllRecipes();
+    }
+
+    @Override
+    public Optional<List<RecipeTag>> getAllTags() {
+        return recipeDao.getAllTags();
     }
 }

@@ -161,6 +161,16 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
+    public Optional<List<RecipeTag>> getAllTags() {
+        final List<RecipeTag> list = jdbcTemplate.query("SELECT  *	FROM tags", TAG_ROW_MAPPER);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list);
+    }
+
+    @Override
     public Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe) {
 
         final List<RecipeTag> list = jdbcTemplate

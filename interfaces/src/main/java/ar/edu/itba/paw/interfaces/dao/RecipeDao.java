@@ -14,7 +14,6 @@ public interface RecipeDao {
 
     Optional<List<Recipe>> getByUserId(final int id);
 
-    //PA QUILOMBO, RAJARLO ASI QUE VEAS COMO MANDAR DE A POCO. HABLARLE A ALVARO SOS
     Optional<List<Recipe>> getAllRecipes();
 
     Recipe addNewRecipe(Recipe recipe);
@@ -25,6 +24,8 @@ public interface RecipeDao {
 
     Optional<RecipeTag> getTagByName(String name);
 
+    Optional<List<RecipeTag>> getAllTags();
+
     Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe);
 
     void removeTagFromRecipe(Recipe recipe, RecipeTag tag);
@@ -32,4 +33,5 @@ public interface RecipeDao {
     void addNewRecipeTag(Recipe recipe, RecipeTag tag);
 
     Optional<List<Recipe>> getAllRecipesByUserId(int userId);
+
 }

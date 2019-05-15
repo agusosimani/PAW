@@ -260,7 +260,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
                                 "serving_types on ingredients.serving_type_id = " +
                                 "serving_types.serving_type_id where status = 1) AS foo ON  " +
                                 "recipes_ingredients.ingredient_id = foo.ingredient_id) " +
-                                "WHERE (recipes_ingredients.user_id= ?) AND (recipes_ingredients.status != 0);",
+                                "WHERE (recipes_ingredients.recipe_id= ?) AND (recipes_ingredients.status != 0);",
                         RECIPE_INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();

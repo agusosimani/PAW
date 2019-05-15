@@ -3,24 +3,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Foodify</title>
-    <link rel="shortcut icon" type="image/x-icon" href="<c:url value="/resources/img/foodify_tab.png"/>"/>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!-- Bootstrap core CSS -->
-    <link href="<c:url value="/resources/css/bootstrap.css"/>" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="<c:url value="/resources/css/mdb.css"/>" rel="stylesheet">
-    <!-- Your custom styles (optional) -->
-    <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
-    <link href="<c:url value="/resources/css/style_spotify.css"/>" rel="stylesheet">
-</head>
 <body>
 
 <section class="browse text-center">
@@ -44,7 +26,12 @@
 
                     <!--Card content-->
                     <div class="card-body card-body-cascade">
-                        <h5 class="pink-text"><i class="fas fa-utensils"></i> CategoriaX</h5>
+                        <div>
+                            <c:forEach var="recipe_tag" items="${recipe.tags}">
+                                <p class="pink-text"> recipe_tag.tag</p>
+                            </c:forEach>
+                        </div>
+
                         <h4 class="card-title"><strong>${recipe.name}</strong></h4>
                         <p class="card-text">${recipe.description}</p>
 

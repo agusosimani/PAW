@@ -66,6 +66,14 @@
                     <form:label path="ingredientOneAmount"><spring:message code="addIngredient.amount"/>
                     </form:label>
                     <form:input class="form-control mb-4" path="ingredientOneAmount" />
+                    <p>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Button with data-target
+                        </button>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <form:checkboxes path="tags" items="${allTags}" />
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>

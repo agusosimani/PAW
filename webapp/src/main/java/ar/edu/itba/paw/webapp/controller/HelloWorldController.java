@@ -2,14 +2,11 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.IngredientService;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
-import ar.edu.itba.paw.model.Ingredient;
-import ar.edu.itba.paw.model.Recipe;
-import ar.edu.itba.paw.model.RecipeIngredient;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.form.AddIngredientForm;
 import ar.edu.itba.paw.webapp.form.RecipeForm;
 import ar.edu.itba.paw.interfaces.service.UserService;
-import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -73,6 +70,19 @@ public class HelloWorldController {
 		if(maybeListAllIngredients.isPresent())
 			allIngredientsList = maybeListAllIngredients.get();
 
+
+		//TODO: se puede usar form:checkboxes con objetos?
+		Optional<List<RecipeTag>> maybeListTags = recipeService.getAllTags();
+		List<RecipeTag> allTagsList = new ArrayList<>();
+		if(maybeListTags.isPresent())
+			allTagsList = maybeListTags.get();
+
+		List<String> allTagsStringList = new ArrayList<>();
+		for (RecipeTag tag: allTagsList) {
+			allTagsStringList.add(tag.getTag());
+		}
+
+		mav.addObject("allTags", allTagsStringList);
 		mav.addObject("allIngredients", allIngredientsList);
 		mav.addObject("RecipeList", recipeList); //Popular model
 		return mav;
@@ -85,9 +95,16 @@ public class HelloWorldController {
 		}
 		List<RecipeIngredient> listIngredients = new ArrayList<>();
 
+		List<RecipeTag> recipeTags = new ArrayList<>();
+		for(String tagName : recipeForm.getTags()){
+			recipeTags.add(new RecipeTag(0,"Vegetariana"));
+		}
+
+		recipeTags.add(new RecipeTag(0,"Vegetariana"));
 		listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
 		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(),getCurrentUserID())
 				.description(recipeForm.getDescription())
+				.tags(recipeTags)
 				.build();
 		recipeService.addNewRecipe(recipeToAdd);
 		return new ModelAndView("redirect:/");

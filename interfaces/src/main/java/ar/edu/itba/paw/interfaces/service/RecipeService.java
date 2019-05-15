@@ -43,4 +43,6 @@ public interface RecipeService {
     void deleteRating(int user, int recipe, int rating);
 
     Optional<List<Recipe>> getAllRecipesByUserId(int userId);
+
+    Optional<List<RecipeTag>> getAllTags();
 }
