@@ -28,7 +28,7 @@
                     <div class="card-body card-body-cascade">
                         <div>
                             <c:forEach var="recipe_tag" items="${recipe.tags}">
-                                <p class="pink-text"> recipe_tag.tag</p>
+                                <p class="pink-text"> ${recipe_tag.tag}</p>
                             </c:forEach>
                         </div>
 

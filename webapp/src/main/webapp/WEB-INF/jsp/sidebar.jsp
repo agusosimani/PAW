@@ -63,7 +63,7 @@
 
             <c:url value="/user_recipes" var="userRecipesUrl"/>
             <a href="${userRecipesUrl}" class="navigation__list__item">
-                <i class="ion-headphone"></i>
+                <!-- <i class="ion-headphone"></i> -->
                 <span><spring:message code="myRecipes"/></span>
             </a>
 

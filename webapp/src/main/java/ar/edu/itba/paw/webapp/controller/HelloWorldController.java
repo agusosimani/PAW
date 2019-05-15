@@ -82,7 +82,13 @@ public class HelloWorldController {
 			allTagsStringList.add(tag.getTag());
 		}
 
-		mav.addObject("allTags", allTagsStringList);
+
+		for(Recipe in : recipeList){
+			if(in.getTags() != null && !in.getTags().isEmpty())
+				System.out.printf("no es empty");
+		}
+
+				mav.addObject("allTags", allTagsStringList);
 		mav.addObject("allIngredients", allIngredientsList);
 		mav.addObject("RecipeList", recipeList); //Popular model
 		return mav;
@@ -93,6 +99,8 @@ public class HelloWorldController {
 		if (errors.hasErrors()) {
 			return null;
 		}
+
+		System.out.printf("LLEGUE1");
 		List<RecipeIngredient> listIngredients = new ArrayList<>();
 
 		List<RecipeTag> recipeTags = new ArrayList<>();
@@ -100,7 +108,8 @@ public class HelloWorldController {
 			recipeTags.add(new RecipeTag(0,"Vegetariana"));
 		}
 
-		recipeTags.add(new RecipeTag(0,"Vegetariana"));
+		System.out.printf("LLEGUE2");
+
 		listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
 		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(),getCurrentUserID())
 				.description(recipeForm.getDescription())
