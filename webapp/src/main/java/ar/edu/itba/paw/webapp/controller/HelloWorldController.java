@@ -79,7 +79,7 @@ public class HelloWorldController {
 		if (errors.hasErrors()) {
 			return null;
 		}
-		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), null, recipeForm.getInstructions(),1)
+		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), null, recipeForm.getInstructions(),currentUserID())
 				.description(recipeForm.getDescription())
 				.build();
 		recipeService.addNewRecipe(recipeToAdd);
@@ -98,7 +98,7 @@ public class HelloWorldController {
 
 		RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(aux,addIngredientForm.getAmount()).observation("podrido").build();
 
-		User auxUser = new User.Builder(1,"asd","asd","ASd").build();
+		User auxUser = new User.Builder(currentUserID(),"asd","asd","ASd").build();
 		ingredientService.addNewUserIngredient(ingredientToAdd, auxUser);
 		return new ModelAndView("redirect:/my_ingredients");
 	}
@@ -168,6 +168,7 @@ public class HelloWorldController {
 		if(maybeListAllIngredients.isPresent())
 			allIngredientsList = maybeListAllIngredients.get();
 
+		mav.addObject("user", userService.getById(id).get());
 		mav.addObject("allIngredients", allIngredientsList);
 		mav.addObject("ingredientsList", ingredientList);
 		return mav;
