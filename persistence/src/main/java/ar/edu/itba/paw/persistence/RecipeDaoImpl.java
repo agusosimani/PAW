@@ -197,6 +197,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
         map.put("recipe_id",recipe.getId());
         map.put("tag_id",tag.getId());
+        map.put("status",1);
 
         jdbcInsertTag.execute(map);
     }
