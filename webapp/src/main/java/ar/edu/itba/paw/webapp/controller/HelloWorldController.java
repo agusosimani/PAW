@@ -90,12 +90,20 @@ public class HelloWorldController {
 	@RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
 	public ModelAndView cookRecipes(@RequestParam int recipeId) {
 
+
+
+		Optional<List<RecipeIngredient>> maybeI = ingredientService.findByRecipe(recipeId);
+		if(maybeI.isPresent()) {
+			List<RecipeIngredient> list = maybeI.get();
+			for (RecipeIngredient ri : list) {
+				//TODO cuando llegue eze: ingredientService.updateUI(ri,user);
+			}
+		}
+
+
+
 		final ModelAndView mav = new ModelAndView("redirect:/recipe");
 		mav.addObject("recipeId",recipeId);
-
-
-		//ingredientService.updateUI();
-
 		return mav;
 	}
 

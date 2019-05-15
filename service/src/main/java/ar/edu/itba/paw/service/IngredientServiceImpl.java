@@ -78,8 +78,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Optional<List<RecipeIngredient>> findByRecipe(Recipe recipe) {
-        Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByRecipeId(recipe.getId());
+    public Optional<List<RecipeIngredient>> findByRecipe(int recipeId) {
+        Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByRecipeId(recipeId);
         if(maybeList.isPresent()) {
             List<RecipeIngredient> list = maybeList.get();
             for (RecipeIngredient i : list) {
@@ -93,7 +93,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public RecipeIngredient findRecipeIngredientByName(Recipe recipe, String name) {
-        Optional<List<RecipeIngredient>> op = this.findByRecipe(recipe);
+        Optional<List<RecipeIngredient>> op = this.findByRecipe(recipe.getId());
         if(op.isPresent()){
             List<RecipeIngredient> list = op.get();
             for(RecipeIngredient r : list) {
@@ -210,7 +210,9 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void deleteRI(RecipeIngredient ri,Recipe recipe) {
-        this.updateRI(ri,recipe,"status",0);
+        Map<String,Object> map = new HashMap<>();
+        map.put("status",0);
+        ingredientsDao.updateRecipeIngredient(ri,map,recipe);
     }
 
     @Override

@@ -19,7 +19,7 @@ public interface IngredientService {
 
     Optional<List<RecipeIngredient>> findByUser(int userId);
 
-    Optional<List<RecipeIngredient>> findByRecipe(Recipe recipe);
+    Optional<List<RecipeIngredient>> findByRecipe(int recipeId);
 
     RecipeIngredient findUserIngredientByName(int u, String name);
 
