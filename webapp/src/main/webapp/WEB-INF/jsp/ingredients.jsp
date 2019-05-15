@@ -29,20 +29,29 @@
 <section class="main_container">
     <%@include file="userbar.jsp" %>
 
-    <h3>My ingredients</h3>
 
+    <h3>My ingredients</h3>
     <br/>
 
     <div class="browse">
-
-        <ul class="list-group">
-            <c:forEach var="ingredient" items="${ingredientsList}">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                        ${ingredient.ingredient.name}
-                    <span class="badge badge-primary badge-pill">${ingredient.amount}</span>
-                </li>
-            </c:forEach>
-        </ul>
+        <div class="card">
+            <ul class="list-group">
+                <c:forEach var="ingredient" items="${ingredientsList}">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${ingredient.ingredient.name}
+                        <div class="float-right">
+                            <span class="badge badge-primary badge-pill">${ingredient.amount}</span>
+                            <c:url value="/delete_ingredient" var="deleteIngredientUrl">
+                                <c:param name="ingredientId" value="${ingredient.ingredient.id}"/>
+                            </c:url>
+                            <form:form action="${deleteIngredientUrl}" method="post">
+                                <button type="submit" class="btn btn-danger"><spring:message code="delete"/></button>
+                            </form:form>
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
     </div>
 
 </section>

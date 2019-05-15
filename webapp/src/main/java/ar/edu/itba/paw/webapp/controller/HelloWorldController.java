@@ -140,6 +140,12 @@ public class HelloWorldController {
 		return new ModelAndView("add_ingredients");
 	}
 
+	@RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
+	public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
+		ingredientService.deleteUI(ingredientId, getCurrentUserID());
+		return new ModelAndView("redirect:/my_ingredients");
+	}
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
 	public ModelAndView login() {
 		final ModelAndView mav = new ModelAndView("login");
@@ -152,8 +158,9 @@ public class HelloWorldController {
 		mav.addObject("recipes_amount",846684);
 		//ar.edu.itba.paw.model.User user = ((PawUserDetails) authentication.getPrincipal()).getUser();
 		//mav.addObject("user", new User.Builder(user.getUsername(), user.getPassword(), user.getEmail()).build());
+
 		int id = getCurrentUserID();
-		mav.addObject("user", new User.Builder(String.valueOf(id), String.valueOf(id), "ppingarilho"/*authentication.getName()*/).build());
+		mav.addObject("user", userService.getById(id).get());
 		return mav;
 	}
 
@@ -174,6 +181,8 @@ public class HelloWorldController {
 		if(maybeListAllIngredients.isPresent())
 			allIngredientsList = maybeListAllIngredients.get();
 
+
+		mav.addObject("recipes_amount",846684);
 		mav.addObject("user", userService.getById(id).get());
 		mav.addObject("allIngredients", allIngredientsList);
 		mav.addObject("ingredientsList", ingredientList);

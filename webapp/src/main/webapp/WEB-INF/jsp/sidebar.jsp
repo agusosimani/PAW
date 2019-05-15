@@ -42,12 +42,8 @@
 
         <div class="collapse in" id="myAccount">
 
-            <%--                <c:url value="/user_recipes" var="userRecipesUrl">--%>
-            <%--                    <c:param name="userId" value="${user.id}"/>--%>
-            <%--                </c:url>--%>
-            <%--                <a href="${userRecipesUrl}" class="navigation__list__item">--%>
-            <a href="#" class="navigation__list__item">
-
+            <c:url value="/my_ingredients" var="myIngredientsUrl"/>
+            <a href="${myIngredientsUrl}" class="navigation__list__item">
                 <i class="ion-headphone"></i>
                 <span><spring:message code="myRecipes"/></span>
             </a>
