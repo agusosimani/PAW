@@ -40,7 +40,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe()
                     .rememberMeParameter("j_rememberme")
                 //TODO: cambiar esto
-                    .key("mysupersecretketthatnobodyknowsabout")
+                    .key("mysupersecretketthatnobodyknowsabout")//TODO CAMBIARLO!!!
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()
                     .logoutUrl("/logout")
@@ -53,7 +53,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     public void configure(final WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/resources/css/**", "/resources/js/**", "/resources/img/**",
-                        "/resources/favicon.ico", "/403");
+                        /*"/resources/favicon.ico",*/ "/403");
     }
 
     @Autowired

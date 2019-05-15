@@ -49,6 +49,10 @@
                     <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>
                 </div>
             </div>
+            <c:url value="/cook_recipe" var="cookRecipe"/>
+            <a href="${cookRecipe}">
+                <button class="btn btn-unique waves-effect waves-light">Cook!</button>
+            </a>
         </div>
         <!-- Card -->
     </section>

@@ -11,6 +11,7 @@ import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,8 @@ public class HelloWorldController {
 	public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
 		final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
 
+		//System.out.printf("%s",LocaleContextHolder.getLocale().getDisplayLanguage());
+
 		Optional<List<Recipe>> maybeList = recipeService.getRecipes();
 
 		List<Recipe> recipeList = new LinkedList<>();
@@ -71,6 +74,17 @@ public class HelloWorldController {
 		return new ModelAndView("redirect:/");
 	}
 
+	@RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
+	public ModelAndView cookRecipes(@RequestParam int recipeId) {
+
+		final ModelAndView mav = new ModelAndView("redirect:/recipe");
+		mav.addObject("recipeId",recipeId);
+
+		System.out.printf("vamo perro!!!!!!");
+
+		return mav;
+	}
+
 
 	/* ESTO ESTA HORRIBLE . PODRIA SER MUUUUCHO MEJOR*/
 	@RequestMapping(value = "/new_recipe")
@@ -88,7 +102,7 @@ public class HelloWorldController {
 	public ModelAndView myAccount(Authentication authentication) {
 		final ModelAndView mav = new ModelAndView("my_account");
 		mav.addObject("recipes_amount",846684);
-		//User user = ((PawUserDetails) authentication.getPrincipal()).getUser();
+		//ar.edu.itba.paw.model.User user = ((PawUserDetails) authentication.getPrincipal()).getUser();
 		//mav.addObject("user", new User.Builder(user.getUsername(), user.getPassword(), user.getEmail()).build());
 		int id = 1;//((PawUserDetails)authentication.getPrincipal()).getId();
 		mav.addObject("user", new User.Builder(String.valueOf(id), String.valueOf(id), "ppingarilho"/*authentication.getName()*/).build());
@@ -105,8 +119,6 @@ public class HelloWorldController {
 		Optional<List<RecipeIngredient>> maybeList = ingredientService.findByUser(id);
 		if(maybeList.isPresent())
 			ingredientList = maybeList.get();
-
-		System.out.printf("fasfs %d", ingredientList.size());
 
 		mav.addObject("ingredientsList", ingredientList);
 		return mav;

@@ -55,7 +55,6 @@ public class IngredientServiceImpl implements IngredientService {
                 Optional<Ingredient> ingredient = ingredientsDao.getById(i.getIngredient().getId());
                 ingredient.ifPresent(i::setIngredient);
             }
-            System.out.printf("service %d\n",list.size());
             return Optional.of(list);
         }
 

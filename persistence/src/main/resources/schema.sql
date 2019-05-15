@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS ingredients (
                            serving float DEFAULT NULL,
                            status int NOT NULL DEFAULT '1',
                            user_id int DEFAULT NULL,
+                           /*language varchar(12) DEFAULT 'en',*/
                            PRIMARY KEY (ingredient_id),
                            CONSTRAINT ingredients_ibfk_1 FOREIGN KEY (serving_type_id) REFERENCES serving_types (serving_type_id),
                            CONSTRAINT ingredients_ibfk_2 FOREIGN KEY (user_id) REFERENCES users (user_id)
@@ -61,6 +62,7 @@ CREATE TABLE IF NOT EXISTS recipes (
                        instructions text,
                        status int NOT NULL DEFAULT '1',
                        rating float default '0',
+                       /*language varchar(12) DEFAULT 'en',*/
                        PRIMARY KEY (recipe_id),
                        CONSTRAINT recipes_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (user_id),
                        CONSTRAINT recipes_ibfk_2 FOREIGN KEY (user_id) REFERENCES users (user_id)
@@ -106,6 +108,7 @@ CREATE TABLE IF NOT EXISTS ratings (
 CREATE TABLE IF NOT EXISTS tags (
                        tag_id SERIAL,
                        name VARCHAR(255),
+/*                     language VARCHAR(12) DEFAULT 'en',*/
                        PRIMARY KEY (tag_id)
 ) ;
 
