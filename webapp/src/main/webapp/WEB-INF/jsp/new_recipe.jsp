@@ -54,6 +54,18 @@
                     <spring:message code="instructions.placeholder" var="instructionsPlaceholder"/>
                     <form:input path="instructions" type="text" id="recipe_description" class="form-control mb-4"
                                 placeholder="${instructionsPlaceholder}"/>
+
+                    <form:label path="ingredientOne"><spring:message code="addIngredient.select"/>
+                    </form:label>
+                    <form:select path="ingredientOne" class="form-control mb-4">
+                        <c:forEach var="ingredient_type" items="${allIngredients}">
+                            <form:option value="${ingredient_type.id}">${ingredient_type.name}</form:option>
+                        </c:forEach>
+                    </form:select>
+
+                    <form:label path="ingredientOneAmount"><spring:message code="addIngredient.amount"/>
+                    </form:label>
+                    <form:input class="form-control mb-4" path="ingredientOneAmount" />
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>

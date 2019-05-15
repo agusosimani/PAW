@@ -8,9 +8,7 @@
     <section class="side_card">
         <div class="card">
             <div class="card-body">
-                <c:url value="/user_recipes" var="userRecipesUrl">
-                    <c:param name="userId" value="${user.id}"/>
-                </c:url>
+                <c:url value="/user_recipes" var="userRecipesUrl"/>
                 <a class="bg-transparent" href="${userRecipesUrl}">
                     <div>
                         <img class="user_image" src="<c:url value="/resources/img/user.png"/>">

@@ -65,11 +65,16 @@ public class HelloWorldController {
 		//System.out.printf("%s",LocaleContextHolder.getLocale().getDisplayLanguage());
 
 		Optional<List<Recipe>> maybeList = recipeService.getRecipes();
-
 		List<Recipe> recipeList = new LinkedList<>();
 		if(maybeList.isPresent())
 			recipeList = maybeList.get();
 
+		List<Ingredient> allIngredientsList = new ArrayList<>();
+		Optional<List<Ingredient>> maybeListAllIngredients = ingredientService.getAllIngredients();
+		if(maybeListAllIngredients.isPresent())
+			allIngredientsList = maybeListAllIngredients.get();
+
+		mav.addObject("allIngredients", allIngredientsList);
 		mav.addObject("RecipeList", recipeList); //Popular model
 		return mav;
 	}
@@ -79,7 +84,10 @@ public class HelloWorldController {
 		if (errors.hasErrors()) {
 			return null;
 		}
-		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), null, recipeForm.getInstructions(),currentUserID())
+		List<RecipeIngredient> listIngredients = new ArrayList<>();
+
+		listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
+		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(),currentUserID())
 				.description(recipeForm.getDescription())
 				.build();
 		recipeService.addNewRecipe(recipeToAdd);
@@ -234,18 +242,18 @@ public class HelloWorldController {
 
 
 	@RequestMapping("/user_recipes") //Le digo que url mappeo
-	public ModelAndView userRecipes(@RequestParam int userId) {
+	public ModelAndView userRecipes() {
 
 		final ModelAndView mav = new ModelAndView("user_recipes");
 
-		Optional<List<Recipe>> maybeList = recipeService.getAllRecipesByUserId(userId);
+		Optional<List<Recipe>> maybeList = recipeService.getAllRecipesByUserId(currentUserID());
 
 		List<Recipe> recipeList = new LinkedList<>();
 		if(maybeList.isPresent())
 			recipeList = maybeList.get();
 
 		mav.addObject("RecipeList", recipeList);
-		mav.addObject(userService.getById(userId).get());
+		mav.addObject(userService.getById(currentUserID()).get());
 		mav.addObject("recipes_amount",846684);
 		return mav;
 	}
