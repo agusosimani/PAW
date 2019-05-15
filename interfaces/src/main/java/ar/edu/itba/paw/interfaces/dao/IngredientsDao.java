@@ -13,6 +13,9 @@ public interface IngredientsDao {
 
     Optional<RecipeIngredient> getUserIngById(final int ingredientId,final int userId);
     Optional<List<Ingredient>> getAllIngredients();
+
+    Optional<RecipeIngredient> getDeletedUserIngById(int ingredientId, int userId);
+
     Optional<Ingredient> getById(final int id);
     Optional<Ingredient> getByIngredientName(String name);
     Optional<List<RecipeIngredient>> getByUserId(final int id);

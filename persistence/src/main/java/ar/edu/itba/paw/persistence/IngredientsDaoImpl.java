@@ -108,7 +108,9 @@ public class IngredientsDaoImpl implements IngredientsDao {
                                 "serving_types on ingredients.serving_type_id = " +
                                 "serving_types.serving_type_id where status = 1) AS foo ON  " +
                                 "user_ingredients.ingredient_id = foo.ingredient_id) " +
-                                " WHERE ingredient_id	= ? AND user_id = ? AND status = 1",
+                                " WHERE user_ingredients.ingredient_id	= ?" +
+                                " AND user_ingredients.user_id = ?" +
+                                " AND user_ingredients.status = 1",
                         RECIPE_INGREDIENT_ROW_MAPPER, ingredientId,userId);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -116,6 +118,30 @@ public class IngredientsDaoImpl implements IngredientsDao {
 
         return Optional.of(list.get(0));
     }
+
+    @Override
+    public Optional<RecipeIngredient> getDeletedUserIngById(int ingredientId, int userId) {
+        final List<RecipeIngredient> list =
+                jdbcTemplate.query("SELECT * FROM (user_ingredients LEFT OUTER JOIN" +
+                                " (SELECT ingredient_id,ingredients.name as ingredientName,is_vegetarian,is_vegan," +
+                                "tacc_free,protein_count,calorie_count,carbohydrate_count,fat_count,sugar_count," +
+                                "serving,status,user_id, serving_types.name as servingName" +
+                                " FROM ingredients left outer join " +
+                                "serving_types on ingredients.serving_type_id = " +
+                                "serving_types.serving_type_id where status = 1) AS foo ON  " +
+                                "user_ingredients.ingredient_id = foo.ingredient_id) " +
+                                " WHERE user_ingredients.ingredient_id	= ?" +
+                                " AND user_ingredients.user_id = ?" +
+                                " AND user_ingredients.status = 0",
+                        RECIPE_INGREDIENT_ROW_MAPPER, ingredientId,userId);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list.get(0));
+    }
+
+
 
     @Override
     public Optional<Ingredient> getById(int id) {
@@ -305,13 +331,27 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     private void updateRIR(RecipeIngredient ingredient, String k, Object v, Recipe recipe) {
-        jdbcTemplate.update("UPDATE recipes_ingredients SET ? = ? WHERE recipe_id = ? AND ingredient_id = ?"
-                ,k,v,recipe.getId(),ingredient.getIngredient().getId());
+        if(k.equals("serving_amount")) {
+            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe.getId());
+        }
+        if(k.equals("status")){
+            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe.getId());
+        }
+        if(k.equals("obs")){
+            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe.getId());
+        }
     }
 
     private void updateRIU(RecipeIngredient ingredient, String k, Object v, User user) {
-        jdbcTemplate.update("UPDATE user_ingredients SET ? = ? WHERE ingredient_id = ? AND user_id = ?",
-                k,v,ingredient.getIngredient().getId(),user.getId());
+        if(k.equals("serving_amount")) {
+            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),user.getId());
+        }
+        if(k.equals("status")){
+            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),user.getId());
+        }
+        if(k.equals("obs")){
+            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),user.getId());
+        }
     }
 
 
