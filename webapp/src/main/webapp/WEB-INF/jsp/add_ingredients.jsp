@@ -20,17 +20,18 @@
             <form:form autocomplete="off" modelAttribute="addIngredientForm" action="${addIngredient}" method="post">
                 <div class="modal-body">
 
-                        <form:label path="ingredient"><spring:message code="addIngredient.select"/>
+                        <form:label path="ingredientId"><spring:message code="addIngredient.select"/>
                         </form:label>
-                        <form:select path="ingredient" class="form-control mb-4">
+                        <form:select path="ingredientId" class="form-control mb-4">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
-                                <form:option value="${ingredient_type}">${ingredient_type.name}</form:option>
+                                <form:option value="${ingredientToAdd.getIngredient().getId()}">${ingredient_type.name}</form:option>
                             </c:forEach>
                         </form:select>
 
                         <form:label path="amount"><spring:message code="addIngredient.amount"/>
                         </form:label>
                         <form:input class="form-control mb-4" path="amount" />
+
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>

@@ -81,7 +81,9 @@ public class HelloWorldController {
 			return null;
 		}
 
-		RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(addIngredientForm.getIngredient(),addIngredientForm.getAmount()).build();
+		Ingredient aux = ingredientService.getById(addIngredientForm.getIngredientId()).get();
+
+		RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(aux,addIngredientForm.getAmount()).build();
 
 		System.out.printf("%s", ingredientToAdd.getIngredient().getName());
 		return new ModelAndView("redirect:/my_ingredients");
