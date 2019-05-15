@@ -86,7 +86,7 @@ public class HelloWorldController {
 		List<RecipeIngredient> listIngredients = new ArrayList<>();
 
 		listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
-		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(),currentUserID())
+		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(),getCurrentUserID())
 				.description(recipeForm.getDescription())
 				.build();
 		recipeService.addNewRecipe(recipeToAdd);
@@ -244,14 +244,14 @@ public class HelloWorldController {
 
 		final ModelAndView mav = new ModelAndView("user_recipes");
 
-		Optional<List<Recipe>> maybeList = recipeService.getAllRecipesByUserId(currentUserID());
+		Optional<List<Recipe>> maybeList = recipeService.getAllRecipesByUserId(getCurrentUserID());
 
 		List<Recipe> recipeList = new LinkedList<>();
 		if(maybeList.isPresent())
 			recipeList = maybeList.get();
 
 		mav.addObject("RecipeList", recipeList);
-		mav.addObject(userService.getById(currentUserID()).get());
+		mav.addObject(userService.getById(getCurrentUserID()).get());
 		mav.addObject("recipes_amount",846684);
 		return mav;
 	}
