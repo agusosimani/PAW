@@ -120,6 +120,28 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     @Override
+    public Optional<RecipeIngredient> getRecipeIngById(int ingredientId, int recipeId) {
+        final List<RecipeIngredient> list =
+                jdbcTemplate.query("SELECT * FROM (recipe_ingredients LEFT OUTER JOIN" +
+                                " (SELECT ingredient_id,ingredients.name as ingredientName,is_vegetarian,is_vegan," +
+                                "tacc_free,protein_count,calorie_count,carbohydrate_count,fat_count,sugar_count," +
+                                "serving,status,user_id, serving_types.name as servingName" +
+                                " FROM ingredients left outer join " +
+                                "serving_types on ingredients.serving_type_id = " +
+                                "serving_types.serving_type_id where status = 1) AS foo ON  " +
+                                "recipe_ingredients.ingredient_id = foo.ingredient_id) " +
+                                " WHERE recipe_ingredients.ingredient_id	= ?" +
+                                " AND recipe_ingredients.recipe_id = ?" +
+                                " AND recipe_ingredients.status = 1",
+                        RECIPE_INGREDIENT_ROW_MAPPER, ingredientId,recipeId);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list.get(0));
+    }
+
+    @Override
     public Optional<RecipeIngredient> getDeletedUserIngById(int ingredientId, int userId) {
         final List<RecipeIngredient> list =
                 jdbcTemplate.query("SELECT * FROM (user_ingredients LEFT OUTER JOIN" +
@@ -141,6 +163,27 @@ public class IngredientsDaoImpl implements IngredientsDao {
         return Optional.of(list.get(0));
     }
 
+    @Override
+    public Optional<RecipeIngredient> getDeletedRecipeIngById(int ingredientId, int recipeId) {
+        final List<RecipeIngredient> list =
+                jdbcTemplate.query("SELECT * FROM (recipe_ingredients LEFT OUTER JOIN" +
+                                " (SELECT ingredient_id,ingredients.name as ingredientName,is_vegetarian,is_vegan," +
+                                "tacc_free,protein_count,calorie_count,carbohydrate_count,fat_count,sugar_count," +
+                                "serving,status,user_id, serving_types.name as servingName" +
+                                " FROM ingredients left outer join " +
+                                "serving_types on ingredients.serving_type_id = " +
+                                "serving_types.serving_type_id where status = 1) AS foo ON  " +
+                                "recipe_ingredients.ingredient_id = foo.ingredient_id) " +
+                                " WHERE recipe_ingredients.ingredient_id	= ?" +
+                                " AND recipe_ingredients.recipe_id = ?" +
+                                " AND recipe_ingredients.status = 0",
+                        RECIPE_INGREDIENT_ROW_MAPPER, ingredientId,recipeId);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list.get(0));
+    }
 
 
     @Override
@@ -277,11 +320,11 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     @Override
-    public RecipeIngredient addNewRecipeIngredient(Recipe rec, RecipeIngredient recIng) {
+    public RecipeIngredient addNewRecipeIngredient(int rec, RecipeIngredient recIng) {
         final Map<String, Object> map = new HashMap<>();
 
         map.put("ingredient_id",recIng.getIngredient().getId());
-        map.put("recipe_id",rec.getId());
+        map.put("recipe_id",rec);
         map.put("serving_amount",recIng.getAmount());
 
         if(recIng.getObservation() != null && !recIng.getObservation().equals(""))
@@ -294,7 +337,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     @Override
-    public RecipeIngredient addNewUserIngredient(User user, RecipeIngredient recipeIngredient) {
+    public RecipeIngredient addNewUserIngredient(int userId, RecipeIngredient recipeIngredient) {
         final Map<String, Object> map = new HashMap<>();
 
         if(recipeIngredient.getObservation() != null && !recipeIngredient.getObservation().equals(""))
@@ -302,7 +345,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
 
         map.put("status",1);
         map.put("ingredient_id",recipeIngredient.getIngredient().getId());
-        map.put("user_id",user.getId());
+        map.put("user_id",userId);
         map.put("serving_amount",recipeIngredient.getAmount());
 
         jdbcInsertUserIng.execute(map);
@@ -320,37 +363,37 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     @Override
-    public void updateRecipeIngredient(RecipeIngredient ingredient, Map<String, Object> changes, Recipe recipe) {
+    public void updateRecipeIngredient(RecipeIngredient ingredient, Map<String, Object> changes, int recipe) {
             changes.forEach((k, v) -> updateRIR(ingredient, k, v,recipe));
     }
 
     @Override
-    public void updateUserIngredient(RecipeIngredient ingredient, Map<String, Object> changes, User user) {
-        changes.forEach((k, v) -> updateRIU(ingredient, k, v,user));
+    public void updateUserIngredient(RecipeIngredient ingredient, Map<String, Object> changes, int userId) {
+        changes.forEach((k, v) -> updateRIU(ingredient, k, v,userId));
 
     }
 
-    private void updateRIR(RecipeIngredient ingredient, String k, Object v, Recipe recipe) {
+    private void updateRIR(RecipeIngredient ingredient, String k, Object v, int recipe) {
         if(k.equals("serving_amount")) {
-            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe.getId());
+            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe);
         }
         if(k.equals("status")){
-            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe.getId());
+            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe);
         }
         if(k.equals("obs")){
-            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe.getId());
+            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe);
         }
     }
 
-    private void updateRIU(RecipeIngredient ingredient, String k, Object v, User user) {
+    private void updateRIU(RecipeIngredient ingredient, String k, Object v, int userId) {
         if(k.equals("serving_amount")) {
-            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),user.getId());
+            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),userId);
         }
         if(k.equals("status")){
-            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),user.getId());
+            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),userId);
         }
         if(k.equals("obs")){
-            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),user.getId());
+            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),userId);
         }
     }
 

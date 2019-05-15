@@ -71,9 +71,25 @@ public class UserDaoImpl implements UserDao {
         changes.forEach((k, v) -> update(user, k, v));
     }
 
-    //TODO: UPDATE DEL OBJETO USUARIO
     private void update(User user, String k, Object v) {
-        jdbcTemplate.update("UPDATE users SET ? = ? WHERE user_id = ?",k,v,user.getId());
+        if(k.equals("password")){
+            jdbcTemplate.update("UPDATE users SET password = ? WHERE user_id = ?",k,v,user.getId());
+        }
+        if(k.equals("mail")){
+            jdbcTemplate.update("UPDATE users SET mail = ? WHERE user_id = ?",k,v,user.getId());
+        }
+        if(k.equals("name")){
+            jdbcTemplate.update("UPDATE users SET name = ? WHERE user_id = ?",k,v,user.getId());
+        }
+        if(k.equals("surname")){
+            jdbcTemplate.update("UPDATE users SET surname = ? WHERE user_id = ?",k,v,user.getId());
+        }
+        if(k.equals("gender")){
+            jdbcTemplate.update("UPDATE users SET gender = ? WHERE user_id = ?",k,v,user.getId());
+        }
+        if(k.equals("status")){
+            jdbcTemplate.update("UPDATE users SET status = ? WHERE user_id = ?",k,v,user.getId());
+        }
     }
 
     @Override

@@ -12,9 +12,12 @@ import java.util.Optional;
 public interface IngredientsDao {
 
     Optional<RecipeIngredient> getUserIngById(final int ingredientId,final int userId);
+    Optional<RecipeIngredient> getRecipeIngById(final int ingredientId,final int recipeId);
+
     Optional<List<Ingredient>> getAllIngredients();
 
     Optional<RecipeIngredient> getDeletedUserIngById(int ingredientId, int userId);
+    Optional<RecipeIngredient> getDeletedRecipeIngById(int ingredientId, int recipeId);
 
     Optional<Ingredient> getById(final int id);
     Optional<Ingredient> getByIngredientName(String name);
@@ -22,11 +25,11 @@ public interface IngredientsDao {
     Optional<List<RecipeIngredient>> getByRecipeId(final int id);
 
     Ingredient addNewIngredient(Ingredient ing);
-    RecipeIngredient addNewRecipeIngredient(Recipe rec, RecipeIngredient recIng);
-    RecipeIngredient addNewUserIngredient(User user, RecipeIngredient recipeIngredient);
+    RecipeIngredient addNewRecipeIngredient(int rec, RecipeIngredient recIng);
+    RecipeIngredient addNewUserIngredient(int userId, RecipeIngredient recipeIngredient);
 
     void updateIngredient(Ingredient ingredient, Map<String,Object> changes);
-    void updateRecipeIngredient(RecipeIngredient ingredient, Map<String, Object> changes, Recipe recipe);
-    void updateUserIngredient(RecipeIngredient ingredient, Map<String, Object> changes, User user);
+    void updateRecipeIngredient(RecipeIngredient ingredient, Map<String, Object> changes, int recipeId);
+    void updateUserIngredient(RecipeIngredient ingredient, Map<String, Object> changes, int userId);
 
 }

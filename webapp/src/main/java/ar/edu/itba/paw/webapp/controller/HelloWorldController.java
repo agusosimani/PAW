@@ -12,7 +12,6 @@ import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,7 +48,7 @@ public class HelloWorldController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public int currentUserID() {
+	private int getCurrentUserID() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken)
 			return -1;
@@ -106,8 +105,7 @@ public class HelloWorldController {
 
 		RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(aux,addIngredientForm.getAmount()).observation("podrido").build();
 
-		User auxUser = new User.Builder(currentUserID(),"asd","asd","ASd").build();
-		ingredientService.addNewUserIngredient(ingredientToAdd, auxUser);
+		ingredientService.addNewUserIngredient(ingredientToAdd, getCurrentUserID());
 		return new ModelAndView("redirect:/my_ingredients");
 	}
 
@@ -120,7 +118,7 @@ public class HelloWorldController {
 		if(maybeI.isPresent()) {
 			List<RecipeIngredient> list = maybeI.get();
 			for (RecipeIngredient ri : list) {
-				//TODO cuando llegue eze: ingredientService.updateUI(ri,user);
+				ingredientService.updateUI(ri,this.getCurrentUserID());
 			}
 		}
 
@@ -154,7 +152,7 @@ public class HelloWorldController {
 		mav.addObject("recipes_amount",846684);
 		//ar.edu.itba.paw.model.User user = ((PawUserDetails) authentication.getPrincipal()).getUser();
 		//mav.addObject("user", new User.Builder(user.getUsername(), user.getPassword(), user.getEmail()).build());
-		int id = currentUserID();
+		int id = getCurrentUserID();
 		mav.addObject("user", new User.Builder(String.valueOf(id), String.valueOf(id), "ppingarilho"/*authentication.getName()*/).build());
 		return mav;
 	}
@@ -163,7 +161,7 @@ public class HelloWorldController {
 	public ModelAndView myIngredients(Authentication authentication, @Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
 		final ModelAndView mav = new ModelAndView("ingredients");
 
-		int id = currentUserID();
+		int id = getCurrentUserID();
 
 		List<RecipeIngredient> ingredientList = new ArrayList<>();
 		Optional<List<RecipeIngredient>> maybeListIngredients = ingredientService.findByUser(id);

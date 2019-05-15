@@ -132,7 +132,22 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     private void update(Recipe recipe, String k, Object v) {
-        jdbcTemplate.update("UPDATE recipes SET ? = ? WHERE recipe_id = ?",k,v,recipe.getId());
+        if(k.equals("name")){
+            jdbcTemplate.update("UPDATE recipes SET name = ? WHERE recipe_id = ?",v,recipe.getId());
+        }
+        if(k.equals("instructions")){
+            jdbcTemplate.update("UPDATE recipes SET instructions = ? WHERE recipe_id = ?",v,recipe.getId());
+        }
+        if(k.equals("status")){
+            jdbcTemplate.update("UPDATE recipes SET status = ? WHERE recipe_id = ?",v,recipe.getId());
+        }
+        if(k.equals("image")){
+            jdbcTemplate.update("UPDATE recipes SET image = ? WHERE recipe_id = ?",v,recipe.getId());
+        }
+        if(k.equals("description")){
+            jdbcTemplate.update("UPDATE recipes SET description = ? WHERE recipe_id = ?",v,recipe.getId());
+        }
+
     }
 
     @Override

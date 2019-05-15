@@ -23,11 +23,11 @@ public interface IngredientService {
 
     RecipeIngredient findUserIngredientByName(int u, String name);
 
-    RecipeIngredient findRecipeIngredientByName(Recipe recipe, String name);
+    RecipeIngredient findRecipeIngredientByName(int recipeId, String name);
 
-    RecipeIngredient addNewRecipeIngredient(RecipeIngredient ri, Recipe recipe);
+    RecipeIngredient addNewRecipeIngredient(RecipeIngredient ri, int recipe);
 
-    RecipeIngredient addNewUserIngredient(RecipeIngredient ui, User user);
+    RecipeIngredient addNewUserIngredient(RecipeIngredient ui, int userId);
 
     Ingredient addNewIngredient(Ingredient i);
 
@@ -37,17 +37,17 @@ public interface IngredientService {
 
     void updateI(Ingredient ingredient, Map<String, Object> map);
 
-    void updateRI(RecipeIngredient ingredient, Recipe recipe, String change, Object value);
+    void updateRI(RecipeIngredient ingredient, int recipeId, String change, Object value);
 
-    void updateRI(RecipeIngredient ingredient, Recipe recipe);
+    void updateRI(RecipeIngredient ingredient, int recipeId);
 
-    void updateRI(RecipeIngredient ingredient, Recipe recipe, Map<String, Object> map);
+    void updateRI(RecipeIngredient ingredient, int recipeId, Map<String, Object> map);
 
-    void updateUI(RecipeIngredient ri, User user);
+    void updateUI(RecipeIngredient ri, int userId);
 
-    void deleteRI(RecipeIngredient ri, Recipe recipe);
+    void deleteRI(RecipeIngredient ri, int recipeId);
 
-    void deleteUI(RecipeIngredient ri, User user);
+    void deleteUI(RecipeIngredient ri, int userId);
 
     void deleteI(Ingredient i);
 
