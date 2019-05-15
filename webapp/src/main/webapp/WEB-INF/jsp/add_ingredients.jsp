@@ -24,7 +24,7 @@
                         </form:label>
                         <form:select path="ingredientId" class="form-control mb-4">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
-                                <form:option value="${ingredientToAdd.getIngredient().getId()}">${ingredient_type.name}</form:option>
+                                <form:option value="${ingredient_type.id}">${ingredient_type.name}</form:option>
                             </c:forEach>
                         </form:select>
 

@@ -81,11 +81,14 @@ public class HelloWorldController {
 			return null;
 		}
 
+		System.out.printf("%d", addIngredientForm.getIngredientId());
+
 		Ingredient aux = ingredientService.getById(addIngredientForm.getIngredientId()).get();
 
-		RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(aux,addIngredientForm.getAmount()).build();
+		RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(aux,addIngredientForm.getAmount()).observation("podrido").build();
 
-		System.out.printf("%s", ingredientToAdd.getIngredient().getName());
+		User auxUser = new User.Builder(1,"asd","asd","ASd").build();
+		ingredientService.addNewUserIngredient(ingredientToAdd, auxUser);
 		return new ModelAndView("redirect:/my_ingredients");
 	}
 
