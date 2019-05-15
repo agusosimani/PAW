@@ -13,7 +13,9 @@ import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -46,6 +48,15 @@ public class HelloWorldController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	public int currentUserID() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken)
+			return -1;
+		else {
+			return ((PawUserDetails)authentication.getPrincipal()).getId();
+		}
+	}
 
 	@RequestMapping("/") //Le digo que url mappeo
 	public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
@@ -135,7 +146,7 @@ public class HelloWorldController {
 		mav.addObject("recipes_amount",846684);
 		//ar.edu.itba.paw.model.User user = ((PawUserDetails) authentication.getPrincipal()).getUser();
 		//mav.addObject("user", new User.Builder(user.getUsername(), user.getPassword(), user.getEmail()).build());
-		int id = 1;//((PawUserDetails)authentication.getPrincipal()).getId();
+		int id = currentUserID();
 		mav.addObject("user", new User.Builder(String.valueOf(id), String.valueOf(id), "ppingarilho"/*authentication.getName()*/).build());
 		return mav;
 	}
@@ -144,7 +155,7 @@ public class HelloWorldController {
 	public ModelAndView myIngredients(Authentication authentication, @Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
 		final ModelAndView mav = new ModelAndView("ingredients");
 
-		int id = 1;//((PawUserDetails)authentication.getPrincipal()).getId();
+		int id = currentUserID();
 
 		List<RecipeIngredient> ingredientList = new ArrayList<>();
 		Optional<List<RecipeIngredient>> maybeListIngredients = ingredientService.findByUser(id);
