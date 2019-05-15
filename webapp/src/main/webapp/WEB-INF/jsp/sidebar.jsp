@@ -3,6 +3,25 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Foodify</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<c:url value="/resources/img/foodify_tab.png"/>"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Bootstrap core CSS -->
+    <link href="<c:url value="/resources/css/bootstrap.css"/>" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="<c:url value="/resources/css/mdb.css"/>" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
+    <link href="<c:url value="/resources/css/style_spotify.css"/>" rel="stylesheet">
+</head>
+
 <body>
 <section class="navigation">
 
@@ -36,7 +55,7 @@
                  data-toggle="collapse"
                  href="#myAccount"
                  aria-expanded="true"
-                 aria-controls="yourMusic">
+                 aria-controls="myAccount">
             </div>
         </div>
 
@@ -50,10 +69,11 @@
 
             <c:url value="/my_ingredients" var="myIngredientsUrl"/>
             <a href="${myIngredientsUrl}" class="navigation__list__item">
-                <i class="ion-ios-musical-notes"></i>
+                <!-- <i class="ion-ios-musical-notes"></i> -->
                 <span><spring:message code="myIngredients"/></span>
             </a>
 
+            <%--
             <a href="#" class="navigation__list__item">
                 <i class="ion-person"></i>
                 <span><spring:message code="myLists"/></span>
@@ -63,7 +83,7 @@
                 <i class="ion-document"></i>
                 <span><spring:message code="myFavouriteRecipes"/></span>
             </a>
-
+            --%>
         </div>
 
     </div>

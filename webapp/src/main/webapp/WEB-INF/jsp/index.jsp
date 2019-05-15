@@ -44,7 +44,7 @@
                    data-toggle="collapse"
                    href="#sortBy"
                    aria-expanded="true"
-                   aria-controls="yourMusic">
+                   aria-controls="sortBy">
                 Ordenar por
               </div>
 
@@ -81,7 +81,7 @@
                    data-toggle="collapse"
                    href="#foodType"
                    aria-expanded="true"
-                   aria-controls="yourMusic">
+                   aria-controls="foodType">
                 Tipo de cocina
               </div>
 
