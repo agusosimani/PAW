@@ -6,6 +6,7 @@ import ar.edu.itba.paw.model.Ingredient;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeIngredient;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
+import ar.edu.itba.paw.webapp.form.AddIngredientForm;
 import ar.edu.itba.paw.webapp.form.RecipeForm;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.model.User;
@@ -92,6 +93,12 @@ public class HelloWorldController {
 		return new ModelAndView("new_recipe");
 	}
 
+	/* ESTO ESTA HORRIBLE . PODRIA SER MUUUUCHO MEJOR*/
+	@RequestMapping(value = "/add_ingredient")
+	public ModelAndView addIngredient(@Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
+		return new ModelAndView("add_ingredients");
+	}
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
 	public ModelAndView login() {
 		final ModelAndView mav = new ModelAndView("login");
@@ -110,7 +117,7 @@ public class HelloWorldController {
 	}
 
 	@RequestMapping(value = "/my_ingredients", method = RequestMethod.GET)
-	public ModelAndView myIngredients(Authentication authentication) {
+	public ModelAndView myIngredients(Authentication authentication, @Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
 		final ModelAndView mav = new ModelAndView("ingredients");
 
 		int id = 1;//((PawUserDetails)authentication.getPrincipal()).getId();

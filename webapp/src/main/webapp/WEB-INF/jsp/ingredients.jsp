@@ -41,6 +41,9 @@
 
 </section>
 
+<button type="button" class="btn btn-green add" data-toggle="modal" id="add-ingredient-modal" data-target="#add-ingredient">+</button>
+<%@include file="add_ingredients.jsp" %>
+
 
 <!-- SCRIPTS -->
 <!-- JQuery -->

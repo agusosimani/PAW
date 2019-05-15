@@ -49,8 +49,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         //ds.setUsername("paw-2019a-2");
         //ds.setPassword("1sz6lIwcK");
         ds.setUrl("jdbc:postgresql://localhost/foodify");
-        ds.setUsername("pedroremigiopingarilho");
-        ds.setPassword("pedroremigiopingarilho");
+        ds.setUsername("postgres");
+        ds.setPassword("root");
         return ds;
     }
 

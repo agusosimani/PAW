@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -49,10 +50,12 @@
                     <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>
                 </div>
             </div>
-            <c:url value="/cook_recipe" var="cookRecipe"/>
-            <a href="${cookRecipe}">
-                <button class="btn btn-unique waves-effect waves-light">Cook!</button>
-            </a>
+            <c:url value="/cook_recipe" var="cookRecipe">
+                <c:param name="recipeId" value="${recipe.id}"/>
+            </c:url>
+            <form:form action="${cookRecipe}" method="post">
+                <button type="submit" class="btn btn-unique waves-effect waves-light">Cook!</button>
+            </form:form>
         </div>
         <!-- Card -->
     </section>
