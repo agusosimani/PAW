@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS recipes (
                        instructions text,
                        status int NOT NULL DEFAULT '1',
                        rating float default '0',
+                       image bytea,
                        /*language varchar(12) DEFAULT 'en',*/
                        PRIMARY KEY (recipe_id),
                        CONSTRAINT recipes_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (user_id),
