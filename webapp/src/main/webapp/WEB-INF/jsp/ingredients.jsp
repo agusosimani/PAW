@@ -28,7 +28,7 @@
 
 <section class="main_container">
 
-    <div>
+    <div class="browse">
         <c:forEach var="ingredient" items="${ingredientsList}">
             <div class="row">
                 <p class="float_left">${ingredient.ingredient.name}</p>

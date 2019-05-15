@@ -23,7 +23,7 @@
                 </button>
             </div>
             <c:url value="/create_recipe" var="createRecipe"/>
-            <form:form autocomplete="off" modelAttribute="recipeForm" action="${createRecipe}">
+            <form:form autocomplete="off" modelAttribute="recipeForm" action="${createRecipe}" method="post">
                 <div class="modal-body">
                     <spring:message code="recipeName.title" var="recipeNameTitle"/>
                     <form:label path="name" for="recipe_title"><spring:message code="Recipe.name"/>
