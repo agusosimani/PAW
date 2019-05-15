@@ -164,7 +164,8 @@ public class RecipeDaoImpl implements RecipeDao {
     public Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe) {
 
         final List<RecipeTag> list = jdbcTemplate
-                .query("SELECT	 *	FROM (recipe_tags natural join tags) WHERE   recipe_id	=	? AND status != 0",
+                .query("SELECT	 *	FROM (recipe_tags LEFT OUTER JOIN tags ON " +
+                                "tags.tag_id = recipe_tags.tag_id) WHERE   recipe_id	=	? AND status != 0",
                         TAG_ROW_MAPPER, recipe.getId());
         if (list.isEmpty()) {
             return Optional.empty();

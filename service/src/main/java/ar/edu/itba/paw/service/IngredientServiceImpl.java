@@ -127,7 +127,7 @@ public class IngredientServiceImpl implements IngredientService {
             if (maybeDeleted.isPresent()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("status", 1);
-                ingredientsDao.updateRecipeIngredient(ri, map, recipe);
+                ingredientsDao.updateRecipeIngredient(ri.getIngredient().getId(), map, recipe);
                 this.updateRI(ri, recipe);
 
             }
@@ -159,7 +159,7 @@ public class IngredientServiceImpl implements IngredientService {
             if (maybeDeleted.isPresent()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("status", 1);
-                ingredientsDao.updateUserIngredient(ri, map, user);
+                ingredientsDao.updateUserIngredient(ri.getIngredient().getId(), map, user);
                 this.updateUI(ri, user);
 
             }
@@ -197,13 +197,6 @@ public class IngredientServiceImpl implements IngredientService {
         ingredientsDao.updateIngredient(ingredient, map);
     }
 
-    @Override
-    public void updateRI(RecipeIngredient ingredient, int recipe, String change, Object value) {
-        Map<String, Object> map = new HashMap<>();
-        map.put(change, value);
-        this.updateRI(ingredient, recipe, map);
-    }
-
     @Transactional
     @Override
     public void updateRI(RecipeIngredient ri, int recipe) {
@@ -211,13 +204,13 @@ public class IngredientServiceImpl implements IngredientService {
         if (maybeRI.isPresent()) {
             RecipeIngredient recipeIngredient = maybeRI.get();
 
-            ingredientsDao.updateRecipeIngredient(recipeIngredient, updateRUIInternal(recipeIngredient), recipe);
+            ingredientsDao.updateRecipeIngredient(recipeIngredient.getIngredient().getId(), updateRUIInternal(recipeIngredient,ri), recipe);
         }
     }
 
-    private Map<String,Object> updateRUIInternal(RecipeIngredient ri) {
+    private Map<String,Object> updateRUIInternal(RecipeIngredient ri,RecipeIngredient recipeIngredient) {
         Map<String, Object> map = new HashMap<>();
-        if (!ri.getObservation().equals(ri.getObservation())) {
+        if (!ri.getObservation().equals(recipeIngredient.getObservation())) {
             map.put("obs", ri.getObservation());
         }
         if (ri.getAmount() != ri.getAmount()) {
@@ -227,39 +220,26 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
 
-    //TODO: Agregar status a ri y ui en la db
-    @Transactional
-    @Override
-    public void updateRI(RecipeIngredient ingredient, int recipe, Map<String, Object> map) {
-        map.forEach((k, v) -> {
-            if (!k.equals("obs") && !k.equals("serving_amount")) {
-                throw new RuntimeException();
-            }
-        });
-        ingredientsDao.updateRecipeIngredient(ingredient, map, recipe);
-    }
-
-
     @Transactional
     @Override
     public void updateUI(RecipeIngredient ri, int user) {
         Optional<RecipeIngredient> maybeRI = ingredientsDao.getUserIngById(ri.getIngredient().getId(), user);
         if (maybeRI.isPresent()) {
             RecipeIngredient recipeIngredient = maybeRI.get();
-            ingredientsDao.updateUserIngredient(recipeIngredient, updateRUIInternal(recipeIngredient), user);
+            ingredientsDao.updateUserIngredient(recipeIngredient.getIngredient().getId(), updateRUIInternal(recipeIngredient,ri), user);
         }
     }
 
 
     @Override
-    public void deleteRI(RecipeIngredient ri, int recipe) {
+    public void deleteRI(int ri, int recipe) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         ingredientsDao.updateRecipeIngredient(ri, map, recipe);
     }
 
     @Override
-    public void deleteUI(RecipeIngredient ri, int user) {
+    public void deleteUI(int ri, int user) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         ingredientsDao.updateUserIngredient(ri, map, user);

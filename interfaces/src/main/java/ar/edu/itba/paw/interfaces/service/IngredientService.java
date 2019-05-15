@@ -37,17 +37,13 @@ public interface IngredientService {
 
     void updateI(Ingredient ingredient, Map<String, Object> map);
 
-    void updateRI(RecipeIngredient ingredient, int recipeId, String change, Object value);
-
     void updateRI(RecipeIngredient ingredient, int recipeId);
-
-    void updateRI(RecipeIngredient ingredient, int recipeId, Map<String, Object> map);
 
     void updateUI(RecipeIngredient ri, int userId);
 
-    void deleteRI(RecipeIngredient ri, int recipeId);
+    void deleteRI(int ri, int recipeId);
 
-    void deleteUI(RecipeIngredient ri, int userId);
+    void deleteUI(int ri, int userId);
 
     void deleteI(Ingredient i);
 

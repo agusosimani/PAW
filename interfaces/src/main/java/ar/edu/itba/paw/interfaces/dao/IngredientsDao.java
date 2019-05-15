@@ -29,7 +29,7 @@ public interface IngredientsDao {
     RecipeIngredient addNewUserIngredient(int userId, RecipeIngredient recipeIngredient);
 
     void updateIngredient(Ingredient ingredient, Map<String,Object> changes);
-    void updateRecipeIngredient(RecipeIngredient ingredient, Map<String, Object> changes, int recipeId);
-    void updateUserIngredient(RecipeIngredient ingredient, Map<String, Object> changes, int userId);
+    void updateRecipeIngredient(int ingredient, Map<String, Object> changes, int recipeId);
+    void updateUserIngredient(int ingredient, Map<String, Object> changes, int userId);
 
 }

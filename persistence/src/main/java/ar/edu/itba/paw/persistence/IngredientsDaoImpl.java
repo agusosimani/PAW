@@ -363,37 +363,37 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     @Override
-    public void updateRecipeIngredient(RecipeIngredient ingredient, Map<String, Object> changes, int recipe) {
+    public void updateRecipeIngredient(int ingredient, Map<String, Object> changes, int recipe) {
             changes.forEach((k, v) -> updateRIR(ingredient, k, v,recipe));
     }
 
     @Override
-    public void updateUserIngredient(RecipeIngredient ingredient, Map<String, Object> changes, int userId) {
+    public void updateUserIngredient(int ingredient, Map<String, Object> changes, int userId) {
         changes.forEach((k, v) -> updateRIU(ingredient, k, v,userId));
 
     }
 
-    private void updateRIR(RecipeIngredient ingredient, String k, Object v, int recipe) {
+    private void updateRIR(int ingredient, String k, Object v, int recipe) {
         if(k.equals("serving_amount")) {
-            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe);
+            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient,recipe);
         }
         if(k.equals("status")){
-            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe);
+            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient,recipe);
         }
         if(k.equals("obs")){
-            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient.getIngredient().getId(),recipe);
+            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND recipe_id = ?",v,ingredient,recipe);
         }
     }
 
-    private void updateRIU(RecipeIngredient ingredient, String k, Object v, int userId) {
+    private void updateRIU(int ingredient, String k, Object v, int userId) {
         if(k.equals("serving_amount")) {
-            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),userId);
+            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient,userId);
         }
         if(k.equals("status")){
-            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),userId);
+            jdbcTemplate.update("UPDATE user_ingredients SET status = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient,userId);
         }
         if(k.equals("obs")){
-            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient.getIngredient().getId(),userId);
+            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND user_id = ?",v,ingredient,userId);
         }
     }
 
