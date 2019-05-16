@@ -23,7 +23,7 @@
                 </button>
             </div>
             <c:url value="/create_recipe" var="createRecipe"/>
-            <form:form autocomplete="off" modelAttribute="recipeForm" action="${createRecipe}" method="post">
+            <form:form autocomplete="off" modelAttribute="recipeForm" action="${createRecipe}" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <spring:message code="recipeName.title" var="recipeNameTitle"/>
                     <form:label path="name" for="recipe_title"><spring:message code="Recipe.name"/>
@@ -66,6 +66,11 @@
                     <form:label path="ingredientOneAmount"><spring:message code="addIngredient.amount"/>
                     </form:label>
                     <form:input class="form-control mb-4" path="ingredientOneAmount" />
+
+                    <p>
+                        <form:input path="image" type="file"/>
+                    </p>
+
                     <p>
                         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             Button with data-target

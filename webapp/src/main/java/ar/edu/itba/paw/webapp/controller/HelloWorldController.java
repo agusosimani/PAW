@@ -100,10 +100,17 @@ public class HelloWorldController {
             //recipeTags.add(new RecipeTag("Vegetariana",1));
         }
 
+        byte[] bytes = null;
+        try {
+            bytes = recipeForm.getImage().getBytes();
+        } catch (Exception e) {
+
+        }
+
         listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
         final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(), getCurrentUserID())
                 .description(recipeForm.getDescription())
-                .tags(recipeTags)
+                .tags(recipeTags).image(bytes)
                 .build();
         recipeService.addNewRecipe(recipeToAdd);
         return new ModelAndView("redirect:/");
@@ -188,7 +195,7 @@ public class HelloWorldController {
 
 		byte[] bytes = null;
 
-		try {
+		/*try {
             InputStream fis = new URL("https://i.blogs.es/36938e/istock-840527124/450_1000.jpg").openStream();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
@@ -202,10 +209,10 @@ public class HelloWorldController {
 
         } catch (Exception f) {
             System.out.println("File not found");
-        }
+        }*/
 
         Recipe recipe = recipeService.getById(recipeId).get();
-        recipe.setImage(bytes);
+		//recipe.setImage(bytes);
 
 
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));

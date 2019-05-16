@@ -28,7 +28,7 @@ public class RecipeDaoImpl implements RecipeDao {
                     rs.getString("instructions"),
                     rs.getInt("user_id"))
             .description(rs.getString("description"))
-            //        .image(rs.getBytes("image"))
+                    .image(rs.getBytes("image"))
                     .build();
 
     private final static RowMapper<RecipeTag> TAG_ROW_MAPPER = (rs, rowNum) ->

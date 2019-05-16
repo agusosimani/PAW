@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.form;
 
 import ar.edu.itba.paw.model.RecipeTag;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Size;
 import java.awt.*;
@@ -22,6 +23,7 @@ public class RecipeForm {
     private int ingredientOneAmount;
     private int ingredientOne;
 
+    private MultipartFile image;
 
     public List<String> getTags() {
         if(tags == null)
@@ -71,5 +73,13 @@ public class RecipeForm {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }

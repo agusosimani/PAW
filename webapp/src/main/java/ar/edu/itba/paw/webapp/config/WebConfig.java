@@ -14,6 +14,7 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -45,17 +46,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(org.postgresql.Driver.class);
-
-        //ds.setUrl("jdbc:postgresql://localhost/paw-2019a-2");
-        //ds.setUsername("paw-2019a-2");
-        //ds.setPassword("1sz6lIwcK");
-
-        ds.setUrl("jdbc:postgresql://localhost/foodifynew");
-
-//        ds.setUrl("jdbc:postgresql://localhost/foodify");
-        ds.setUsername("pedroremigiopingarilho");
-        ds.setPassword("pedroremigiopingarilho");
-
+        ds.setUrl("jdbc:postgresql://localhost/foodify");
+        //ds.setUrl("jdbc:postgresql://localhost/foodify");
+        //ds.setUsername("postgres");
+        //ds.setPassword("root");
+        ds.setUsername("postgres");
+        ds.setPassword("12345678");
+        //ds.setUrl("jdbc:postgresql://localhost/foodify");
+        //ds.setUsername("pedroremigiopingarilho");
+        //ds.setPassword("pedroremigiopingarilho");
         return ds;
     }
 
@@ -69,6 +68,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         messageSource.setCacheSeconds(5);
 
         return messageSource;
+    }
+
+    @Bean(name="multipartResolver")
+    public CommonsMultipartResolver multipartResolver(){
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setMaxUploadSizePerFile(1024 * 1024); //1MB
+        resolver.setDefaultEncoding("UTF-8");
+        resolver.setResolveLazily(true);
+        return resolver;
     }
 
     @Override
