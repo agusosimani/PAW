@@ -103,6 +103,8 @@ public class Recipe {
     }
 
     public String getEncodedImage() {
+        if(image == null)
+            return "";
         return Base64.getEncoder().encodeToString(image);
     }
 

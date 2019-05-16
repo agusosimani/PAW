@@ -194,27 +194,7 @@ public class HelloWorldController {
 	public ModelAndView recipe(@RequestParam Integer recipeId) {
 		final ModelAndView mav = new ModelAndView("recipe");
 
-		byte[] bytes = null;
-
-		/*try {
-            InputStream fis = new URL("https://i.blogs.es/36938e/istock-840527124/450_1000.jpg").openStream();
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-            try {
-                for (int readNum; (readNum = fis.read(buf)) != -1; ) {
-                    bos.write(buf, 0, readNum);
-                }
-            } catch (IOException ex) {
-            }
-            bytes = bos.toByteArray();
-
-        } catch (Exception f) {
-            System.out.println("File not found");
-        }*/
-
         Recipe recipe = recipeService.getById(recipeId).get();
-		//recipe.setImage(bytes);
-
 
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
