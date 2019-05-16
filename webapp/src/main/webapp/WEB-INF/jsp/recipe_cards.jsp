@@ -39,17 +39,17 @@
                             <c:param name="recipeId" value="${recipe.id}"/>
                         </c:url>
                         <a href="${recipeUrl}" class="stretched-link"></a>
-                        <fieldset class="rating">
-                            <input type="radio" id="${recipe.id}five" name="${recipe.id}" value="5" checked /><label class = "full" for="${recipe.id}five" title="Awesome - 5 stars"></label>
-                            <input type="radio" id="${recipe.id}fourhalf" name="${recipe.id}" value="4 and a half" /><label class="half" for="${recipe.id}fourhalf" title="Pretty good - 4.5 stars"></label>
-                            <input type="radio" id="${recipe.id}four" name="${recipe.id}" value="4" /><label class = "full" for="${recipe.id}four" title="Pretty good - 4 stars"></label>
-                            <input type="radio" id="${recipe.id}threehalf" name="${recipe.id}" value="3 and a half" /><label class="half" for="${recipe.id}threehalf" title="Meh - 3.5 stars"></label>
-                            <input type="radio" id="${recipe.id}three" name="${recipe.id}" value="3" /><label class = "full" for="${recipe.id}three" title="Meh - 3 stars"></label>
-                            <input type="radio" id="${recipe.id}twohalf" name="${recipe.id}" value="2 and a half" /><label class="half" for="${recipe.id}twohalf" title="Kinda bad - 2.5 stars"></label>
-                            <input type="radio" id="${recipe.id}two" name="${recipe.id}" value="2" /><label class = "full" for="${recipe.id}two" title="Kinda bad - 2 stars"></label>
-                            <input type="radio" id="${recipe.id}onehalf" name="${recipe.id}" value="1 and a half" /><label class="half" for="${recipe.id}onehalf" title="Meh - 1.5 stars"></label>
-                            <input type="radio" id="${recipe.id}one" name="${recipe.id}" value="1" /><label class = "full" for="${recipe.id}one" title="Sucks big time - 1 star"></label>
-                            <input type="radio" id="${recipe.id}half" name="${recipe.id}" value="half" /><label class="half" for="${recipe.id}half" title="Sucks big time - 0.5 stars"></label>
+                        <fieldset id="rating-${recipe.id}" class="rating">
+                            <input type="radio" id="five" name="" value="5" <c:if test="${recipe.rating >= 5}">checked</c:if>/><label class = "full" for="five" title="Awesome - 5 stars"></label>
+                            <input type="radio" id="fourhalf" name="" value="4 and a half" <c:if test="${recipe.rating >= 4.5}">checked</c:if>/><label class="half" for="fourhalf" title="Pretty good - 4.5 stars"></label>
+                            <input type="radio" id="four" name="" value="4" <c:if test="${recipe.rating >= 4}">checked</c:if>/><label class = "full" for="four" title="Pretty good - 4 stars"></label>
+                            <input type="radio" id="threehalf" name="" value="3 and a half" <c:if test="${recipe.rating >= 3.5}">checked</c:if>/><label class="half" for="threehalf" title="Meh - 3.5 stars"></label>
+                            <input type="radio" id="three" name="" value="3" <c:if test="${recipe.rating >= 3}">checked</c:if>/><label class = "full" for="three" title="Meh - 3 stars"></label>
+                            <input type="radio" id="twohalf" name="" value="2 and a half" <c:if test="${recipe.rating >= 2.5}">checked</c:if>/><label class="half" for="twohalf" title="Kinda bad - 2.5 stars"></label>
+                            <input type="radio" id="two" name="" value="2" <c:if test="${recipe.rating >= 2}">checked</c:if>/><label class = "full" for="two" title="Kinda bad - 2 stars"></label>
+                            <input type="radio" id="onehalf" name="" value="1 and a half" <c:if test="${recipe.rating >= 1.5}">checked</c:if>/><label class="half" for="onehalf" title="Meh - 1.5 stars"></label>
+                            <input type="radio" id="one" name="" value="1" <c:if test="${recipe.rating >= 1}">checked</c:if>/><label class = "full" for="one" title="Sucks big time - 1 star"></label>
+                            <input type="radio" id="half" name="" value="half" <c:if test="${recipe.rating >= 0.5}">checked</c:if>/><label class="half" for="half" title="Sucks big time - 0.5 stars"></label>
                         </fieldset>
                     </div>
                     <!--/.Card content-->
@@ -73,7 +73,6 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>--%>
-
 
 </body>
 </html>

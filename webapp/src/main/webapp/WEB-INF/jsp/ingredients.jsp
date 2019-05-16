@@ -31,7 +31,7 @@
     <%@include file="userbar.jsp" %>
 
 
-    <h3>My ingredients</h3>
+    <h3><spring:message code="myIngredients"/></h3>
     <br/>
 
     <div class="browse">

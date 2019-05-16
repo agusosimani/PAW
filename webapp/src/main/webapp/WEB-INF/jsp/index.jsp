@@ -82,28 +82,16 @@
                    href="#foodType"
                    aria-expanded="true"
                    aria-controls="foodType">
-                Tipo de cocina
+                <spring:message code="cuisineType"/>
               </div>
 
               <div class="collapse in" id="foodType">
-
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                  <label class="custom-control-label" for="defaultUnchecked">Italiana</label>
-                </div>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked2">
-                  <label class="custom-control-label" for="defaultUnchecked2">China</label>
-                </div>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked3">
-                  <label class="custom-control-label" for="defaultUnchecked3">Española</label>
-                </div>
-
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked4">
-                  <label class="custom-control-label" for="defaultUnchecked4">Vegana</label>
-                </div>
+                <c:forEach var="tag" items="${allTags}">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="${tag}">
+                    <label class="custom-control-label" for="${tag}"><spring:message code="${tag}"/></label>
+                  </div>
+                </c:forEach>
 
               </div>
             </div>

@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.IngredientService;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.Tag;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.form.AddIngredientForm;
 import ar.edu.itba.paw.webapp.form.RecipeForm;
@@ -79,7 +80,7 @@ public class HelloWorldController {
                 System.out.printf("no es empty");
         }
 
-        mav.addObject("allTags", allTagsStringList);
+        mav.addObject("allTags", Tag.values());
         mav.addObject("allIngredients", allIngredientsList);
         mav.addObject("RecipeList", recipeList); //Popular model
         return mav;

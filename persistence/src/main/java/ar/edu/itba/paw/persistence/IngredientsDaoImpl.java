@@ -325,25 +325,25 @@ public class IngredientsDaoImpl implements IngredientsDao {
 
     private void updateRIR(int ingredient, String k, Object v, int recipe) {
         if (k.equals("serving_amount")) {
-            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND recipe_id = ?", v, ingredient, recipe);
+            jdbcTemplate.update("UPDATE recipes_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND recipe_id = ?", v, ingredient, recipe);
         }
-        if (k.equals("status")) {
-            jdbcTemplate.update("UPDATE user_ingredients SET ui_status = ? WHERE ingredient_id = ? AND recipe_id = ?", v, ingredient, recipe);
+        if (k.equals("ri_status")) {
+            jdbcTemplate.update("UPDATE recipes_ingredients SET ri_status = ? WHERE ingredient_id = ? AND recipe_id = ?", v, ingredient, recipe);
         }
         if (k.equals("obs")) {
-            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND recipe_id = ?", v, ingredient, recipe);
+            jdbcTemplate.update("UPDATE recipes_ingredients SET obs = ? WHERE ingredient_id = ? AND recipe_id = ?", v, ingredient, recipe);
         }
     }
 
     private void updateRIU(int ingredient, String k, Object v, int userId) {
         if (k.equals("serving_amount")) {
-            jdbcTemplate.update("UPDATE recipes_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND user_id = ?", v, ingredient, userId);
+            jdbcTemplate.update("UPDATE user_ingredients SET serving_amount = ? WHERE ingredient_id = ? AND user_id = ?", v, ingredient, userId);
         }
-        if (k.equals("status")) {
-            jdbcTemplate.update("UPDATE recipes_ingredients SET ri_status = ? WHERE ingredient_id = ? AND user_id = ?", v, ingredient, userId);
+        if (k.equals("ui_status")) {
+            jdbcTemplate.update("UPDATE user_ingredients SET ui_status = ? WHERE ingredient_id = ? AND user_id = ?", v, ingredient, userId);
         }
         if (k.equals("obs")) {
-            jdbcTemplate.update("UPDATE recipes_ingredients SET obs = ? WHERE ingredient_id = ? AND user_id = ?", v, ingredient, userId);
+            jdbcTemplate.update("UPDATE user_ingredients SET obs = ? WHERE ingredient_id = ? AND user_id = ?", v, ingredient, userId);
         }
     }
 
