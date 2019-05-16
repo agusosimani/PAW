@@ -199,7 +199,7 @@ public class HelloWorldController {
 			allIngredientsList = maybeListAllIngredients.get();
 
 
-		mav.addObject("recipes_amount",846684);
+		mav.addObject("recipes_amount",recipeService.getAllRecipesByUserId(id).get().size());
 		mav.addObject("user", userService.getById(id).get());
 		mav.addObject("allIngredients", allIngredientsList);
 		mav.addObject("ingredientsList", ingredientList);

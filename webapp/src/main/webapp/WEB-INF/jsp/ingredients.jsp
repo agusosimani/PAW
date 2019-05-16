@@ -10,8 +10,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Foodify</title>
     <link rel="shortcut icon" type="image/x-icon" href="<c:url value="/resources/img/foodify_tab.png"/>"/>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- Bootstrap core CSS -->
@@ -21,6 +20,8 @@
     <!-- Your custom styles (optional) -->
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/style_spotify.css"/>" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="<c:url value="/resources/css/fontawesome-all.css"/>" rel="stylesheet">
 </head>
 
 <body>
@@ -38,15 +39,20 @@
             <ul class="list-group">
                 <c:forEach var="ingredient" items="${ingredientsList}">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                            ${ingredient.ingredient.name}
+                        ${ingredient.ingredient.name}
                         <div class="float-right">
-                            <span class="badge badge-primary badge-pill">${ingredient.amount}</span>
-                            <c:url value="/delete_ingredient" var="deleteIngredientUrl">
-                                <c:param name="ingredientId" value="${ingredient.ingredient.id}"/>
-                            </c:url>
-                            <form:form action="${deleteIngredientUrl}" method="post">
-                                <button type="submit" class="btn btn-danger"><spring:message code="delete"/></button>
-                            </form:form>
+                            <div class="float-right">
+                                <c:url value="/delete_ingredient" var="deleteIngredientUrl">
+                                    <c:param name="ingredientId" value="${ingredient.ingredient.id}"/>
+                                </c:url>
+                                <form:form action="${deleteIngredientUrl}" method="post">
+                                    <button type="submit" class="bg-transparent">
+                                        <i class="fas fa-trash fa-2x"></i>
+                                    </button>
+                                </form:form>
+                            </div>
+                            <span class="float-right badge badge-primary badge-pill">${ingredient.amount}</span>
+
                         </div>
                     </li>
                 </c:forEach>
