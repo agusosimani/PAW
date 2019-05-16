@@ -1,24 +1,13 @@
 package ar.edu.itba.paw.model;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 
 
-
-//TODO: Hacer los constructores package private para usar hibernate
-//TODO: agregar las dependencias de hibernate
-//TODO: @Entity en los models con @Table(name = recipes)
 public class Recipe {
 
-    //TODO: @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipes_generator")
-    // @SequenceGenerator(name = "recipes_generator", sequenceName = "recipes_generator", allocationSize = 1)
-    // @Column()
+
     private int id;
     private String name;
     private String description;
@@ -30,15 +19,11 @@ public class Recipe {
 
     private List<RecipeTag> tags;
 
-    //private List<Comment> comments;
-
-    /* package */ Recipe() {
-        //hibernate
-    }
+    private List<Comment> comments;
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId,
-                   List<RecipeTag> tags, byte[] image) {
+                   List<RecipeTag> tags, byte[] image, List<Comment> comments) {
 
         this.id = id;
         this.name = name;
@@ -48,6 +33,7 @@ public class Recipe {
         this.userId = userId;
         this.tags = tags;
         this.image = image;
+        this.comments = comments;
     }
 
     public int getId() {
@@ -118,6 +104,14 @@ public class Recipe {
         this.image = image;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public static class Builder{
         private int id;
         private String name;
@@ -125,10 +119,10 @@ public class Recipe {
         private List<RecipeIngredient> ingredients;
         private String instructions;
         private int userId;
-        private List<RecipeTag> tags;
+        private List<RecipeTag> tags = new ArrayList<>();
         private byte[] image;
 
-        //private List<Comment> comments;
+        private List<Comment> comments = new ArrayList<>();
 
         public Builder(int id, String name, List<RecipeIngredient> ingredients, String instructions,
                        int userId) {
@@ -165,10 +159,15 @@ public class Recipe {
             return this;
         }
 
+        public Builder comments(List<Comment>  comments) {
+            this.comments = comments;
+            return this;
+        }
+
 
         public Recipe build() {
             return new Recipe(id,name, description, ingredients, instructions,
-                    userId, tags, image);
+                    userId, tags, image, comments);
         }
     }
 }

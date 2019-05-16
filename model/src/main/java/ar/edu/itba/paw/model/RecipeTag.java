@@ -1,20 +1,20 @@
 package ar.edu.itba.paw.model;
 
 public class RecipeTag {
-    private int id;
+    private int recipeId;
     private String tag;
 
-    public RecipeTag(int id, String tag) {
-        this.id = id;
+    public RecipeTag(String tag, int recipeId) {
+        this.recipeId = recipeId;
         this.tag = tag;
     }
 
-    public int getId() {
-        return id;
+    public int getRecipeId() {
+        return recipeId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.recipeId = id;
     }
 
     public String getTag() {

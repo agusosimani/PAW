@@ -22,8 +22,8 @@ public class UserDaoImpl implements UserDao {
     private final static RowMapper<User> ROW_MAPPER = (rs, rowNum) ->
             new User.Builder(rs.getInt("user_id"),rs.getString("username"),
             rs.getString("password"),rs.getString("mail"))
-            .gender(rs.getBoolean("gender")).name(rs.getString("name"))
-            .surname(rs.getString("surname")).status(rs.getInt("status")).build();
+            .gender(rs.getString("gender")).name(rs.getString("name"))
+            .surname(rs.getString("surname")).status(rs.getString("user_status")).build();
 
 
     @Autowired
@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> getById(final int id) {
-        return jdbcTemplate.query("SELECT	*	FROM	users	WHERE	user_id	=	? AND status != 0",
+        return jdbcTemplate.query("SELECT	*	FROM	users	WHERE	user_id	=	? AND user_status = 'REGULAR'",
                 ROW_MAPPER, id).stream().findAny();
     }
 
@@ -49,15 +49,19 @@ public class UserDaoImpl implements UserDao {
         map.put("password",user.getPassword());
         map.put("mail",user.getEmail());
 
-        if(!user.getName().isEmpty() && !user.getName().equals(""))
+        if(!user.getName().isEmpty()  && !user.getName().equals(""))
             map.put("name",user.getName());
         if(!user.getSurname().isEmpty() && !user.getSurname().equals(""))
             map.put("surname",user.getSurname());
-        if(!(user.getGender()))//todo pasarlo a int o hacerlo obligatorio
+        if(!user.getGender().isEmpty() && user.getSurname().equals(""))
             map.put("gender",user.getGender());
-        if(!(user.getStatus() == 0))
-            map.put("status",user.getStatus());
 
+        map.put("user_status","REGULAR");
+
+        System.out.printf("%s", user.toString());
+
+//        if(!user.getImage().isEmpty())
+//            map.put("image",user.getImage());
 
         final Number userId = jdbcInsert.executeAndReturnKey(map);
 
@@ -87,14 +91,14 @@ public class UserDaoImpl implements UserDao {
         if(k.equals("gender")){
             jdbcTemplate.update("UPDATE users SET gender = ? WHERE user_id = ?",k,v,user.getId());
         }
-        if(k.equals("status")){
-            jdbcTemplate.update("UPDATE users SET status = ? WHERE user_id = ?",k,v,user.getId());
+        if(k.equals("user_status")){
+            jdbcTemplate.update("UPDATE users SET user_status = ? WHERE user_id = ?",k,v,user.getId());
         }
     }
 
     @Override
-    public Optional<User> findByUsername(final String username) {
-        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	username	=	? AND status != 0", ROW_MAPPER, username);
+    public Optional<User> getByUsername(final String username) {
+        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	username	=	? AND user_status = 'REGULAR'", ROW_MAPPER, username);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -103,8 +107,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByEmail(final String email) {
-        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	email	=	? AND status != 0", ROW_MAPPER, email);
+    public Optional<User> getByEmail(final String email) {
+        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	email	=	? AND user_status = 'REGULAR'", ROW_MAPPER, email);
         if (list.isEmpty()) {
             return Optional.empty();
         }

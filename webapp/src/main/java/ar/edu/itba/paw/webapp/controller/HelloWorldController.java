@@ -33,269 +33,236 @@ import javax.validation.Valid;
 @Controller
 public class HelloWorldController {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private RecipeService recipeService;
+    @Autowired
+    private RecipeService recipeService;
 
-	@Autowired
-	private IngredientService ingredientService;
+    @Autowired
+    private IngredientService ingredientService;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-	private int getCurrentUserID() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken)
-			return -1;
-		else {
-			return ((PawUserDetails)authentication.getPrincipal()).getId();
-		}
-	}
+    private int getCurrentUserID() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken)
+            return -1;
+        else {
+            return ((PawUserDetails) authentication.getPrincipal()).getId();
+        }
+    }
 
-	@RequestMapping("/") //Le digo que url mappeo
-	public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
-		final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
+    @RequestMapping("/") //Le digo que url mappeo
+    public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
+        final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
 
-		//System.out.printf("%s",LocaleContextHolder.getLocale().getDisplayLanguage());
+        //System.out.printf("%s",LocaleContextHolder.getLocale().getDisplayLanguage());
 
-		Optional<List<Recipe>> maybeList = recipeService.getRecipes();
-		List<Recipe> recipeList = new LinkedList<>();
-		if(maybeList.isPresent())
-			recipeList = maybeList.get();
+        List<Recipe> recipeList = recipeService.getRecipes();
 
-		List<Ingredient> allIngredientsList = new ArrayList<>();
-		Optional<List<Ingredient>> maybeListAllIngredients = ingredientService.getAllIngredients();
-		if(maybeListAllIngredients.isPresent())
-			allIngredientsList = maybeListAllIngredients.get();
+        List<Ingredient> allIngredientsList = ingredientService.getAllIngredients();
 
 
-		//TODO: se puede usar form:checkboxes con objetos?
-		Optional<List<RecipeTag>> maybeListTags = recipeService.getAllTags();
-		List<RecipeTag> allTagsList = new ArrayList<>();
-		if(maybeListTags.isPresent())
-			allTagsList = maybeListTags.get();
+        //TODO: se puede usar form:checkboxes con objetos?
+        List<RecipeTag> allTagsList = recipeService.getAllTags();
 
-		List<String> allTagsStringList = new ArrayList<>();
-		for (RecipeTag tag: allTagsList) {
-			allTagsStringList.add(tag.getTag());
-		}
+        List<String> allTagsStringList = new ArrayList<>();
+        for (RecipeTag tag : allTagsList) {
+            allTagsStringList.add(tag.getTag());
+        }
 
 
-		for(Recipe in : recipeList){
-			if(in.getTags() != null && !in.getTags().isEmpty())
-				System.out.printf("no es empty");
-		}
+        for (Recipe in : recipeList) {
+            if (in.getTags() != null && !in.getTags().isEmpty())
+                System.out.printf("no es empty");
+        }
 
-				mav.addObject("allTags", allTagsStringList);
-		mav.addObject("allIngredients", allIngredientsList);
-		mav.addObject("RecipeList", recipeList); //Popular model
-		return mav;
-	}
+        mav.addObject("allTags", allTagsStringList);
+        mav.addObject("allIngredients", allIngredientsList);
+        mav.addObject("RecipeList", recipeList); //Popular model
+        return mav;
+    }
 
-	@RequestMapping(value = "/create_recipe", method = { RequestMethod.POST })
-	public ModelAndView createRecipe(@Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
-		if (errors.hasErrors()) {
-			return null;
-		}
+    @RequestMapping(value = "/create_recipe", method = {RequestMethod.POST})
+    public ModelAndView createRecipe(@Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return null;
+        }
 
-		List<RecipeIngredient> listIngredients = new ArrayList<>();
+        List<RecipeIngredient> listIngredients = new ArrayList<>();
 
-		List<RecipeTag> recipeTags = new ArrayList<>();
-
-
-		for(String tagName : recipeForm.getTags()){
-			recipeTags.add(new RecipeTag(1,"Vegetariana"));
-		}
-
-		listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
-		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(),getCurrentUserID())
-				.description(recipeForm.getDescription())
-				.tags(recipeTags)
-				.build();
-		recipeService.addNewRecipe(recipeToAdd);
-		return new ModelAndView("redirect:/");
-	}
-
-	@RequestMapping(value = "/add_ingredient_user", method = { RequestMethod.POST })
-	public ModelAndView addIngredientUser(@Valid @ModelAttribute("recipeForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
-		if (errors.hasErrors()) {
-			return null;
-		}
-
-		System.out.printf("%d", addIngredientForm.getIngredientId());
-
-		Ingredient aux = ingredientService.getById(addIngredientForm.getIngredientId()).get();
-
-		RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(aux,addIngredientForm.getAmount()).observation("podrido").build();
-
-		ingredientService.addNewUserIngredient(ingredientToAdd, getCurrentUserID());
-		return new ModelAndView("redirect:/my_ingredients");
-	}
-
-	@RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
-	public ModelAndView cookRecipes(@RequestParam int recipeId) {
+        List<RecipeTag> recipeTags = new ArrayList<>();
 
 
+        for (String tagName : recipeForm.getTags()) {
+            //recipeTags.add(new RecipeTag("Vegetariana",1));
+        }
 
-		Optional<List<RecipeIngredient>> maybeI = ingredientService.findByRecipe(recipeId);
-		if(maybeI.isPresent()) {
-			List<RecipeIngredient> list = maybeI.get();
-			for (RecipeIngredient ri : list) {
-				ingredientService.cookRecipe(ri,this.getCurrentUserID());
-			}
-		}
+        listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
+        final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(), getCurrentUserID())
+                .description(recipeForm.getDescription())
+                .tags(recipeTags)
+                .build();
+        recipeService.addNewRecipe(recipeToAdd);
+        return new ModelAndView("redirect:/");
+    }
 
+    @RequestMapping(value = "/add_ingredient_user", method = {RequestMethod.POST})
+    public ModelAndView addIngredientUser(@Valid @ModelAttribute("recipeForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return null;
+        }
 
+        System.out.printf("%d", addIngredientForm.getIngredientId());
 
-		final ModelAndView mav = new ModelAndView("redirect:/recipe");
-		mav.addObject("recipeId",recipeId);
-		return mav;
-	}
+        Ingredient aux = ingredientService.getById(addIngredientForm.getIngredientId()).get();
 
+        RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(aux, addIngredientForm.getAmount()).observation("podrido").build();
 
+        ingredientService.addNewUserIngredient(ingredientToAdd, getCurrentUserID());
+        return new ModelAndView("redirect:/my_ingredients");
+    }
 
-	@RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
-	public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
-		ingredientService.deleteUI(ingredientId, getCurrentUserID());
-		return new ModelAndView("redirect:/my_ingredients");
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
-	public ModelAndView login() {
-		final ModelAndView mav = new ModelAndView("login");
-		return mav;
-	}
-
-	@RequestMapping(value = "/my_account", method = RequestMethod.GET)
-	public ModelAndView myAccount(Authentication authentication) {
-		final ModelAndView mav = new ModelAndView("my_account");
-		int aux = 0;
-		Optional<List<Recipe>> rec = recipeService.getAllRecipesByUserId(getCurrentUserID());
-		if(rec.isPresent())
-			aux = rec.get().size();
-		mav.addObject("recipes_amount", aux);
-
-		mav.addObject("user", userService.getById(getCurrentUserID()).get());
-		return mav;
-	}
-
-	@RequestMapping(value = "/my_ingredients", method = RequestMethod.GET)
-	public ModelAndView myIngredients(Authentication authentication, @Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
-		final ModelAndView mav = new ModelAndView("ingredients");
-
-		int id = getCurrentUserID();
-
-		List<RecipeIngredient> ingredientList = new ArrayList<>();
-		Optional<List<RecipeIngredient>> maybeListIngredients = ingredientService.findByUser(id);
-		if(maybeListIngredients.isPresent())
-			ingredientList = maybeListIngredients.get();
+    @RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
+    public ModelAndView cookRecipes(@RequestParam int recipeId) {
 
 
-		List<Ingredient> allIngredientsList = new ArrayList<>();
-		Optional<List<Ingredient>> maybeListAllIngredients = ingredientService.getAllIngredients();
-		if(maybeListAllIngredients.isPresent())
-			allIngredientsList = maybeListAllIngredients.get();
+        List<RecipeIngredient> list = ingredientService.findByRecipe(recipeId);
+        for (RecipeIngredient ri : list) {
+            ingredientService.cookRecipe(ri, this.getCurrentUserID());
+        }
 
 
-		mav.addObject("recipes_amount",846684);
-		mav.addObject("user", userService.getById(id).get());
-		mav.addObject("allIngredients", allIngredientsList);
-		mav.addObject("ingredientsList", ingredientList);
-		return mav;
-	}
+        final ModelAndView mav = new ModelAndView("redirect:/recipe");
+        mav.addObject("recipeId", recipeId);
+        return mav;
+    }
 
-	//CON EL ID LLAMO A SERVICES Y LA TRAIGO
-	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
-	public ModelAndView recipe(@RequestParam Integer recipeId) {
-		final ModelAndView mav = new ModelAndView("recipe");
 
-		byte[] bytes = null;
+    @RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
+    public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
+        ingredientService.deleteUI(ingredientId, getCurrentUserID());
+        return new ModelAndView("redirect:/my_ingredients");
+    }
 
-		try {
+    @RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
+    public ModelAndView login() {
+        final ModelAndView mav = new ModelAndView("login");
+        return mav;
+    }
+
+    @RequestMapping(value = "/my_account", method = RequestMethod.GET)
+    public ModelAndView myAccount(Authentication authentication) {
+        final ModelAndView mav = new ModelAndView("my_account");
+
+        mav.addObject("recipes_amount", recipeService.userRecipesNumber(getCurrentUserID()));
+
+        mav.addObject("user", userService.getById(getCurrentUserID()).get());
+        return mav;
+    }
+
+    @RequestMapping(value = "/my_ingredients", method = RequestMethod.GET)
+    public ModelAndView myIngredients(Authentication authentication, @Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
+        final ModelAndView mav = new ModelAndView("ingredients");
+
+        int id = getCurrentUserID();
+
+        List<RecipeIngredient> ingredientList = ingredientService.findByUser(id);
+
+
+        List<Ingredient> allIngredientsList = ingredientService.getAllIngredients();
+
+        mav.addObject("recipes_amount", 846684);
+        mav.addObject("user", userService.getById(id).get());
+        mav.addObject("allIngredients", allIngredientsList);
+        mav.addObject("ingredientsList", ingredientList);
+        return mav;
+    }
+
+    //CON EL ID LLAMO A SERVICES Y LA TRAIGO
+    @RequestMapping(value = "/recipe", method = RequestMethod.GET)
+    public ModelAndView recipe(@RequestParam Integer recipeId) {
+        final ModelAndView mav = new ModelAndView("recipe");
+
+        byte[] bytes = null;
+
+        try {
             InputStream fis = new URL("https://i.blogs.es/36938e/istock-840527124/450_1000.jpg").openStream();
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			byte[] buf = new byte[1024];
-			try {
-				for (int readNum; (readNum = fis.read(buf)) != -1;) {
-					bos.write(buf, 0, readNum);
-				}
-			} catch (IOException ex) {
-			}
-			bytes = bos.toByteArray();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            try {
+                for (int readNum; (readNum = fis.read(buf)) != -1; ) {
+                    bos.write(buf, 0, readNum);
+                }
+            } catch (IOException ex) {
+            }
+            bytes = bos.toByteArray();
 
-		} catch (Exception f)
-		{
-			System.out.println("File not found");
-		}
+        } catch (Exception f) {
+            System.out.println("File not found");
+        }
 
-		Recipe recipe = recipeService.getById(recipeId).get();
-		recipe.setImage(bytes);
-
+        Recipe recipe = recipeService.getById(recipeId).get();
+        recipe.setImage(bytes);
 
 
-		mav.addObject("recipes_amount",recipeService.getAllRecipesByUserId(recipe.getUserId()).get().size());
-		mav.addObject("recipe",recipe);
-		mav.addObject("user", userService.getById(recipe.getUserId()).get());
-		return mav;
-	}
+        mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
+        mav.addObject("recipe", recipe);
+        mav.addObject("user", userService.getById(recipe.getUserId()).get());
+        return mav;
+    }
 
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm form) {
-		final ModelAndView mav = new ModelAndView("register");
-		return mav;
-	}
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm form) {
+        final ModelAndView mav = new ModelAndView("register");
+        return mav;
+    }
 
-	@RequestMapping(value = "/create", method = { RequestMethod.POST })
-	public ModelAndView create(@Valid @ModelAttribute("registerForm") final RegisterForm form, final BindingResult errors) {
-		if (errors.hasErrors()) {
-			return register(form);
-		}
-		String hashedPassword = passwordEncoder.encode(form.getPassword());
-		final User u = userService.signUpUser(new User.Builder(form.getUsername(), hashedPassword, form.getEmail())
-				.name(form.getName()).surname(form.getSurname()).build());
-		return new ModelAndView("redirect:/login");
-	}
+    @RequestMapping(value = "/create", method = {RequestMethod.POST})
+    public ModelAndView create(@Valid @ModelAttribute("registerForm") final RegisterForm form, final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return register(form);
+        }
+        String hashedPassword = passwordEncoder.encode(form.getPassword());
+        final User u = userService.signUpUser(new User.Builder(form.getUsername(), hashedPassword, form.getEmail())
+                .name(form.getName()).surname(form.getSurname()).build());
+        return new ModelAndView("redirect:/login");
+    }
 
-	@RequestMapping("/logout")
-	public ModelAndView logout() {
-		final ModelAndView mav = new ModelAndView("logout");
-		mav.addObject("greeting", "PAW");
-		return mav;
-	}
-
-
-	@RequestMapping("/my_recipes") //Le digo que url mappeo
-	public ModelAndView myRecipes() {
-		return userRecipes(getCurrentUserID());
-	}
-
-	@RequestMapping("/user_recipes") //Le digo que url mappeo
-	public ModelAndView userRecipes(@RequestParam int userId) {
-
-		final ModelAndView mav = new ModelAndView("user_recipes");
-
-		Optional<List<Recipe>> maybeList = recipeService.getAllRecipesByUserId(userId);
-
-		List<Recipe> recipeList = new LinkedList<>();
-		if(maybeList.isPresent())
-			recipeList = maybeList.get();
-
-		mav.addObject("RecipeList", recipeList);
-		mav.addObject("user" , userService.getById(userId).get());
-		Optional<List<Recipe>> rec = recipeService.getAllRecipesByUserId(userId);
-		int aux = 0;
-		if(rec.isPresent())
-			aux = rec.get().size();
-		mav.addObject("recipes_amount", aux);
+    @RequestMapping("/logout")
+    public ModelAndView logout() {
+        final ModelAndView mav = new ModelAndView("logout");
+        mav.addObject("greeting", "PAW");
+        return mav;
+    }
 
 
-		return mav;
-	}
+    @RequestMapping("/my_recipes") //Le digo que url mappeo
+    public ModelAndView myRecipes() {
+        return userRecipes(getCurrentUserID());
+    }
 
-	//No quiero repetirle todo el tiempo el path "WEB-INF/jsp/.." entonces configuro mi propio view resolver en web config
+    @RequestMapping("/user_recipes") //Le digo que url mappeo
+    public ModelAndView userRecipes(@RequestParam int userId) {
+
+        final ModelAndView mav = new ModelAndView("user_recipes");
+
+        List<Recipe> recipeList = recipeService.getAllRecipesByUserId(userId);
+
+        mav.addObject("RecipeList", recipeList);
+        mav.addObject("user", userService.getById(userId).get());
+        List<Recipe> rec = recipeService.getAllRecipesByUserId(userId);
+
+        mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
+
+
+        return mav;
+    }
+
+    //No quiero repetirle todo el tiempo el path "WEB-INF/jsp/.." entonces configuro mi propio view resolver en web config
 
 //	@ModelAttribute("user")
 //	public Integer loggedUser(final HttpSession session)

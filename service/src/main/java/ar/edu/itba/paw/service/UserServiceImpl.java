@@ -33,15 +33,13 @@ public class UserServiceImpl implements UserService {
         Optional<User> possibleUser = userDao.getById(id);
         if(possibleUser.isPresent()) {
 
-            Optional<List<RecipeIngredient>> probablyList = ingredientsDao.getByUserId(id);
-            if(probablyList.isPresent()){
-                List<RecipeIngredient> list = probablyList.get();
+            List<RecipeIngredient> list = ingredientsDao.getByUserId(id);
+            if(!list.isEmpty()){
                 User user = possibleUser.get();
                 user.setIngredients(list);
 
-                Optional<List<Recipe>> probablyRecipeList = recipeDao.getByUserId(id);
-                if(probablyRecipeList.isPresent()){
-                    List<Recipe> recipeList = probablyRecipeList.get();
+                List<Recipe> recipeList = recipeDao.getByUserId(id);
+                if(!recipeList.isEmpty()){
                     user.setRecipes(recipeList);
                 }
 
@@ -61,12 +59,16 @@ public class UserServiceImpl implements UserService {
 
         @Override
     public Optional<User> findByUsername(String username) {
-        return userDao.findByUsername(username);
+        return userDao.getByUsername(username);
     }
 
     @Transactional
     @Override
-    public User signUpUser(User user) {
+    public User signUpUser(User user) throws RuntimeException {
+        Optional<User> maybeExists = userDao.getByUsername(user.getUsername());
+        if(maybeExists.isPresent())
+            throw new RuntimeException();
+
         return userDao.signUpUser(user);
     }
 
@@ -90,7 +92,7 @@ public class UserServiceImpl implements UserService {
             if(!oldUser.getEmail().equals(user.getEmail())) {
                 map.put("email",user.getEmail());
             }
-            if(!(oldUser.getGender() == user.getGender())) {
+            if(!(oldUser.getGender().equals(user.getGender()))) {
                 map.put("gender",user.getGender());
             }
 
@@ -102,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAccount(User user) {
         Map<String,Object> map = new HashMap<>();
-        map.put("status",0);
+        map.put("status","DELETED");
         userDao.update(user,map);
     }
 

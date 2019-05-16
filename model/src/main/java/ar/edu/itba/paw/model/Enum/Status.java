@@ -1,5 +1,5 @@
 package ar.edu.itba.paw.model.Enum;
 
-public enum UserStatus {
+public enum Status {
     ADMIN,REGULAR,DELETED
 }

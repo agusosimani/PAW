@@ -12,13 +12,13 @@ public interface RecipeService {
 
     Optional<Recipe> getById(final int id);
 
-    Optional<List<Recipe>> getRecipes();
+    List<Recipe> getRecipes();
 
     Optional<Recipe> getByIdWithIngredients(final int id);
 
     Optional<Recipe> findByName(final String name);
 
-    Optional<List<Recipe>> findByUser(int userId);
+    List<Recipe> findByUser(int userId);
 
     int userRecipesNumber(int userId);
 
@@ -30,11 +30,11 @@ public interface RecipeService {
 
     void deleteRecipe(Recipe recipe);
 
-    Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe);
+    List<RecipeTag> getAllRecipeTags(Recipe recipe);
 
     void removeTagFromRecipe(Recipe recipe, RecipeTag tag);
 
-    void addNewRecipeTag(Recipe recipe, RecipeTag tag);
+    void addNewRecipeTag(RecipeTag tag);
 
     void addNewRating(int user, int recipe, int rating);
 
@@ -42,7 +42,7 @@ public interface RecipeService {
 
     void deleteRating(int user, int recipe, int rating);
 
-    Optional<List<Recipe>> getAllRecipesByUserId(int userId);
+    List<Recipe> getAllRecipesByUserId(int userId);
 
-    Optional<List<RecipeTag>> getAllTags();
+    List<RecipeTag> getAllTags();
 }

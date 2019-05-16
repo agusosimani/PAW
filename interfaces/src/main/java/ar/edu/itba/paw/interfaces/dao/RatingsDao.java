@@ -13,9 +13,9 @@ public interface RatingsDao {
 
     void update(int userId, int recipeId, String k, Object v);
 
-    Optional<List<Rating>> getRatingsRecipe(int recipeId);
+    List<Rating> getRatingsRecipe(int recipeId);
 
-    Optional<List<Rating>> getRatingsUser(int userId);
+    List<Rating> getRatingsUser(int userId);
 
     Optional<Rating> getSpecificRating(int userId, int recipeId);
 }

@@ -1,14 +1,8 @@
 package ar.edu.itba.paw.model;
 
-import javafx.util.Builder;
-
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Hello world!
- *
- */
 public class User {
     private int id;
     private String email;
@@ -16,12 +10,13 @@ public class User {
     private String name;
     private String surname;
     private String username;
-    private boolean gender;
-    private int status;
+    private String gender;
+    private String status;
     private List<RecipeIngredient> ingredients;
     private List<Recipe> recipes;
+    //private byte[] image;
 
-    private User(int id, String email, String password, String name, String surname, String username, boolean gender, int status, List<RecipeIngredient> ingredients, List<Recipe> recipes) {
+    private User(int id, String email, String password, String name, String surname, String username, String gender, String status, List<RecipeIngredient> ingredients, List<Recipe> recipes) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -34,11 +29,11 @@ public class User {
         this.recipes = recipes;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -82,11 +77,11 @@ public class User {
         this.password = password;
     }
 
-    public boolean getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -120,8 +115,8 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id &&
-                gender == user.gender &&
-                status == user.status &&
+                gender.equals(user.gender) &&
+                status.equals(user.status) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(name, user.name) &&
@@ -160,8 +155,8 @@ public class User {
         private String name = "";
         private String surname  = "";
         private String username;
-        private boolean gender = false;
-        private int status = 1;
+        private String gender = "notSpecified";
+        private String status = "REGULAR";
         private List<RecipeIngredient> ingredients = null;
         private List<Recipe> recipes = null;
 
@@ -189,12 +184,12 @@ public class User {
             return this;
         }
 
-        public Builder gender(boolean gender) {
+        public Builder gender(String gender) {
             this.gender = gender;
             return this;
         }
 
-        public Builder status(int status) {
+        public Builder status(String status) {
             this.status = status;
             return this;
         }

@@ -41,7 +41,7 @@ public class UserController {
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response createUser(final UserDTO userDto) {
         final User user = us.register(userDto.getUsername(), userDto.getPassword());
-        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getRecipeId())).build();
         return Response.created(uri).build();
     }
 

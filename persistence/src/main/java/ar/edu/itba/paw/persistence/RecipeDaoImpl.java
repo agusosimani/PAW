@@ -1,10 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
-import ar.edu.itba.paw.model.Rating;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeTag;
-import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,10 +10,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Repository
 public class RecipeDaoImpl implements RecipeDao {
@@ -27,7 +23,7 @@ public class RecipeDaoImpl implements RecipeDao {
     private final static RowMapper<Recipe> ROW_MAPPER = (rs, rowNum) ->
             new Recipe.Builder(
                     rs.getInt("recipe_id"),
-                    rs.getString("name"),
+                    rs.getString("recipe_name"),
             null,
                     rs.getString("instructions"),
                     rs.getInt("user_id"))
@@ -36,7 +32,7 @@ public class RecipeDaoImpl implements RecipeDao {
                     .build();
 
     private final static RowMapper<RecipeTag> TAG_ROW_MAPPER = (rs, rowNum) ->
-            new RecipeTag(rs.getInt("tag_id"),rs.getString("name"));
+            new RecipeTag(rs.getString("tag"),rs.getInt("recipe_id"));
 
 
 
@@ -55,7 +51,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public Optional<Recipe> getById(int id) {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   recipe_id	=	? AND status != 0", ROW_MAPPER, id);
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   recipe_id	=	? AND recipe_status = 'REGULAR'", ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -65,7 +61,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public Optional<Recipe> getByName(String name) {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   name	=	? AND status != 0", ROW_MAPPER, name);
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   name	=	? AND recipe_status = 'REGULAR'", ROW_MAPPER, name);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -74,51 +70,67 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public Optional<List<Recipe>> getByUserId(int id) {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   user_id	=	? AND status != 0", ROW_MAPPER, id);
+    public List<Recipe> getByUserId(int id) {
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   user_id	=	? AND recipe_status = 'REGULAR'", ROW_MAPPER, id);
         if (list.isEmpty()) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
 
-        return Optional.of(list);
+        return list;
     }
 
     @Override
-    public Optional<List<Recipe>> getAllRecipes() {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE status != 0", ROW_MAPPER);
+    public List<Recipe> getAllRecipes() {
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR'", ROW_MAPPER);
         if (list.isEmpty()) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
 
-        return Optional.of(list);
+        return list;
     }
 
     @Override
-    public Optional<List<Recipe>> getAllRecipesOrderedByRating() {
+    public List<Recipe> getAllRecipesOrderedByRating() {
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes WHERE status != 0 ORDER BY rating", ROW_MAPPER);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY rating", ROW_MAPPER);
         if (list.isEmpty()) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
 
-        return Optional.of(list);
+        return list;
+    }
+
+    //TODO Probar una vez que el cambio lo termine
+    @Override
+    public List<Recipe> getAllRecipesOrderedByDate() {
+        final List<Recipe> list =
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY date_created", ROW_MAPPER);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return list;
     }
 
     @Override
     public Recipe addNewRecipe(Recipe recipe) {
         final Map<String, Object> map = new HashMap<>();
 
-        map.put("name",recipe.getName());
+        map.put("recipe_name",recipe.getName());
         map.put("instructions",recipe.getInstructions());
         map.put("user_id",recipe.getUserId());
-        map.put("status",1);
+        map.put("recipe_status","REGULAR");
 
-        if(!recipe.getDescription().isEmpty() && !recipe.getDescription().equals(""))
+        if(!recipe.getDescription().isEmpty())
             map.put("description",recipe.getDescription());
 
         if (recipe.getImage() != null) {
             map.put("image", recipe.getImage());
         }
+
+        Date date= new Date();
+        long time = date. getTime();
+        map.put("date_created", new Timestamp(time));
 
         final Number recipeId = jdbcInsertRecipe.executeAndReturnKey(map);
 
@@ -133,13 +145,13 @@ public class RecipeDaoImpl implements RecipeDao {
 
     private void update(Recipe recipe, String k, Object v) {
         if(k.equals("name")){
-            jdbcTemplate.update("UPDATE recipes SET name = ? WHERE recipe_id = ?",v,recipe.getId());
+            jdbcTemplate.update("UPDATE recipes SET recipe_name = ? WHERE recipe_id = ?",v,recipe.getId());
         }
         if(k.equals("instructions")){
             jdbcTemplate.update("UPDATE recipes SET instructions = ? WHERE recipe_id = ?",v,recipe.getId());
         }
         if(k.equals("status")){
-            jdbcTemplate.update("UPDATE recipes SET status = ? WHERE recipe_id = ?",v,recipe.getId());
+            jdbcTemplate.update("UPDATE recipes SET recipe_status = ? WHERE recipe_id = ?",v,recipe.getId());
         }
         if(k.equals("image")){
             jdbcTemplate.update("UPDATE recipes SET image = ? WHERE recipe_id = ?",v,recipe.getId());
@@ -151,67 +163,56 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public Optional<RecipeTag> getTagByName(String name) {
-        final List<RecipeTag> list = jdbcTemplate.query("SELECT	*	FROM tags WHERE   name	=	? AND status != 0", TAG_ROW_MAPPER, name);
+    public List<RecipeTag> getAllTags() {
+        final List<RecipeTag> list = jdbcTemplate.query("SELECT  *	FROM recipe_tags", TAG_ROW_MAPPER);
         if (list.isEmpty()) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
 
-        return Optional.of(list.get(0));
+        return list;
     }
 
     @Override
-    public Optional<List<RecipeTag>> getAllTags() {
-        final List<RecipeTag> list = jdbcTemplate.query("SELECT  *	FROM tags", TAG_ROW_MAPPER);
-        if (list.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(list);
-    }
-
-    @Override
-    public Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe) {
+    public List<RecipeTag> getAllRecipeTags(Recipe recipe) {
 
         final List<RecipeTag> list = jdbcTemplate
-                .query("SELECT	 *	FROM (recipe_tags LEFT OUTER JOIN tags ON " +
-                                "tags.tag_id = recipe_tags.tag_id) WHERE   recipe_id	=	? AND status != 0",
+                .query("SELECT	 *	FROM recipe_tags WHERE   recipe_id	=	? AND tags_status = 'REGULAR'",
                         TAG_ROW_MAPPER, recipe.getId());
         if (list.isEmpty()) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
         recipe.setTags(list);
 
-        return Optional.of(list);
+        return list;
     }
 
     @Override
-    public void removeTagFromRecipe(Recipe recipe, RecipeTag tag) {
-        jdbcTemplate.update("UPDATE recipe_tags SET status = 0 WHERE recipe_id = ? AND tag_id = ?",
-                recipe.getId(),tag.getId());
+    public void removeTagFromRecipe(RecipeTag tag) {
+        jdbcTemplate.update("UPDATE recipe_tags SET tags_status = 'DELETED' WHERE recipe_id = ? AND tag = ?",
+                tag.getRecipeId(),tag.getTag());
     }
 
     @Override
-    public void addNewRecipeTag(Recipe recipe, RecipeTag tag) {
+    public void addNewRecipeTag(RecipeTag tag) {
         final Map<String, Object> map = new HashMap<>();
 
-        map.put("recipe_id",recipe.getId());
-        map.put("tag_id",tag.getId());
-        map.put("status",1);
+        map.put("recipe_id",tag.getRecipeId());
+        map.put("tag_id",tag.getTag());
+        map.put("tags_status","REGULAR");
 
         jdbcInsertTag.execute(map);
     }
 
     @Override
-    public Optional<List<Recipe>> getAllRecipesByUserId(int userId){
+    public List<Recipe> getAllRecipesByUserId(int userId){
         final List<Recipe> list = jdbcTemplate.query(
-                "SELECT	*	FROM recipes WHERE user_id = ? AND status != 0",
+                "SELECT	*	FROM recipes WHERE user_id = ? AND recipe_status = 'REGULAR'",
                 ROW_MAPPER, userId);
         if (list.isEmpty()) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
 
-        return Optional.of(list);
+        return list;
     }
 
 }

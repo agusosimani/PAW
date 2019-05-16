@@ -5,9 +5,7 @@ import ar.edu.itba.paw.interfaces.dao.RecipeDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.IngredientService;
 import ar.edu.itba.paw.model.Ingredient;
-import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeIngredient;
-import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +29,7 @@ public class IngredientServiceImpl implements IngredientService {
 
 
     @Override
-    public Optional<List<Ingredient>> getAllIngredients() {
+    public List<Ingredient> getAllIngredients() {
         return ingredientsDao.getAllIngredients();
     }
 
@@ -46,31 +44,23 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Optional<List<RecipeIngredient>> findByUser(int userId) {
-        Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByUserId(userId);
+    public List<RecipeIngredient> findByUser(int userId) {
+        List<RecipeIngredient> list = ingredientsDao.getByUserId(userId);
 
-        if (maybeList.isPresent()) {
-            List<RecipeIngredient> list = maybeList.get();
-            for (RecipeIngredient i : list) {
-                Optional<Ingredient> ingredient = ingredientsDao.getById(i.getIngredient().getId());
-                ingredient.ifPresent(i::setIngredient);
-            }
-            return Optional.of(list);
+        for (RecipeIngredient i : list) {
+            Optional<Ingredient> ingredient = ingredientsDao.getById(i.getIngredient().getId());
+            ingredient.ifPresent(i::setIngredient);
         }
-
-
-        return maybeList;
+        return list;
     }
 
     @Override
     public RecipeIngredient findUserIngredientByName(int u, String name) {
-        Optional<List<RecipeIngredient>> op = this.findByUser(u);
-        if (op.isPresent()) {
-            List<RecipeIngredient> list = op.get();
-            for (RecipeIngredient r : list) {
-                if (r.getIngredient().getName().equals(name)) {
-                    return r;
-                }
+        List<RecipeIngredient> list = this.findByUser(u);
+
+        for (RecipeIngredient r : list) {
+            if (r.getIngredient().getName().equals(name)) {
+                return r;
             }
         }
         //TODO crear excepcion
@@ -78,28 +68,21 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Optional<List<RecipeIngredient>> findByRecipe(int recipeId) {
-        Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByRecipeId(recipeId);
-        if (maybeList.isPresent()) {
-            List<RecipeIngredient> list = maybeList.get();
-            for (RecipeIngredient i : list) {
-                Optional<Ingredient> ingredient = ingredientsDao.getById(i.getIngredient().getId());
-                ingredient.ifPresent(i::setIngredient);
-            }
-            return Optional.of(list);
+    public List<RecipeIngredient> findByRecipe(int recipeId) {
+        List<RecipeIngredient> list = ingredientsDao.getByRecipeId(recipeId);
+        for (RecipeIngredient i : list) {
+            Optional<Ingredient> ingredient = ingredientsDao.getById(i.getIngredient().getId());
+            ingredient.ifPresent(i::setIngredient);
         }
-        return maybeList;
+        return list;
     }
 
     @Override
     public RecipeIngredient findRecipeIngredientByName(int recipe, String name) {
-        Optional<List<RecipeIngredient>> op = this.findByRecipe(recipe);
-        if (op.isPresent()) {
-            List<RecipeIngredient> list = op.get();
-            for (RecipeIngredient r : list) {
-                if (r.getIngredient().getName().equals(name)) {
-                    return r;
-                }
+        List<RecipeIngredient> list = this.findByRecipe(recipe);
+        for (RecipeIngredient r : list) {
+            if (r.getIngredient().getName().equals(name)) {
+                return r;
             }
         }
         //TODO crear excepcion
@@ -126,13 +109,12 @@ public class IngredientServiceImpl implements IngredientService {
             Optional<RecipeIngredient> maybeDeleted = ingredientsDao.getDeletedRecipeIngById(ing.getId(), recipe);
             if (maybeDeleted.isPresent()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("status", 1);
-                map.put("serving_amount",0);
+                map.put("ri_status", "REGULAR");
+                map.put("serving_amount", 0);
                 ingredientsDao.updateRecipeIngredient(ri.getIngredient().getId(), map, recipe);
                 this.updateRI(ri, recipe);
 
-            }
-            else {
+            } else {
                 ingredientsDao.addNewRecipeIngredient(recipe, ri);
             }
         }
@@ -159,13 +141,12 @@ public class IngredientServiceImpl implements IngredientService {
             Optional<RecipeIngredient> maybeDeleted = ingredientsDao.getDeletedUserIngById(ing.getId(), user);
             if (maybeDeleted.isPresent()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("status", 1);
-                map.put("serving_amount",0);
+                map.put("ui_status", "REGULAR");
+                map.put("serving_amount", 0);
                 ingredientsDao.updateUserIngredient(ri.getIngredient().getId(), map, user);
                 this.updateUI(ri, user);
 
-            }
-            else {
+            } else {
                 ingredientsDao.addNewUserIngredient(user, ri);
             }
         }
@@ -178,25 +159,49 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientsDao.addNewIngredient(i);
     }
 
-    @Override
-    public void updateI(Ingredient ingredient, String change, Object value) {
-        Map<String, Object> map = new HashMap<>();
-        map.put(change, value);
-        this.updateI(ingredient, map);
-    }
-
     @Transactional
     @Override
-    public void updateI(Ingredient ingredient, Map<String, Object> map) {
-        map.forEach((k, v) -> {
-            if (!k.equals("name") && !k.equals("is_vegetarian") && !k.equals("is_vegan") &&
-                    !k.equals("status") && !k.equals("tacc_free") && !k.equals("protein_count") &&
-                    !k.equals("calorie_count") && !k.equals("fat_count") && !k.equals("sugar_count") &&
-                    !k.equals("serving")) {
-                throw new RuntimeException();
+    public void updateI(Ingredient ingredient) {
+        Optional<Ingredient> maybeIngredient = ingredientsDao.getById(ingredient.getId());
+        if (maybeIngredient.isPresent()) {
+            Ingredient oldIngredient = maybeIngredient.get();
+            Map<String, Object> map = new HashMap<>();
+            if (!oldIngredient.getName().equals(ingredient.getName())) {
+                map.put("ingredient_name", ingredient.getName());
             }
-        });
-        ingredientsDao.updateIngredient(ingredient, map);
+            if (oldIngredient.getCalories() != (ingredient.getCalories())) {
+                map.put("calorie_count", ingredient.getCalories());
+            }
+            if (oldIngredient.getCarbohydrates() != (ingredient.getCarbohydrates())) {
+                map.put("carbohydrate_count", ingredient.getCarbohydrates());
+            }
+            if (oldIngredient.isTaccFree() != (ingredient.isTaccFree())) {
+                map.put("tacc_free", ingredient.isTaccFree());
+            }
+            if (oldIngredient.isVegetarian() != (ingredient.isVegetarian())) {
+                map.put("is_vegetarian", ingredient.isVegetarian());
+            }
+            if (oldIngredient.isVegan() != (ingredient.isVegan())) {
+                map.put("is_vegan", ingredient.isVegan());
+            }
+            if (oldIngredient.getProtein() == (ingredient.getProtein())) {
+                map.put("protein_count", ingredient.getProtein());
+            }
+            if (oldIngredient.getTotalFat() == (ingredient.getTotalFat())) {
+                map.put("fat_count", ingredient.getTotalFat());
+            }
+            if (oldIngredient.getSugar() == (ingredient.getSugar())) {
+                map.put("sugar_count", ingredient.getSugar());
+            }
+            if (!oldIngredient.getTypeOfServing().equals(ingredient.getTypeOfServing())) {
+                map.put("serving_type", ingredient.getTypeOfServing());
+            }
+            if (oldIngredient.getServing() == ingredient.getServing()) {
+                map.put("serving", ingredient.getServing());
+            }
+
+            ingredientsDao.updateIngredient(oldIngredient, map);
+        }
     }
 
     @Transactional
@@ -206,11 +211,11 @@ public class IngredientServiceImpl implements IngredientService {
         if (maybeRI.isPresent()) {
             RecipeIngredient recipeIngredient = maybeRI.get();
 
-            ingredientsDao.updateRecipeIngredient(recipeIngredient.getIngredient().getId(), updateRUIInternal(recipeIngredient,ri), recipe);
+            ingredientsDao.updateRecipeIngredient(recipeIngredient.getIngredient().getId(), updateRUIInternal(recipeIngredient, ri), recipe);
         }
     }
 
-    private Map<String,Object> updateRUIInternal(RecipeIngredient old,RecipeIngredient newRI) {
+    private Map<String, Object> updateRUIInternal(RecipeIngredient old, RecipeIngredient newRI) {
         Map<String, Object> map = new HashMap<>();
         if (!old.getObservation().equals(newRI.getObservation())) {
             map.put("obs", newRI.getObservation());
@@ -218,7 +223,6 @@ public class IngredientServiceImpl implements IngredientService {
         if (old.getAmount() != newRI.getAmount()) {
             map.put("serving_amount", newRI.getAmount());
         }
-        System.out.printf("entro");
         return map;
     }
 
@@ -229,7 +233,7 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<RecipeIngredient> maybeRI = ingredientsDao.getUserIngById(newRecipeIngredient.getIngredient().getId(), user);
         if (maybeRI.isPresent()) {
             RecipeIngredient oldrecipeIngredient = maybeRI.get();
-            ingredientsDao.updateUserIngredient(oldrecipeIngredient.getIngredient().getId(), updateRUIInternal(oldrecipeIngredient,newRecipeIngredient), user);
+            ingredientsDao.updateUserIngredient(oldrecipeIngredient.getIngredient().getId(), updateRUIInternal(oldrecipeIngredient, newRecipeIngredient), user);
         }
     }
 
@@ -237,25 +241,27 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public void deleteRI(int ri, int recipe) {
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
+        map.put("ri_status", "DELETED");
         ingredientsDao.updateRecipeIngredient(ri, map, recipe);
     }
 
     @Override
     public void deleteUI(int ri, int user) {
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
+        map.put("ui_status", "DELETED");
         ingredientsDao.updateUserIngredient(ri, map, user);
     }
 
     @Override
     public void deleteI(Ingredient i) {
-        this.updateI(i, "status", 0);
+        Map<String, Object> map = new HashMap<>();
+        map.put("ingredient_status", "DELETED");
+        ingredientsDao.updateIngredient(i, map);
     }
 
     @Override
     public Boolean cookRecipe(RecipeIngredient ri, int userId) {
-//        Optional<RecipeIngredient> rep = ingredientsDao.getUserIngById(ri.getIngredient().getId(),userId);
+//        Optional<RecipeIngredient> rep = ingredientsDao.getUserIngById(ri.getIngredient().getRecipeId(),userId);
 //        if(rep.isPresent()) {
 //            RecipeIngredient recipeIngredient = rep.get();
 //            Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByUserId(userId);

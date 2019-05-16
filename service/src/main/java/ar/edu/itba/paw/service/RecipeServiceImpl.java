@@ -37,14 +37,11 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> maybe = recipeDao.getById(id);
         if(maybe.isPresent()) {
             Recipe recipe = maybe.get();
-            Optional<List<RecipeTag>> maybeTags = recipeDao.getAllRecipeTags(recipe);
-            maybeTags.ifPresent(recipe::setTags);
+            List<RecipeTag> tags = recipeDao.getAllRecipeTags(recipe);
+            recipe.setTags(tags);
 
-            Optional<List<RecipeIngredient>> maybeIngList = ingredientsDao.getByRecipeId(recipe.getId());
-            if(maybeIngList.isPresent()) {
-                List<RecipeIngredient> ingredientsList = maybeIngList.get();
-                recipe.setIngredients(ingredientsList);
-            }
+            List<RecipeIngredient> ingredientsList = ingredientsDao.getByRecipeId(recipe.getId());
+            recipe.setIngredients(ingredientsList);
 
             return Optional.of(recipe);
         }
@@ -58,13 +55,9 @@ public class RecipeServiceImpl implements RecipeService {
         if(maybeRecipe.isPresent()) {
             Recipe recipe = maybeRecipe.get();
 
-            Optional<List<RecipeIngredient>> maybeIngList = ingredientsDao.getByRecipeId(recipe.getId());
-            if(maybeIngList.isPresent()) {
-                List<RecipeIngredient> ingredientsList = maybeIngList.get();
-                recipe.setIngredients(ingredientsList);
-
-                return Optional.of(recipe);
-            }
+            List<RecipeIngredient> ingredientsList = ingredientsDao.getByRecipeId(recipe.getId());
+            recipe.setIngredients(ingredientsList);
+            return Optional.of(recipe);
         }
         return maybeRecipe;
     }
@@ -75,29 +68,21 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Optional<List<Recipe>> findByUser(int userId) {
+    public List<Recipe> findByUser(int userId) {
         return recipeDao.getByUserId(userId);
     }
 
     @Override
     public int userRecipesNumber(int userId) {
-        int count = 0;
-        Optional<List<Recipe>> maybeRecipe = findByUser(userId);
-        if(maybeRecipe.isPresent()) {
-            count = maybeRecipe.get().size();
-        }
-        return count;
+        return findByUser(userId).size();
     }
 
     @Override
     public Recipe findUserRecipeByName(int userId, String name) {
-        Optional<List<Recipe>> op = this.findByUser(userId);
-        if(op.isPresent()){
-            List<Recipe> list = op.get();
-            for(Recipe r : list) {
-                if(r.getName().equals("name")) {
-                    return r;
-                }
+        List<Recipe> list = this.findByUser(userId);
+        for(Recipe r : list) {
+            if(r.getName().equals("name")) {
+                return r;
             }
         }
         //TODO crear excepcion
@@ -111,7 +96,7 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe rec =  recipeDao.addNewRecipe(recipe);
 
         for (RecipeTag rt : rec.getTags()) {
-            recipeDao.addNewRecipeTag(rec,rt);
+            recipeDao.addNewRecipeTag(rt);
         }
 
         for (RecipeIngredient rt : rec.getIngredients()) {
@@ -119,8 +104,6 @@ public class RecipeServiceImpl implements RecipeService {
                 rt.setObservation("");
             ingredientsDao.addNewRecipeIngredient(rec.getId(),rt);
         }
-
-
         return rec;
     }
 
@@ -136,7 +119,7 @@ public class RecipeServiceImpl implements RecipeService {
                map.put("description",recipe.getDescription());
            }
            if(!oldRecipe.getName().equals(recipe.getName())){
-               map.put("name",recipe.getName());
+               map.put("recipe_name",recipe.getName());
            }
            if(!oldRecipe.getInstructions().equals(recipe.getInstructions())) {
                map.put("instructions",recipe.getInstructions());
@@ -151,26 +134,26 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void deleteRecipe(Recipe recipe) {
         Map<String,Object> map = new HashMap<>();
-        map.put("status",0);
+        map.put("recipe_status","DELETED");
         recipeDao.update(recipe,map);
     }
 
     @Override
-    public Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe) {
+    public List<RecipeTag> getAllRecipeTags(Recipe recipe) {
         return recipeDao.getAllRecipeTags(recipe);
     }
 
     @Transactional
     @Override
     public void removeTagFromRecipe(Recipe recipe, RecipeTag tag) {
-        recipeDao.removeTagFromRecipe(recipe, tag);
+        recipeDao.removeTagFromRecipe(tag);
     }
 
     @Transactional
     @Override
-    public void addNewRecipeTag(Recipe recipe, RecipeTag tag) {
+    public void addNewRecipeTag(RecipeTag tag) {
 
-        recipeDao.addNewRecipeTag(recipe, tag);
+        recipeDao.addNewRecipeTag(tag);
     }
 
     @Override
@@ -178,7 +161,7 @@ public class RecipeServiceImpl implements RecipeService {
     public void addNewRating(int user, int recipe, int rating) {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(user, recipe);
         if (maybeRating.isPresent())
-            ratingsDao.update(user,recipe,"status",1);
+            ratingsDao.update(user,recipe,"status","REGULAR");
         else
             ratingsDao.addNewRating(user, recipe, rating);
     }
@@ -192,30 +175,26 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public void deleteRating(int user, int recipe, int rating) {
-        ratingsDao.update(user,recipe,"status",0);
+        ratingsDao.update(user,recipe,"status","DELETED");
     }
 
     @Override
-    public Optional<List<Recipe>> getAllRecipesByUserId(int userId) {
+    public List<Recipe> getAllRecipesByUserId(int userId) {
         return recipeDao.getAllRecipesByUserId(userId);
     }
 
     @Override
-    public Optional<List<Recipe>> getRecipes() {
-        Optional<List<Recipe>> maybeRList = recipeDao.getAllRecipes();
-        if(maybeRList.isPresent()) {
-            List<Recipe> rList = maybeRList.get();
+    public List<Recipe> getRecipes() {
+        List<Recipe> rList = recipeDao.getAllRecipes();
             for (Recipe rep : rList) {
-                Optional<List<RecipeTag>> maybeTags = recipeDao.getAllRecipeTags(rep);
-                maybeTags.ifPresent(rep::setTags);
+                List<RecipeTag> tags = recipeDao.getAllRecipeTags(rep);
+                rep.setTags(tags);
             }
-            return Optional.of(rList);
-        }
-        return maybeRList;
+        return rList;
     }
 
     @Override
-    public Optional<List<RecipeTag>> getAllTags() {
+    public List<RecipeTag> getAllTags() {
         return recipeDao.getAllTags();
     }
 }

@@ -12,26 +12,26 @@ public interface RecipeDao {
 
     Optional<Recipe> getByName(final String name);
 
-    Optional<List<Recipe>> getByUserId(final int id);
+    List<Recipe> getByUserId(final int id);
 
-    Optional<List<Recipe>> getAllRecipes();
+    List<Recipe> getAllRecipes();
+
+    List<Recipe> getAllRecipesOrderedByDate();
 
     Recipe addNewRecipe(Recipe recipe);
 
-    Optional<List<Recipe>> getAllRecipesOrderedByRating();
+    List<Recipe> getAllRecipesOrderedByRating();
 
     void update(Recipe recipe, Map<String,Object> changes);
 
-    Optional<RecipeTag> getTagByName(String name);
+    List<RecipeTag> getAllTags();
 
-    Optional<List<RecipeTag>> getAllTags();
+    List<RecipeTag> getAllRecipeTags(Recipe recipe);
 
-    Optional<List<RecipeTag>> getAllRecipeTags(Recipe recipe);
+    void removeTagFromRecipe(RecipeTag tag);
 
-    void removeTagFromRecipe(Recipe recipe, RecipeTag tag);
+    void addNewRecipeTag(RecipeTag tag);
 
-    void addNewRecipeTag(Recipe recipe, RecipeTag tag);
-
-    Optional<List<Recipe>> getAllRecipesByUserId(int userId);
+    List<Recipe> getAllRecipesByUserId(int userId);
 
 }

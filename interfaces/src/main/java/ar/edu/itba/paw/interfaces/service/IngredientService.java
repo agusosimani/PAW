@@ -11,15 +11,15 @@ import java.util.Optional;
 
 public interface IngredientService {
 
-    Optional<List<Ingredient>> getAllIngredients();
+    List<Ingredient> getAllIngredients();
 
     Optional<Ingredient> getById(final int id);
 
     Optional<Ingredient> findByName(final String name);
 
-    Optional<List<RecipeIngredient>> findByUser(int userId);
+    List<RecipeIngredient> findByUser(int userId);
 
-    Optional<List<RecipeIngredient>> findByRecipe(int recipeId);
+    List<RecipeIngredient> findByRecipe(int recipeId);
 
     RecipeIngredient findUserIngredientByName(int u, String name);
 
@@ -31,11 +31,7 @@ public interface IngredientService {
 
     Ingredient addNewIngredient(Ingredient i);
 
-    //TODO:cambiar grasada
-
-    void updateI(Ingredient ingredient, String change, Object value);
-
-    void updateI(Ingredient ingredient, Map<String, Object> map);
+    void updateI(Ingredient ingredient);
 
     void updateRI(RecipeIngredient ingredient, int recipeId);
 

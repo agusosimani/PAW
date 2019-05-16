@@ -15,11 +15,11 @@ public class Ingredient {
     private double serving;
     private String typeOfServing;
     private int userId;
-    private int status;
+    private String status;
 
     private Ingredient(int id, String name, boolean isVegetarian, boolean isVegan, boolean taccFree,
                       double calories, double protein, double carbohydrates, double totalFat,
-                      double sugar, double serving, String typeOfServing, int userId,int status) {
+                      double sugar, double serving, String typeOfServing, int userId,String status) {
         this.id = id;
         this.name = name;
         this.isVegetarian = isVegetarian;
@@ -140,11 +140,11 @@ public class Ingredient {
         this.typeOfServing = typeOfServing;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -154,17 +154,17 @@ public class Ingredient {
         private boolean isVegetarian = false;
         private boolean isVegan = false;
         private boolean taccFree = false;
-        private double calories = 0;
-        private double protein = 0;
-        private double carbohydrates = 0;
-        private double totalFat = 0;
-        private double sugar = 0;
+        private double calories = -1;
+        private double protein = -1;
+        private double carbohydrates = -1;
+        private double totalFat = -1;
+        private double sugar = -1;
         private double serving;
         private String typeOfServing;
-        private int status;
+        private String status;
         private int userId;
 
-        public Builder(int id, String name, int serving, String typeOfServing, int userId, int status) {
+        public Builder(int id, String name, int serving, String typeOfServing, int userId, String status) {
             this.id = id;
             this.name = name;
             this.serving = serving;

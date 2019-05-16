@@ -14,15 +14,15 @@ public interface IngredientsDao {
     Optional<RecipeIngredient> getUserIngById(final int ingredientId,final int userId);
     Optional<RecipeIngredient> getRecipeIngById(final int ingredientId,final int recipeId);
 
-    Optional<List<Ingredient>> getAllIngredients();
+    List<Ingredient> getAllIngredients();
 
     Optional<RecipeIngredient> getDeletedUserIngById(int ingredientId, int userId);
     Optional<RecipeIngredient> getDeletedRecipeIngById(int ingredientId, int recipeId);
 
     Optional<Ingredient> getById(final int id);
     Optional<Ingredient> getByIngredientName(String name);
-    Optional<List<RecipeIngredient>> getByUserId(final int id);
-    Optional<List<RecipeIngredient>> getByRecipeId(final int id);
+    List<RecipeIngredient> getByUserId(final int id);
+    List<RecipeIngredient> getByRecipeId(final int id);
 
     Ingredient addNewIngredient(Ingredient ing);
     RecipeIngredient addNewRecipeIngredient(int rec, RecipeIngredient recIng);

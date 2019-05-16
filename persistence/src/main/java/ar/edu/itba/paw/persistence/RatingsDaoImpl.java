@@ -11,10 +11,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Repository
 public class RatingsDaoImpl implements RatingsDao {
@@ -44,6 +42,10 @@ public class RatingsDaoImpl implements RatingsDao {
         map.put("recipe_id", recipe);
         map.put("rating", rating);
 
+        Date date= new Date();
+        long time = date.getTime();
+        map.put("date_created", new Timestamp(time));
+
         jdbcInsertRating.execute(map);
     }
 
@@ -62,27 +64,27 @@ public class RatingsDaoImpl implements RatingsDao {
     }
 
     @Override
-    public Optional<List<Rating>> getRatingsRecipe(int recipe) {
+    public List<Rating> getRatingsRecipe(int recipe) {
         final List<Rating> list =
                 jdbcTemplate.query("SELECT * FROM ratings WHERE recipe_id	= ? AND status != 0",
                         ROW_MAPPER, recipe);
         if (list.isEmpty()) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
 
-        return Optional.of(list);
+        return list;
     }
 
     @Override
-    public Optional<List<Rating>> getRatingsUser(int user) {
+    public List<Rating> getRatingsUser(int user) {
         final List<Rating> list =
                 jdbcTemplate.query("SELECT * FROM ratings WHERE user_id	= ? AND status != 0",
                         ROW_MAPPER, user);
         if (list.isEmpty()) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
 
-        return Optional.of(list);
+        return list;
     }
 
     @Override

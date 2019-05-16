@@ -32,32 +32,32 @@ public class UserDaoMImplTest {
     private static final String EMAIL1 = "michaelJ@gmail.com";
     private static final String NAME1 = "Michael";
     private static final String SURNAME1 = "Joseph Jackson";
-    private static final Boolean GENDER1 = false;
-    private static final Integer STATUS1 = 1;
+    private static final String GENDER1 = "male";
+    private static final String STATUS1 = "REGULAR";
 
     private static final String USERNAME2 = "jLennon";
     private static final String PASSWORD2 = "yokoOno";
     private static final String EMAIL2 = "LennonPeace@yahoo.com";
     private static final String NAME2 = "John";
     private static final String SURNAME2 = "Lennon";
-    private static final Boolean GENDER2 = false;
-    private static final Integer STATUS2 = 1;
+    private static final String GENDER2 = "male";
+    private static final String STATUS2 = "REGULAR";
 
     private static final String USERNAME3 = "aFranklin";
     private static final String PASSWORD3 = "memphis1942";
     private static final String EMAIL3 = "theArethaFranklin@gmail.com";
     private static final String NAME3 = "Aretha Louise";
     private static final String SURNAME3 = "Franklin";
-    private static final Boolean GENDER3 = true;
-    private static final Integer STATUS3 = 1;
+    private static final String GENDER3 = "female";
+    private static final String STATUS3 = "REGULAR";
 
     private static final String USERNAME4 = "aWineHouse";
     private static final String PASSWORD4 = "toRehabNoNoNo";
     private static final String EMAIL4 = "winehouseAmy@gmail.com";
     private static final String NAME4 = "Amy Jade";
     private static final String SURNAME4 = "Winehouse";
-    private static final Boolean GENDER4 = true;
-    private static final Integer STATUS4 = 1;
+    private static final String GENDER4 = "female";
+    private static final String STATUS4 = "REGULAR";
 
     @Mock
     private UserDao userDao;

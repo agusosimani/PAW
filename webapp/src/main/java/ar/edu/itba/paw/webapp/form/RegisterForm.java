@@ -31,9 +31,8 @@ public class RegisterForm {
     private String email;
 
 
-    private int gender;
+    private String gender;
 
-    private int status;
 
     //TODO: poner las otras validaciones
 

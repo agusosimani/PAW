@@ -11,7 +11,7 @@ public interface UserDao {
 
     void update(User user, Map<String,Object> changes);
 
-    Optional<User> findByEmail(final String email);
-    Optional<User> findByUsername(final String username);
+    Optional<User> getByEmail(final String email);
+    Optional<User> getByUsername(final String username);
 
 }
