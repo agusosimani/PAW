@@ -9,7 +9,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Foodify</title>
     <link rel="shortcut icon" type="image/x-icon" href="<c:url value="/resources/img/foodify_tab.png"/>"/>
-    <!-- Font Awesome -->
+
+    <%--<!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -19,7 +20,7 @@
     <link href="<c:url value="/resources/css/mdb.css"/>" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
-    <link href="<c:url value="/resources/css/style_spotify.css"/>" rel="stylesheet">
+    <link href="<c:url value="/resources/css/style_spotify.css"/>" rel="stylesheet">--%>
 </head>
 
 <body>
@@ -99,14 +100,14 @@
 
 </section>
 
-<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
+<%--<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="<c:url value="/resources/js/popper.min.js"/>"></script>
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>--%>
 
 </body>
 </html>

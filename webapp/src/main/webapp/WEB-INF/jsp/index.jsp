@@ -24,7 +24,7 @@
   </head>
 
   <body>
-    <%@include file="sidebar.jsp" %>
+   <%@include file="sidebar.jsp" %>
 
     <section class="main_container">
 
