@@ -29,6 +29,7 @@ public class RecipeDaoImpl implements RecipeDao {
                     rs.getInt("user_id"))
             .description(rs.getString("description"))
                     .image(rs.getBytes("image"))
+                    .rating(rs.getFloat("rating"))
                     .build();
 
     private final static RowMapper<RecipeTag> TAG_ROW_MAPPER = (rs, rowNum) ->
@@ -132,6 +133,8 @@ public class RecipeDaoImpl implements RecipeDao {
         long time = date. getTime();
         map.put("date_created", new Timestamp(time));
 
+        map.put("rating", recipe.getRating());
+
         final Number recipeId = jdbcInsertRecipe.executeAndReturnKey(map);
 
         recipe.setId(recipeId.intValue());
@@ -139,25 +142,28 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public void update(Recipe recipe, Map<String, Object> changes) {
+    public void update(int recipe, Map<String, Object> changes) {
         changes.forEach((k, v) -> update(recipe, k, v));
     }
 
-    private void update(Recipe recipe, String k, Object v) {
+    private void update(int recipe, String k, Object v) {
         if(k.equals("name")){
-            jdbcTemplate.update("UPDATE recipes SET recipe_name = ? WHERE recipe_id = ?",v,recipe.getId());
+            jdbcTemplate.update("UPDATE recipes SET recipe_name = ? WHERE recipe_id = ?",v,recipe);
         }
         if(k.equals("instructions")){
-            jdbcTemplate.update("UPDATE recipes SET instructions = ? WHERE recipe_id = ?",v,recipe.getId());
+            jdbcTemplate.update("UPDATE recipes SET instructions = ? WHERE recipe_id = ?",v,recipe);
         }
         if(k.equals("status")){
-            jdbcTemplate.update("UPDATE recipes SET recipe_status = ? WHERE recipe_id = ?",v,recipe.getId());
+            jdbcTemplate.update("UPDATE recipes SET recipe_status = ? WHERE recipe_id = ?",v,recipe);
         }
         if(k.equals("image")){
-            jdbcTemplate.update("UPDATE recipes SET image = ? WHERE recipe_id = ?",v,recipe.getId());
+            jdbcTemplate.update("UPDATE recipes SET image = ? WHERE recipe_id = ?",v,recipe);
         }
         if(k.equals("description")){
-            jdbcTemplate.update("UPDATE recipes SET description = ? WHERE recipe_id = ?",v,recipe.getId());
+            jdbcTemplate.update("UPDATE recipes SET description = ? WHERE recipe_id = ?",v,recipe);
+        }
+        if(k.equals("rating")){
+            jdbcTemplate.update("UPDATE recipes SET rating = ? WHERE recipe_id = ?",v,recipe);
         }
 
     }

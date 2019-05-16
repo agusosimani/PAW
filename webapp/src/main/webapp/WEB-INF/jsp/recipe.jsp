@@ -42,7 +42,7 @@
                     <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>
                     <div class="ingredients-tags-div">
                         <br/>
-                        
+                        <c:url var="rateUrl" value="/rate_recipe"></c:url>
                         <fieldset class="rating rating-recipe">
                             <input type="radio" id="five" name="" value="5" checked /><label class = "full" for="five" title="Awesome - 5 stars"></label>
                             <input type="radio" id="fourhalf" name="" value="4 and a half" /><label class="half" for="fourhalf" title="Pretty good - 4.5 stars"></label>

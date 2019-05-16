@@ -18,4 +18,6 @@ public interface RatingsDao {
     List<Rating> getRatingsUser(int userId);
 
     Optional<Rating> getSpecificRating(int userId, int recipeId);
+
+    Optional<Float> getRecipeRating(int recipeId);
 }

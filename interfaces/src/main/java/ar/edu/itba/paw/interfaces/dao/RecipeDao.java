@@ -22,7 +22,7 @@ public interface RecipeDao {
 
     List<Recipe> getAllRecipesOrderedByRating();
 
-    void update(Recipe recipe, Map<String,Object> changes);
+    void update(int recipe, Map<String,Object> changes);
 
     List<RecipeTag> getAllTags();
 

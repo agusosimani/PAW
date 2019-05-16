@@ -24,7 +24,7 @@ public class Recipe {
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId,
-                   List<RecipeTag> tags, byte[] image, List<Comment> comments) {
+                   List<RecipeTag> tags, byte[] image, List<Comment> comments,float rating) {
 
         this.id = id;
         this.name = name;
@@ -35,10 +35,11 @@ public class Recipe {
         this.tags = tags;
         this.image = image;
         this.comments = comments;
+        this.rating = rating;
     }
 
     public float getRating() {
-        return 3;
+        return rating;
     }
 
     public void setRating(float rating) {
@@ -130,6 +131,7 @@ public class Recipe {
         private int userId;
         private List<RecipeTag> tags = new ArrayList<>();
         private byte[] image;
+        private float rating = 0;
 
         private List<Comment> comments = new ArrayList<>();
 
@@ -173,10 +175,15 @@ public class Recipe {
             return this;
         }
 
+        public Builder rating(float  rating) {
+            this.rating = rating;
+            return this;
+        }
+
 
         public Recipe build() {
             return new Recipe(id,name, description, ingredients, instructions,
-                    userId, tags, image, comments);
+                    userId, tags, image, comments,rating);
         }
     }
 }

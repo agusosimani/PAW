@@ -35,7 +35,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Optional<Recipe> getById(int id) {
 
         Optional<Recipe> maybe = recipeDao.getById(id);
-        if(maybe.isPresent()) {
+        if (maybe.isPresent()) {
             Recipe recipe = maybe.get();
             List<RecipeTag> tags = recipeDao.getAllRecipeTags(recipe);
             recipe.setTags(tags);
@@ -52,7 +52,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Optional<Recipe> getByIdWithIngredients(int id) {
         Optional<Recipe> maybeRecipe = recipeDao.getById(id);
 
-        if(maybeRecipe.isPresent()) {
+        if (maybeRecipe.isPresent()) {
             Recipe recipe = maybeRecipe.get();
 
             List<RecipeIngredient> ingredientsList = ingredientsDao.getByRecipeId(recipe.getId());
@@ -80,8 +80,8 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe findUserRecipeByName(int userId, String name) {
         List<Recipe> list = this.findByUser(userId);
-        for(Recipe r : list) {
-            if(r.getName().equals("name")) {
+        for (Recipe r : list) {
+            if (r.getName().equals("name")) {
                 return r;
             }
         }
@@ -91,18 +91,22 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public Recipe addNewRecipe(Recipe recipe) {
+    public Recipe addNewRecipe(Recipe recipe) throws RuntimeException{
 
-        Recipe rec =  recipeDao.addNewRecipe(recipe);
+        if(recipe.getName().isEmpty() || recipe.getInstructions().isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        Recipe rec = recipeDao.addNewRecipe(recipe);
 
         for (RecipeTag rt : rec.getTags()) {
             recipeDao.addNewRecipeTag(rt);
         }
 
         for (RecipeIngredient rt : rec.getIngredients()) {
-            if(rt.getObservation() == null)
+            if (rt.getObservation() == null)
                 rt.setObservation("");
-            ingredientsDao.addNewRecipeIngredient(rec.getId(),rt);
+            ingredientsDao.addNewRecipeIngredient(rec.getId(), rt);
         }
         return rec;
     }
@@ -111,21 +115,21 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     public void update(Recipe recipe) {
         Optional<Recipe> maybeOldRecipe = recipeDao.getById(recipe.getId());
-        if(maybeOldRecipe.isPresent()) {
-           Recipe oldRecipe = maybeOldRecipe.get();
-           Map<String,Object> map = new HashMap<>();
+        if (maybeOldRecipe.isPresent()) {
+            Recipe oldRecipe = maybeOldRecipe.get();
+            Map<String, Object> map = new HashMap<>();
 
-           if(!oldRecipe.getDescription().equals(recipe.getDescription())){
-               map.put("description",recipe.getDescription());
-           }
-           if(!oldRecipe.getName().equals(recipe.getName())){
-               map.put("recipe_name",recipe.getName());
-           }
-           if(!oldRecipe.getInstructions().equals(recipe.getInstructions())) {
-               map.put("instructions",recipe.getInstructions());
-           }
+            if (!oldRecipe.getDescription().equals(recipe.getDescription())) {
+                map.put("description", recipe.getDescription());
+            }
+            if (!oldRecipe.getName().equals(recipe.getName())) {
+                map.put("recipe_name", recipe.getName());
+            }
+            if (!oldRecipe.getInstructions().equals(recipe.getInstructions())) {
+                map.put("instructions", recipe.getInstructions());
+            }
 
-            recipeDao.update(recipe,map);
+            recipeDao.update(recipe.getId(), map);
         }
 
     }
@@ -133,9 +137,9 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     @Override
     public void deleteRecipe(Recipe recipe) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("recipe_status","DELETED");
-        recipeDao.update(recipe,map);
+        Map<String, Object> map = new HashMap<>();
+        map.put("recipe_status", "DELETED");
+        recipeDao.update(recipe.getId(), map);
     }
 
     @Override
@@ -160,22 +164,46 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     public void addNewRating(int user, int recipe, int rating) {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(user, recipe);
-        if (maybeRating.isPresent())
-            ratingsDao.update(user,recipe,"status","REGULAR");
-        else
+        if (maybeRating.isPresent()) {
+            ratingsDao.update(user, recipe, "status", "REGULAR");
+            updateRatingRecipe(recipe, rating);
+
+        } else
             ratingsDao.addNewRating(user, recipe, rating);
     }
 
     @Override
     @Transactional
     public void updateRating(int user, int recipe, int rating) {
-        ratingsDao.update(user,recipe,"rating",rating);
+        ratingsDao.update(user, recipe, "rating", rating);
+        updateRatingRecipe(recipe, rating);
+    }
+
+    private void updateRatingRecipe(int recipe, int rating) {
+        Optional<Float> maybeTotalRating = ratingsDao.getRecipeRating(recipe);
+        Map<String,Object> map= new HashMap<>();
+        if(maybeTotalRating.isPresent()) {
+            float totalRating = maybeTotalRating.get();
+            map.put("rating",totalRating);
+            recipeDao.update(recipe,map);
+        }
+        else {
+            map.put("rating",rating);
+            recipeDao.update(recipe,map);
+        }
     }
 
     @Override
     @Transactional
     public void deleteRating(int user, int recipe, int rating) {
-        ratingsDao.update(user,recipe,"status","DELETED");
+        ratingsDao.update(user, recipe, "status", "DELETED");
+        Optional<Float> maybeTotalRating = ratingsDao.getRecipeRating(recipe);
+        Map<String,Object> map= new HashMap<>();
+        if(maybeTotalRating.isPresent()) {
+            float totalRating = maybeTotalRating.get();
+            map.put("rating",totalRating);
+            recipeDao.update(recipe,map);
+        }
     }
 
     @Override
@@ -186,10 +214,10 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getRecipes() {
         List<Recipe> rList = recipeDao.getAllRecipes();
-            for (Recipe rep : rList) {
-                List<RecipeTag> tags = recipeDao.getAllRecipeTags(rep);
-                rep.setTags(tags);
-            }
+        for (Recipe rep : rList) {
+            List<RecipeTag> tags = recipeDao.getAllRecipeTags(rep);
+            rep.setTags(tags);
+        }
         return rList;
     }
 
