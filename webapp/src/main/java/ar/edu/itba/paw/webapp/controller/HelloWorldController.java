@@ -174,26 +174,12 @@ public class HelloWorldController {
 
         List<Ingredient> allIngredientsList = ingredientService.getAllIngredients();
 
-        mav.addObject("recipes_amount", 846684);
+        mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(getCurrentUserID()).size());
         mav.addObject("user", userService.getById(id).get());
         mav.addObject("allIngredients", allIngredientsList);
         mav.addObject("ingredientsList", ingredientList);
         return mav;
     }
-
-    //CON EL ID LLAMO A SERVICES Y LA TRAIGO
-    @RequestMapping(value = "/recipe", method = RequestMethod.GET)
-    public ModelAndView recipe(@RequestParam Integer recipeId) {
-        final ModelAndView mav = new ModelAndView("recipe");
-
-        byte[] bytes = null;
-
-		mav.addObject("recipes_amount",recipeService.getAllRecipesByUserId(id).get().size());
-		mav.addObject("user", userService.getById(id).get());
-		mav.addObject("allIngredients", allIngredientsList);
-		mav.addObject("ingredientsList", ingredientList);
-		return mav;
-	}
 
 	//CON EL ID LLAMO A SERVICES Y LA TRAIGO
 	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
@@ -225,6 +211,7 @@ public class HelloWorldController {
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
         mav.addObject("user", userService.getById(recipe.getUserId()).get());
+        mav.addObject("ingredientsList", recipe.getIngredients());
         return mav;
     }
 
