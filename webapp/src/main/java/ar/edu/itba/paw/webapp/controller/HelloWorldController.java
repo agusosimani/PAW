@@ -100,15 +100,14 @@ public class HelloWorldController {
 			return null;
 		}
 
-		System.out.printf("LLEGUE1");
 		List<RecipeIngredient> listIngredients = new ArrayList<>();
 
 		List<RecipeTag> recipeTags = new ArrayList<>();
-		for(String tagName : recipeForm.getTags()){
-			recipeTags.add(new RecipeTag(0,"Vegetariana"));
-		}
 
-		System.out.printf("LLEGUE2");
+
+		for(String tagName : recipeForm.getTags()){
+			recipeTags.add(new RecipeTag(1,"Vegetariana"));
+		}
 
 		listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
 		final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(),getCurrentUserID())
@@ -144,7 +143,7 @@ public class HelloWorldController {
 		if(maybeI.isPresent()) {
 			List<RecipeIngredient> list = maybeI.get();
 			for (RecipeIngredient ri : list) {
-				ingredientService.updateUI(ri,this.getCurrentUserID());
+				ingredientService.cookRecipe(ri,this.getCurrentUserID());
 			}
 		}
 
@@ -156,15 +155,6 @@ public class HelloWorldController {
 	}
 
 
-
-	public ModelAndView newRecipe(@Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
-		return new ModelAndView("new_recipe");
-	}
-
-	public ModelAndView addIngredient(@Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
-		System.out.printf("ESTOY EN add_ingredient");
-		return new ModelAndView("add_ingredients");
-	}
 
 	@RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
 	public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
@@ -181,12 +171,13 @@ public class HelloWorldController {
 	@RequestMapping(value = "/my_account", method = RequestMethod.GET)
 	public ModelAndView myAccount(Authentication authentication) {
 		final ModelAndView mav = new ModelAndView("my_account");
-		mav.addObject("recipes_amount",846684);
-		//ar.edu.itba.paw.model.User user = ((PawUserDetails) authentication.getPrincipal()).getUser();
-		//mav.addObject("user", new User.Builder(user.getUsername(), user.getPassword(), user.getEmail()).build());
+		int aux = 0;
+		Optional<List<Recipe>> rec = recipeService.getAllRecipesByUserId(getCurrentUserID());
+		if(rec.isPresent())
+			aux = rec.get().size();
+		mav.addObject("recipes_amount", aux);
 
-		int id = getCurrentUserID();
-		mav.addObject("user", userService.getById(id).get());
+		mav.addObject("user", userService.getById(getCurrentUserID()).get());
 		return mav;
 	}
 
@@ -242,6 +233,8 @@ public class HelloWorldController {
 		Recipe recipe = recipeService.getById(recipeId).get();
 		recipe.setImage(bytes);
 
+
+
 		mav.addObject("recipes_amount",recipeService.getAllRecipesByUserId(recipe.getUserId()).get().size());
 		mav.addObject("recipe",recipe);
 		mav.addObject("user", userService.getById(recipe.getUserId()).get());
@@ -274,20 +267,31 @@ public class HelloWorldController {
 	}
 
 
+	@RequestMapping("/my_recipes") //Le digo que url mappeo
+	public ModelAndView myRecipes() {
+		return userRecipes(getCurrentUserID());
+	}
+
 	@RequestMapping("/user_recipes") //Le digo que url mappeo
-	public ModelAndView userRecipes() {
+	public ModelAndView userRecipes(@RequestParam int userId) {
 
 		final ModelAndView mav = new ModelAndView("user_recipes");
 
-		Optional<List<Recipe>> maybeList = recipeService.getAllRecipesByUserId(getCurrentUserID());
+		Optional<List<Recipe>> maybeList = recipeService.getAllRecipesByUserId(userId);
 
 		List<Recipe> recipeList = new LinkedList<>();
 		if(maybeList.isPresent())
 			recipeList = maybeList.get();
 
 		mav.addObject("RecipeList", recipeList);
-		mav.addObject(userService.getById(getCurrentUserID()).get());
-		mav.addObject("recipes_amount",846684);
+		mav.addObject("user" , userService.getById(userId).get());
+		Optional<List<Recipe>> rec = recipeService.getAllRecipesByUserId(userId);
+		int aux = 0;
+		if(rec.isPresent())
+			aux = rec.get().size();
+		mav.addObject("recipes_amount", aux);
+
+
 		return mav;
 	}
 

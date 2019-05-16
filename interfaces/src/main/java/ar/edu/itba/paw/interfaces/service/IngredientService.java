@@ -48,4 +48,5 @@ public interface IngredientService {
     void deleteI(Ingredient i);
 
 
+    Boolean cookRecipe(RecipeIngredient ri, int currentUserID);
 }

@@ -23,7 +23,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(16);
+        return new BCryptPasswordEncoder();
     }
     @Override
     protected void configure(final HttpSecurity http) throws Exception {

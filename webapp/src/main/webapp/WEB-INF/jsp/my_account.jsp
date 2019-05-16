@@ -35,7 +35,9 @@
 
             <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                <c:url value="/user_recipes" var="userRecipesUrl"/>
+                <c:url value="/user_recipes" var="userRecipesUrl">
+                    <c:param name="userId" value="${user.id}"/>
+                </c:url>
                 <!-- Featured image -->
                 <div class="card" >
 

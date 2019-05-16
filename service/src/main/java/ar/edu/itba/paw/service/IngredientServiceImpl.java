@@ -210,13 +210,13 @@ public class IngredientServiceImpl implements IngredientService {
         }
     }
 
-    private Map<String,Object> updateRUIInternal(RecipeIngredient ri,RecipeIngredient recipeIngredient) {
+    private Map<String,Object> updateRUIInternal(RecipeIngredient old,RecipeIngredient newRI) {
         Map<String, Object> map = new HashMap<>();
-        if (!ri.getObservation().equals(recipeIngredient.getObservation())) {
-            map.put("obs", recipeIngredient.getObservation());
+        if (!old.getObservation().equals(newRI.getObservation())) {
+            map.put("obs", newRI.getObservation());
         }
-        if (ri.getAmount() != recipeIngredient.getAmount()) {
-            map.put("serving_amount", recipeIngredient.getAmount());
+        if (old.getAmount() != newRI.getAmount()) {
+            map.put("serving_amount", newRI.getAmount());
         }
         System.out.printf("entro");
         return map;
@@ -225,11 +225,11 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Transactional
     @Override
-    public void updateUI(RecipeIngredient ri, int user) {
-        Optional<RecipeIngredient> maybeRI = ingredientsDao.getUserIngById(ri.getIngredient().getId(), user);
+    public void updateUI(RecipeIngredient newRecipeIngredient, int user) {
+        Optional<RecipeIngredient> maybeRI = ingredientsDao.getUserIngById(newRecipeIngredient.getIngredient().getId(), user);
         if (maybeRI.isPresent()) {
-            RecipeIngredient recipeIngredient = maybeRI.get();
-            ingredientsDao.updateUserIngredient(recipeIngredient.getIngredient().getId(), updateRUIInternal(recipeIngredient,ri), user);
+            RecipeIngredient oldrecipeIngredient = maybeRI.get();
+            ingredientsDao.updateUserIngredient(oldrecipeIngredient.getIngredient().getId(), updateRUIInternal(oldrecipeIngredient,newRecipeIngredient), user);
         }
     }
 
@@ -251,5 +251,20 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public void deleteI(Ingredient i) {
         this.updateI(i, "status", 0);
+    }
+
+    @Override
+    public Boolean cookRecipe(RecipeIngredient ri, int userId) {
+//        Optional<RecipeIngredient> rep = ingredientsDao.getUserIngById(ri.getIngredient().getId(),userId);
+//        if(rep.isPresent()) {
+//            RecipeIngredient recipeIngredient = rep.get();
+//            Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByUserId(userId);
+//            if(maybeList.isPresent()) {
+//                List<RecipeIngredient> list = maybeList.get();
+//
+//            }
+//        }
+//    } TODO: Hacerlo
+        return false;
     }
 }

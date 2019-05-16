@@ -61,7 +61,7 @@
 
         <div class="collapse in" id="myAccount">
 
-            <c:url value="/user_recipes" var="userRecipesUrl"/>
+            <c:url value="/my_recipes" var="userRecipesUrl"/>
             <a href="${userRecipesUrl}" class="navigation__list__item">
                 <!-- <i class="ion-headphone"></i> -->
                 <span><spring:message code="myRecipes"/></span>
@@ -72,6 +72,7 @@
                 <!-- <i class="ion-ios-musical-notes"></i> -->
                 <span><spring:message code="myIngredients"/></span>
             </a>
+
 
             <%--
             <a href="#" class="navigation__list__item">
@@ -85,6 +86,12 @@
             </a>
             --%>
         </div>
+
+        <c:url value="/logout" var="logOutB"/>
+        <a href="${logOutB}" class="navigation__list__item">
+            <!-- <i class="ion-ios-musical-notes"></i> -->
+            <span><spring:message code="logOut"/></span>
+        </a>
 
     </div>
     <!-- / -->

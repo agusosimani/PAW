@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,22 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Optional<Recipe> getById(int id) {
-        return recipeDao.getById(id);
+
+        Optional<Recipe> maybe = recipeDao.getById(id);
+        if(maybe.isPresent()) {
+            Recipe recipe = maybe.get();
+            Optional<List<RecipeTag>> maybeTags = recipeDao.getAllRecipeTags(recipe);
+            maybeTags.ifPresent(recipe::setTags);
+
+            Optional<List<RecipeIngredient>> maybeIngList = ingredientsDao.getByRecipeId(recipe.getId());
+            if(maybeIngList.isPresent()) {
+                List<RecipeIngredient> ingredientsList = maybeIngList.get();
+                recipe.setIngredients(ingredientsList);
+            }
+
+            return Optional.of(recipe);
+        }
+        return maybe;
     }
 
     @Override
@@ -91,11 +107,19 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     @Override
     public Recipe addNewRecipe(Recipe recipe) {
+
         Recipe rec =  recipeDao.addNewRecipe(recipe);
 
-        for (RecipeTag rt : recipe.getTags()) {
+        for (RecipeTag rt : rec.getTags()) {
             recipeDao.addNewRecipeTag(rec,rt);
         }
+
+        for (RecipeIngredient rt : rec.getIngredients()) {
+            if(rt.getObservation() == null)
+                rt.setObservation("");
+            ingredientsDao.addNewRecipeIngredient(rec.getId(),rt);
+        }
+
 
         return rec;
     }
@@ -178,7 +202,16 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Optional<List<Recipe>> getRecipes() {
-        return recipeDao.getAllRecipes();
+        Optional<List<Recipe>> maybeRList = recipeDao.getAllRecipes();
+        if(maybeRList.isPresent()) {
+            List<Recipe> rList = maybeRList.get();
+            for (Recipe rep : rList) {
+                Optional<List<RecipeTag>> maybeTags = recipeDao.getAllRecipeTags(rep);
+                maybeTags.ifPresent(rep::setTags);
+            }
+            return Optional.of(rList);
+        }
+        return maybeRList;
     }
 
     @Override

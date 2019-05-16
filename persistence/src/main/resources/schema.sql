@@ -124,27 +124,7 @@ CREATE TABLE IF NOT EXISTS recipe_tags (
 
 ) ;
 
---  CREATE OR REPLACE FUNCTION FunctionTrigger() RETURNS TRIGGER AS
---  $BODY$
---  BEGIN
---      UPDATE recipes
---      SET rating =
---              (SELECT avg(rating)
---               FROM ratings
---               WHERE (new.recipe_id = recipes.recipe_id) AND (status != 0)
---              )
---      WHERE (status != 0)
---      ;
---      RETURN NEW;
---  END;
---  $BODY$
---      language plpgsql;
---
---
---  CREATE TRIGGER RatingTrigger
---      AFTER INSERT ON ratings
---      FOR EACH ROW
---  EXECUTE PROCEDURE FunctionTrigger();
+
 
 
 

@@ -35,18 +35,14 @@
                     <h4 class="card-title">${recipe.name}</h4>
                     <p class="card-text">${recipe.description}</p>
 
+                    <c:forEach var="tag" items="${recipe.tags}">
+                        <p class="pink-text">${tag.tag}</p>
+                    </c:forEach>
+
 
                     <p class="card-text">Instrucciones</p>
                     <br/>
-                    <p class="card-text">${recipe.instructions}Sin expediente no se puede hacer juicio oral. Cristina Kirchner iba a ser juzgada junto a Julio de Vido, José López, Carlos Kirchner y Lázaro Báez entre otros en un mismo banquillo de los acusados, una foto que la expresidenta no estaba dispuesta a tolerar.
-
-                        Su defensa había cuestionado en la Corte Suprema diversos aspectos del caso, por ejemplo que le habían negado la realización medias de prueba. Había además dicho que el caso debía tramitar junto con la demanda civil y no por separado y que no había motivos para que interviniera en el asunto una sala de Casación diferente de la que estaba actuando.
-
-                        Sólo hubo una voz discordante para no frenar el juicio: El presidente de la Corte Suprema, Carlos Rosenkrantz, consideró que estos asuntos no implicaban sentencia definitiva y entendió que no había que pedir el caso para resolverlos.Sin expediente no se puede hacer juicio oral. Cristina Kirchner iba a ser juzgada junto a Julio de Vido, José López, Carlos Kirchner y Lázaro Báez entre otros en un mismo banquillo de los acusados, una foto que la expresidenta no estaba dispuesta a tolerar.
-
-                        Su defensa había cuestionado en la Corte Suprema diversos aspectos del caso, por ejemplo que le habían negado la realización medias de prueba. Había además dicho que el caso debía tramitar junto con la demanda civil y no por separado y que no había motivos para que interviniera en el asunto una sala de Casación diferente de la que estaba actuando.
-
-                        Sólo hubo una voz discordante para no frenar el juicio: El presidente de la Corte Suprema, Carlos Rosenkrantz, consideró que estos asuntos no implicaban sentencia definitiva y entendió que no había que pedir el caso para resolverlos.</p>
+                    <p class="card-text">${recipe.instructions}</p>
                 </div>
                 <div class="recipe-image-container">
                     <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>

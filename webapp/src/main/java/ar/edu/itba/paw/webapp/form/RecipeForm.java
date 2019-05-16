@@ -4,15 +4,16 @@ import ar.edu.itba.paw.model.RecipeTag;
 
 import javax.validation.constraints.Size;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeForm {
 
-    @Size(min = 4, max = 100)
+    @Size(max = 100)
     private String name;
     @Size(max = 100)
     private String description;
-    @Size(min = 12, max = 100)
+    @Size(max = 100)
     private String instructions;
 
     private List<String> tags;
@@ -21,7 +22,10 @@ public class RecipeForm {
     private int ingredientOneAmount;
     private int ingredientOne;
 
+
     public List<String> getTags() {
+        if(tags == null)
+            return new ArrayList<>();
         return tags;
     }
 

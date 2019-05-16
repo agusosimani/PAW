@@ -53,7 +53,8 @@
 
         <!-- Register -->
         <p><spring:message code="notAmember"/>
-            <a href=""><spring:message code="register"/></a>
+            <c:url var="registerUrl" value="/register"/>
+            <a href="${registerUrl}"><spring:message code="register"/></a>
         </p>
 
     </form>
