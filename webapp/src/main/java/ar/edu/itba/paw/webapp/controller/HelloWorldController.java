@@ -188,7 +188,21 @@ public class HelloWorldController {
 
         byte[] bytes = null;
 
-        try {
+		mav.addObject("recipes_amount",recipeService.getAllRecipesByUserId(id).get().size());
+		mav.addObject("user", userService.getById(id).get());
+		mav.addObject("allIngredients", allIngredientsList);
+		mav.addObject("ingredientsList", ingredientList);
+		return mav;
+	}
+
+	//CON EL ID LLAMO A SERVICES Y LA TRAIGO
+	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
+	public ModelAndView recipe(@RequestParam Integer recipeId) {
+		final ModelAndView mav = new ModelAndView("recipe");
+
+		byte[] bytes = null;
+
+		try {
             InputStream fis = new URL("https://i.blogs.es/36938e/istock-840527124/450_1000.jpg").openStream();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];

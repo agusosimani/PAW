@@ -63,7 +63,7 @@
 </section>
 
 
-<!-- SCRIPTS -->
+<%--<!-- SCRIPTS -->
 <!-- JQuery -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <!-- Bootstrap tooltips -->
@@ -72,7 +72,7 @@
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>--%>
 
 
 </body>
