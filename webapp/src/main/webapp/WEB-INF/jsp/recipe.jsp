@@ -32,29 +32,50 @@
 
             <div class="flex">
                 <div class="recipe-body">
-                    <h4 class="card-title">${recipe.name}</h4>
-                    <p class="card-text">${recipe.description}</p>
+                    <h4 class="recipe-title">${recipe.name}</h4>
+                    <p class="recipe-description">${recipe.description}</p>
 
-                    <c:forEach var="tag" items="${recipe.tags}">
-                        <p class="pink-text">${tag.tag}</p>
-                    </c:forEach>
-
-
-                    <p class="card-text">Instrucciones</p>
                     <br/>
-                    <p class="card-text">${recipe.instructions}</p>
+                    <p class="recipe-instructions">${recipe.instructions}</p>
                 </div>
                 <div class="recipe-image-container">
                     <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>
-                    <div>
+                    <div class="ingredients-tags-div">
                         <br/>
-                        <p class="card-text">ingredientes</p>
+
+                        <fieldset class="rating rating-recipe">
+                            <input type="radio" id="five" name="" value="5" checked /><label class = "full" for="five" title="Awesome - 5 stars"></label>
+                            <input type="radio" id="fourhalf" name="" value="4 and a half" /><label class="half" for="fourhalf" title="Pretty good - 4.5 stars"></label>
+                            <input type="radio" id="four" name="" value="4" /><label class = "full" for="four" title="Pretty good - 4 stars"></label>
+                            <input type="radio" id="threehalf" name="" value="3 and a half" /><label class="half" for="threehalf" title="Meh - 3.5 stars"></label>
+                            <input type="radio" id="three" name="" value="3" /><label class = "full" for="three" title="Meh - 3 stars"></label>
+                            <input type="radio" id="twohalf" name="" value="2 and a half" /><label class="half" for="twohalf" title="Kinda bad - 2.5 stars"></label>
+                            <input type="radio" id="two" name="" value="2" /><label class = "full" for="two" title="Kinda bad - 2 stars"></label>
+                            <input type="radio" id="onehalf" name="" value="1 and a half" /><label class="half" for="onehalf" title="Meh - 1.5 stars"></label>
+                            <input type="radio" id="one" name="" value="1" /><label class = "full" for="one" title="Sucks big time - 1 star"></label>
+                            <input type="radio" id="half" name="" value="half" /><label class="half" for="half" title="Sucks big time - 0.5 stars"></label>
+                        </fieldset>
+
+                        <br/>
+                        <p class="ingredients-title">Ingredientes</p>
                         <c:forEach var="ingredient" items="${recipe.ingredients}">
                             <div>
-                                <p class="float-left">${ingredient.ingredient.name}</p>
-                                <p class="card-text">${ingredient.amount}</p>
+                                <p class="ingredients-item">${ingredient.ingredient.name}</p>
+                                <p class="ingredients-amount">${ingredient.amount}</p>
                             </div>
+
                         </c:forEach>
+                        <br/>
+
+                        <c:if test="${!empty recipe.tags}">
+                            <p class="ingredients-title">Categorias</p>
+
+                            <div>
+                                <c:forEach var="tag" items="${recipe.tags}">
+                                    <p class="categories-names">${tag.tag}</p>
+                                </c:forEach>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>

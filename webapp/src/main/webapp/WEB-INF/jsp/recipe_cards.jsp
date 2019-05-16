@@ -48,7 +48,7 @@
                             <input type="radio" id="${recipe.id}twohalf" name="${recipe.id}" value="2 and a half" /><label class="half" for="${recipe.id}twohalf" title="Kinda bad - 2.5 stars"></label>
                             <input type="radio" id="${recipe.id}two" name="${recipe.id}" value="2" /><label class = "full" for="${recipe.id}two" title="Kinda bad - 2 stars"></label>
                             <input type="radio" id="${recipe.id}onehalf" name="${recipe.id}" value="1 and a half" /><label class="half" for="${recipe.id}onehalf" title="Meh - 1.5 stars"></label>
-                            <input type="radio" id="${recipe.id}one" name="${recipe.id}" value="1" /><label class = "full" for="id=${recipe.id}one" title="Sucks big time - 1 star"></label>
+                            <input type="radio" id="${recipe.id}one" name="${recipe.id}" value="1" /><label class = "full" for="${recipe.id}one" title="Sucks big time - 1 star"></label>
                             <input type="radio" id="${recipe.id}half" name="${recipe.id}" value="half" /><label class="half" for="${recipe.id}half" title="Sucks big time - 0.5 stars"></label>
                         </fieldset>
                     </div>

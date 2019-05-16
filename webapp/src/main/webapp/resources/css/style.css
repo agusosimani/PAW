@@ -4,6 +4,10 @@ body {
     z-index: 1000;
 }
 
+.p {
+    margin-bottom: 7px;
+}
+
 .index_logo {
     width: 100%;
 }
@@ -92,15 +96,65 @@ a.custom-card:hover {
 }
 
 .recipe-body{
+    text-align: left;
     float:left;
     margin: 2%;
     width: 70%;
 }
 
 .recipe-body::after{
+    text-align: left;
     float:left;
     margin: 2%;
     width: 70%;
+}
+
+.card-body{
+    text-align: left;
+}
+
+.ingredients-item{
+    margin-left: 8px;
+    font-size: medium;
+    float: left;
+}
+
+.ingredients-title{
+    font-weight: bold;
+    text-align: left;
+    font-size: large;
+}
+
+.ingredients-amount {
+    text-align: right;
+    font-size: medium;
+}
+
+.recipe-title{
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+.recipe-description {
+    font-size: 22px;
+    margin-left: 8px;
+}
+
+.recipe-instructions {
+    font-size: medium;
+    margin-left: 8px;
+    font-weight: lighter;
+}
+
+ingredients-tags-div {
+    float: left;
+    width: 100%;
+}
+
+.categories-names {
+    margin-left: 8px;
+    color: #e91e63;
+    text-align: left;
 }
 
 .flex{
@@ -125,9 +179,10 @@ a.custom-card:hover {
 }
 
 .user_title {
-    float:right;
-    margin-top: 20px;
-    width: 80%;
+    width: 70%;
+    float:left;
+    margin-top: 24px;
+    margin-left: 20px;
 }
 
 .float_left{
@@ -343,9 +398,12 @@ textarea.form-control {
     background-color: red;
 }
 
+.rating-recipe{
+    display: inline-block;
+}
+
 .rating {
     border: none;
-    float: left;
 }
 
 .rating > input { display: none; }
