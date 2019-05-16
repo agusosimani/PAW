@@ -42,7 +42,7 @@
                     <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>
                     <div class="ingredients-tags-div">
                         <br/>
-
+                        
                         <fieldset class="rating rating-recipe">
                             <input type="radio" id="five" name="" value="5" checked /><label class = "full" for="five" title="Awesome - 5 stars"></label>
                             <input type="radio" id="fourhalf" name="" value="4 and a half" /><label class="half" for="fourhalf" title="Pretty good - 4.5 stars"></label>
@@ -57,7 +57,7 @@
                         </fieldset>
 
                         <br/>
-                        <p class="ingredients-title">Ingredientes</p>
+                        <p class="ingredients-title"><spring:message code="ingredients"/></p>
                         <c:forEach var="ingredient" items="${recipe.ingredients}">
                             <div>
                                 <p class="ingredients-item">${ingredient.ingredient.name}</p>

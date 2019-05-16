@@ -14,6 +14,7 @@ public class Recipe {
     private List<RecipeIngredient> ingredients;
     private String instructions;
     private int userId;
+    private float rating;
 
     private byte[] image;
 
@@ -34,6 +35,14 @@ public class Recipe {
         this.tags = tags;
         this.image = image;
         this.comments = comments;
+    }
+
+    public float getRating() {
+        return 3;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public int getId() {
