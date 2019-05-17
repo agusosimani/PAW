@@ -14,9 +14,13 @@ public class User {
     private String status;
     private List<RecipeIngredient> ingredients;
     private List<Recipe> recipes;
+    private List<RecipeList> recipeLists;
     //private byte[] image;
 
-    private User(int id, String email, String password, String name, String surname, String username, String gender, String status, List<RecipeIngredient> ingredients, List<Recipe> recipes) {
+    private User(int id, String email, String password, String name, String surname,
+                 String username, String gender, String status,
+                 List<RecipeIngredient> ingredients, List<Recipe> recipes,
+                 List<RecipeList> recipeLists) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -27,6 +31,7 @@ public class User {
         this.status = status;
         this.ingredients = ingredients;
         this.recipes = recipes;
+        this.recipeLists = recipeLists;
     }
 
     public String getStatus() {
@@ -109,6 +114,14 @@ public class User {
         this.id = id;
     }
 
+    public List<RecipeList> getRecipeLists() {
+        return recipeLists;
+    }
+
+    public void setRecipeLists(List<RecipeList> recipeLists) {
+        this.recipeLists = recipeLists;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -159,6 +172,7 @@ public class User {
         private String status = "REGULAR";
         private List<RecipeIngredient> ingredients = null;
         private List<Recipe> recipes = null;
+        private List<RecipeList> recipeLists= null;
 
         public Builder(int id, String username, String password, String email) {
             this.id = id;
@@ -204,8 +218,13 @@ public class User {
             return this;
         }
 
+        public Builder recipeList(List<RecipeList> recipeLists) {
+            this.recipeLists = recipeLists;
+            return this;
+        }
+
         public User build() {
-            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes);
+            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes,recipeLists);
         }
     }
 

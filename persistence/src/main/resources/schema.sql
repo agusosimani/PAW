@@ -1,14 +1,14 @@
 CREATE TABLE IF NOT EXISTS users
 (
-    user_id  SERIAL,
-    mail     varchar(255),
-    password varchar(255),
-    name     varchar(255),
-    surname  varchar(255),
-    username varchar(255),
-    gender   varchar(20) DEFAULT 'notSpecified',
-    user_status   varchar(20) DEFAULT 'REGULAR',
-    image    bytea,
+    user_id     SERIAL,
+    mail        varchar(255),
+    password    varchar(255),
+    name        varchar(255),
+    surname     varchar(255),
+    username    varchar(255),
+    gender      varchar(20) DEFAULT 'notSpecified',
+    user_status varchar(20) DEFAULT 'REGULAR',
+    image       bytea,
     PRIMARY KEY (user_id)
 );
 
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS ingredients
     sugar_count        float        DEFAULT NULL,
     serving_type       varchar(255) DEFAULT 'Grams',
     serving            float        DEFAULT NULL,
-    ingredient_status             varchar(20)  DEFAULT 'REGULAR',
+    ingredient_status  varchar(20)  DEFAULT 'REGULAR',
     user_id            int          DEFAULT NULL,
     PRIMARY KEY (ingredient_id),
     CONSTRAINT ingredients_constraint FOREIGN KEY (user_id) REFERENCES users (user_id)
@@ -37,15 +37,15 @@ CREATE TABLE IF NOT EXISTS ingredients
 
 CREATE TABLE IF NOT EXISTS recipes
 (
-    recipe_id    SERIAL,
-    recipe_name         varchar(255),
-    user_id      int,
-    description  varchar(255),
-    instructions text,
-    recipe_status       varchar(20)        DEFAULT 'REGULAR',
-    rating       float              DEFAULT NULL,
-    date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    image        bytea,
+    recipe_id     SERIAL,
+    recipe_name   varchar(255),
+    user_id       int,
+    description   varchar(255),
+    instructions  text,
+    recipe_status varchar(20)        DEFAULT 'REGULAR',
+    rating        float              DEFAULT NULL,
+    date_created  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    image         bytea,
     PRIMARY KEY (recipe_id),
     CONSTRAINT recipes_constraint_1 FOREIGN KEY (user_id) REFERENCES users (user_id),
     CONSTRAINT recipes_constraint_2 FOREIGN KEY (user_id) REFERENCES users (user_id)
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS recipes_ingredients
     ingredient_id  int NOT NULL,
     obs            varchar(255),
     serving_amount float       DEFAULT NULL,
-    ri_status         varchar(20) DEFAULT 'REGULAR',
+    ri_status      varchar(20) DEFAULT 'REGULAR',
     PRIMARY KEY (recipe_id, ingredient_id),
     CONSTRAINT recipes_ingredients_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
     CONSTRAINT recipes_ingredients_constraint_2 FOREIGN KEY (ingredient_id) REFERENCES ingredients (ingredient_id)
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS user_ingredients
     ingredient_id  int NOT NULL,
     obs            varchar(255),
     serving_amount float       DEFAULT NULL,
-    ui_status         varchar(20) DEFAULT 'REGULAR',
+    ui_status      varchar(20) DEFAULT 'REGULAR',
     PRIMARY KEY (user_id, ingredient_id),
     CONSTRAINT user_ingredients_constraint_1 FOREIGN KEY (user_id) REFERENCES users (user_id),
     CONSTRAINT user_ingredients_constraint_2 FOREIGN KEY (ingredient_id) REFERENCES ingredients (ingredient_id)
@@ -91,9 +91,9 @@ CREATE TABLE IF NOT EXISTS ratings
 
 CREATE TABLE IF NOT EXISTS recipe_tags
 (
-    tag       varchar(20) NOT NULL,
-    recipe_id int         NOT NULL,
-    tags_status    varchar(20) DEFAULT 'REGULAR',
+    tag         varchar(20) NOT NULL,
+    recipe_id   int         NOT NULL,
+    tags_status varchar(20) DEFAULT 'REGULAR',
     PRIMARY KEY (recipe_id, tag),
     CONSTRAINT recipe_tags_constraint FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id)
 
@@ -102,22 +102,24 @@ CREATE TABLE IF NOT EXISTS recipe_tags
 
 CREATE TABLE IF NOT EXISTS user_recipe_list
 (
-    user_id   int NOT NULL,
-    recipe_id int NOT NULL,
-    ur_status    varchar(20) DEFAULT 'REGULAR',
-    PRIMARY KEY (recipe_id, user_id),
-    CONSTRAINT recipe_tags_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id)
-
+    list_name VARCHAR(255),
+    user_id   INT NOT NULL,
+    recipe_id INT NOT NULL,
+    ur_status VARCHAR(20) DEFAULT 'REGULAR',
+    PRIMARY KEY (list_name,user_id,recipe_id),
+    CONSTRAINT recipe_tags_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
+    CONSTRAINT recipe_tags_constraint_2 FOREIGN KEY (user_id) REFERENCES users (user_id)
 
 );
 
 CREATE TABLE IF NOT EXISTS recipes_comments
 (
-    comment_id SERIAL,
-    message    text,
-    recipe_id  int NOT NULL,
-    user_id    int NOT NULL,
-    comment_status     varchar(20) DEFAULT 'REGULAR',
+    comment_id     SERIAL,
+    message        text,
+    recipe_id      int NOT NULL,
+    user_id        int NOT NULL,
+    comment_status varchar(20) DEFAULT 'REGULAR',
+    comment_date      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (comment_id),
     CONSTRAINT recipes_comments_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
     CONSTRAINT recipes_comments_constraint_2 FOREIGN KEY (user_id) REFERENCES users (user_id)

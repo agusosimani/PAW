@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
 import ar.edu.itba.paw.model.Recipe;
+import ar.edu.itba.paw.model.RecipeList;
 import ar.edu.itba.paw.model.RecipeTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +20,7 @@ public class RecipeDaoImpl implements RecipeDao {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsertRecipe;
     private SimpleJdbcInsert jdbcInsertTag;
+    private SimpleJdbcInsert jdbcInsertList;
 
     private final static RowMapper<Recipe> ROW_MAPPER = (rs, rowNum) ->
             new Recipe.Builder(
@@ -35,7 +37,8 @@ public class RecipeDaoImpl implements RecipeDao {
     private final static RowMapper<RecipeTag> TAG_ROW_MAPPER = (rs, rowNum) ->
             new RecipeTag(rs.getString("tag"),rs.getInt("recipe_id"));
 
-
+    private final static RowMapper<RecipeList> LIST_ROW_MAPPER = (rs,rowNum) ->
+            new RecipeList(rs.getString("name"));
 
 
     @Autowired
@@ -47,6 +50,8 @@ public class RecipeDaoImpl implements RecipeDao {
                 .usingGeneratedKeyColumns("recipe_id");
         jdbcInsertTag = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("recipe_tags");
+        jdbcInsertList = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("user_recipe_list");
     }
 
 
@@ -147,13 +152,13 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     private void update(int recipe, String k, Object v) {
-        if(k.equals("name")){
+        if(k.equals("recipe_name")){
             jdbcTemplate.update("UPDATE recipes SET recipe_name = ? WHERE recipe_id = ?",v,recipe);
         }
         if(k.equals("instructions")){
             jdbcTemplate.update("UPDATE recipes SET instructions = ? WHERE recipe_id = ?",v,recipe);
         }
-        if(k.equals("status")){
+        if(k.equals("recipe_status")){
             jdbcTemplate.update("UPDATE recipes SET recipe_status = ? WHERE recipe_id = ?",v,recipe);
         }
         if(k.equals("image")){
@@ -167,6 +172,20 @@ public class RecipeDaoImpl implements RecipeDao {
         }
 
     }
+
+    @Override
+    public List<Recipe> getAllRecipesByUserId(int userId){
+        final List<Recipe> list = jdbcTemplate.query(
+                "SELECT	*	FROM recipes WHERE user_id = ? AND recipe_status = 'REGULAR'",
+                ROW_MAPPER, userId);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return list;
+    }
+
+    //TAGS
 
     @Override
     public List<RecipeTag> getAllTags() {
@@ -210,18 +229,6 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public List<Recipe> getAllRecipesByUserId(int userId){
-        final List<Recipe> list = jdbcTemplate.query(
-                "SELECT	*	FROM recipes WHERE user_id = ? AND recipe_status = 'REGULAR'",
-                ROW_MAPPER, userId);
-        if (list.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        return list;
-    }
-
-    @Override
     public List<Recipe> getRecipesWithTags(List<String> tags) {
 
         StringBuilder sb = new StringBuilder();
@@ -240,7 +247,6 @@ public class RecipeDaoImpl implements RecipeDao {
             }
         }
 
-
         final List<Recipe> list = jdbcTemplate.query(
                 "SELECT	*	FROM recipe_tags LEFT OUTER JOIN recipes " +
                         "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE recipe_tags.tag = ? AND recipe_status = 'REGULAR'",
@@ -251,5 +257,14 @@ public class RecipeDaoImpl implements RecipeDao {
 
         return list;
     }
+
+    //PARA LAS LISTAS
+
+//    public void addRecipeList(RecipeList rl, int userId) {
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("name", rl.getName());
+//
+//        map.put();
+//    }
 
 }
