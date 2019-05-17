@@ -34,4 +34,6 @@ public interface RecipeDao {
 
     List<Recipe> getAllRecipesByUserId(int userId);
 
+    List<Recipe> getRecipesWithTags(List<String> tags);
+
 }
