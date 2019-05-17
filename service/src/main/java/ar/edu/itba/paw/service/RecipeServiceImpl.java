@@ -225,4 +225,21 @@ public class RecipeServiceImpl implements RecipeService {
     public List<RecipeTag> getAllTags() {
         return recipeDao.getAllTags();
     }
+
+
+    @Override
+    public List<Recipe> FilterRecipesByTags(List<String> tags) {
+        return recipeDao.getRecipesWithTags(tags);
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesByDate() {
+        return recipeDao.getAllRecipesOrderedByDate();
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesByRating() {
+        return recipeDao.getAllRecipesOrderedByRating();
+    }
+
 }

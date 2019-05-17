@@ -221,4 +221,35 @@ public class RecipeDaoImpl implements RecipeDao {
         return list;
     }
 
+    @Override
+    public List<Recipe> getRecipesWithTags(List<String> tags) {
+
+        StringBuilder sb = new StringBuilder();
+
+        if(tags.size() == 0) {
+            return this.getAllRecipes();
+        }
+        if(tags.size() == 1) {
+            sb.append(tags.get(0));
+        }
+        else {
+            for (int i = 0;i < tags.size();i++) {
+                sb.append(tags.get(i));
+                if(i < tags.size()-1)
+                    sb.append(" OR recipe_tags.tag = ");
+            }
+        }
+
+
+        final List<Recipe> list = jdbcTemplate.query(
+                "SELECT	*	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                        "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE recipe_tags.tag = ? AND recipe_status = 'REGULAR'",
+                ROW_MAPPER, sb.toString());
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return list;
+    }
+
 }

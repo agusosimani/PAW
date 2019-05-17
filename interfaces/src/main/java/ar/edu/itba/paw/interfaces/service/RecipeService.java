@@ -45,4 +45,10 @@ public interface RecipeService {
     List<Recipe> getAllRecipesByUserId(int userId);
 
     List<RecipeTag> getAllTags();
+
+    List<Recipe> FilterRecipesByTags(List<String> tags);
+
+    List<Recipe> getAllRecipesByDate();
+
+    List<Recipe> getAllRecipesByRating();
 }
