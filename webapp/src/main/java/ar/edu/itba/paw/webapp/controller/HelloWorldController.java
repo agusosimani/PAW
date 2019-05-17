@@ -155,6 +155,13 @@ public class HelloWorldController {
         return new ModelAndView("redirect:/my_ingredients");
     }
 
+    @RequestMapping(value = "/rate_recipe", method = RequestMethod.POST) //Le digo que url mappeo
+    public ModelAndView rateRecipe(@RequestParam float rate, @RequestParam int recipeId) {
+        //TODO: QUITAR (int)
+        recipeService.addNewRating(getCurrentUserID(), recipeId ,(int)rate);
+        return new ModelAndView("redirect:/");
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
     public ModelAndView login() {
         final ModelAndView mav = new ModelAndView("login");
@@ -196,6 +203,8 @@ public class HelloWorldController {
 
         Recipe recipe = recipeService.getById(recipeId).get();
 
+        //TODO: agarrar el rate previo de un usuario, si no hay poner 0.
+        mav.addObject("previous_rate", 2);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
         mav.addObject("user", userService.getById(recipe.getUserId()).get());

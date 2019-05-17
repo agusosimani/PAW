@@ -49,6 +49,7 @@ public class RatingsDaoImpl implements RatingsDao {
         long time = date.getTime();
         map.put("date_created", new Timestamp(time));
 
+        System.out.printf("AGREGUE RATING");
         jdbcInsertRating.execute(map);
     }
 
