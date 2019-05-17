@@ -162,7 +162,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public void addNewRating(int user, int recipe, int rating) {
+    public void addNewRating(int user, int recipe, float rating) {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(user, recipe);
         if (maybeRating.isPresent()) {
             ratingsDao.update(user, recipe, "status", "REGULAR");
@@ -174,12 +174,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public void updateRating(int user, int recipe, int rating) {
+    public void updateRating(int user, int recipe, float rating) {
         ratingsDao.update(user, recipe, "rating", rating);
         updateRatingRecipe(recipe, rating);
     }
 
-    private void updateRatingRecipe(int recipe, int rating) {
+    private void updateRatingRecipe(int recipe, float rating) {
         Optional<Float> maybeTotalRating = ratingsDao.getRecipeRating(recipe);
         Map<String,Object> map= new HashMap<>();
         if(maybeTotalRating.isPresent()) {
@@ -195,7 +195,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public void deleteRating(int user, int recipe, int rating) {
+    public void deleteRating(int user, int recipe) {
         ratingsDao.update(user, recipe, "status", "DELETED");
         Optional<Float> maybeTotalRating = ratingsDao.getRecipeRating(recipe);
         Map<String,Object> map= new HashMap<>();
@@ -240,6 +240,12 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getAllRecipesByRating() {
         return recipeDao.getAllRecipesOrderedByRating();
+    }
+
+    @Override
+    public Optional<Float> getUserRating(int userId, int recipeId) {
+        Optional<Rating> maybeRating = ratingsDao.getSpecificRating(userId,recipeId);
+        return maybeRating.map(Rating::getRating);
     }
 
 }

@@ -23,7 +23,7 @@ public class RatingsDaoImpl implements RatingsDao {
     private final static RowMapper<Rating> ROW_MAPPER = (rs, rowNum) ->
             new Rating(rs.getInt("user_id"),
                     rs.getInt("recipe_id"),
-                    rs.getInt("rating"),
+                    rs.getFloat("rating"),
                     rs.getDate("date"),
                     rs.getInt("status"));
 
@@ -38,7 +38,7 @@ public class RatingsDaoImpl implements RatingsDao {
 
 
     @Override
-    public void addNewRating(int user, int recipe, int rating) {
+    public void addNewRating(int user, int recipe, float rating) {
         Map<String, Object> map = new HashMap<>();
 
         map.put("user_id", user);

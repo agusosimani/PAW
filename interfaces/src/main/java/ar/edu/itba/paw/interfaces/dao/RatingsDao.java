@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface RatingsDao {
 
-    void addNewRating(int userId, int recipeId, int rating);
+    void addNewRating(int userId, int recipeId, float rating);
 
     void update(int userId, int recipeId, String k, Object v);
 

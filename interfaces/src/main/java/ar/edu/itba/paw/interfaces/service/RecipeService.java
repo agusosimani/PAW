@@ -36,11 +36,11 @@ public interface RecipeService {
 
     void addNewRecipeTag(RecipeTag tag);
 
-    void addNewRating(int user, int recipe, int rating);
+    void addNewRating(int user, int recipe, float rating);
 
-    void updateRating(int user, int recipe, int rating);
+    void updateRating(int user, int recipe, float rating);
 
-    void deleteRating(int user, int recipe, int rating);
+    void deleteRating(int user, int recipe);
 
     List<Recipe> getAllRecipesByUserId(int userId);
 
@@ -51,4 +51,6 @@ public interface RecipeService {
     List<Recipe> getAllRecipesByDate();
 
     List<Recipe> getAllRecipesByRating();
+
+    Optional<Float> getUserRating(int userId, int recipeId);
 }

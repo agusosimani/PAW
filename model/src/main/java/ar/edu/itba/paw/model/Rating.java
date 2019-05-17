@@ -8,7 +8,7 @@ public class Rating {
 
     private int recipeId;
 
-    private int rating;
+    private float rating;
 
     //cambialo a timestamp TODO
     private Date date;
@@ -20,7 +20,7 @@ public class Rating {
         //Para hibernate futuro.
     }
 
-    public Rating(int userId,int recipeId, int rating, Date date, int status) {
+    public Rating(int userId,int recipeId, float rating, Date date, int status) {
         this.userId = userId;
         this.recipeId = recipeId;
         this.rating = rating;
@@ -44,11 +44,11 @@ public class Rating {
         this.recipeId = recipeId;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
