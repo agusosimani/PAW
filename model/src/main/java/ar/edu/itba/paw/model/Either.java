@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.service;
+package ar.edu.itba.paw.model;
 
 import java.util.NoSuchElementException;
 

@@ -1,16 +1,13 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.interfaces.dao.IngredientsDao;
-import ar.edu.itba.paw.interfaces.dao.RatingsDao;
-import ar.edu.itba.paw.interfaces.dao.RecipeDao;
-import ar.edu.itba.paw.interfaces.dao.UserDao;
+import ar.edu.itba.paw.interfaces.dao.*;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.Warnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +27,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     RatingsDao ratingsDao;
+
+    @Autowired
+    CommentsDao commentsDao;
 
     @Override
     public Optional<Recipe> getById(int id) {
@@ -107,6 +107,10 @@ public class RecipeServiceImpl implements RecipeService {
             if (rt.getObservation() == null)
                 rt.setObservation("");
             ingredientsDao.addNewRecipeIngredient(rec.getId(), rt);
+        }
+
+        for (Comment comment :recipe.getComments()) {
+            commentsDao.addNewComment(comment);
         }
         return rec;
     }
@@ -247,5 +251,25 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(userId,recipeId);
         return maybeRating.map(Rating::getRating);
     }
+
+    @Transactional
+    @Override
+    public Either<Comment, Warnings> addComment(Comment comment) {
+        if(comment == null)
+            return Either.alternative(Warnings.valueOf("CouldNotAddComment"));
+        if(comment.getMessage().isEmpty()|| comment.getMessage().equals(""))
+            return Either.alternative(Warnings.valueOf("CouldNotAddComment"));
+        return Either.value(commentsDao.addNewComment(comment));
+    }
+
+    @Override
+    public List<Comment> getRecipeComments(int recipeId) {
+        return commentsDao.getAllRecipeComments(recipeId);
+    }
+
+    
+
+
+
 
 }

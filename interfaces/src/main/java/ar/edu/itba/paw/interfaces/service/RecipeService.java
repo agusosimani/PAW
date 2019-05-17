@@ -1,8 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
-import ar.edu.itba.paw.model.Recipe;
-import ar.edu.itba.paw.model.RecipeTag;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.Warnings;
 
 import java.util.List;
 import java.util.Map;
@@ -53,4 +52,8 @@ public interface RecipeService {
     List<Recipe> getAllRecipesByRating();
 
     Optional<Float> getUserRating(int userId, int recipeId);
+
+    Either<Comment, Warnings> addComment(Comment comment);
+
+    List<Comment> getRecipeComments(int recipeId);
 }
