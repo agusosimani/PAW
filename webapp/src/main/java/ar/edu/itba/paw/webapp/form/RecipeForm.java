@@ -4,7 +4,6 @@ import ar.edu.itba.paw.model.RecipeTag;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Size;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,7 @@ public class RecipeForm {
     private int ingredientOneAmount;
     private int ingredientOne;
 
+    @ImageSize
     private MultipartFile image;
 
     public List<String> getTags() {
