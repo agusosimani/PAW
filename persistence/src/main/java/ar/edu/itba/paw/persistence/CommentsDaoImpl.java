@@ -26,7 +26,7 @@ public class CommentsDaoImpl implements CommentsDao {
                     rs.getInt("user_id"),
                     rs.getInt("recipe_id"),
                     rs.getString("message"),
-                    rs.getDate("date"));
+                    rs.getDate("comment_date"));
 
     @Autowired
     public CommentsDaoImpl(DataSource ds) {
@@ -49,7 +49,7 @@ public class CommentsDaoImpl implements CommentsDao {
 
         Date date= new Date();
         long time = date. getTime();
-        map.put("date_created", new Timestamp(time));
+        map.put("comment_date", new Timestamp(time));
 
         comment.setId(jdbcInsertComment.executeAndReturnKey(map).intValue());
 
