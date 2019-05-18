@@ -12,7 +12,7 @@ body {
     width: 100%;
 }
 
-.login {
+.login, .not_found {
     background: url('../img/background_login.jpeg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -25,12 +25,19 @@ body {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;}
+    background-size: cover;
+}
 
 .logo {
     height: 30%;
     min-height: 180px;
     margin-bottom: 10%;
+}
+
+.logo_not_found {
+    height: 40%;
+    min-height: 200px;
+    margin-bottom: 20%;
 }
 
 .btn-nav {
@@ -42,7 +49,7 @@ body {
     background-color: #1ED760 !important;
 }
 
-.offset_login {
+.offset_login, .offset_not_found {
     height: 20%;
 }
 
@@ -50,7 +57,7 @@ body {
     height: 10%;
 }
 
-.centered_login {
+.centered_login, .centered_not_found {
     height: 60%;
     background: rgba(221,221,221,0.8);
     border-radius: 2%;
