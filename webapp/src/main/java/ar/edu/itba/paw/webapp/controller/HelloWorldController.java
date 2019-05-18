@@ -62,14 +62,7 @@ public class HelloWorldController {
         final ModelAndView mav = new ModelAndView("index");
 
         //TODO: se puede usar form:checkboxes con objetos?
-        List<RecipeTag> allTagsList = recipeService.getAllTags();
-
-        List<String> allTagsStringList = new ArrayList<>();
-        for (RecipeTag tag : allTagsList) {
-            allTagsStringList.add(tag.getTag());
-        }
-
-        mav.addObject("allTags", Tag.values());
+        
         mav.addObject("RecipeList", recipeService.getRecipes());
         return mav;
     }
