@@ -94,9 +94,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public Recipe addNewRecipe(Recipe recipe) throws RuntimeException{
+    public Recipe addNewRecipe(Recipe recipe) throws RuntimeException {
 
-        if(recipe.getName().isEmpty() || recipe.getInstructions().isEmpty()) {
+        if (recipe.getName().isEmpty() || recipe.getInstructions().isEmpty()) {
             throw new RuntimeException();
         }
 
@@ -112,7 +112,7 @@ public class RecipeServiceImpl implements RecipeService {
             ingredientsDao.addNewRecipeIngredient(rec.getId(), rt);
         }
 
-        for (Comment comment :recipe.getComments()) {
+        for (Comment comment : recipe.getComments()) {
             commentsDao.addNewComment(comment);
         }
         return rec;
@@ -175,8 +175,11 @@ public class RecipeServiceImpl implements RecipeService {
             ratingsDao.update(user, recipe, "status", "REGULAR");
             updateRatingRecipe(recipe, rating);
 
-        } else
+        } else {
             ratingsDao.addNewRating(user, recipe, rating);
+            updateRatingRecipe(recipe, rating);
+
+        }
     }
 
     @Override
@@ -188,15 +191,16 @@ public class RecipeServiceImpl implements RecipeService {
 
     private void updateRatingRecipe(int recipe, float rating) {
         Optional<Float> maybeTotalRating = ratingsDao.getRecipeRating(recipe);
-        Map<String,Object> map= new HashMap<>();
-        if(maybeTotalRating.isPresent()) {
+        Map<String, Object> map = new HashMap<>();
+        if (maybeTotalRating.isPresent()) {
             float totalRating = maybeTotalRating.get();
-            map.put("rating",totalRating);
-            recipeDao.update(recipe,map);
-        }
-        else {
-            map.put("rating",rating);
-            recipeDao.update(recipe,map);
+
+
+            map.put("rating", totalRating);
+            recipeDao.update(recipe, map);
+        } else {
+            map.put("rating", rating);
+            recipeDao.update(recipe, map);
         }
     }
 
@@ -205,11 +209,11 @@ public class RecipeServiceImpl implements RecipeService {
     public void deleteRating(int user, int recipe) {
         ratingsDao.update(user, recipe, "status", "DELETED");
         Optional<Float> maybeTotalRating = ratingsDao.getRecipeRating(recipe);
-        Map<String,Object> map= new HashMap<>();
-        if(maybeTotalRating.isPresent()) {
+        Map<String, Object> map = new HashMap<>();
+        if (maybeTotalRating.isPresent()) {
             float totalRating = maybeTotalRating.get();
-            map.put("rating",totalRating);
-            recipeDao.update(recipe,map);
+            map.put("rating", totalRating);
+            recipeDao.update(recipe, map);
         }
     }
 
@@ -251,16 +255,16 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Optional<Float> getUserRating(int userId, int recipeId) {
-        Optional<Rating> maybeRating = ratingsDao.getSpecificRating(userId,recipeId);
+        Optional<Rating> maybeRating = ratingsDao.getSpecificRating(userId, recipeId);
         return maybeRating.map(Rating::getRating);
     }
 
     @Transactional
     @Override
     public Either<Comment, Warnings> addComment(Comment comment) {
-        if(comment == null)
+        if (comment == null)
             return Either.alternative(Warnings.valueOf("CouldNotAddComment"));
-        if(comment.getMessage().isEmpty()|| comment.getMessage().equals(""))
+        if (comment.getMessage().isEmpty() || comment.getMessage().equals(""))
             return Either.alternative(Warnings.valueOf("CouldNotAddComment"));
         return Either.value(commentsDao.addNewComment(comment));
     }
@@ -269,10 +273,6 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Comment> getRecipeComments(int recipeId) {
         return commentsDao.getAllRecipeComments(recipeId);
     }
-
-    
-
-
 
 
 }

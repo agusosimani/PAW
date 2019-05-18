@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.dao;
 
 import ar.edu.itba.paw.model.Recipe;
+import ar.edu.itba.paw.model.RecipeList;
 import ar.edu.itba.paw.model.RecipeTag;
 
 import java.util.List;
@@ -36,4 +37,8 @@ public interface RecipeDao {
 
     List<Recipe> getRecipesWithTags(List<String> tags);
 
+    //PARA LAS LISTAS
+    void addNewUserList(RecipeList rl, int userId);
+
+    void addRecipeToUserList(int listId, int recipeId);
 }

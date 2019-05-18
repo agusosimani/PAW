@@ -13,14 +13,14 @@ public class Rating {
     //cambialo a timestamp TODO
     private Date date;
 
-    private int status;
+    private String status;
 
 
     /*protected*/ Rating() {
         //Para hibernate futuro.
     }
 
-    public Rating(int userId,int recipeId, float rating, Date date, int status) {
+    public Rating(int userId,int recipeId, float rating, Date date, String status) {
         this.userId = userId;
         this.recipeId = recipeId;
         this.rating = rating;
@@ -60,11 +60,11 @@ public class Rating {
         this.date = date;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

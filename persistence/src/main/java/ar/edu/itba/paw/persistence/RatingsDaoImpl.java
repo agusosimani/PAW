@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RatingsDao;
+import ar.edu.itba.paw.model.Enum.Status;
 import ar.edu.itba.paw.model.Rating;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.User;
@@ -25,7 +26,7 @@ public class RatingsDaoImpl implements RatingsDao {
                     rs.getInt("recipe_id"),
                     rs.getFloat("rating"),
                     rs.getDate("date"),
-                    rs.getInt("status"));
+                    rs.getString("status"));
 
     private final static RowMapper<Float> ROW_MAPPER_RECIPE_TOTAL_RATING = (rs, rowNum) ->
             rs.getFloat("totalRating");
@@ -47,10 +48,11 @@ public class RatingsDaoImpl implements RatingsDao {
 
         Date date= new Date();
         long time = date.getTime();
-        map.put("date_created", new Timestamp(time));
+        map.put("date", new Timestamp(time));
 
-        System.out.printf("AGREGUE RATING");
-        //jdbcInsertRating.execute(map);
+        map.put("status", Status.REGULAR);
+
+        jdbcInsertRating.execute(map);
     }
 
     @Override

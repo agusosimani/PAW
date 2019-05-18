@@ -264,7 +264,7 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     //PARA LAS LISTAS
-
+    @Override
     public void addNewUserList(RecipeList rl, int userId) {
         Map<String, Object> map = new HashMap<>();
         map.put("name", rl.getName());
@@ -276,6 +276,19 @@ public class RecipeDaoImpl implements RecipeDao {
 
         Number id = jdbcInsertUserList.executeAndReturnKey(map);
         rl.setId(id.intValue());
+
+    }
+
+    @Override
+    public void addRecipeToUserList(int listId, int recipeId) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("recipe_id",recipeId);
+        map.put("recipe_list_id",listId);
+
+        map.put("ur_status", Status.REGULAR);
+
+        getJdbcInsertRecipeList.execute(map);
 
     }
 
