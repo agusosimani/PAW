@@ -50,7 +50,7 @@ public class RatingsDaoImpl implements RatingsDao {
         long time = date.getTime();
         map.put("date", new Timestamp(time));
 
-        map.put("status", Status.REGULAR);
+        map.put("status", Status.REGULAR.toString());
 
         jdbcInsertRating.execute(map);
     }

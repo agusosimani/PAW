@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.IngredientService;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.Status;
 import ar.edu.itba.paw.model.Enum.Tag;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.form.AddIngredientForm;
@@ -59,8 +60,6 @@ public class HelloWorldController {
     @RequestMapping("/") //Le digo que url mappeo
     public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
         final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
-
-        //System.out.printf("%s",LocaleContextHolder.getLocale().getDisplayLanguage());
 
         List<Recipe> recipeList = recipeService.getRecipes();
 
@@ -211,7 +210,6 @@ public class HelloWorldController {
         Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(),recipeId);
         if(maybeUserRating.isPresent())
             userRating = maybeUserRating.get();
-        System.out.printf("RATING PREVIO: %f", userRating);
         mav.addObject("previous_rate", userRating);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);

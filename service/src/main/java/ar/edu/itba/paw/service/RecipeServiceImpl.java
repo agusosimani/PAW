@@ -3,6 +3,7 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.interfaces.dao.*;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.Status;
 import ar.edu.itba.paw.model.Enum.Warnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -145,7 +146,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void deleteRecipe(Recipe recipe) {
         Map<String, Object> map = new HashMap<>();
-        map.put("recipe_status", "DELETED");
+        map.put("recipe_status", Status.DELETED.toString());
         recipeDao.update(recipe.getId(), map);
     }
 
@@ -172,9 +173,8 @@ public class RecipeServiceImpl implements RecipeService {
     public void addNewRating(int user, int recipe, float rating) {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(user, recipe);
         if (maybeRating.isPresent()) {
-            System.out.printf("entre");
-            ratingsDao.update(user,recipe,"rating",rating);
-            ratingsDao.update(user, recipe, "status", "REGULAR");
+            ratingsDao.update(user, recipe, "rating", rating);
+            ratingsDao.update(user, recipe, "status", Status.REGULAR.toString());
             updateRatingRecipe(recipe, rating);
 
         } else {
@@ -209,7 +209,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public void deleteRating(int user, int recipe) {
-        ratingsDao.update(user, recipe, "status", "DELETED");
+        ratingsDao.update(user, recipe, "status", Status.DELETED.toString());
         Optional<Float> maybeTotalRating = ratingsDao.getRecipeRating(recipe);
         Map<String, Object> map = new HashMap<>();
         if (maybeTotalRating.isPresent()) {
@@ -276,5 +276,73 @@ public class RecipeServiceImpl implements RecipeService {
         return commentsDao.getAllRecipeComments(recipeId);
     }
 
+    @Transactional
+    @Override
+    public void addNewCookList(int userId, RecipeList recipeList) {
+        recipeDao.addNewUserList(recipeList, userId);
+        for (Recipe recipe : recipeList.getList()) {
+            recipeDao.addRecipeToUserList(recipeList.getId(), recipe.getId());
+        }
+    }
+
+    @Transactional
+    @Override
+    public void addRecipeToCookList(int listId, int recipeId) {//TODO cambiar bien el add
+        recipeDao.addRecipeToUserList(listId, recipeId);
+    }
+
+    @Override
+    public Either<List<Recipe>, Warnings> getRecipesFromCookList(int listId) {
+        List<Recipe> list = recipeDao.getRecipesfromCookList(listId);
+        if (list.isEmpty())
+            return Either.alternative(Warnings.valueOf("NoRecipesInCookList"));
+        return Either.value(list);
+    }
+
+    @Override
+    public Either<List<RecipeList>, Warnings> getUserCookLists(int userId) {
+        List<RecipeList> list = recipeDao.getUserCookLists(userId);
+        if (list.isEmpty())
+            return Either.alternative(Warnings.valueOf("NoCookLists"));
+        for (RecipeList recipeList : list) {
+            recipeList.setList(recipeDao.getRecipesfromCookList(recipeList.getId()));
+        }
+        return Either.value(list);
+    }
+
+    @Override
+    @Transactional
+    public Warnings deleteRecipeFromCookList(int listId, int recipeId,int userId) {
+        if (recipeDao.checkCookListUser(listId, userId)) {
+            recipeDao.updateRList(listId, recipeId, Status.DELETED.toString());
+            return Warnings.valueOf("Success");
+        }
+        return Warnings.valueOf("AuthorizationDenied");
+    }
+
+    @Override
+    @Transactional
+    public Warnings deleteCookList(int listId, int userId) {//TODO: chequear si soy el dueno del cookList
+        if (recipeDao.checkCookListUser(listId, userId)) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("ur_status", Status.DELETED.toString());
+            recipeDao.updateURList(listId, map);
+            return Warnings.valueOf("Success");
+        }
+        return Warnings.valueOf("AuthorizationDenied");
+
+    }
+
+    @Override
+    @Transactional
+    public Warnings changeCookListName(int listId, String name, int userId) {
+        if (recipeDao.checkCookListUser(listId, userId)) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("list_name", name);
+            recipeDao.updateURList(listId, map);
+            return Warnings.valueOf("Success");
+        }
+        return Warnings.valueOf("AuthorizationDenied");
+    }
 
 }

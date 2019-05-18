@@ -56,4 +56,18 @@ public interface RecipeService {
     Either<Comment, Warnings> addComment(Comment comment);
 
     List<Comment> getRecipeComments(int recipeId);
+
+    void addNewCookList(int userId, RecipeList recipeList);
+
+    void addRecipeToCookList(int listId, int recipeId);
+
+    Either<List<Recipe>,Warnings> getRecipesFromCookList(int listId);
+
+    Either<List<RecipeList>, Warnings> getUserCookLists(int userId);
+
+    Warnings deleteRecipeFromCookList(int listId, int recipeId, int userId);
+
+    Warnings deleteCookList(int listId, int userId);
+
+    Warnings changeCookListName(int listId, String name, int userId);
 }

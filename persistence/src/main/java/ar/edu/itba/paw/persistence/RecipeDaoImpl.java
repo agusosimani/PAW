@@ -267,11 +267,11 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public void addNewUserList(RecipeList rl, int userId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("name", rl.getName());
+        map.put("list_name", rl.getName());
 
         map.put("user_id",userId);
 
-        map.put("ur_status", Status.REGULAR);
+        map.put("ur_status", Status.REGULAR.toString());
 
 
         Number id = jdbcInsertUserList.executeAndReturnKey(map);
@@ -286,12 +286,73 @@ public class RecipeDaoImpl implements RecipeDao {
         map.put("recipe_id",recipeId);
         map.put("recipe_list_id",listId);
 
-        map.put("ur_status", Status.REGULAR);
+        map.put("ur_status", Status.REGULAR.toString());
 
         getJdbcInsertRecipeList.execute(map);
 
     }
 
+    @Override
+    public List<RecipeList> getCookLists() {
+        final List<RecipeList> list = jdbcTemplate.query(
+                "SELECT	*	FROM user_recipe_list  WHERE ur_status = 'REGULAR'",
+                LIST_ROW_MAPPER);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return list;
+    }
+
+    @Override
+    public List<RecipeList> getUserCookLists(int userId) {
+        final List<RecipeList> list = jdbcTemplate.query(
+                "SELECT	*	FROM user_recipe_list  WHERE ur_status = 'REGULAR' AND user_id = ?",
+                LIST_ROW_MAPPER,userId);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return list;
+    }
+
+    @Override
+    public List<Recipe> getRecipesfromCookList(int listId) {
+        final List<Recipe> list = jdbcTemplate.query(
+                "SELECT	*	FROM recipe_list LEFT OUTER JOIN recipes" +
+                        " ON recipe_list.recipe_id = recipes.recipe_id" +
+                        " WHERE rl_status = 'REGULAR' AND recipe_list_id = ?",
+                ROW_MAPPER);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return list;
+    }
+
+    @Override
+    public void updateURList(int recipe_list_id, Map<String, Object> changes) {
+        changes.forEach((k, v) -> updateURList(recipe_list_id, k, v));
+    }
+
+    private void updateURList(int recipeListId, String k, Object v) {
+        if(k.equals("list_name"))
+            jdbcTemplate.update("UPDATE user_recipe_list SET list_name = ? WHERE recipe_list_id = ?",v,recipeListId);
+        if(k.equals("ur_status"))
+            jdbcTemplate.update("UPDATE user_recipe_list SET ur_status = ? WHERE recipe_list_id = ?",v,recipeListId);
+    }
+
+    @Override
+    public void updateRList(int recipeListId, int recipeId, String status) {
+        jdbcTemplate.update("UPDATE recipe_list SET rl_status = ? WHERE recipe_list_id = ? AND recipe_id = ?",
+                status,recipeListId,recipeId);
+    }
+
+    @Override
+    public boolean checkCookListUser(int listId, int userId) {
+        final List<RecipeList> list = jdbcTemplate.query(
+                "select * FROM user_recipe_list WHERE ur_status = 'REGULAR'" +
+                        "AND recipe_list_id = ? AND user_id = ? ",LIST_ROW_MAPPER,listId,userId);
+
+        return !list.isEmpty();
+    }
 
 
 }

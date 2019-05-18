@@ -41,4 +41,16 @@ public interface RecipeDao {
     void addNewUserList(RecipeList rl, int userId);
 
     void addRecipeToUserList(int listId, int recipeId);
+
+    List<RecipeList> getCookLists();
+
+    List<RecipeList> getUserCookLists(int userId);
+
+    List<Recipe> getRecipesfromCookList(int listId);
+
+    void updateURList(int recipe_list_id, Map<String, Object> changes);
+
+    void updateRList(int recipeListId, int recipeId, String status);
+
+    boolean checkCookListUser(int listId, int userId);
 }
