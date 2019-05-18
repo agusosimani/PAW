@@ -7,10 +7,24 @@ public class Comment {
 
     private int id;
     private int userId;
+    private String username;
     private int recipeId;
     private String message;
     private Date date;
+    private int votes;
 
+    public Comment(int id, int userId, int recipeId, String message,Date date, int votes, String username) {
+
+        this.id = id;
+        this.userId = userId;
+        this.recipeId = recipeId;
+        this.message = message;
+        this.date = date;
+        this.votes = votes;
+        this.username = username;
+    }
+
+    //TODO: Borrar cuando se cambien en la base los votes PEIO
     public Comment(int id, int userId, int recipeId, String message,Date date) {
 
         this.id = id;
@@ -25,6 +39,22 @@ public class Comment {
         this.userId = userId;
         this.recipeId = recipeId;
         this.message = message;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getId() {

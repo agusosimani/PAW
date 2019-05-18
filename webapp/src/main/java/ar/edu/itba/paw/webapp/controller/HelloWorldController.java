@@ -6,6 +6,7 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.Enum.Tag;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.form.AddIngredientForm;
+import ar.edu.itba.paw.webapp.form.CommentForm;
 import ar.edu.itba.paw.webapp.form.RecipeForm;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
@@ -24,10 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.sql.Date;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -153,14 +152,14 @@ public class HelloWorldController {
     @RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
         ingredientService.deleteUI(ingredientId, getCurrentUserID());
-        return new ModelAndView("redirect:/my_ingredients");
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/rate_recipe", method = RequestMethod.POST) //Le digo que url mappeo
-    public ModelAndView rateRecipe(@RequestParam float rate, @RequestParam int recipeId) {
-        //TODO: QUITAR (int)
-        recipeService.addNewRating(getCurrentUserID(), recipeId ,(int)rate);
-        return new ModelAndView("redirect:/");
+    public void rateRecipe(@RequestParam float rate, @RequestParam int recipeId) {
+
+        recipeService.addNewRating(getCurrentUserID(), recipeId ,rate);
+        //return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
@@ -199,13 +198,16 @@ public class HelloWorldController {
 
 	//CON EL ID LLAMO A SERVICES Y LA TRAIGO
 	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
-	public ModelAndView recipe(@RequestParam Integer recipeId) {
+	public ModelAndView recipe(@ModelAttribute("commentForm") final CommentForm form, @RequestParam Integer recipeId) {
 		final ModelAndView mav = new ModelAndView("recipe");
 
         Recipe recipe = recipeService.getById(recipeId).get();
 
         //TODO: agarrar el rate previo de un usuario, si no hay poner 0.
         mav.addObject("previous_rate", 2);
+
+
+        mav.addObject("comments", recipeService.getRecipeComments(recipe.getId()));
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
         mav.addObject("user", userService.getById(recipe.getUserId()).get());
@@ -213,6 +215,15 @@ public class HelloWorldController {
         return mav;
     }
 
+    @RequestMapping(value = "/add_comment", method = RequestMethod.POST) //Le digo que url mappeo
+    public ModelAndView deleteIngredient(@ModelAttribute("commentForm") final CommentForm form, @RequestParam Integer recipeId) {
+
+        recipeService.addComment(new Comment(getCurrentUserID(),recipeId,form.getComment()));
+
+        Map<String,Object> arguments = new HashMap<>();
+        arguments.put("recipeId", recipeId);
+        return new ModelAndView("redirect:/recipe", arguments);
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm form) {

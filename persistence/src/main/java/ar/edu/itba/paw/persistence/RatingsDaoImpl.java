@@ -50,7 +50,7 @@ public class RatingsDaoImpl implements RatingsDao {
         map.put("date_created", new Timestamp(time));
 
         System.out.printf("AGREGUE RATING");
-        jdbcInsertRating.execute(map);
+        //jdbcInsertRating.execute(map);
     }
 
     @Override
