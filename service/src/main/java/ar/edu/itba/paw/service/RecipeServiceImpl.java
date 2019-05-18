@@ -43,6 +43,9 @@ public class RecipeServiceImpl implements RecipeService {
             List<RecipeIngredient> ingredientsList = ingredientsDao.getByRecipeId(recipe.getId());
             recipe.setIngredients(ingredientsList);
 
+            List<Comment> commentsList = commentsDao.getAllRecipeComments(id);
+            recipe.setComments(commentsList);
+
             return Optional.of(recipe);
         }
         return maybe;

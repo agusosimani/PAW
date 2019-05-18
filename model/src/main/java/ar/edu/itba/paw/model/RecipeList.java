@@ -3,6 +3,7 @@ package ar.edu.itba.paw.model;
 import java.util.List;
 
 public class RecipeList {
+    private int id;
     private String name;
     private List<Recipe> list;
 
@@ -11,8 +12,17 @@ public class RecipeList {
         this.list = list;
     }
 
-    public RecipeList(String name) {
+    public RecipeList(int id,String name) {
         this.name = name;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

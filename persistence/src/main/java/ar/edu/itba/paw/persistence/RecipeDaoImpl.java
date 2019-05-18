@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
+import ar.edu.itba.paw.model.Enum.Status;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeList;
 import ar.edu.itba.paw.model.RecipeTag;
@@ -20,7 +21,8 @@ public class RecipeDaoImpl implements RecipeDao {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsertRecipe;
     private SimpleJdbcInsert jdbcInsertTag;
-    private SimpleJdbcInsert jdbcInsertList;
+    private SimpleJdbcInsert jdbcInsertUserList;
+    private SimpleJdbcInsert getJdbcInsertRecipeList;
 
     private final static RowMapper<Recipe> ROW_MAPPER = (rs, rowNum) ->
             new Recipe.Builder(
@@ -38,7 +40,7 @@ public class RecipeDaoImpl implements RecipeDao {
             new RecipeTag(rs.getString("tag"),rs.getInt("recipe_id"));
 
     private final static RowMapper<RecipeList> LIST_ROW_MAPPER = (rs,rowNum) ->
-            new RecipeList(rs.getString("name"));
+            new RecipeList(rs.getInt("recipe_list_id"),rs.getString("name"));
 
 
     @Autowired
@@ -50,8 +52,11 @@ public class RecipeDaoImpl implements RecipeDao {
                 .usingGeneratedKeyColumns("recipe_id");
         jdbcInsertTag = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("recipe_tags");
-        jdbcInsertList = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("user_recipe_list");
+        jdbcInsertUserList = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("user_recipe_list")
+                .usingGeneratedKeyColumns("recipe_list_id");
+        getJdbcInsertRecipeList = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("recipe_list");
     }
 
 
@@ -260,11 +265,20 @@ public class RecipeDaoImpl implements RecipeDao {
 
     //PARA LAS LISTAS
 
-//    public void addRecipeList(RecipeList rl, int userId) {
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("name", rl.getName());
-//
-//        map.put();
-//    }
+    public void addNewUserList(RecipeList rl, int userId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", rl.getName());
+
+        map.put("user_id",userId);
+
+        map.put("ur_status", Status.REGULAR);
+
+
+        Number id = jdbcInsertUserList.executeAndReturnKey(map);
+        rl.setId(id.intValue());
+
+    }
+
+
 
 }
