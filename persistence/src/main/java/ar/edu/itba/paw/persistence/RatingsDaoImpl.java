@@ -64,7 +64,7 @@ public class RatingsDaoImpl implements RatingsDao {
         }
         if (k.equals("rating")) {
             jdbcTemplate.update(
-                    "UPDATE ratings SET ratings = ? WHERE user_id = ? AND recipe_id = ? AND status = 'REGULAR'",
+                    "UPDATE ratings SET rating = ? WHERE user_id = ? AND recipe_id = ? AND status = 'REGULAR'",
                     v, user, recipe);
         }
     }

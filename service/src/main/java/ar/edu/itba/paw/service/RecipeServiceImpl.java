@@ -172,6 +172,8 @@ public class RecipeServiceImpl implements RecipeService {
     public void addNewRating(int user, int recipe, float rating) {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(user, recipe);
         if (maybeRating.isPresent()) {
+            System.out.printf("entre");
+            ratingsDao.update(user,recipe,"rating",rating);
             ratingsDao.update(user, recipe, "status", "REGULAR");
             updateRatingRecipe(recipe, rating);
 
