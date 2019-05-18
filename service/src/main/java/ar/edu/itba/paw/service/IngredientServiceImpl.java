@@ -263,7 +263,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public Warnings cookRecipe(List<RecipeIngredient> ri, int userId) {
         List<RecipeIngredient> rep = ingredientsDao.getByUserId(userId);
-        
+
         for (RecipeIngredient recipeIngredient : ri) {
 
             boolean flag = false;

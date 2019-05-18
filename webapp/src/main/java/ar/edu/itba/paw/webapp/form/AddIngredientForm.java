@@ -7,7 +7,7 @@ public class AddIngredientForm {
 
     private int ingredientId;
 
-    private int amount;
+    private float amount;
 
     public int getIngredientId() {
         return ingredientId;
@@ -17,7 +17,7 @@ public class AddIngredientForm {
         this.ingredientId = ingredientId;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 

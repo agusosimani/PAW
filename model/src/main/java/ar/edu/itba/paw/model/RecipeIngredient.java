@@ -5,10 +5,10 @@ import java.util.Objects;
 public class RecipeIngredient {
 
     private Ingredient ingredient;
-    private int amount;
+    private float amount;
     private String observation;
 
-    private RecipeIngredient(Ingredient ingredient, int amount, String observation) {
+    private RecipeIngredient(Ingredient ingredient, float amount, String observation) {
         this.ingredient = ingredient;
         this.amount = amount;
         this.observation = observation;
@@ -23,11 +23,11 @@ public class RecipeIngredient {
         this.ingredient = ingredient;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
@@ -49,13 +49,11 @@ public class RecipeIngredient {
 
     public static class Builder {
 
-//        private int id;
         private Ingredient ingredient;
-        private int amount;
+        private float amount;
         private String observation = "";
 
-        public Builder( Ingredient ingredient,int amount) {
-//            this.id = id;
+        public Builder( Ingredient ingredient,float amount) {
             this.ingredient = ingredient;
             this.amount = amount;
         }

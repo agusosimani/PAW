@@ -48,7 +48,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
                 .isVegetararian(rs.getBoolean("is_vegetarian"))
                 .taccFree(rs.getBoolean("tacc_free")).build();
 
-        return new RecipeIngredient.Builder(ing, rs.getInt("serving_amount"))
+        return new RecipeIngredient.Builder(ing, rs.getFloat("serving_amount"))
                 .observation(rs.getString("obs")).build();
     };
 
