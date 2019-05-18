@@ -70,7 +70,7 @@
                         <br/>
 
                         <c:if test="${!empty recipe.tags}">
-                            <p class="ingredients-title">Categorias</p>
+                            <p class="ingredients-title"><spring:message code="categories"/></p>
 
                             <div>
                                 <c:forEach var="tag" items="${recipe.tags}">

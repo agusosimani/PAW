@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@PasswordMatch
 public class RegisterForm {
     @Size(min = 2, max = 100)
     private String name;
@@ -13,36 +14,22 @@ public class RegisterForm {
     @Size(min = 2, max = 100)
     private String surname;
 
-    @NotNull
+    @AvailableUsername
     @Size(min = 1, max = 15)
     private String username;
 
-    @NotNull
     @Size(min = 6, max = 100)
     private String password;
 
-    @NotNull
     @Size(min = 6, max = 100)
     private String repeatPassword;
 
-    @NotNull
-    @Size(min = 10, max = 100)
     @Email
     private String email;
 
-
     private String gender;
 
-
     //TODO: poner las otras validaciones
-
-    public String getRepeatPassword() {
-            return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
 
     public String getName() {
         return name;
@@ -83,8 +70,15 @@ public class RegisterForm {
     public void setPassword(String password) {
         this.password = password;
     }
-}
 
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
+}
 
 //             __
 //            /
