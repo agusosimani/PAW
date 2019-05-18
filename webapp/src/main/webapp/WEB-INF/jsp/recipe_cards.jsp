@@ -9,7 +9,7 @@
     <div class="card-deck">
         <c:forEach var="recipe" items="${RecipeList}">
 
-            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 columns-cards-recipe">
                 <div class="card card-cascade narrower mb-4">
 
                     <!--Card image-->

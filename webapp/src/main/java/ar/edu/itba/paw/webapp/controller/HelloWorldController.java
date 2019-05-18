@@ -206,7 +206,7 @@ public class HelloWorldController {
         //TODO: agarrar el rate previo de un usuario, si no hay poner 0.
         mav.addObject("previous_rate", 2);
 
-
+System.out.printf("CANMTIDAD DE COMENTARIOS: %d", recipe.getComments().size());
         mav.addObject("comments", recipeService.getRecipeComments(recipe.getId()));
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
