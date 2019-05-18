@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.dao.IngredientsDao;
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.IngredientService;
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.Ingredient;
 import ar.edu.itba.paw.model.RecipeIngredient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,17 +261,37 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Boolean cookRecipe(RecipeIngredient ri, int userId) {
-//        Optional<RecipeIngredient> rep = ingredientsDao.getUserIngById(ri.getIngredient().getRecipeId(),userId);
-//        if(rep.isPresent()) {
-//            RecipeIngredient recipeIngredient = rep.get();
-//            Optional<List<RecipeIngredient>> maybeList = ingredientsDao.getByUserId(userId);
-//            if(maybeList.isPresent()) {
-//                List<RecipeIngredient> list = maybeList.get();
-//
-//            }
-//        }
-//    } TODO: Hacerlo
-        return false;
+    public Warnings cookRecipe(List<RecipeIngredient> ri, int userId) {
+        List<RecipeIngredient> rep = ingredientsDao.getByUserId(userId);
+        
+        for (RecipeIngredient recipeIngredient : ri) {
+
+            boolean flag = false;
+
+            for (RecipeIngredient userIngredient : rep) {
+                if ((userIngredient.getIngredient().equals(recipeIngredient.getIngredient()))) {
+                    flag = true;
+                    if (userIngredient.getAmount() - recipeIngredient.getAmount() < 0) {
+                        return Warnings.valueOf("CantCookRecipe");
+                    }
+                }
+            }
+            if (!flag) {
+                return Warnings.valueOf("CantCookRecipe");
+            }
+        }
+
+        for (RecipeIngredient recipeIngredient : ri) {
+
+            for (RecipeIngredient userIngredient : rep) {
+
+                if (userIngredient.getIngredient().equals(recipeIngredient.getIngredient())) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("serving_amount", userIngredient.getAmount() - recipeIngredient.getAmount());
+                    ingredientsDao.updateUserIngredient(recipeIngredient.getIngredient().getId(), map, userId);
+                }
+            }
+        }
+        return Warnings.valueOf("Success");
     }
 }

@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.model;
 
+import java.util.Objects;
+
 public class RecipeIngredient {
 
     private Ingredient ingredient;
@@ -35,6 +37,14 @@ public class RecipeIngredient {
 
     public void setObservation(String observation) {
         this.observation = observation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeIngredient that = (RecipeIngredient) o;
+        return Objects.equals(ingredient, that.ingredient);
     }
 
     public static class Builder {

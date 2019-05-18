@@ -136,9 +136,7 @@ public class HelloWorldController {
 
 
         List<RecipeIngredient> list = ingredientService.findByRecipe(recipeId);
-        for (RecipeIngredient ri : list) {
-            ingredientService.cookRecipe(ri, this.getCurrentUserID());
-        }
+        ingredientService.cookRecipe(list, this.getCurrentUserID());
 
 
         final ModelAndView mav = new ModelAndView("redirect:/recipe");

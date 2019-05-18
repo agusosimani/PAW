@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.service;
 
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.Ingredient;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeIngredient;
@@ -44,5 +45,5 @@ public interface IngredientService {
     void deleteI(Ingredient i);
 
 
-    Boolean cookRecipe(RecipeIngredient ri, int currentUserID);
+    Warnings cookRecipe(List<RecipeIngredient> ri, int currentUserID);
 }

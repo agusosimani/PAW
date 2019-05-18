@@ -6,7 +6,8 @@ public enum Warnings {
     NoRecipesInCookList("Could not find recipes in this CookList"),
     NoCookLists("Could not find CookLists"),
     Success("Success"),
-    AuthorizationDenied("User does not have the permission for action");
+    AuthorizationDenied("User does not have the permission for action"),
+    CantCookRecipe("User does not have the ingredients to cook the recipe");
 
     private String warning;
 
