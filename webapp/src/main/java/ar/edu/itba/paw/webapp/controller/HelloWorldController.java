@@ -63,6 +63,7 @@ public class HelloWorldController {
 
         //TODO: se puede usar form:checkboxes con objetos?
 
+        mav.addObject("allTags", Tag.values());
         mav.addObject("RecipeList", recipeService.getRecipes());
         return mav;
     }
