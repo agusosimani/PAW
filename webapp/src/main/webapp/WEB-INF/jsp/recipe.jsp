@@ -33,15 +33,15 @@
 
             <div class="flex">
                 <div class="recipe-body">
-                    <h4 class="recipe-title">${recipe.name}</h4>
-                    <p class="recipe-description">${recipe.description}</p>
+                    <h4 class="recipe-title"><c:out value="${recipe.name}"/></h4>
+                    <p class="recipe-description"><c:out value="${recipe.description}"/></p>
 
                     <br/>
-                    <p class="recipe-instructions">${recipe.instructions}</p>
+                    <p class="recipe-instructions"><c:out value="${recipe.instructions}"/></p>
                 </div>
 
                 <div class="recipe-image-container">
-                    <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="${recipe.name}"/>
+                    <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="<c:out value="${recipe.name}"/>"/>
                     <div class="ingredients-tags-div">
                         <br/>
                         <c:url var="rateUrl" value="/rate_recipe"/>
@@ -87,7 +87,7 @@
                         <p class="ingredients-title"><spring:message code="ingredients"/></p>
                         <c:forEach var="ingredient" items="${recipe.ingredients}">
                             <div>
-                                <p class="ingredients-item">${ingredient.ingredient.name}</p>
+                                <p class="ingredients-item"><c:out value="${ingredient.ingredient.name}"/></p>
                                 <p class="ingredients-amount">${ingredient.amount}</p>
                             </div>
 

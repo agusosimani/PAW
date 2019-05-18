@@ -24,6 +24,7 @@ public class RegisterForm {
     @Size(min = 6, max = 100)
     private String repeatPassword;
 
+    @Size(min = 6, max = 100)
     @Email
     private String email;
 
