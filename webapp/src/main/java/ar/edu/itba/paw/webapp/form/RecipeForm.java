@@ -18,10 +18,8 @@ public class RecipeForm {
 
     private List<String> tags;
 
-
-    private int ingredientOneAmount;
-    private int ingredientOne;
-
+    private List<Integer> ingredients;
+    private List<Integer> ingredientsAmount;
     @ImageSize
     private MultipartFile image;
 
@@ -31,24 +29,24 @@ public class RecipeForm {
         return tags;
     }
 
+    public List<Integer> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Integer> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public List<Integer> getIngredientsAmount() {
+        return ingredientsAmount;
+    }
+
+    public void setIngredientsAmount(List<Integer> ingredientsAmount) {
+        this.ingredientsAmount = ingredientsAmount;
+    }
+
     public void setTags(List<String> tags) {
         this.tags = tags;
-    }
-
-    public int getIngredientOne() {
-        return ingredientOne;
-    }
-
-    public void setIngredientOne(int ingredientOne) {
-        this.ingredientOne = ingredientOne;
-    }
-
-    public int getIngredientOneAmount() {
-        return ingredientOneAmount;
-    }
-
-    public void setIngredientOneAmount(int ingredientOneAmount) {
-        this.ingredientOneAmount = ingredientOneAmount;
     }
 
     public String getName() {

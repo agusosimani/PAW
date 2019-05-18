@@ -46,6 +46,45 @@
                         <br/>
                         <c:url var="rateUrl" value="/rate_recipe"/>
 
+                        <p class="ingredients-title"><spring:message code="rating.general"/></p>
+                        <fieldset class="rating rating-recipe disabled">
+                            <input type="radio" id="fiveGeneral" name="" value="5"
+                                   <c:if test="${recipe.rating == 5}">checked</c:if>/><label class="full" for="fiveGeneral"
+                                                                                             title="Awesome - 5 stars"></label>
+                            <input type="radio" id="fourhalfGeneral" value="4 and a half"
+                                   <c:if test="${recipe.rating >= 4.5}">checked</c:if>/><label class="half"
+                                                                                               for="fourhalfGeneral"
+                                                                                               title="Pretty good - 4.5 stars"></label>
+                            <input type="radio" id="fourGeneral" name="" value="4"
+                                   <c:if test="${recipe.rating >= 4}">checked</c:if>/><label class="full" for="fourGeneral"
+                                                                                             title="Pretty good - 4 stars"></label>
+                            <input type="radio" id="threehalfGeneral" name="" value="3 and a half"
+                                   <c:if test="${recipe.rating >= 3.5}">checked</c:if>/><label class="half"
+                                                                                               for="threehalfGeneral"
+                                                                                               title="Meh - 3.5 stars"></label>
+                            <input type="radio" id="threeGeneral" name="" value="3"
+                                   <c:if test="${recipe.rating >= 3}">checked</c:if>/><label class="full" for="threeGeneral"
+                                                                                             title="Meh - 3 stars"></label>
+                            <input type="radio" id="twohalfGeneral" name="" value="2 and a half"
+                                   <c:if test="${recipe.rating >= 2.5}">checked</c:if>/><label class="half"
+                                                                                               for="twohalfGeneral"
+                                                                                               title="Kinda bad - 2.5 stars"></label>
+                            <input type="radio" id="twoGeneral" name="" value="2"
+                                   <c:if test="${recipe.rating >= 2}">checked</c:if>/><label class="full" for="two"
+                                                                                             title="Kinda bad - 2 stars"></label>
+                            <input type="radio" id="onehalfGeneral" name="" value="1 and a half"
+                                   <c:if test="${recipe.rating >= 1.5}">checked</c:if>/><label class="half"
+                                                                                               for="onehalfGeneral"
+                                                                                               title="Meh - 1.5 stars"></label>
+                            <input type="radio" id="oneGeneral" name="" value="1"
+                                   <c:if test="${recipe.rating >= 1}">checked</c:if>/><label class="full" for="oneGeneral"
+                                                                                             title="Sucks big time - 1 star"></label>
+                            <input type="radio" id="halfGeneral" name="" value="half"
+                                   <c:if test="${recipe.rating >= 0.5}">checked</c:if>/><label class="half" for="halfGeneral"
+                                                                                               title="Sucks big time - 0.5 stars"></label>
+                        </fieldset>
+                        <br/>
+                        <p class="ingredients-title"><spring:message code="rating.user"/></p>
                         <fieldset class="rating rating-recipe">
                             <input onclick="add_rate(5)" type="radio" id="five" name="" value="5"
                                    <c:if test="${previous_rate == 5}">checked</c:if>/><label class="full" for="five"

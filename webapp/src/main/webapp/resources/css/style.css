@@ -103,6 +103,24 @@ a.custom-card:hover {
     text-align: left;
 }
 
+.new-recipe-ingredient-btn{
+    margin-top: 20px;
+}
+
+.new-recipe-ingredient-amount{
+    float: left;
+    margin:20px 0px 0px 20px;
+}
+
+.new-recipe-image{
+    margin-top: 20px;
+}
+
+.new-recipe-ingredient-select{
+    float:left;
+    margin: 20px 0px 0px 0px;
+}
+
 .ingredients-item{
     margin-left: 8px;
     font-size: medium;
@@ -233,6 +251,11 @@ ingredients-tags-div {
     clear:left;
     padding-top: 15px;
     margin-left: 15px;
+}
+
+.card-new-recipe {
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .card-comments{

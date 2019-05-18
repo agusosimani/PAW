@@ -57,15 +57,8 @@ public class HelloWorldController {
     }
 
     @RequestMapping("/") //Le digo que url mappeo
-    public ModelAndView helloWorld(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
-        final ModelAndView mav = new ModelAndView("index"); //Seleccionar lista
-
-        //System.out.printf("%s",LocaleContextHolder.getLocale().getDisplayLanguage());
-
-        List<Recipe> recipeList = recipeService.getRecipes();
-
-        List<Ingredient> allIngredientsList = ingredientService.getAllIngredients();
-
+    public ModelAndView helloWorld() {
+        final ModelAndView mav = new ModelAndView("index");
 
         //TODO: se puede usar form:checkboxes con objetos?
         List<RecipeTag> allTagsList = recipeService.getAllTags();
@@ -75,15 +68,18 @@ public class HelloWorldController {
             allTagsStringList.add(tag.getTag());
         }
 
+        mav.addObject("allTags", Tag.values());
+        mav.addObject("RecipeList", recipeService.getRecipes());
+        return mav;
+    }
 
-        for (Recipe in : recipeList) {
-            if (in.getTags() != null && !in.getTags().isEmpty())
-                System.out.printf("no es empty");
-        }
+    @RequestMapping(value = "/new_recipe", method = {RequestMethod.GET})
+    public ModelAndView newRecipe(@ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
+
+        final ModelAndView mav = new ModelAndView("new_recipe");
 
         mav.addObject("allTags", Tag.values());
-        mav.addObject("allIngredients", allIngredientsList);
-        mav.addObject("RecipeList", recipeList); //Popular model
+        mav.addObject("allIngredients", ingredientService.getAllIngredients());
         return mav;
     }
 
@@ -93,7 +89,10 @@ public class HelloWorldController {
             return null;
         }
 
-        List<RecipeIngredient> listIngredients = new ArrayList<>();
+        System.out.printf("LA LISTA TIENE UNOS: %d , primero %d", recipeForm.getIngredients().size(), recipeForm.getIngredients().get(0));
+        System.out.printf("LA LISTA TIENE UNOS: %d , primero %d", recipeForm.getIngredientsAmount().size(), recipeForm.getIngredientsAmount().get(0));
+
+       List<RecipeIngredient> listIngredients = new ArrayList<>();
 
         List<RecipeTag> recipeTags = new ArrayList<>();
 
@@ -110,7 +109,12 @@ public class HelloWorldController {
 
         }
 
-        listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(recipeForm.getIngredientOne()).get(), recipeForm.getIngredientOneAmount()).build());
+        List<Integer> formIngredients = recipeForm.getIngredients();
+        List<Integer> formIngredientsAmount = recipeForm.getIngredientsAmount();
+        for(int i = 0; i < formIngredients.size(); i++) {
+            listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(formIngredients.get(i)).get(), formIngredientsAmount.get(i)).build());
+        }
+
         final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(), getCurrentUserID())
                 .description(recipeForm.getDescription())
                 .tags(recipeTags).image(bytes)
@@ -124,8 +128,6 @@ public class HelloWorldController {
         if (errors.hasErrors()) {
             return null;
         }
-
-        System.out.printf("%d", addIngredientForm.getIngredientId());
 
         Ingredient aux = ingredientService.getById(addIngredientForm.getIngredientId()).get();
 
@@ -159,10 +161,7 @@ public class HelloWorldController {
 
     @RequestMapping(value = "/rate_recipe", method = RequestMethod.POST) //Le digo que url mappeo
     public void rateRecipe(@RequestParam float rate, @RequestParam int recipeId) {
-
-        System.out.println("Agregando");
         recipeService.addNewRating(getCurrentUserID(), recipeId ,rate);
-        System.out.println("Agregado");
         //return new ModelAndView("redirect:/");
     }
 
