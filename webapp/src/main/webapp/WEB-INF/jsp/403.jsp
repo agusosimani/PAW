@@ -24,7 +24,7 @@
     <div class="offset_error"></div>
     <div class="centered_error text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
       <img class="logo_error" src="./resources/img/foodify.png" alt="LOGO">
-      <h2 class="font-weight-light align-content-center">Lo sentimos.<br>No tiene permiso para acceder a esta página.</h2>
+      <h2 class="font-weight-light align-content-center"><spring:message code="apology"/><br><spring:message code="forbidden"/></h2>
     </div>
   </body>
 </html>
