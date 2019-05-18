@@ -121,7 +121,6 @@
                 </form:form>
 
                 <c:forEach var="comment" items="${comments}">
-
                     <div class="card-body-comment">
                                 <div class="card-body-inside">
                                     <c:url value="/user_recipes" var="userRecipesUrl">
@@ -146,57 +145,6 @@
                                    <p class="card-text">${comment.message}</p>
                                 </div>
                             </div>
-
-
-                    <div class="card-body-comment">
-                        <div class="card-body-inside">
-                            <c:url value="/user_recipes" var="userRecipesUrl">
-                                <c:param name="userId" value="${comment.userId}"/>
-                            </c:url>
-                            <a class="bg-transparent" href="${userRecipesUrl}">
-                                <img class="user-image-commentary" src="<c:url value="/resources/img/user.png"/>">
-                            </a>
-                            <div class="user-date-comment">
-                                <a class="bg-transparent" href="${userRecipesUrl}">
-                                    <h5 class="user-title-commentary">${comment.username}</h5>
-                                </a>
-                                <p class="card-comments-date"> ${comment.date}</p>
-                            </div>
-                            <div class="float-right">
-                                <p class="comment-vote">23</p>
-                                <i class="fas fa-arrow-up arrow-up-enabled"></i>
-                                <i class="fas fa-arrow-down arrow-down-enabled"></i>
-                            </div>
-                        </div>
-                        <div class="card-comments-text">
-                            <p class="card-text">${comment.message}</p>
-                        </div>
-                    </div>
-
-                    <div class="card-body-comment">
-                        <div class="card-body-inside">
-                            <c:url value="/user_recipes" var="userRecipesUrl">
-                                <c:param name="userId" value="${comment.userId}"/>
-                            </c:url>
-                            <a class="bg-transparent" href="${userRecipesUrl}">
-                                <img class="user-image-commentary" src="<c:url value="/resources/img/user.png"/>">
-                            </a>
-                            <div class="user-date-comment">
-                                <a class="bg-transparent" href="${userRecipesUrl}">
-                                    <h5 class="user-title-commentary">${comment.username}</h5>
-                                </a>
-                                <p class="card-comments-date"> ${comment.date}</p>
-                            </div>
-                            <div class="float-right">
-                                <p class="comment-vote">23</p>
-                                <i class="fas fa-arrow-up arrow-up-enabled"></i>
-                                <i class="fas fa-arrow-down arrow-down-enabled"></i>
-                            </div>
-                        </div>
-                        <div class="card-comments-text">
-                            <p class="card-text">${comment.message}</p>
-                        </div>
-                    </div>
                 </c:forEach>
             </div>
         </div>
