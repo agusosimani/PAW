@@ -100,7 +100,8 @@
                     <form:checkboxes path="tags" element="span class='custom-control custom-checkbox'" items="${allTags}"/>
                 </div>
                 <div class="float-right">
-                    <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>
+                    <c:url var="indexUrl" value="/"/>
+                    <a class="btn btn-blue-grey" href="${indexUrl}"><spring:message code="close"/></a>
                     <button type="submit" class="btn btn-green"><spring:message code="saveChangesButton"/></button>
                 </div>
             </form:form>

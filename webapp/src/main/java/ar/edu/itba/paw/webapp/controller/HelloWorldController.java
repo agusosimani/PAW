@@ -62,7 +62,7 @@ public class HelloWorldController {
         final ModelAndView mav = new ModelAndView("index");
 
         //TODO: se puede usar form:checkboxes con objetos?
-        
+
         mav.addObject("RecipeList", recipeService.getRecipes());
         return mav;
     }
