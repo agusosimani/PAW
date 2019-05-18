@@ -161,7 +161,7 @@ public class HelloWorldController {
     public void rateRecipe(@RequestParam float rate, @RequestParam int recipeId) {
 
         System.out.println("Agregando");
-        recipeService.updateRating(getCurrentUserID(), recipeId ,rate);
+        recipeService.addNewRating(getCurrentUserID(), recipeId ,rate);
         System.out.println("Agregado");
         //return new ModelAndView("redirect:/");
     }
