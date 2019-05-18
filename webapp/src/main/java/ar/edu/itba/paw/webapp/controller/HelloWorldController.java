@@ -10,6 +10,7 @@ import ar.edu.itba.paw.webapp.form.CommentForm;
 import ar.edu.itba.paw.webapp.form.RecipeForm;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
+import org.glassfish.jersey.server.model.Suspendable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +29,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 
 @Controller
@@ -158,7 +160,9 @@ public class HelloWorldController {
     @RequestMapping(value = "/rate_recipe", method = RequestMethod.POST) //Le digo que url mappeo
     public void rateRecipe(@RequestParam float rate, @RequestParam int recipeId) {
 
-        recipeService.addNewRating(getCurrentUserID(), recipeId ,rate);
+        System.out.println("Agregando");
+        recipeService.updateRating(getCurrentUserID(), recipeId ,rate);
+        System.out.println("Agregado");
         //return new ModelAndView("redirect:/");
     }
 
@@ -203,11 +207,12 @@ public class HelloWorldController {
 
         Recipe recipe = recipeService.getById(recipeId).get();
 
-        //TODO: agarrar el rate previo de un usuario, si no hay poner 0.
-        mav.addObject("previous_rate", 2);
-
-System.out.printf("CANMTIDAD DE COMENTARIOS: %d", recipe.getComments().size());
-        mav.addObject("comments", recipeService.getRecipeComments(recipe.getId()));
+        float userRating = 0;
+        Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(),recipeId);
+        if(maybeUserRating.isPresent())
+            userRating = maybeUserRating.get();
+        System.out.printf("RATING PREVIO: %f", userRating);
+        mav.addObject("previous_rate", userRating);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
         mav.addObject("user", userService.getById(recipe.getUserId()).get());

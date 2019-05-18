@@ -120,7 +120,7 @@
                     <button type="submit" class="btn btn-green"><spring:message code="comment.Send"/></button>
                 </form:form>
 
-                <c:forEach var="comment" items="${comments}">
+                <c:forEach var="comment" items="${recipe.comments}">
                     <div class="card-body-comment">
                                 <div class="card-body-inside">
                                     <c:url value="/user_recipes" var="userRecipesUrl">
@@ -168,6 +168,8 @@
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
+
+<script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
 
 </body>
 </html>
