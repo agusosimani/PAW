@@ -5,8 +5,8 @@ function add_rate(clicked_id){
         url: "/rate_recipe",
         data: {rate: clicked_id, recipeId: searchParams.get("recipeId")},
         type: "POST",
-        success:function() {
-            location.reload();
+        complete:function() {
+            window.location.reload();
         }
     });
 
