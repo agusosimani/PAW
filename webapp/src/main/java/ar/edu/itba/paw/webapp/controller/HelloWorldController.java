@@ -102,6 +102,7 @@ public class HelloWorldController {
 
         byte[] bytes = null;
         try {
+            //TODO: VALIDAR ESTO!
             bytes = recipeForm.getImage().getBytes();
         } catch (Exception e) {
 

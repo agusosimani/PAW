@@ -14,13 +14,12 @@
 
                     <!--Card image-->
                     <div class="view view-cascade">
-                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+                        <img class="card-img-top" src="data:image/png;base64,${recipe.encodedImage}" alt="<c:out value="${recipe.name}"/>"/>
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>
                     </div>
                     <!--/.Card image-->
-
 
                     <!--Card content-->
                     <div class="card-body card-body-cascade">
@@ -30,8 +29,8 @@
                             </c:forEach>
                         </div>
 
-                        <h4 class="card-title"><strong>${recipe.name}</strong></h4>
-                        <p class="card-text">${recipe.description}</p>
+                        <h4 class="card-title"><strong><c:out value="${recipe.name}"/></strong></h4>
+                        <p class="card-text"><c:out value="${recipe.description}"/></p>
 
                         <c:url value="/recipe" var="recipeUrl">
                             <c:param name="recipeId" value="${recipe.id}"/>
@@ -59,18 +58,6 @@
 
 
 </section>
-
-
-<%--<!-- SCRIPTS -->
-<!-- JQuery -->
-<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="<c:url value="/resources/js/popper.min.js"/>"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>--%>
 
 </body>
 </html>

@@ -82,6 +82,11 @@ body {
     margin-top: 1%;
 }
 
+.text-muted{
+    text-align: left;
+    color: #ff0219 !important;
+}
+
 a.custom-card,
 a.custom-card:hover {
     color: inherit;

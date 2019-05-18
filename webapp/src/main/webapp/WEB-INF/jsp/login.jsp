@@ -29,10 +29,12 @@
         <img class="logo" src="./resources/img/foodify.png" alt="LOGO">
 
         <!-- Username -->
-        <input type="text" id="username" name="j_username" class="form-control mb-4" placeholder="Username">
+        <spring:message code="User.username" var="username"/>
+        <input type="text" id="username" name="j_username" class="form-control mb-4" placeholder="${username}">
 
         <!-- Password -->
-        <input type="password" id="password" name="j_password" class="form-control mb-4" placeholder="Password">
+        <spring:message code="User.password" var="password"/>
+        <input type="password" id="password" name="j_password" class="form-control mb-4" placeholder="${password}">
 
         <div class="d-flex justify-content-around">
             <div>
