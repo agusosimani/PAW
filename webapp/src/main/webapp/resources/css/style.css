@@ -12,7 +12,7 @@ body {
     width: 100%;
 }
 
-.login, .not_found {
+.login, .error {
     background: url('../img/background_login.jpeg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -34,7 +34,7 @@ body {
     margin-bottom: 10%;
 }
 
-.logo_not_found {
+.logo_error {
     height: 40%;
     min-height: 200px;
     margin-bottom: 20%;
@@ -49,7 +49,7 @@ body {
     background-color: #1ED760 !important;
 }
 
-.offset_login, .offset_not_found {
+.offset_login, .offset_error {
     height: 20%;
 }
 
@@ -57,7 +57,7 @@ body {
     height: 10%;
 }
 
-.centered_login, .centered_not_found {
+.centered_login, .centered_error {
     height: 60%;
     background: rgba(221,221,221,0.8);
     border-radius: 2%;
