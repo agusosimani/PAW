@@ -27,19 +27,15 @@
 <!-- Section: Blog v.2 -->
 <section class="main_container">
     <section class="browse text-center">
-        <!-- Grid row -->
-        <div class="row">
 
-            <!-- Grid column -->
-
-
+        <div class="card-deck">
             <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
                 <c:url value="/user_recipes" var="userRecipesUrl">
                     <c:param name="userId" value="${user.id}"/>
                 </c:url>
                 <!-- Featured image -->
-                <div class="card" >
+                <div class="card card-cascade narrower mb-4">
 
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
@@ -54,9 +50,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                <div class="card">
+                <div class="card card-cascade narrower mb-4">
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
@@ -70,9 +66,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 mb-0">
+            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                <div class="card">
+                <div class="card card-cascade narrower mb-4">
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
@@ -90,13 +86,9 @@
                 <!-- Post title -->
 
             </div>
-
-        </div>
-        <!-- Grid row -->
-        <div class="row">
             <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                <div class="card">
+                <div class="card card-cascade narrower mb-4">
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
@@ -113,9 +105,9 @@
 
             </div>
 
-            <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                <div class="card">
+                <div class="card card-cascade narrower mb-4">
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
@@ -133,7 +125,6 @@
             </div>
 
         </div>
-        <!-- Grid row -->
 
     </section>
 

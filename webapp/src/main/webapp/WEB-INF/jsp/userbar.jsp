@@ -17,7 +17,7 @@
                         <h5 class="user_title">${user.username}</h5>
                     </div>
                 </a>
-                <br/><br/></br></br>
+                <br><br><br><br>
                 <p class="card-text"><spring:message code="Recipe.amount" arguments="${recipes_amount}" /></p>
 <%--                ${recipes_amount} recetas subidas--%>
             </div>

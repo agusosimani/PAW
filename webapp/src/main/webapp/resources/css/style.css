@@ -94,21 +94,6 @@ a.custom-card:hover {
     width: 300px;
     float:right;
 }
-
-.recipe-body{
-    text-align: left;
-    float:left;
-    margin: 2%;
-    width: 70%;
-}
-
-.recipe-body::after{
-    text-align: left;
-    float:left;
-    margin: 2%;
-    width: 70%;
-}
-
 .card-body{
     text-align: left;
 }
@@ -157,6 +142,16 @@ ingredients-tags-div {
     text-align: left;
 }
 
+.btn-cook{
+    border-radius: 50%;
+    width: 96px;
+    height: 96px;
+    position: fixed;
+    z-index: 1;
+    bottom: 5%;
+    right: 5%;
+}
+
 .flex{
     display: flex;
 }
@@ -166,6 +161,77 @@ ingredients-tags-div {
     height: auto;
 }
 
+.user-date-comment {
+    margin-top: 12px;
+    margin-left: 18px;
+    float:left;
+}
+
+.user-title-commentary{
+    float:left;
+    color: black;
+}
+
+.user-image-commentary{
+    width: 40px;
+    float: left;
+}
+
+.fa-arrow-down{
+    margin-left: 15px;
+}
+
+.arrow-down-enabled {
+    color: deepskyblue;
+}
+
+.arrow-up-enabled{
+    color: lawngreen;
+}
+
+.comment-add-label{
+    font-size: x-large;
+}
+
+.comment-textarea{
+    height: 140px;
+    width: 100%;
+    min-height: 70px;
+}
+
+.comment-vote{
+    margin-right: 15px;
+    float: left;
+}
+
+.card-body-comment{
+    margin-top: 20px;
+    border-top: 2px solid lightgray;
+}
+
+.card-body-inside{
+    margin-top: 20px;
+}
+
+.card-comments-date{
+    float:left;
+    font-size: 14px;
+    margin-left: 25px;
+    color: darkgrey;
+}
+
+.card-comments-text{
+    clear:left;
+    padding-top: 15px;
+    margin-left: 15px;
+}
+
+.card-comments{
+    border-bottom: grey;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
     padding-right: 0px;
     padding-left: 0px;
@@ -173,10 +239,18 @@ ingredients-tags-div {
 
 .recipe-image-container{
     display: inline-block;
-    float:right;
     margin: 2%;
-    width: 20%;
+    width: 30%;
+    min-width: 144px;
 }
+
+.recipe-body{
+    text-align: left;
+    margin: 2%;
+    width: -webkit-fill-available;
+    min-width: 0;
+}
+
 
 .user_image {
     float: left;
@@ -184,6 +258,7 @@ ingredients-tags-div {
 }
 
 .user_title {
+    color: black;
     width: 70%;
     float:left;
     margin-top: 24px;
@@ -308,9 +383,6 @@ ingredients-tags-div {
     height: 80%;
 }*/
 
-textarea.form-control {
-    height: 20% !important;
-}
 
 .label-name {
     padding-top: 1%;
