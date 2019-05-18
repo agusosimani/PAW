@@ -102,24 +102,33 @@ CREATE TABLE IF NOT EXISTS recipe_tags
 
 CREATE TABLE IF NOT EXISTS user_recipe_list
 (
-    list_name VARCHAR(255),
-    user_id   INT NOT NULL,
-    recipe_id INT NOT NULL,
-    ur_status VARCHAR(20) DEFAULT 'REGULAR',
-    PRIMARY KEY (list_name,user_id,recipe_id),
-    CONSTRAINT recipe_tags_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
-    CONSTRAINT recipe_tags_constraint_2 FOREIGN KEY (user_id) REFERENCES users (user_id)
+    recipe_list_id SERIAL,
+    list_name      VARCHAR(255),
+    user_id        INT NOT NULL,
+    ur_status      VARCHAR(20) DEFAULT 'REGULAR',
+    PRIMARY KEY (recipe_list_id),
+    CONSTRAINT recipe_tags_constraint FOREIGN KEY (user_id) REFERENCES users (user_id)
 
+);
+
+CREATE TABLE IF NOT EXISTS recipe_list
+(
+    recipe_list_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    rl_status      VARCHAR(20) DEFAULT 'REGULAR',
+    PRIMARY KEY (recipe_list_id,recipe_id),
+    CONSTRAINT recipe_list_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
+    CONSTRAINT recipe_list_constraint_2 FOREIGN KEY (recipe_list_id) REFERENCES user_recipe_list (recipe_list_id)
 );
 
 CREATE TABLE IF NOT EXISTS recipes_comments
 (
     comment_id     SERIAL,
     message        text,
-    recipe_id      int NOT NULL,
-    user_id        int NOT NULL,
-    comment_status varchar(20) DEFAULT 'REGULAR',
-    comment_date      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    recipe_id      int       NOT NULL,
+    user_id        int       NOT NULL,
+    comment_status varchar(20)        DEFAULT 'REGULAR',
+    comment_date   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (comment_id),
     CONSTRAINT recipes_comments_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
     CONSTRAINT recipes_comments_constraint_2 FOREIGN KEY (user_id) REFERENCES users (user_id)
