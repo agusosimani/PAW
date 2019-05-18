@@ -45,7 +45,7 @@ public class CommentsDaoImpl implements CommentsDao {
         map.put("user_id", comment.getUserId());
         map.put("recipe_id",comment.getRecipeId());
 
-        map.put("comment_status", Status.REGULAR);
+        map.put("comment_status", Status.REGULAR.toString());
 
         Date date= new Date();
         long time = date. getTime();

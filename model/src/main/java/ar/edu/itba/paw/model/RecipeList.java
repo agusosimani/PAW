@@ -12,7 +12,7 @@ public class RecipeList {
         this.list = list;
     }
 
-    public RecipeList(int id,String name) {
+    public RecipeList(int id, String name) {
         this.name = name;
         this.id = id;
     }
