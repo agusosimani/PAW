@@ -69,19 +69,19 @@ public class HelloWorldController {
     }
 
     @RequestMapping(value = "/new_recipe", method = {RequestMethod.GET})
-    public ModelAndView newRecipe(@ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
-
+    public ModelAndView newRecipe(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
         final ModelAndView mav = new ModelAndView("new_recipe");
 
         mav.addObject("allTags", Tag.values());
         mav.addObject("allIngredients", ingredientService.getAllIngredients());
+
         return mav;
     }
 
     @RequestMapping(value = "/create_recipe", method = {RequestMethod.POST})
     public ModelAndView createRecipe(@Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
         if (errors.hasErrors()) {
-            return null;
+            return newRecipe(recipeForm);
         }
 
         System.out.printf("LA LISTA TIENE UNOS: %d , primero %d", recipeForm.getIngredients().size(), recipeForm.getIngredients().get(0));
@@ -228,13 +228,15 @@ public class HelloWorldController {
     }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
-    public ModelAndView create(@Valid @ModelAttribute("registerForm") final RegisterForm form, final BindingResult errors) {
+    public ModelAndView create(@Valid @ModelAttribute("registerForm") final RegisterForm registerForm, final BindingResult errors) {
         if (errors.hasErrors()) {
-            return register(form);
+            return register(registerForm);
         }
-        String hashedPassword = passwordEncoder.encode(form.getPassword());
-        final User u = userService.signUpUser(new User.Builder(form.getUsername(), hashedPassword, form.getEmail())
-                .name(form.getName()).surname(form.getSurname()).build());
+
+        String hashedPassword = passwordEncoder.encode(registerForm.getPassword());
+        final User u = userService.signUpUser(new User.Builder(registerForm.getUsername(), hashedPassword, registerForm.getEmail())
+                .name(registerForm.getName()).surname(registerForm.getSurname()).build());
+
         return new ModelAndView("redirect:/login");
     }
 

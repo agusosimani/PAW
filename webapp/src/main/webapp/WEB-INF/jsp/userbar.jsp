@@ -13,8 +13,8 @@
                 </c:url>
                 <a class="bg-transparent" href="${userRecipesUrl}">
                     <div>
-                        <img class="user_image" src="<c:url value="/resources/img/user.png"/>">
-                        <h5 class="user_title">${user.username}</h5>
+                        <span><img class="user_image" src="<c:url value="/resources/img/user.png"/>"></span>
+                        <span><h5 class="user_title">${user.username}</h5></span>
                     </div>
                 </a>
                 <br><br><br><br>

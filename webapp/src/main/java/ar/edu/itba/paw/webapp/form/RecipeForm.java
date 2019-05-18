@@ -9,11 +9,11 @@ import java.util.List;
 
 public class RecipeForm {
 
-    @Size(max = 100)
+    @Size(min = 5, max = 100)
     private String name;
-    @Size(max = 100)
+    @Size(min = 10, max = 100)
     private String description;
-    @Size(max = 100)
+    @Size(min = 20, max = 1000)
     private String instructions;
 
     private List<String> tags;

@@ -14,7 +14,11 @@
 
                     <!--Card image-->
                     <div class="view view-cascade">
-                        <img class="card-img-top" src="data:image/png;base64,${recipe.encodedImage}" alt="<c:out value="${recipe.name}"/>"/>
+                        <img class="card-img-top"
+                             src="<c:choose>
+                                    <c:when test="${recipe.encodedImage == ''}"><c:url value="/resources/img/no_recipe_image.png"/></c:when>
+                                    <c:otherwise>data:image/png;base64,${recipe.encodedImage}</c:otherwise>
+                                  </c:choose>" alt="<c:out value="${recipe.name}"/>"/>
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>

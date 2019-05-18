@@ -41,7 +41,11 @@
                 </div>
 
                 <div class="recipe-image-container">
-                    <img class="recipe-image" src="data:image/png;base64,${recipe.encodedImage}" alt="<c:out value="${recipe.name}"/>"/>
+                    <img class="recipe-image"
+                         src="<c:choose>
+                                <c:when test="${recipe.encodedImage == ''}"><c:url value="/resources/img/no_recipe_image.png"/></c:when>
+                                <c:otherwise>data:image/png;base64,${recipe.encodedImage}</c:otherwise>
+                              </c:choose>" alt="<c:out value="${recipe.name}"/>"/>
                     <div class="ingredients-tags-div">
                         <br/>
                         <c:url var="rateUrl" value="/rate_recipe"/>
