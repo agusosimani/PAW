@@ -61,7 +61,6 @@ public interface RecipeService {
 
     void addNewCookListWithIngredients(int userId, RecipeList recipeList);
 
-    @Transactional
     RecipeList addNewCookListWithoutIngredients(int userId, String name);
 
     void addRecipeToCookList(int listId, int recipeId);

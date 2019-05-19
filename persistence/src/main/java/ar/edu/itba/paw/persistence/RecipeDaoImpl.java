@@ -40,7 +40,7 @@ public class RecipeDaoImpl implements RecipeDao {
             new RecipeTag(rs.getString("tag"),rs.getInt("recipe_id"));
 
     private final static RowMapper<RecipeList> LIST_ROW_MAPPER = (rs,rowNum) ->
-            new RecipeList(rs.getInt("recipe_list_id"),rs.getString("name"));
+            new RecipeList(rs.getInt("recipe_list_id"),rs.getString("list_name"));
 
 
     @Autowired
@@ -333,8 +333,8 @@ public class RecipeDaoImpl implements RecipeDao {
         final List<Recipe> list = jdbcTemplate.query(
                 "SELECT	*	FROM recipe_list LEFT OUTER JOIN recipes" +
                         " ON recipe_list.recipe_id = recipes.recipe_id" +
-                        " WHERE rl_status = 'REGULAR' AND recipe_list_id = ?",
-                ROW_MAPPER);
+                        " WHERE rl_status = 'REGULAR' AND recipe_list_id = ?;",
+                ROW_MAPPER,listId);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }

@@ -93,8 +93,7 @@ public class HelloWorldController {
         }
         System.out.printf("AGREGANDO\n");
 
-        RecipeList rpl = new RecipeList(form.getName(),new ArrayList<>());
-        recipeService.addNewCookList(getCurrentUserID(),rpl);
+        recipeService.addNewCookListWithoutIngredients(getCurrentUserID(),form.getName());
 
         System.out.printf("TERMINE\n");
         return new ModelAndView("redirect:/");
