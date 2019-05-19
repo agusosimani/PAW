@@ -256,6 +256,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public List<Rating> getFavouriteRecipes(int userId) {
+        return ratingsDao.getRatingsBiggerThanFour(userId);
+    }
+
+    @Override
     public Optional<Float> getUserRating(int userId, int recipeId) {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(userId, recipeId);
         return maybeRating.map(Rating::getRating);
@@ -270,6 +275,8 @@ public class RecipeServiceImpl implements RecipeService {
             return Either.alternative(Warnings.valueOf("CouldNotAddComment"));
         return Either.value(commentsDao.addNewComment(comment));
     }
+
+
 
     @Override
     public List<Comment> getRecipeComments(int recipeId) {
@@ -306,14 +313,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Either<List<RecipeList>, Warnings> getUserCookLists(int userId) {
+    public List<RecipeList> getUserCookLists(int userId) {
         List<RecipeList> list = recipeDao.getUserCookLists(userId);
-        if (list.isEmpty())
-            return Either.alternative(Warnings.valueOf("NoCookLists"));
         for (RecipeList recipeList : list) {
             recipeList.setList(recipeDao.getRecipesfromCookList(recipeList.getId()));
         }
-        return Either.value(list);
+        return list;
     }
 
     @Override

@@ -117,5 +117,17 @@ public class RatingsDaoImpl implements RatingsDao {
         return Optional.of(list.get(0));
     }
 
+    @Override
+    public List<Rating> getRatingsBiggerThanFour(int userId){
+        final List<Rating> list =
+                jdbcTemplate.query("SELECT * FROM ratings WHERE rating >= 4 AND user_id	= ? AND status = 'REGULAR'",
+                        ROW_MAPPER, userId);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return list;
+    }
+
 
 }

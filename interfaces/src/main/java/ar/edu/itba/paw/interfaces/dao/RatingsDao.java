@@ -20,4 +20,6 @@ public interface RatingsDao {
     Optional<Rating> getSpecificRating(int userId, int recipeId);
 
     Optional<Float> getRecipeRating(int recipeId);
+
+    List<Rating> getRatingsBiggerThanFour(int userId);
 }
