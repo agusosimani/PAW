@@ -105,7 +105,6 @@ public class IngredientServiceImpl implements IngredientService {
         if (maybeRI.isPresent()) {
             ri.setAmount(ri.getAmount() + maybeRI.get().getAmount());
             this.updateRI(ri, recipe);
-
         } else {
             Optional<RecipeIngredient> maybeDeleted = ingredientsDao.getDeletedRecipeIngById(ing.getId(), recipe);
             if (maybeDeleted.isPresent()) {
