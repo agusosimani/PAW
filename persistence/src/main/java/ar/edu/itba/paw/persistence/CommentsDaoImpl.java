@@ -59,7 +59,7 @@ public class CommentsDaoImpl implements CommentsDao {
     @Override
     public List<Comment> getAllRecipeComments(int recipeId) {
         List<Comment> list = jdbcTemplate.query(
-                "SELECT * FROM recipes_comments WHERE recipe_id = ? AND comment_status = 'REGULAR'"
+                "SELECT * FROM recipes_comments WHERE recipe_id = ? AND comment_status = 'REGULAR' order by comment_date DESC"
                 ,COMMENT_ROW_MAPPER,recipeId);
         if(list.isEmpty())
             return new ArrayList<>();
