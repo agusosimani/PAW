@@ -1,10 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.Enum.Warnings;
-import ar.edu.itba.paw.model.Ingredient;
-import ar.edu.itba.paw.model.Recipe;
-import ar.edu.itba.paw.model.RecipeIngredient;
-import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 import java.util.Map;
@@ -22,9 +19,9 @@ public interface IngredientService {
 
     List<RecipeIngredient> findByRecipe(int recipeId);
 
-    RecipeIngredient findUserIngredientByName(int u, String name);
+    Either<RecipeIngredient,Warnings> findUserIngredientByName(int u, String name);
 
-    RecipeIngredient findRecipeIngredientByName(int recipeId, String name);
+    Either<RecipeIngredient,Warnings> findRecipeIngredientByName(int recipeId, String name);
 
     RecipeIngredient addNewRecipeIngredient(RecipeIngredient ri, int recipe);
 

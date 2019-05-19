@@ -3,15 +3,14 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.IngredientService;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.model.Enum.Status;
 import ar.edu.itba.paw.model.Enum.Tag;
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.form.AddIngredientForm;
 import ar.edu.itba.paw.webapp.form.CommentForm;
 import ar.edu.itba.paw.webapp.form.RecipeForm;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.webapp.form.RegisterForm;
-import org.glassfish.jersey.server.model.Suspendable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,12 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.*;
-import java.net.URL;
-import java.sql.Date;
 import java.util.*;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 
 @Controller
@@ -227,6 +222,7 @@ public class HelloWorldController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm form) {
+        System.out.println("lll");
         final ModelAndView mav = new ModelAndView("register");
         return mav;
     }
@@ -238,10 +234,14 @@ public class HelloWorldController {
         }
 
         String hashedPassword = passwordEncoder.encode(registerForm.getPassword());
-        final User u = userService.signUpUser(new User.Builder(registerForm.getUsername(), hashedPassword, registerForm.getEmail())
+        final Either<User, Warnings> u = userService.signUpUser(new User.Builder(registerForm.getUsername(), hashedPassword, registerForm.getEmail())
                 .name(registerForm.getName()).surname(registerForm.getSurname()).build());
-
-        return new ModelAndView("redirect:/login");
+        if(u.isValuePresent())
+            return new ModelAndView("redirect:/login");
+        else {
+            //TODO: mostrar el warning y volver a la pagina
+        }
+        return new ModelAndView("redirect:/register");
     }
 
     @RequestMapping("/logout")

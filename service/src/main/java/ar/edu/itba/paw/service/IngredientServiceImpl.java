@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.dao.IngredientsDao;
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.IngredientService;
+import ar.edu.itba.paw.model.Either;
 import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.Ingredient;
 import ar.edu.itba.paw.model.RecipeIngredient;
@@ -56,16 +57,15 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public RecipeIngredient findUserIngredientByName(int u, String name) {
+    public Either<RecipeIngredient,Warnings> findUserIngredientByName(int u, String name) {
         List<RecipeIngredient> list = this.findByUser(u);
 
         for (RecipeIngredient r : list) {
             if (r.getIngredient().getName().equals(name)) {
-                return r;
+                return Either.value(r);
             }
         }
-        //TODO crear excepcion
-        throw new RuntimeException();
+        return Either.alternative(Warnings.valueOf("CouldNotFindIngredient"));
     }
 
     @Override
@@ -79,15 +79,15 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public RecipeIngredient findRecipeIngredientByName(int recipe, String name) {
+    public Either<RecipeIngredient,Warnings> findRecipeIngredientByName(int recipe, String name) {
         List<RecipeIngredient> list = this.findByRecipe(recipe);
         for (RecipeIngredient r : list) {
             if (r.getIngredient().getName().equals(name)) {
-                return r;
+                return Either.value(r);
             }
         }
-        //TODO crear excepcion
-        throw new RuntimeException();
+        return Either.alternative(Warnings.valueOf("CouldNotFindIngredient"));
+
     }
 
     @Transactional

@@ -4,6 +4,9 @@ import ar.edu.itba.paw.interfaces.dao.IngredientsDao;
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.model.Either;
+import ar.edu.itba.paw.model.Enum.Status;
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeIngredient;
 import ar.edu.itba.paw.model.User;
@@ -43,7 +46,6 @@ public class UserServiceImpl implements UserService {
                     user.setRecipes(recipeList);
                 }
 
-                //TODO brazuca: encontrar como resolver esto. tirar excepcion y cachearla del otro lado?
                 return Optional.of(user);
             }
 
@@ -64,12 +66,11 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User signUpUser(User user) throws RuntimeException {
+    public Either<User, Warnings> signUpUser(User user){
         Optional<User> maybeExists = userDao.getByUsername(user.getUsername());
         if(maybeExists.isPresent())
-            throw new RuntimeException();
-
-        return userDao.signUpUser(user);
+            return Either.alternative(Warnings.valueOf("UserAlreadyExists"));
+        return Either.value(userDao.signUpUser(user));
     }
 
     @Transactional
@@ -104,7 +105,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAccount(User user) {
         Map<String,Object> map = new HashMap<>();
-        map.put("status","DELETED");
+        map.put("status", Status.DELETED.toString());
         userDao.update(user,map);
     }
 

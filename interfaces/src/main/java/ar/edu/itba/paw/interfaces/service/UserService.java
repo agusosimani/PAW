@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
+import ar.edu.itba.paw.model.Either;
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.User;
 
 import java.util.Map;
@@ -12,7 +14,7 @@ public interface UserService {
 
     Optional<User> findByUsername(final String username);
 
-    User signUpUser(User user);
+    Either<User, Warnings> signUpUser(User user);
 
     void update(User user);
 
