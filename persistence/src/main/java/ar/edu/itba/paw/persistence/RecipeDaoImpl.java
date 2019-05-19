@@ -280,6 +280,20 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
+    public RecipeList addNewUserList(String name, int userId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("list_name", name);
+
+        map.put("user_id",userId);
+
+        map.put("ur_status", Status.REGULAR.toString());
+
+
+        return new RecipeList(jdbcInsertUserList.executeAndReturnKey(map).intValue(),name);
+
+    }
+
+    @Override
     public void addRecipeToUserList(int listId, int recipeId) {
         Map<String, Object> map = new HashMap<>();
 

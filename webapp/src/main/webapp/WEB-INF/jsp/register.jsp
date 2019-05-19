@@ -77,9 +77,10 @@
     </button>
 
     <!-- Terms of service -->
-    <p>By clicking
-      <em>Sign up</em> you agree to our
-      <a href="" target="_blank">terms of service</a>
+    <p><spring:message code="Register.signUpDisclaimer1"/>
+      <em><spring:message code="Register.signUp"/></em> <spring:message code="Register.signUpDisclaimer2"/>
+      <a href="" target="_blank"><spring:message code="Register.signUpDisclaimer3"/></a>
+    </p>
 
   </form:form>
   <div class="offset_register"></div>

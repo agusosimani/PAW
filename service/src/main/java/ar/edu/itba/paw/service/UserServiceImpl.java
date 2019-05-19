@@ -67,12 +67,20 @@ public class UserServiceImpl implements UserService {
                 () -> Either.alternative(Warnings.valueOf("NoSuchUser")));
     }
 
+    @Override
+    public Either<User, Warnings> findByEmail(String email) {
+        Optional<User> maybeUser = userDao.getByEmail(email);
+        return maybeUser.<Either<User, Warnings>>map(Either::value).orElseGet(
+                () -> Either.alternative(Warnings.valueOf("NoSuchUser")));
+    }
+
     @Transactional
     @Override
     public Either<User, Warnings> signUpUser(User user) {
-        Optional<User> maybeExists = userDao.getByUsername(user.getUsername());
-        if (maybeExists.isPresent())
+        Optional<User> maybeExistsUsername = userDao.getByUsername(user.getUsername());
+        if (maybeExistsUsername.isPresent())
             return Either.alternative(Warnings.valueOf("UserAlreadyExists"));
+
         return Either.value(userDao.signUpUser(user));
     }
 

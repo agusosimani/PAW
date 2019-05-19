@@ -291,12 +291,20 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public void addNewCookList(int userId, RecipeList recipeList) {
+    public void addNewCookListWithIngredients(int userId, RecipeList recipeList) {
         recipeDao.addNewUserList(recipeList, userId);
         for (Recipe recipe : recipeList.getList()) {
             recipeDao.addRecipeToUserList(recipeList.getId(), recipe.getId());
         }
     }
+
+    @Transactional
+    @Override
+    public RecipeList addNewCookListWithoutIngredients(int userId, String name) {
+        return recipeDao.addNewUserList(name, userId);
+
+    }
+
 
     @Transactional
     @Override

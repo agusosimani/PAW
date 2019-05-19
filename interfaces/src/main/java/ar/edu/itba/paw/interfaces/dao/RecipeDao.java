@@ -40,6 +40,8 @@ public interface RecipeDao {
     //PARA LAS LISTAS
     void addNewUserList(RecipeList rl, int userId);
 
+    RecipeList addNewUserList(String name, int userId);
+
     void addRecipeToUserList(int listId, int recipeId);
 
     List<RecipeList> getCookLists();

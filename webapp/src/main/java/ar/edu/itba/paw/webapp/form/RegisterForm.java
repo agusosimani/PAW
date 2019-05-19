@@ -26,6 +26,7 @@ public class RegisterForm {
 
     @Size(min = 6, max = 100)
     @Email
+    @AvailableEmail
     private String email;
 
     private String gender;
