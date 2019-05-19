@@ -106,16 +106,26 @@ public class HelloWorldController {
         return mav;
     }
 
+
+    @RequestMapping(value = "/your_cooklists", method = {RequestMethod.GET})
+    public ModelAndView yourCooklists(@Valid @ModelAttribute("newCookListForm") final NewCookListForm form) {
+        return userCooklists(form,getCurrentUserID());
+    }
+
+
     @RequestMapping(value = "/user_cooklists", method = {RequestMethod.GET})
     public ModelAndView userCooklists(@Valid @ModelAttribute("newCookListForm") final NewCookListForm form, @RequestParam int userId) {
         final ModelAndView mav = new ModelAndView("cooklists");
+
+        if(userId == -1)
+            userId = getCurrentUserID();
 
         User user = userService.getById(userId).getValue();
 
         mav.addObject("title",messageSource.getMessage("cooklist.title", new Object[] {user.getName()}, Locale.getDefault()));
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(userId).size());
         mav.addObject("editable", getCurrentUserID() == userId);
-        mav.addObject("cookList", recipeService.getUserCookLists(getCurrentUserID()));
+        mav.addObject("cookList", recipeService.getUserCookLists(userId));
         mav.addObject("user", userService.getById(userId).getValue());
         return mav;
     }
@@ -237,11 +247,14 @@ public class HelloWorldController {
 
     @RequestMapping(value = "/my_account", method = RequestMethod.GET)
     public ModelAndView myAccount(Authentication authentication) {
-        final ModelAndView mav = new ModelAndView("my_account");
+        return account(authentication, getCurrentUserID());
+    }
 
-        mav.addObject("recipes_amount", recipeService.userRecipesNumber(getCurrentUserID()));
+    @RequestMapping(value = "/account", method = RequestMethod.GET)
+    public ModelAndView account(Authentication authentication, @RequestParam int userId) {
+        final ModelAndView mav = new ModelAndView("account");
 
-        Either <User,Warnings> eitherUser = userService.getById(getCurrentUserID());
+        Either <User,Warnings> eitherUser = userService.getById(userId);
 
         if(eitherUser.isValuePresent()) {
             mav.addObject("user", eitherUser.getValue());
@@ -249,6 +262,9 @@ public class HelloWorldController {
         else {
             //TODO: tirar el warning
         }
+
+        mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
+        mav.addObject("yourAccount", getCurrentUserID() == userId);
         return mav;
     }
 

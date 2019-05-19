@@ -8,7 +8,7 @@
     <section class="side_card">
         <div class="card">
             <div class="card-body">
-                <c:url value="/user_recipes" var="userRecipesUrl">
+                <c:url value="/account" var="userRecipesUrl">
                     <c:param name="userId" value="${user.id}"/>
                 </c:url>
                 <a class="bg-transparent" href="${userRecipesUrl}">

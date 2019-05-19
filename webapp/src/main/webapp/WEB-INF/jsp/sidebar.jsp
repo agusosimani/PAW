@@ -53,14 +53,17 @@
 
             <c:url value="/my_recipes" var="userRecipesUrl"/>
             <a href="${userRecipesUrl}" class="navigation__list__item">
-                <!-- <i class="ion-headphone"></i> -->
                 <span><spring:message code="myRecipes"/></span>
             </a>
 
             <c:url value="/my_ingredients" var="myIngredientsUrl"/>
             <a href="${myIngredientsUrl}" class="navigation__list__item">
-                <!-- <i class="ion-ios-musical-notes"></i> -->
                 <span><spring:message code="myIngredients"/></span>
+            </a>
+
+            <c:url var="cooklistsUrl" value="/your_cooklists"/>
+            <a href="${cooklistsUrl}" class="navigation__list__item">
+                <span><spring:message code="myCooklists"/></span>
             </a>
 
 
@@ -77,12 +80,13 @@
             --%>
         </div>
 
-        <c:url value="/logout" var="logOutB"/>
-        <a href="${logOutB}" class="navigation__list__item">
-            <!-- <i class="ion-ios-musical-notes"></i> -->
-            <span><spring:message code="logOut"/></span>
-        </a>
-
+        <div>
+            <c:url value="/logout" var="logOutB"/>
+            <a href="${logOutB}" class="navigation__list__item">
+                <!-- <i class="ion-ios-musical-notes"></i> -->
+                <span><spring:message code="logOut"/></span>
+            </a>
+        </div>
     </div>
     <!-- / -->
 

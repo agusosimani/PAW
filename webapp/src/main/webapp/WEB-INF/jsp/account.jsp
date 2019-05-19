@@ -26,6 +26,16 @@
 <%@include file="sidebar.jsp" %>
 <!-- Section: Blog v.2 -->
 <section class="main_container">
+    <h3>
+        <c:choose>
+            <c:when test="${yourAccount}">
+                <spring:message code="myAccount"/>
+            </c:when>
+            <c:otherwise>
+                <spring:message code="otherUserAccount" arguments="${user.username}"/>
+            </c:otherwise>
+        </c:choose>
+    </h3>
     <section class="browse text-center">
 
         <div class="card-deck">
@@ -43,8 +53,17 @@
 
 
                     <div class="card-body">
-                        <h4 class="card-title"><strong><spring:message code="myRecipes"/></strong></h4>
-                        <p class="card-text"><spring:message code="myRecipesExplanation"/></p>
+                        <h4 class="card-title"><strong><spring:message code="recipes"/></strong></h4>
+                        <p class="card-text">
+                            <c:choose>
+                                <c:when test="${yourAccount}">
+                                    <spring:message code="myRecipesExplanation"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <spring:message code="recipesExplanation" arguments="${user.username}"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </p>
                         <a href="${userRecipesUrl}" class="stretched-link"></a>
                     </div>
                 </div>
@@ -70,26 +89,26 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+            <c:if test="${yourAccount}">
+                <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                <div class="card card-cascade narrower mb-4">
-                    <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
-                        <a>
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <c:url value="/my_ingredients" var="myIngredientsUrl"/>
-                        <a href="${myIngredientsUrl}" class="stretched-link"></a>
-                        <h4 class="card-title"><strong><spring:message code="myIngredients"/></strong></h4>
-                        <p class="card-text"><spring:message code="myIngredientsExplanation"/></p>
+                    <div class="card card-cascade narrower mb-4">
+                        <div class="view overlay rounded z-depth-2 mb-4">
+                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <c:url value="/my_ingredients" var="myIngredientsUrl"/>
+                            <a href="${myIngredientsUrl}" class="stretched-link"></a>
+                            <h4 class="card-title"><strong><spring:message code="myIngredients"/></strong></h4>
+                            <p class="card-text"><spring:message code="myIngredientsExplanation"/></p>
+                        </div>
                     </div>
                 </div>
+            </c:if>
 
-                <!-- Post title -->
-
-            </div>
             <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
                 <div class="card card-cascade narrower mb-4">
