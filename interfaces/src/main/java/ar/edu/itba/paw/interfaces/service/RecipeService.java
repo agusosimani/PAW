@@ -51,6 +51,8 @@ public interface RecipeService {
 
     List<Recipe> getAllRecipesByRating();
 
+    List<Rating> getFavouriteRecipes(int userId);
+
     Optional<Float> getUserRating(int userId, int recipeId);
 
     Either<Comment, Warnings> addComment(Comment comment);
@@ -63,7 +65,7 @@ public interface RecipeService {
 
     Either<List<Recipe>,Warnings> getRecipesFromCookList(int listId);
 
-    Either<List<RecipeList>, Warnings> getUserCookLists(int userId);
+    List<RecipeList> getUserCookLists(int userId);
 
     Warnings deleteRecipeFromCookList(int listId, int recipeId, int userId);
 
