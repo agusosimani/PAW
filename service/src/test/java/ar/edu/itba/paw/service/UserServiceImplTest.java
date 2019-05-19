@@ -27,6 +27,7 @@ public class UserServiceImplTest {
     private static final String EMAIL = "user@example.ord";
 
     private static final int ID2 = 2;
+    private static final String USERNAME2 = "username2";
     private static final String NAME2 = "name2";
     private static final String SURNAME2 = "surnname2";
 
@@ -35,12 +36,12 @@ public class UserServiceImplTest {
     private UserServiceImpl userService = new UserServiceImpl();
 
     @Mock
-    private UserDao mockDao;
+    private UserDao mockUserDao;
 
     @Test
     public void testSignUpUser() {
         //1. Setup
-        Mockito.when(mockDao.signUpUser(Mockito.eq(new User.Builder(USERNAME, PASSWORD, EMAIL).build()))).thenReturn(
+        Mockito.when(mockUserDao.signUpUser(Mockito.eq(new User.Builder(USERNAME, PASSWORD, EMAIL).build()))).thenReturn(
                 new User.Builder(USERNAME, PASSWORD, EMAIL).build()
         );
 
@@ -58,7 +59,7 @@ public class UserServiceImplTest {
     @Test
     public void testSignUpUserAlreadyExists() {
         //1. Setup
-        Mockito.when(mockDao.getByUsername(Mockito.eq(USERNAME)))
+        Mockito.when(mockUserDao.getByUsername(Mockito.eq(USERNAME)))
                 .thenReturn(Optional.of(new User.Builder(USERNAME, PASSWORD, EMAIL).build()));
 
         //2.
@@ -80,7 +81,7 @@ public class UserServiceImplTest {
                 .name(NAME2).surname(SURNAME2).build();
         newUser.setId(ID);
 
-        Mockito.when(mockDao.getById(Mockito.eq(ID)))
+        Mockito.when(mockUserDao.getById(Mockito.eq(ID)))
                 .thenReturn(Optional.of(oldUser));
 
         Mockito.doAnswer((i) -> {
@@ -89,26 +90,49 @@ public class UserServiceImplTest {
             Assert.assertEquals(NAME2, ((Map<String,Object>)i.getArgument(1)).get("name"));
             Assert.assertEquals(SURNAME2, ((Map<String,Object>)i.getArgument(1)).get("surname"));
             return null;
-        }).when(mockDao).update(any(),any());
+        }).when(mockUserDao).update(any(),any());
 
         //2.
         userService.update(newUser);
     }
 
     @Test
-    public void testGetByIdNotExists() {
+    public void testFindByUsername() {
         //1. Setup
         User user = new User.Builder(USERNAME, PASSWORD, EMAIL)
                 .name(NAME).surname(SURNAME).build();
         user.setId(ID);
 
-        Mockito.when(mockDao.getById(Mockito.eq(ID)))
+        Mockito.when(mockUserDao.getByUsername(Mockito.eq(USERNAME)))
                 .thenReturn(Optional.of(user));
 
         //2.
-        Either<User, Warnings> eitherUser = userService.getById(2);
+        Either<User, Warnings> eitherUser = userService.findByUsername(USERNAME);
 
         //3. Asserts
-        Assert.assertFalse(eitherUser.isValuePresent());
+        Assert.assertTrue(eitherUser.isValuePresent());
+        Assert.assertEquals(USERNAME, eitherUser.getValue().getUsername());
+    }
+
+    @Test
+    public void testGetById() {
+        //1. Setup
+        User user = new User.Builder(USERNAME, PASSWORD, EMAIL)
+                .name(NAME).surname(SURNAME).build();
+        user.setId(ID);
+
+        Mockito.when(mockUserDao.getById(Mockito.eq(ID)))
+                .thenReturn(Optional.of(user));
+
+        //2.
+        Either<User, Warnings> eitherUser = userService.getById(ID);
+
+        //3. Asserts
+        Assert.assertTrue(eitherUser.isValuePresent());
+        Assert.assertEquals(ID, eitherUser.getValue().getId());
+    }
+
+    public void testGetByIdComplete() {
+        //TODO
     }
 }

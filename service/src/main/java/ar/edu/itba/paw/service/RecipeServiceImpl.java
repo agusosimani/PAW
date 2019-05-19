@@ -85,7 +85,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findUserRecipeByName(int userId, String name) {
         List<Recipe> list = this.findByUser(userId);
         for (Recipe r : list) {
-            if (r.getName().equals("name")) {
+            if (r.getName().equals(name)) {
                 return r;
             }
         }

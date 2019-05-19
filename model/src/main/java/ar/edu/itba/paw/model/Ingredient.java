@@ -178,7 +178,7 @@ public class Ingredient {
         private String status;
         private int userId;
 
-        public Builder(int id, String name, int serving, String typeOfServing, int userId, String status) {
+        public Builder(int id, String name, double serving, String typeOfServing, int userId, String status) {
             this.id = id;
             this.name = name;
             this.serving = serving;
@@ -202,27 +202,27 @@ public class Ingredient {
             return this;
         }
 
-        public Builder calories(int cals) {
+        public Builder calories(double cals) {
             this.calories = cals;
             return this;
         }
 
-        public Builder proteins(int protein) {
+        public Builder proteins(double protein) {
             this.protein = protein;
             return this;
         }
 
-        public Builder carbohydrates(int carbohydrates) {
+        public Builder carbohydrates(double carbohydrates) {
             this.carbohydrates = carbohydrates;
             return this;
         }
 
-        public Builder totalFat(int totalFat) {
+        public Builder totalFat(double totalFat) {
             this.totalFat = totalFat;
             return this;
         }
 
-        public Builder sugar(int sugar) {
+        public Builder sugar(double sugar) {
             this.sugar = sugar;
             return this;
         }

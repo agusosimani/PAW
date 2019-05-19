@@ -18,7 +18,6 @@ public class RecipeIngredient {
         this.observation = observation;
     }
 
-
     public Ingredient getIngredient() {
         return ingredient;
     }
@@ -57,7 +56,7 @@ public class RecipeIngredient {
         private float amount;
         private String observation = "";
 
-        public Builder( Ingredient ingredient,float amount) {
+        public Builder(Ingredient ingredient, float amount) {
             this.ingredient = ingredient;
             this.amount = amount;
         }
