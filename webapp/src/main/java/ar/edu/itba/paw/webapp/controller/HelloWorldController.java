@@ -124,7 +124,7 @@ public class HelloWorldController {
         if(userId != getCurrentUserID())
             mav.addObject("title",messageSource.getMessage("cooklist.title", new Object[] {user.getName()}, Locale.getDefault()));
         else
-            mav.addObject("title", messageSource.getMessage("MyCooklists",null, Locale.getDefault()));
+            mav.addObject("title", messageSource.getMessage("myCooklists",null, Locale.getDefault()));
 
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(userId).size());
         mav.addObject("editable", getCurrentUserID() == userId);
@@ -406,7 +406,7 @@ public class HelloWorldController {
         if(userId != getCurrentUserID())
             mav.addObject("title",messageSource.getMessage("recipe.title", new Object[] {eitherUser.getValue().getName()}, Locale.getDefault()));
         else
-            mav.addObject("title", messageSource.getMessage("MyRecipes",null, Locale.getDefault()));
+            mav.addObject("title", messageSource.getMessage("myRecipes",null, Locale.getDefault()));
         mav.addObject("yourAccount", getCurrentUserID() == userId);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
 
