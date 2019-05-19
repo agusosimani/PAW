@@ -62,6 +62,10 @@
                     <div class="card-body">
                         <h4 class="card-title"><strong><spring:message code="myLists"/></strong></h4>
                         <p class="card-text"><spring:message code="myListsExplanation"/></p>
+                        <c:url var="cooklistsUrl" value="/user_cooklists">
+                            <c:param name="userId" value="${user.id}"/>
+                        </c:url>
+                        <a href="${cooklistsUrl}" class="stretched-link"></a>
                     </div>
                 </div>
             </div>

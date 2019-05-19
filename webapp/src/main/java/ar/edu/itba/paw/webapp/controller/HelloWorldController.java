@@ -6,11 +6,8 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.Enum.Tag;
 import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
-import ar.edu.itba.paw.webapp.form.AddIngredientForm;
-import ar.edu.itba.paw.webapp.form.CommentForm;
-import ar.edu.itba.paw.webapp.form.RecipeForm;
+import ar.edu.itba.paw.webapp.form.*;
 import ar.edu.itba.paw.interfaces.service.UserService;
-import ar.edu.itba.paw.webapp.form.RegisterForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -71,6 +68,38 @@ public class HelloWorldController {
         return mav;
     }
 
+    @RequestMapping(value = "/cooklist", method = {RequestMethod.GET})
+    public ModelAndView cooklist() {
+        final ModelAndView mav = new ModelAndView("cooklists");
+        return mav;
+    }
+
+    @RequestMapping(value = "/user_cooklists", method = {RequestMethod.GET})
+    public ModelAndView userCooklists(@Valid @ModelAttribute("newCookListForm") final NewCookListForm form, @RequestParam int userId) {
+        final ModelAndView mav = new ModelAndView("cooklists");
+
+        recipeService.getUserCookLists(getCurrentUserID());
+        mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(userId).size());
+        mav.addObject("editable", getCurrentUserID() == userId ? 1 : 0);
+        mav.addObject("cookList", new ArrayList<RecipeList>());
+        mav.addObject("user", userService.getById(userId).getValue());
+        return mav;
+    }
+
+    @RequestMapping(value = "/create_cooklist", method = {RequestMethod.POST})
+    public ModelAndView createCookList(@Valid @ModelAttribute("newCookListForm") final NewCookListForm form, final BindingResult errors) {
+        if (errors.hasErrors()) {
+//            return newRecipe(form);
+        }
+        System.out.printf("AGREGANDO\n");
+
+        RecipeList rpl = new RecipeList(form.getName(),new ArrayList<>());
+        recipeService.addNewCookList(getCurrentUserID(),rpl);
+
+        System.out.printf("TERMINE\n");
+        return new ModelAndView("redirect:/");
+    }
+
     @RequestMapping(value = "/create_recipe", method = {RequestMethod.POST})
     public ModelAndView createRecipe(@Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
         if (errors.hasErrors()) {
@@ -125,6 +154,8 @@ public class HelloWorldController {
         return new ModelAndView("redirect:/my_ingredients");
     }
 
+
+
     @RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
     public ModelAndView cookRecipes(@RequestParam int recipeId) {
 
@@ -138,6 +169,12 @@ public class HelloWorldController {
         return mav;
     }
 
+
+    @RequestMapping(value = "/delete_recipe", method = RequestMethod.POST) //Le digo que url mappeo
+    public ModelAndView deleteRecipe(@RequestParam int recipeId) {
+        recipeService.deleteRecipe(recipeId);
+        return new ModelAndView("redirect:/");
+    }
 
     @RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteIngredient(@RequestParam int ingredientId) {

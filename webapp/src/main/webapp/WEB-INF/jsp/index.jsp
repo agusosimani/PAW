@@ -107,7 +107,7 @@
 <!-- Button trigger modal -->
 <c:url value="/new_recipe" var="newRecipeUrl"/>
 <a href="${newRecipeUrl}">
-    <button class="btn btn-green add" data-toggle="modal" id="add_recipe">+</button>
+    <button class="btn btn-green add">+</button>
 </a>
 
 <!-- SCRIPTS -->

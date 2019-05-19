@@ -38,6 +38,21 @@
 
                     <br/>
                     <p class="recipe-instructions"><c:out value="${recipe.instructions}"/></p>
+                    <div class="recipe-body-bottom">
+                        <div class="recipe-bottom-icon">
+                            <c:url value="/delete_recipe" var="deleteRecipeUrl">
+                                <c:param name="recipeId" value="${recipe.id}"/>
+                            </c:url>
+                            <form:form action="${deleteRecipeUrl}" method="post">
+                                <button type="submit" class="bg-transparent">
+                                    <i class="fas fa-trash fa-2x"></i>
+                                </button>
+                            </form:form>
+                        </div>
+                        <div class="recipe-bottom-icon">
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="recipe-image-container">

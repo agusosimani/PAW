@@ -172,6 +172,12 @@ ingredients-tags-div {
     text-align: left;
 }
 
+.recipe-body-bottom{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
 .btn-cook{
     border-radius: 50%;
     width: 96px;
@@ -294,11 +300,16 @@ ingredients-tags-div {
     min-width: 165px;
 }
 
+.recipe-bottom-icon{
+    float: right;
+}
+
 .recipe-body{
     text-align: left;
     margin: 2%;
     width: -webkit-fill-available;
     min-width: 0;
+    position: relative;
 }
 
 
