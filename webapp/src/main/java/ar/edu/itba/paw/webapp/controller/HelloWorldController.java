@@ -159,8 +159,12 @@ public class HelloWorldController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
-    public ModelAndView login() {
+    public ModelAndView login(@RequestParam(required = false) String error) {
         final ModelAndView mav = new ModelAndView("login");
+
+        if (error != null)
+            mav.addObject("errorMessage", "error");
+
         return mav;
     }
 

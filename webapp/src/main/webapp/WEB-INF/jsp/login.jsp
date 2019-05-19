@@ -36,7 +36,13 @@
         <spring:message code="User.password" var="password"/>
         <input type="password" id="password" name="j_password" class="form-control mb-4" placeholder="${password}">
 
-        <div class="d-flex justify-content-around">
+        <c:if test="${not empty errorMessage}">
+            <div class="form-text text-muted mb-4">
+                <spring:message code="signInError"/>
+            </div>
+        </c:if>
+
+            <div class="d-flex justify-content-around">
             <div>
                 <!-- Remember me -->
                 <div class="custom-control custom-checkbox">
