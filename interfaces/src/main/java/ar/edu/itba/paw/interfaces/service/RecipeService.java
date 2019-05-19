@@ -55,7 +55,7 @@ public interface RecipeService {
 
     Either<Comment, Warnings> addComment(Comment comment);
 
-    Map<Comment,String> getRecipeComments(int recipeId);
+    List<Comment> getRecipeComments(int recipeId);
 
     void addNewCookList(int userId, RecipeList recipeList);
 

@@ -272,18 +272,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Map<Comment,String> getRecipeComments(int recipeId) {
+    public List<Comment> getRecipeComments(int recipeId) {
 
         List<Comment> commentsList = commentsDao.getAllRecipeComments(recipeId);
-        Map<Comment,String> commentUsernameMap = new HashMap<>();
         for (Comment comment : commentsList) {
             Optional<User> maybeUser = userDao.getById(comment.getUserId());
-            if(maybeUser.isPresent())
-                commentUsernameMap.put(comment,maybeUser.get().getName());
-            else
-                commentUsernameMap.put(comment,"Anonymous");
+            maybeUser.ifPresent(user -> comment.setUsername(user.getUsername()));
         }
-        return commentUsernameMap;
+        return commentsList;
     }
 
     @Transactional
@@ -322,7 +318,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public Warnings deleteRecipeFromCookList(int listId, int recipeId,int userId) {
+    public Warnings deleteRecipeFromCookList(int listId, int recipeId, int userId) {
         if (recipeDao.checkCookListUser(listId, userId)) {
             recipeDao.updateRList(listId, recipeId, Status.DELETED.toString());
             return Warnings.valueOf("Success");
