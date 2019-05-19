@@ -282,11 +282,16 @@ ingredients-tags-div {
     padding-left: 0px;
 }
 
+.recipe-image-container-sub{
+    margin-left: 20px;
+}
+
 .recipe-image-container{
+    border-left: 1px solid grey;
     display: inline-block;
     margin: 2%;
     width: 30%;
-    min-width: 144px;
+    min-width: 165px;
 }
 
 .recipe-body{
