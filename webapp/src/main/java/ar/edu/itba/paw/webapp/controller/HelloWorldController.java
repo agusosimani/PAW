@@ -144,7 +144,7 @@ public class HelloWorldController {
     @RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
         ingredientService.deleteUI(ingredientId, getCurrentUserID());
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/my_ingredients");
     }
 
     @RequestMapping(value = "/rate_recipe", method = RequestMethod.POST) //Le digo que url mappeo
