@@ -40,14 +40,26 @@
                     <p class="recipe-instructions"><c:out value="${recipe.instructions}"/></p>
                     <div class="recipe-body-bottom">
                         <div class="recipe-bottom-icon">
-                            <c:url value="/delete_recipe" var="deleteRecipeUrl">
-                                <c:param name="recipeId" value="${recipe.id}"/>
-                            </c:url>
-                            <form:form action="${deleteRecipeUrl}" method="post">
-                                <button type="submit" class="bg-transparent">
-                                    <i class="fas fa-trash fa-2x"></i>
+
+                            <c:if test="${editable}">
+                                <div class="float-right">
+                                    <c:url value="/delete_recipe" var="deleteRecipeUrl">
+                                        <c:param name="recipeId" value="${recipe.id}"/>
+                                    </c:url>
+                                    <form:form action="${deleteRecipeUrl}" method="post">
+                                        <button type="submit" class="bg-transparent">
+                                            <i class="fas fa-trash fa-2x red-ic"></i>
+                                        </button>
+                                    </form:form>
+                                </div>
+                            </c:if>
+
+                            <div class="float-right">
+                                <button data-toggle="modal" id="add-recipe-cooklist-modal" data-target="#add-recipe-cooklist" class="bg-transparent">
+                                    <i class="fas fa-plus-circle fa-2x green-ic"></i>
                                 </button>
-                            </form:form>
+                            </div>
+
                         </div>
                         <div class="recipe-bottom-icon">
 
@@ -229,6 +241,8 @@
     <button type="submit" title="<spring:message code="cookButton"/>" class="btn btn-green btn-cook"><i
             class="fas fa-utensils fa-2x"></i></button>
 </form:form>
+
+<%@include file="add_recipe_to_cooklist.jsp" %>
 
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <!-- Bootstrap tooltips -->

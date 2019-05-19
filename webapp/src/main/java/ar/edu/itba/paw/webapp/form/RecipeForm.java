@@ -13,7 +13,7 @@ public class RecipeForm {
     private String name;
     @Size(min = 10, max = 100)
     private String description;
-    @Size(min = 20, max = 1000)
+    @Size(min = 20, max = 4000)
     private String instructions;
 
     private List<String> tags;

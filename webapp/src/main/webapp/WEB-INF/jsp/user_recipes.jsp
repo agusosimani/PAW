@@ -26,6 +26,7 @@
 
 <section class="main_container">
 
+    <h3>${title}</h3>
     <%@include file="recipe_cards.jsp" %>
 
     <%@include file="userbar.jsp" %>

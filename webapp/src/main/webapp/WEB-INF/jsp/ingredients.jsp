@@ -29,11 +29,8 @@
 <%@include file="sidebar.jsp" %>
 
 <section class="main_container">
-    <%@include file="userbar.jsp" %>
-
-
     <h3><spring:message code="myIngredients"/></h3>
-    <br/>
+    <%@include file="userbar.jsp" %>
 
     <div class="browse">
         <div class="card">
@@ -48,7 +45,7 @@
                                 </c:url>
                                 <form:form action="${deleteIngredientUrl}" method="post">
                                     <button type="submit" class="bg-transparent">
-                                        <i class="fas fa-trash fa-2x"></i>
+                                        <i class="fas fa-trash fa-2x red-ic"></i>
                                     </button>
                                 </form:form>
                             </div>

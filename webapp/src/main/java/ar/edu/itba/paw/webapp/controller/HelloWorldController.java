@@ -9,6 +9,7 @@ import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.form.*;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +28,10 @@ import javax.validation.Valid;
 
 @Controller
 public class HelloWorldController {
+
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     private UserService userService;
@@ -69,8 +74,35 @@ public class HelloWorldController {
     }
 
     @RequestMapping(value = "/cooklist", method = {RequestMethod.GET})
-    public ModelAndView cooklist() {
-        final ModelAndView mav = new ModelAndView("cooklists");
+    public ModelAndView cooklist(@RequestParam int cookListId, @RequestParam int userId) {
+        //TODO: el userId no seria necesario si tengo el cooklistId, lo puedo obtener con ese, capaz no vale la pena ver despues
+
+        final ModelAndView mav = new ModelAndView("user_recipes");
+
+
+        Either<List<Recipe>, Warnings> eitherRecipeList = recipeService.getRecipesFromCookList(cookListId);
+        List<Recipe> recipeList = new ArrayList<>();
+        if(eitherRecipeList.isValuePresent()){
+            recipeList = eitherRecipeList.getValue();
+        }
+        else{
+            System.out.printf("NO HAY NADA en la cooklist con id:  %d", cookListId);
+        }
+
+        Either <User,Warnings> eitherUser = userService.getById(userId);
+
+        if(eitherUser.isValuePresent())
+            mav.addObject("user",eitherUser.getValue());
+        else {
+            //TODO: tirar el error
+        }
+
+        System.out.printf("RECIPE LIST: %d", recipeList.size());
+        mav.addObject("RecipeList", recipeList);
+        //TODO GET COOKLIST NAME WITH ID
+        mav.addObject("title",messageSource.getMessage("cooklist.title", new Object[] {eitherUser.getValue().getName()}, Locale.getDefault()));
+        mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
+
         return mav;
     }
 
@@ -78,10 +110,12 @@ public class HelloWorldController {
     public ModelAndView userCooklists(@Valid @ModelAttribute("newCookListForm") final NewCookListForm form, @RequestParam int userId) {
         final ModelAndView mav = new ModelAndView("cooklists");
 
-        recipeService.getUserCookLists(getCurrentUserID());
+        User user = userService.getById(userId).getValue();
+
+        mav.addObject("title",messageSource.getMessage("cooklist.title", new Object[] {user.getName()}, Locale.getDefault()));
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(userId).size());
-        mav.addObject("editable", getCurrentUserID() == userId ? 1 : 0);
-        mav.addObject("cookList", new ArrayList<RecipeList>());
+        mav.addObject("editable", getCurrentUserID() == userId);
+        mav.addObject("cookList", recipeService.getUserCookLists(getCurrentUserID()));
         mav.addObject("user", userService.getById(userId).getValue());
         return mav;
     }
@@ -96,7 +130,7 @@ public class HelloWorldController {
         recipeService.addNewCookListWithoutIngredients(getCurrentUserID(),form.getName());
 
         System.out.printf("TERMINE\n");
-        return new ModelAndView("redirect:/");
+        return userCooklists(form,getCurrentUserID());
     }
 
     @RequestMapping(value = "/create_recipe", method = {RequestMethod.POST})
@@ -142,6 +176,7 @@ public class HelloWorldController {
     @RequestMapping(value = "/add_ingredient_user", method = {RequestMethod.POST})
     public ModelAndView addIngredientUser(@Valid @ModelAttribute("recipeForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
         if (errors.hasErrors()) {
+            //TODO
             return null;
         }
 
@@ -243,7 +278,7 @@ public class HelloWorldController {
 
 	//CON EL ID LLAMO A SERVICES Y LA TRAIGO
 	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
-	public ModelAndView recipe(@ModelAttribute("commentForm") final CommentForm form, @RequestParam Integer recipeId) {
+	public ModelAndView recipe(@ModelAttribute("selectCookListForm") final SelectCookListForm cookListForm, @ModelAttribute("commentForm") final CommentForm commentForm, @RequestParam Integer recipeId) {
 		final ModelAndView mav = new ModelAndView("recipe");
 
         Recipe recipe = recipeService.getById(recipeId).get();
@@ -254,6 +289,9 @@ public class HelloWorldController {
         Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(),recipeId);
         if(maybeUserRating.isPresent())
             userRating = maybeUserRating.get();
+
+        mav.addObject("editable", recipe.getUserId() == getCurrentUserID());
+        mav.addObject("cookLists", recipeService.getUserCookLists(getCurrentUserID()));
         mav.addObject("previous_rate", userRating);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
@@ -265,6 +303,19 @@ public class HelloWorldController {
         mav.addObject("ingredientsList", recipe.getIngredients());
         return mav;
     }
+
+    @RequestMapping(value = "/add_recipe_to_cooklist", method = RequestMethod.POST) //Le digo que url mappeo
+    public ModelAndView addRecipeToCooklist(@ModelAttribute("selectCookListForm") final SelectCookListForm form, final BindingResult errors, @RequestParam int recipeId) {
+        if (errors.hasErrors()) {
+            //TODO
+        }
+
+        recipeService.addRecipeToCookList(form.getCooklistId(), recipeId);
+        Map<String,Object> arguments = new HashMap<>();
+        arguments.put("recipeId", recipeId);
+        return new ModelAndView("redirect:/recipe", arguments);
+    }
+
 
     @RequestMapping(value = "/add_comment", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteIngredient(@ModelAttribute("commentForm") final CommentForm form, @RequestParam Integer recipeId) {
@@ -333,8 +384,8 @@ public class HelloWorldController {
         }
         List<Recipe> rec = recipeService.getAllRecipesByUserId(userId);
 
+        mav.addObject("title",messageSource.getMessage("recipe.title", new Object[] {eitherUser.getValue().getName()}, Locale.getDefault()));
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
-
 
         return mav;
     }

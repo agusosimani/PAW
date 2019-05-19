@@ -27,6 +27,7 @@
 <%@include file="sidebar.jsp" %>
 
 <section class="main_container">
+    <h3>${title}</h3>
     <section class="browse text-center">
         <div class="card-deck">
             <c:forEach var="cooklist" items="${cookList}">
@@ -39,7 +40,8 @@
                             <h4 class="card-title"><strong><c:out value="${cooklist.name}"/></strong></h4>
 
                             <c:url value="/cooklist" var="cooklistUrl">
-                                <c:param name="cooklistUrl" value="${cooklist.id}"/>
+                                <c:param name="cookListId" value="${cooklist.id}"/>
+                                <c:param name="userId" value="${user.id}"/>
                             </c:url>
                             <a href="${cooklistUrl}" class="stretched-link"></a>
                         </div>
@@ -53,8 +55,8 @@
     <%@include file="userbar.jsp" %>
 </section>
 
-<c:if test="${editable eq 1}">
-    <button class="btn btn-green add" data-toggle="modal" id="new-cooklist-modal" data-target="#new-cooklist">+</button>
+<c:if test="${editable}">
+    <button class="btn btn-green add" data-toggle="modal" id="add-recipe-cooklist-modal" data-target="#add-recipe-cooklist">+</button>
 </c:if>
 <%@include file="cooklists_add_modal.jsp" %>
 <!-- SCRIPTS -->
