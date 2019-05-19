@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService {
         Optional<User> maybeUser = userDao.getById(id);
         return maybeUser.<Either<User, Warnings>>map(Either::value).orElseGet(
                 () -> Either.alternative(Warnings.valueOf("NoSuchUser")));
-
     }
 
     @Override

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.model.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,7 @@ public class UserDaoSignUpImplTest {
 
     @Autowired
     private UserDao userDao;
+
     private JdbcTemplate jdbcTemplate;
 
     private static final String USERNAME = "mJackson";
@@ -46,6 +48,11 @@ public class UserDaoSignUpImplTest {
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+    }
+
+    @After
+    public void clearUp() {
+        //TODO
     }
 
     @Test
@@ -86,7 +93,6 @@ public class UserDaoSignUpImplTest {
 
     @Test
     public void testSignUpUserFAIL() {
-
         User user = userDao
                 .signUpUser(new User.Builder(USERNAME,PASSWORD,EMAIL)
                         .status(STATUS).gender(GENDER).surname(SURNAME).name(NAME)
@@ -105,7 +111,4 @@ public class UserDaoSignUpImplTest {
 
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
     }
-
-
-
 }
