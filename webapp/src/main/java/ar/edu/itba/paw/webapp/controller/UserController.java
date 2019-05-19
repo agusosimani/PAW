@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.model.Either;
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,10 +31,12 @@ public class UserController {
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response listUsers(@PathParam("id") int id) {
         //User u = us.getById(id);
-        Optional<User> u = us.getById(id);
 
-        if(u.isPresent())
-            return Response.ok(u.get().getName()).build();
+        Either<User, Warnings> eitherUser = us.getById(id);
+
+
+        if(eitherUser.isValuePresent())
+            return Response.ok(us.getById(id).getValue().getName()).build();
         else
             return Response.noContent().build();
     }

@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
-    Optional<User> getById(final int id);
+    Either<User, Warnings> getById(final int id);
 
-    Optional<User> getByIdComplete(int id);
+    Either<User, Warnings> getByIdComplete(int id);
 
-    Optional<User> findByUsername(final String username);
+    Either<User, Warnings> findByUsername(final String username);
 
     Either<User, Warnings> signUpUser(User user);
 

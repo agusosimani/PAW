@@ -32,81 +32,85 @@ public class UserServiceImpl implements UserService {
     RecipeDao recipeDao;
 
     @Override
-    public Optional<User> getByIdComplete(int id) {
+    public Either<User, Warnings> getByIdComplete(int id) {
         Optional<User> possibleUser = userDao.getById(id);
-        if(possibleUser.isPresent()) {
+        if (possibleUser.isPresent()) {
 
             List<RecipeIngredient> list = ingredientsDao.getByUserId(id);
-            if(!list.isEmpty()){
+            if (!list.isEmpty()) {
                 User user = possibleUser.get();
                 user.setIngredients(list);
 
                 List<Recipe> recipeList = recipeDao.getByUserId(id);
-                if(!recipeList.isEmpty()){
+                if (!recipeList.isEmpty()) {
                     user.setRecipes(recipeList);
                 }
 
-                return Optional.of(user);
+                return Either.value(user);
             }
 
         }
-        return possibleUser;
+        return Either.alternative(Warnings.valueOf("NoSuchUser"));
     }
 
     @Override
-    public Optional<User> getById(int id) {
-        return userDao.getById(id);
+    public Either<User, Warnings> getById(int id) {
+        Optional<User> maybeUser = userDao.getById(id);
+        return maybeUser.<Either<User, Warnings>>map(Either::value).orElseGet(
+                () -> Either.alternative(Warnings.valueOf("NoSuchUser")));
 
     }
 
-        @Override
-    public Optional<User> findByUsername(String username) {
-        return userDao.getByUsername(username);
+    @Override
+    public Either<User, Warnings> findByUsername(String username) {
+        Optional<User> maybeUser = userDao.getByUsername(username);
+        return maybeUser.<Either<User, Warnings>>map(Either::value).orElseGet(
+                () -> Either.alternative(Warnings.valueOf("NoSuchUser")));
     }
 
     @Transactional
     @Override
-    public Either<User, Warnings> signUpUser(User user){
+    public Either<User, Warnings> signUpUser(User user) {
         Optional<User> maybeExists = userDao.getByUsername(user.getUsername());
-        if(maybeExists.isPresent())
+        if (maybeExists.isPresent())
             return Either.alternative(Warnings.valueOf("UserAlreadyExists"));
         return Either.value(userDao.signUpUser(user));
     }
 
     @Transactional
     @Override
-    public void update(User user){
+    public void update(User user) {
         Optional<User> maybeOldUser = userDao.getById(user.getId());
-        if(maybeOldUser.isPresent()) {
+        if (maybeOldUser.isPresent()) {
             User oldUser = maybeOldUser.get();
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
 
-            if(!oldUser.getSurname().equals(user.getSurname())){
-                map.put("surname",user.getSurname());
+            if (!oldUser.getSurname().equals(user.getSurname())) {
+                map.put("surname", user.getSurname());
             }
-            if(!oldUser.getName().equals(user.getName())){
-                map.put("name",user.getName());
+            if (!oldUser.getName().equals(user.getName())) {
+                map.put("name", user.getName());
             }
-            if(!oldUser.getPassword().equals(user.getPassword())) {
-                map.put("password",user.getPassword());
+            if (!oldUser.getPassword().equals(user.getPassword())) {
+                map.put("password", user.getPassword());
             }
-            if(!oldUser.getEmail().equals(user.getEmail())) {
-                map.put("email",user.getEmail());
+            if (!oldUser.getEmail().equals(user.getEmail())) {
+                map.put("email", user.getEmail());
             }
-            if(!(oldUser.getGender().equals(user.getGender()))) {
-                map.put("gender",user.getGender());
+            if (!(oldUser.getGender().equals(user.getGender()))) {
+                map.put("gender", user.getGender());
             }
 
-            userDao.update(user,map);
+            userDao.update(user, map);
         }
     }
 
     @Transactional
     @Override
     public void deleteAccount(User user) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", Status.DELETED.toString());
-        userDao.update(user,map);
+        userDao.update(user, map);
     }
 
 

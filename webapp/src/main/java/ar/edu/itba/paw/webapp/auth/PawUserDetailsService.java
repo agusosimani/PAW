@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.webapp.auth;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.model.Either;
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,12 +22,15 @@ public class PawUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final User user = us.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No such user"));
+        final Either<User, Warnings> user = us.findByUsername(username);
+
+        if(!user.isValuePresent())
+            throw new UsernameNotFoundException("No such user");
 
         final Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        return new PawUserDetails(username, user.getPassword(), user.getId(), authorities);
+        return new PawUserDetails(username, user.getValue().getPassword(), user.getValue().getId(), authorities);
         //return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
     }
 }

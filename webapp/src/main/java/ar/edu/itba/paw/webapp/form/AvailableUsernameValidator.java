@@ -14,6 +14,6 @@ public class AvailableUsernameValidator implements ConstraintValidator<Available
     }
 
     public boolean isValid(String username, ConstraintValidatorContext context) {
-        return !userService.findByUsername(username).isPresent();
+        return !userService.findByUsername(username).isValuePresent();
     }
 }

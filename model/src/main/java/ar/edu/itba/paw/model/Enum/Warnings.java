@@ -9,7 +9,8 @@ public enum Warnings {
     AuthorizationDenied("User does not have the permission for action"),
     CantCookRecipe("User does not have the ingredients to cook the recipe"),
     CouldNotFindIngredient("Could not find the ingredient"),
-    UserAlreadyExists("This user already exists");
+    UserAlreadyExists("This user already exists"),
+    NoSuchUser("This user does not exist");
 
     private String warning;
 

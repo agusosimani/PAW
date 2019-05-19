@@ -169,7 +169,14 @@ public class HelloWorldController {
 
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(getCurrentUserID()));
 
-        mav.addObject("user", userService.getById(getCurrentUserID()).get());
+        Either <User,Warnings> eitherUser = userService.getById(getCurrentUserID());
+
+        if(eitherUser.isValuePresent()) {
+            mav.addObject("user", eitherUser.getValue());
+        }
+        else {
+            //TODO: tirar el warning
+        }
         return mav;
     }
 
@@ -184,8 +191,14 @@ public class HelloWorldController {
 
         List<Ingredient> allIngredientsList = ingredientService.getAllIngredients();
 
+        Either <User,Warnings> eitherUser = userService.getById(id);
+
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(getCurrentUserID()).size());
-        mav.addObject("user", userService.getById(id).get());
+        if(eitherUser.isValuePresent())
+            mav.addObject("user", eitherUser.getValue());
+        else{
+            //TODO: tirar el warning
+        }
         mav.addObject("allIngredients", allIngredientsList);
         mav.addObject("ingredientsList", ingredientList);
         return mav;
@@ -198,6 +211,8 @@ public class HelloWorldController {
 
         Recipe recipe = recipeService.getById(recipeId).get();
 
+        Either <User,Warnings> eitherUser = userService.getById(recipe.getUserId());
+
         float userRating = 0;
         Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(),recipeId);
         if(maybeUserRating.isPresent())
@@ -205,7 +220,11 @@ public class HelloWorldController {
         mav.addObject("previous_rate", userRating);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
-        mav.addObject("user", userService.getById(recipe.getUserId()).get());
+        if(eitherUser.isValuePresent())
+            mav.addObject("user", eitherUser.getValue());
+        else {
+            //TODO tirar el warning
+        }
         mav.addObject("ingredientsList", recipe.getIngredients());
         return mav;
     }
@@ -264,8 +283,14 @@ public class HelloWorldController {
 
         List<Recipe> recipeList = recipeService.getAllRecipesByUserId(userId);
 
+        Either <User,Warnings> eitherUser = userService.getById(userId);
+
         mav.addObject("RecipeList", recipeList);
-        mav.addObject("user", userService.getById(userId).get());
+        if(eitherUser.isValuePresent())
+            mav.addObject("user",eitherUser.getValue());
+        else {
+            //TODO: tirar el error
+        }
         List<Recipe> rec = recipeService.getAllRecipesByUserId(userId);
 
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
