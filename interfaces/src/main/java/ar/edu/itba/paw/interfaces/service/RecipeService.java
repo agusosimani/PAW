@@ -59,7 +59,10 @@ public interface RecipeService {
 
     List<Comment> getRecipeComments(int recipeId);
 
-    void addNewCookList(int userId, RecipeList recipeList);
+    void addNewCookListWithIngredients(int userId, RecipeList recipeList);
+
+    @Transactional
+    RecipeList addNewCookListWithoutIngredients(int userId, String name);
 
     void addRecipeToCookList(int listId, int recipeId);
 
