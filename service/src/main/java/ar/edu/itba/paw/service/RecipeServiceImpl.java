@@ -277,7 +277,6 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
 
-
     @Override
     public List<Comment> getRecipeComments(int recipeId) {
 
@@ -327,6 +326,19 @@ public class RecipeServiceImpl implements RecipeService {
             recipeList.setList(recipeDao.getRecipesfromCookList(recipeList.getId()));
         }
         return list;
+    }
+
+    @Override
+    public Either<RecipeList,Warnings> getCookList(int cookListId) {
+
+        Optional<RecipeList> maybeRecipeList = recipeDao.getCookList(cookListId);
+        if(!maybeRecipeList.isPresent())
+            return Either.alternative(Warnings.valueOf("NoCookLists"));
+
+        RecipeList recipeList = maybeRecipeList.get();
+        recipeList.setList(recipeDao.getRecipesfromCookList(cookListId));
+
+        return Either.value(recipeList);
     }
 
     @Override

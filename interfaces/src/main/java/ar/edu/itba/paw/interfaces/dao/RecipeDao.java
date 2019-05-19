@@ -55,4 +55,6 @@ public interface RecipeDao {
     void updateRList(int recipeListId, int recipeId, String status);
 
     boolean checkCookListUser(int listId, int userId);
+
+    Optional<RecipeList> getCookList(int cookListId);
 }
