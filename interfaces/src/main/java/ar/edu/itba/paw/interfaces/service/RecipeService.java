@@ -69,6 +69,8 @@ public interface RecipeService {
 
     List<RecipeList> getUserCookLists(int userId);
 
+    Either<RecipeList,Warnings> getCookList(int cookListId);
+
     Warnings deleteRecipeFromCookList(int listId, int recipeId, int userId);
 
     Warnings deleteCookList(int listId, int userId);

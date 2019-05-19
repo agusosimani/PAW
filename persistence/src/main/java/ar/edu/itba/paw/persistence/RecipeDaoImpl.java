@@ -300,7 +300,7 @@ public class RecipeDaoImpl implements RecipeDao {
         map.put("recipe_id",recipeId);
         map.put("recipe_list_id",listId);
 
-        map.put("ur_status", Status.REGULAR.toString());
+        map.put("rl_status", Status.REGULAR.toString());
 
         getJdbcInsertRecipeList.execute(map);
 
@@ -366,6 +366,17 @@ public class RecipeDaoImpl implements RecipeDao {
                         "AND recipe_list_id = ? AND user_id = ? ",LIST_ROW_MAPPER,listId,userId);
 
         return !list.isEmpty();
+    }
+
+    @Override
+    public Optional<RecipeList> getCookList(int cookListId) {
+        final List<RecipeList> list = jdbcTemplate.query(
+                "SELECT	*	FROM user_recipe_list  WHERE ur_status = 'REGULAR' AND recipe_list_id = ?",
+                LIST_ROW_MAPPER,cookListId);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(list.get(0));
     }
 
 
