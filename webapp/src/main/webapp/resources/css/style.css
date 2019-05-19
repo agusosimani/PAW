@@ -110,6 +110,10 @@ a.custom-card:hover {
     text-align: left;
 }
 
+.empty-warning{
+    text-align: center;
+}
+
 .new-recipe-ingredient-btn{
     margin-top: 20px;
 }

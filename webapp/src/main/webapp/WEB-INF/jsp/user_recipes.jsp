@@ -27,8 +27,19 @@
 <section class="main_container">
 
     <h3>${title}</h3>
-    <%@include file="recipe_cards.jsp" %>
-
+    <section class="browse text-center">
+        <c:if test="${empty RecipeList}">
+            <c:choose>
+                <c:when test="${yourAccount}">
+                    <p class="empty-warning"><spring:message code="emptyMyRecipes"/></p>
+                </c:when>
+                <c:otherwise>
+                    <p class="empty-warning"><spring:message code="emptyRecipes" arguments="${user.username}"/></p>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
+        <%@include file="recipe_cards.jsp" %>
+    </section>
     <%@include file="userbar.jsp" %>
 </section>
 

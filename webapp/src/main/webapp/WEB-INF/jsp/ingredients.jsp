@@ -33,6 +33,11 @@
     <%@include file="userbar.jsp" %>
 
     <div class="browse">
+
+        <c:if test="${empty ingredientsList}">
+            <p class="empty-warning"><spring:message code="noIngredients"/></p>
+        </c:if>
+
         <div class="card">
             <ul class="list-group">
                 <c:forEach var="ingredient" items="${ingredientsList}">

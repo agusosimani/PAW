@@ -29,7 +29,18 @@
 <section class="main_container">
     <h3>${title}</h3>
     <section class="browse text-center">
+        <c:if test="${empty cookList}">
+            <c:choose>
+                <c:when test="${editable}">
+                    <p class="empty-warning"><spring:message code="noCookListsMy"/></p>
+                </c:when>
+                <c:otherwise>
+                    <p class="empty-warning"><spring:message code="noCookLists" arguments="${user.username}"/></p>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
         <div class="card-deck">
+
             <c:forEach var="cooklist" items="${cookList}">
 
                 <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 columns-cards-recipe">
@@ -56,7 +67,9 @@
 </section>
 
 <c:if test="${editable}">
-    <button class="btn btn-green add" data-toggle="modal" id="add-recipe-cooklist-modal" data-target="#add-recipe-cooklist">+</button>
+    <button class="btn btn-green add" data-toggle="modal" id="add-recipe-cooklist-modal"
+            data-target="#add-recipe-cooklist">+
+    </button>
 </c:if>
 <%@include file="cooklists_add_modal.jsp" %>
 <!-- SCRIPTS -->
