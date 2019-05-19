@@ -27,6 +27,8 @@ public interface IngredientService {
 
     RecipeIngredient addNewUserIngredient(RecipeIngredient ui, int userId);
 
+    void addNewUserIngredient(List<RecipeIngredient> recipeIngredientList, int user);
+
     Ingredient addNewIngredient(Ingredient i);
 
     void updateI(Ingredient ingredient);

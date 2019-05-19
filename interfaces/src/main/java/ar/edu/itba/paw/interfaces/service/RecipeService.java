@@ -27,7 +27,7 @@ public interface RecipeService {
 
     void update(Recipe recipe);
 
-    void deleteRecipe(Recipe recipe);
+    void deleteRecipe(int recipeId);
 
     List<RecipeTag> getAllRecipeTags(Recipe recipe);
 
@@ -55,7 +55,7 @@ public interface RecipeService {
 
     Either<Comment, Warnings> addComment(Comment comment);
 
-    List<Comment> getRecipeComments(int recipeId);
+    Map<Comment,String> getRecipeComments(int recipeId);
 
     void addNewCookList(int userId, RecipeList recipeList);
 

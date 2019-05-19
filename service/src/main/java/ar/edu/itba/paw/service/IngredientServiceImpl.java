@@ -154,7 +154,14 @@ public class IngredientServiceImpl implements IngredientService {
         return ri;
     }
 
-    @Transactional
+    @Override
+    public void addNewUserIngredient(List<RecipeIngredient> recipeIngredientList, int user) {
+        for (RecipeIngredient ri: recipeIngredientList) {
+            addNewUserIngredient(ri,user);
+        }
+    }
+
+        @Transactional
     @Override
     public Ingredient addNewIngredient(Ingredient i) {
         return ingredientsDao.addNewIngredient(i);

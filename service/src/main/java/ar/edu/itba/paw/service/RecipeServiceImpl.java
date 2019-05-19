@@ -144,10 +144,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public void deleteRecipe(Recipe recipe) {
+    public void deleteRecipe(int recipe) {
         Map<String, Object> map = new HashMap<>();
         map.put("recipe_status", Status.DELETED.toString());
-        recipeDao.update(recipe.getId(), map);
+        recipeDao.update(recipe, map);
     }
 
     @Override
@@ -272,8 +272,18 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Comment> getRecipeComments(int recipeId) {
-        return commentsDao.getAllRecipeComments(recipeId);
+    public Map<Comment,String> getRecipeComments(int recipeId) {
+
+        List<Comment> commentsList = commentsDao.getAllRecipeComments(recipeId);
+        Map<Comment,String> commentUsernameMap = new HashMap<>();
+        for (Comment comment : commentsList) {
+            Optional<User> maybeUser = userDao.getById(comment.getUserId());
+            if(maybeUser.isPresent())
+                commentUsernameMap.put(comment,maybeUser.get().getName());
+            else
+                commentUsernameMap.put(comment,"Anonymous");
+        }
+        return commentUsernameMap;
     }
 
     @Transactional
