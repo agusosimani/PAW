@@ -187,7 +187,6 @@ public class User {
             this.username = username;
         }
 
-
         public Builder name(String name) {
             this.name = name;
             return this;

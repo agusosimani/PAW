@@ -26,7 +26,6 @@ import java.sql.SQLException;
 @Sql("classpath:schema.sql")
 public class UserDaoMImplTest {
 
-
     private static final String USERNAME1 = "mJackson";
     private static final String PASSWORD1 = "jacksonFive";
     private static final String EMAIL1 = "michaelJ@gmail.com";

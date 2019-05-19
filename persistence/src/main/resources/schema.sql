@@ -47,8 +47,7 @@ CREATE TABLE IF NOT EXISTS recipes
     date_created  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     image         bytea,
     PRIMARY KEY (recipe_id),
-    CONSTRAINT recipes_constraint_1 FOREIGN KEY (user_id) REFERENCES users (user_id),
-    CONSTRAINT recipes_constraint_2 FOREIGN KEY (user_id) REFERENCES users (user_id)
+    CONSTRAINT recipes_constraint_1 FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
 
