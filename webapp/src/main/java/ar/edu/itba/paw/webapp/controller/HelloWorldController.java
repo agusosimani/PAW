@@ -153,6 +153,9 @@ public class HelloWorldController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
     public ModelAndView login(@RequestParam(required = false) String error) {
+        if (getCurrentUserID() != -1)
+            return new ModelAndView("redirect:/");
+
         final ModelAndView mav = new ModelAndView("login");
 
         if (error != null)
@@ -239,6 +242,9 @@ public class HelloWorldController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register(@ModelAttribute("registerForm") final RegisterForm form) {
+        if (getCurrentUserID() != -1)
+            return new ModelAndView("redirect:/");
+
         System.out.println("lll");
         final ModelAndView mav = new ModelAndView("register");
         return mav;

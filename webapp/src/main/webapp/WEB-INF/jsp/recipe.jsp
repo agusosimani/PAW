@@ -184,9 +184,9 @@
                             </a>
                             <div class="user-date-comment">
                                 <a class="bg-transparent" href="${userRecipesUrl}">
-                                    <h5 class="user-title-commentary">${comment.username}</h5>
+                                    <h5 class="user-title-commentary"><c:out value="${comment.username}"/></h5>
                                 </a>
-                                <p class="card-comments-date"> ${comment.date}</p>
+                                <p class="card-comments-date">${comment.date}</p>
                             </div>
                             <div class="float-right">
                                 <p class="comment-vote">23</p>
@@ -195,7 +195,7 @@
                             </div>
                         </div>
                         <div class="card-comments-text">
-                            <p class="card-text">${comment.message}</p>
+                            <p class="card-text"><c:out value="${comment.message}"/></p>
                         </div>
                     </div>
                 </c:forEach>

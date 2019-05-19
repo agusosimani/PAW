@@ -29,8 +29,9 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.sessionManagement().invalidSessionUrl("/login")
                 .and().authorizeRequests()
-                    .antMatchers("/login").anonymous()
-                    .antMatchers("/register").anonymous()
+                    .antMatchers("/login").permitAll()
+                    .antMatchers("/register").permitAll()
+                    .antMatchers("/create").anonymous()
                     //.antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/**").authenticated()
                 .and().formLogin()

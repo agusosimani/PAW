@@ -108,7 +108,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> getByEmail(final String email) {
-        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	email	=	? AND user_status = 'REGULAR'", ROW_MAPPER, email);
+        final List<User> list = jdbcTemplate.query("SELECT	*	FROM	users	WHERE	mail	=	? AND user_status = 'REGULAR'", ROW_MAPPER, email);
         if (list.isEmpty()) {
             return Optional.empty();
         }

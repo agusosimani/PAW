@@ -14,6 +14,8 @@ public interface UserService {
 
     Either<User, Warnings> findByUsername(final String username);
 
+    Either<User, Warnings> findByEmail(final String username);
+
     Either<User, Warnings> signUpUser(User user);
 
     void update(User user);
