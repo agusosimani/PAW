@@ -16,27 +16,40 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <c:url value="/add_ingredient_user" var="addIngredient"/>
-            <form:form autocomplete="off" modelAttribute="addIngredientForm" action="${addIngredient}" method="post">
-                <div class="modal-body">
 
-                        <form:label path="ingredientId"><spring:message code="addIngredient.select"/>
+            <div class="modal-body">
+                <c:url value="/add_ingredient_user" var="addIngredient"/>
+                <form:form autocomplete="off" modelAttribute="addIngredientForm" action="${addIngredient}"
+                           method="post">
+                <div id="cloneInput1" class="cloneInput_1 flex">
+                    <div class="new-recipe-ingredient-select">
+                        <form:label class="ingredientLabel" path="ingredients[0].ingredient.id"><spring:message code="addIngredient.select"/>
                         </form:label>
-                        <form:select path="ingredientId" class="form-control mb-4">
+                        <form:select path="ingredients[0].ingredient.id" class="ingredientSelect form-control mb-4">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
                                 <form:option value="${ingredient_type.id}">${ingredient_type.name}</form:option>
                             </c:forEach>
                         </form:select>
+                    </div>
 
-                        <form:label path="amount"><spring:message code="addIngredient.amount"/>
+                    <div class="new-recipe-ingredient-amount">
+                        <form:label class="ingredientAmountLabel" path="ingredients[0].amount"><spring:message code="addIngredient.amount"/>
                         </form:label>
-                        <form:input class="form-control mb-4" path="amount" />
+                        <form:input class="ingredientAmountInput form-control mb-4" path="ingredients[0].amount"/>
+                    </div>
+                </div>
 
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>
-                    <button type="submit" class="btn btn-green"><spring:message code="addIngredient"/></button>
-                </div>
+                <button type="button" id="btnAdd_2" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">Add
+                    ingredient
+                </button>
+                <button type="button" id="btnDel_2" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn">
+                    Delete ingredient
+                </button>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>
+                <button type="submit" class="btn btn-green"><spring:message code="addIngredient"/></button>
+            </div>
             </form:form>
         </div>
     </div>

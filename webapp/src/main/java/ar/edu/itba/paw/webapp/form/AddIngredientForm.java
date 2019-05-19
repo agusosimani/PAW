@@ -1,27 +1,20 @@
 
 package ar.edu.itba.paw.webapp.form;
+import ar.edu.itba.paw.model.RecipeIngredient;
 
-import javax.validation.constraints.Size;
+import java.util.List;
 
 public class AddIngredientForm {
 
-    private int ingredientId;
+    private List<RecipeIngredient> ingredients;
 
-    private float amount;
 
-    public int getIngredientId() {
-        return ingredientId;
+    public List<RecipeIngredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredientId(int ingredientId) {
-        this.ingredientId = ingredientId;
+    public void setIngredients(List<RecipeIngredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
 }

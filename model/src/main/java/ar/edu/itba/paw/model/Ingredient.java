@@ -19,6 +19,10 @@ public class Ingredient {
     private int userId;
     private String status;
 
+    public Ingredient(){
+
+    }
+
     private Ingredient(int id, String name, boolean isVegetarian, boolean isVegan, boolean taccFree,
                       double calories, double protein, double carbohydrates, double totalFat,
                       double sugar, double serving, String typeOfServing, int userId,String status) {

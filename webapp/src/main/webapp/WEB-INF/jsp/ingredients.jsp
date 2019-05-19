@@ -77,6 +77,10 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 
+<script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
+
+<script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
+
 </body>
 
 </html>

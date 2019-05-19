@@ -8,6 +8,10 @@ public class RecipeIngredient {
     private float amount;
     private String observation;
 
+    public RecipeIngredient(){
+
+    }
+
     private RecipeIngredient(Ingredient ingredient, float amount, String observation) {
         this.ingredient = ingredient;
         this.amount = amount;

@@ -119,11 +119,11 @@ public class HelloWorldController {
             return null;
         }
 
-        Ingredient aux = ingredientService.getById(addIngredientForm.getIngredientId()).get();
+        List<RecipeIngredient> ingredientsList = addIngredientForm.getIngredients();
 
-        RecipeIngredient ingredientToAdd = new RecipeIngredient.Builder(aux, addIngredientForm.getAmount()).observation("podrido").build();
-
-        ingredientService.addNewUserIngredient(ingredientToAdd, getCurrentUserID());
+        for(RecipeIngredient ri : ingredientsList){
+            ingredientService.addNewUserIngredient(ri, getCurrentUserID());
+        }
         return new ModelAndView("redirect:/my_ingredients");
     }
 
