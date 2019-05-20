@@ -336,6 +336,7 @@ ingredients-tags-div {
 }
 
 .bar_arrow{
+    visibility: visible;
     float: left;
     margin-left: 5px;
     margin-top: 5px;
@@ -360,16 +361,23 @@ ingredients-tags-div {
     visibility: visible;
 }
 
-
-.collapse-sidebar{
-    visibility: visible;
-}
-
 .navigation_list_modal{
     visibility: hidden;
 }
 
+.navigation{
+    height: 100% !important;
+}
+
 @media (max-width: 768px) {
+
+    .bar_arrow{
+        visibility: hidden;
+    }
+
+    .navigation{
+        height: 64px !important;
+    }
 
     .navigation_list_modal{
         visibility: visible;
