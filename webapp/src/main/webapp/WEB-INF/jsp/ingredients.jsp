@@ -30,7 +30,13 @@
 
 <section class="main_container">
     <h3><spring:message code="myIngredients"/></h3>
-    <%@include file="userbar.jsp" %>
+    <section class="side_card">
+        <div class="card">
+            <div class="card-body">
+                <%@include file="userbar.jsp" %>
+            </div>
+        </div>
+    </section>
 
     <div class="browse">
 

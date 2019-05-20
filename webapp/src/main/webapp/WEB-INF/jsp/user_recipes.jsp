@@ -40,7 +40,13 @@
         </c:if>
         <%@include file="recipe_cards.jsp" %>
     </section>
-    <%@include file="userbar.jsp" %>
+    <section class="side_card">
+        <div class="card">
+            <div class="card-body">
+                <%@include file="userbar.jsp" %>
+            </div>
+        </div>
+    </section>
 </section>
 
 

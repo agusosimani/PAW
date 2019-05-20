@@ -63,7 +63,13 @@
         </div>
     </section>
 
-    <%@include file="userbar.jsp" %>
+    <section class="side_card">
+        <div class="card">
+            <div class="card-body">
+                <%@include file="userbar.jsp" %>
+            </div>
+        </div>
+    </section>
 </section>
 
 <c:if test="${editable}">

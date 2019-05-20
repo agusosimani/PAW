@@ -194,7 +194,7 @@ body a:hover {
   }
   .navigation__list {
     margin-bottom: 0;
-    width: calc( 100% / 3 );
+    width: calc( 100% / 4 );
     text-align: center;
   }
   .navigation__list__item {

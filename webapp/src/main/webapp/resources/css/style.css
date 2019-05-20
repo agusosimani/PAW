@@ -356,7 +356,29 @@ ingredients-tags-div {
     cursor: pointer;
 }
 
+.collapse-sidebar{
+    visibility: visible;
+}
+
+
+.collapse-sidebar{
+    visibility: visible;
+}
+
+.navigation_list_modal{
+    visibility: hidden;
+}
+
 @media (max-width: 768px) {
+
+    .navigation_list_modal{
+        visibility: visible;
+    }
+
+    .collapse-sidebar{
+        visibility: hidden;
+    }
+
     .browse {
         float: left;
         width: 95%;

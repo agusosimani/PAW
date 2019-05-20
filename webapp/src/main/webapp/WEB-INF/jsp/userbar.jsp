@@ -5,9 +5,7 @@
         <title>Title</title>
     </head>
     <body>
-    <section class="side_card">
-        <div class="card">
-            <div class="card-body">
+
                 <c:url value="/account" var="userRecipesUrl">
                     <c:param name="userId" value="${user.id}"/>
                 </c:url>
@@ -20,8 +18,6 @@
                 <br><br><br><br>
                 <p class="card-text"><spring:message code="Recipe.amount" arguments="${recipes_amount}" /></p>
 <%--                ${recipes_amount} recetas subidas--%>
-            </div>
-        </div>
-    </section>
+
     </body>
 </html>
