@@ -23,7 +23,7 @@ public interface RecipeService {
 
     Recipe findUserRecipeByName(int userId, String name);
 
-    Recipe addNewRecipe(Recipe recipe);
+    Either<Recipe,Warnings> addNewRecipe(Recipe recipe);
 
     void update(Recipe recipe);
 

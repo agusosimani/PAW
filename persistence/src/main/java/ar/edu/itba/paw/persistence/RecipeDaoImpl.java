@@ -211,7 +211,12 @@ public class RecipeDaoImpl implements RecipeDao {
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
-        recipe.setTags(list);
+        List<String> tagList = new ArrayList<>();
+        for (RecipeTag rt: list) {
+            tagList.add(rt.getTag());
+        }
+
+        recipe.setTags(tagList);
 
         return list;
     }
@@ -227,7 +232,7 @@ public class RecipeDaoImpl implements RecipeDao {
         final Map<String, Object> map = new HashMap<>();
 
         map.put("recipe_id",tag.getRecipeId());
-        map.put("tag_id",tag.getTag());
+        map.put("tag",tag.getTag());
         map.put("tags_status","REGULAR");
 
         jdbcInsertTag.execute(map);

@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -39,7 +36,12 @@ public class RecipeServiceImpl implements RecipeService {
         if (maybe.isPresent()) {
             Recipe recipe = maybe.get();
             List<RecipeTag> tags = recipeDao.getAllRecipeTags(recipe);
-            recipe.setTags(tags);
+            List<String> tagsString = new ArrayList<>();
+
+            for (RecipeTag tag : tags) {
+                tagsString.add(tag.getTag());
+            }
+            recipe.setTags(tagsString);
 
             List<RecipeIngredient> ingredientsList = ingredientsDao.getByRecipeId(recipe.getId());
             recipe.setIngredients(ingredientsList);
@@ -95,16 +97,17 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public Recipe addNewRecipe(Recipe recipe) throws RuntimeException {
+    public Either<Recipe,Warnings> addNewRecipe(Recipe recipe){
 
         if (recipe.getName().isEmpty() || recipe.getInstructions().isEmpty()) {
-            throw new RuntimeException();
+            return Either.alternative(Warnings.valueOf("AddRecipeValuesWrong"));
         }
 
         Recipe rec = recipeDao.addNewRecipe(recipe);
 
         for (String rt : rec.getTags()) {
-            recipeDao.addNewRecipeTag(rt);
+            RecipeTag recipeTag = new RecipeTag(rt,recipe.getId());
+            recipeDao.addNewRecipeTag(recipeTag);
         }
 
         for (RecipeIngredient rt : rec.getIngredients()) {
@@ -116,7 +119,7 @@ public class RecipeServiceImpl implements RecipeService {
         for (Comment comment : recipe.getComments()) {
             commentsDao.addNewComment(comment);
         }
-        return rec;
+        return Either.value(rec);
     }
 
     @Override
@@ -229,7 +232,13 @@ public class RecipeServiceImpl implements RecipeService {
         List<Recipe> rList = recipeDao.getAllRecipes();
         for (Recipe rep : rList) {
             List<RecipeTag> tags = recipeDao.getAllRecipeTags(rep);
-            rep.setTags(tags);
+            List<String> tagString = new ArrayList<>();
+
+            for (RecipeTag rt:tags) {
+                tagString.add(rt.getTag());
+            }
+
+            rep.setTags(tagString);
         }
         return rList;
     }
