@@ -103,7 +103,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         Recipe rec = recipeDao.addNewRecipe(recipe);
 
-        for (RecipeTag rt : rec.getTags()) {
+        for (String rt : rec.getTags()) {
             recipeDao.addNewRecipeTag(rt);
         }
 

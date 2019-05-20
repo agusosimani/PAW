@@ -18,13 +18,13 @@ public class Recipe {
 
     private byte[] image;
 
-    private List<RecipeTag> tags;
+    private List<String> tags;
 
     private List<Comment> comments;
 
     private Recipe(int id, String name, String description, List<RecipeIngredient> ingredients,
                   String instructions, int userId,
-                   List<RecipeTag> tags, byte[] image, List<Comment> comments,float rating) {
+                   List<String> tags, byte[] image, List<Comment> comments,float rating) {
 
         this.id = id;
         this.name = name;
@@ -94,11 +94,11 @@ public class Recipe {
         this.userId = userId;
     }
 
-    public List<RecipeTag> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<RecipeTag> tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 
@@ -131,7 +131,7 @@ public class Recipe {
         private List<RecipeIngredient> ingredients;
         private String instructions;
         private int userId;
-        private List<RecipeTag> tags = new ArrayList<>();
+        private List<String> tags = new ArrayList<>();
         private byte[] image;
         private float rating = 0;
 
@@ -162,7 +162,7 @@ public class Recipe {
             return this;
         }
 
-        public Builder tags(List<RecipeTag> tags) {
+        public Builder tags(List<String> tags) {
             this.tags = tags;
             return this;
         }

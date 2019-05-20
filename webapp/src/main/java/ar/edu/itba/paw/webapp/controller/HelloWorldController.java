@@ -152,13 +152,10 @@ public class HelloWorldController {
             return newRecipe(recipeForm);
         }
 
-        System.out.printf("LA LISTA TIENE UNOS: %d , primero %d", recipeForm.getIngredients().size(), recipeForm.getIngredients().get(0));
-        System.out.printf("LA LISTA TIENE UNOS: %d , primero %d", recipeForm.getIngredientsAmount().size(), recipeForm.getIngredientsAmount().get(0));
-
-       List<RecipeIngredient> listIngredients = new ArrayList<>();
-
-        List<RecipeTag> recipeTags = new ArrayList<>();
-
+        for(String tag : recipeForm.getTags()) {
+            System.out.printf("LA LISTA TIENE TAGS: %s", tag);
+        }
+        List<RecipeIngredient> listIngredients = new ArrayList<>();
 
         for (String tagName : recipeForm.getTags()) {
             //recipeTags.add(new RecipeTag("Vegetariana",1));
@@ -180,7 +177,7 @@ public class HelloWorldController {
 
         final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(), getCurrentUserID())
                 .description(recipeForm.getDescription())
-                .tags(recipeTags).image(bytes)
+                .tags(recipeForm.getTags()).image(bytes)
                 .build();
         recipeService.addNewRecipe(recipeToAdd);
         return new ModelAndView("redirect:/");
