@@ -93,23 +93,25 @@
                 </div>
 
                 <div class="form-row mb-4">
-                    <button type="button" id="btnAdd_1" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">Add ingredient</button>
-                    <button type="button" id="btnDel_1" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn">Delete ingredient</button>
+                    <button type="button" id="btnAdd_1" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">
+                        <spring:message code="Recipe.addIngredient"/></button>
+                    <button type="button" id="btnDel_1" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn">
+                        <spring:message code="Recipe.DeleteIngredient"/></button>
                 </div>
 
-                <div class="form-row mb-4">
-                    <div>
-                        <form:label path="image">
-                            <spring:message code="Recipe.image"/>
-                        </form:label>
-                        &nbsp;
-                    </div>
-                    <div>
-                        <form:input path="image" type="file"/>
-                        <form:errors path="image" cssClass="form-text text-muted" element="small"/>
-                    </div>
+                <div class="form-row">
+                    <form:label path="image">
+                        <spring:message code="Recipe.image"/>
+                    </form:label>
                 </div>
 
+                <div class="form-row">
+                    <button type="button" id="btnFile" name="btnAdd" class="btn btn-green">
+                        <spring:message code="Recipe.addImage"/></button>
+                    <form:input path="image" id="fileInput" cssClass="custom-file-input"  type="file"/>
+                    <form:errors path="image" cssClass="form-text text-muted" element="small"/>
+                </div>
+                
                 <p>
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
                             aria-expanded="false" aria-controls="collapseExample">
@@ -138,5 +140,16 @@
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
+
+<script>
+    document.getElementById("fileInput").onchange = function () {
+        document.getElementById("btnFile").textContent = "Archivo seleccionado: " + this.value.replace(/C:\\fakepath\\/i, '');
+    };
+
+    $("#btnFile").on("click", function() {
+        $("#fileInput").trigger("click");
+    });
+</script>
+
 </body>
 </html>
