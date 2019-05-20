@@ -92,14 +92,23 @@
                     </div>
                 </div>
 
-                <button type="button" id="btnAdd_1" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">Add ingredient</button>
-                <button type="button" id="btnDel_1" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn">Delete ingredient</button>
+                <div class="form-row mb-4">
+                    <button type="button" id="btnAdd_1" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">Add ingredient</button>
+                    <button type="button" id="btnDel_1" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn">Delete ingredient</button>
+                </div>
 
-
-                <p class="new-recipe-image">
-                    <form:input path="image" type="file"/>
-                    <form:errors path="image" cssClass="form-text text-muted" element="small"/>
-                </p>
+                <div class="form-row mb-4">
+                    <div>
+                        <form:label path="image">
+                            <spring:message code="Recipe.image"/>
+                        </form:label>
+                        &nbsp;
+                    </div>
+                    <div>
+                        <form:input path="image" type="file"/>
+                        <form:errors path="image" cssClass="form-text text-muted" element="small"/>
+                    </div>
+                </div>
 
                 <p>
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"

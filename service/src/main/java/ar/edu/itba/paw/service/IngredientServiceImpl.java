@@ -87,7 +87,6 @@ public class IngredientServiceImpl implements IngredientService {
             }
         }
         return Either.alternative(Warnings.valueOf("CouldNotFindIngredient"));
-
     }
 
     @Transactional
@@ -191,19 +190,19 @@ public class IngredientServiceImpl implements IngredientService {
             if (oldIngredient.isVegan() != (ingredient.isVegan())) {
                 map.put("is_vegan", ingredient.isVegan());
             }
-            if (oldIngredient.getProtein() == (ingredient.getProtein())) {
+            if (oldIngredient.getProtein() != (ingredient.getProtein())) {
                 map.put("protein_count", ingredient.getProtein());
             }
-            if (oldIngredient.getTotalFat() == (ingredient.getTotalFat())) {
+            if (oldIngredient.getTotalFat() != (ingredient.getTotalFat())) {
                 map.put("fat_count", ingredient.getTotalFat());
             }
-            if (oldIngredient.getSugar() == (ingredient.getSugar())) {
+            if (oldIngredient.getSugar() != (ingredient.getSugar())) {
                 map.put("sugar_count", ingredient.getSugar());
             }
             if (!oldIngredient.getTypeOfServing().equals(ingredient.getTypeOfServing())) {
                 map.put("serving_type", ingredient.getTypeOfServing());
             }
-            if (oldIngredient.getServing() == ingredient.getServing()) {
+            if (oldIngredient.getServing() != ingredient.getServing()) {
                 map.put("serving", ingredient.getServing());
             }
 
