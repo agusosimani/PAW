@@ -20,6 +20,8 @@ public class RecipeForm {
 
     private List<Integer> ingredients;
     private List<Integer> ingredientsAmount;
+
+    @ImageFormat
     @ImageSize
     private MultipartFile image;
 

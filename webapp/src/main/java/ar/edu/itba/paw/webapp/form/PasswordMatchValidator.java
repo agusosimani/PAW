@@ -12,8 +12,7 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
 
         if ( !isValid ) {
             context.disableDefaultConstraintViolation();
-            context
-                    .buildConstraintViolationWithTemplate( "{PasswordMatch}" )
+            context.buildConstraintViolationWithTemplate( "{PasswordMatch}" )
                     .addNode( "repeatPassword" ).addConstraintViolation();
         }
 

@@ -41,23 +41,19 @@ public class IngredientServiceImplTest {
 
     //findRecipeIngredientByName
 
-    //addNewRecipeIngredient
-
-    //addNewUserIngredient
-
-    //updateI
-
     @Test
     public void testAddNewRecipeIngredientAlreadyExists() {
         //1. Setup
         Ingredient ingredient = new Ingredient.Builder(INGREDIENT_ID, INGREDIENT_NAME, INGREDIENT_DOUBLES, INGREDIENT_TYPE_OF_SERVING, INGREDIENT_USER_ID, INGREDIENT_STATUS).build();
         RecipeIngredient recipeIngredient = new RecipeIngredient.Builder(ingredient, INGREDIENT_FLOAT).build();
 
+        int RECIPE_ID = 1;
+
         Mockito.when(ingredientsDao.getById(INGREDIENT_ID)).thenReturn(Optional.of(ingredient));
-        Mockito.when(ingredientsDao.getRecipeIngById(Mockito.eq(INGREDIENT_ID), any(int.class))).thenReturn(Optional.of(recipeIngredient));
+        Mockito.when(ingredientsDao.getRecipeIngById(INGREDIENT_ID, RECIPE_ID)).thenReturn(Optional.of(recipeIngredient));
 
         //2.
-        RecipeIngredient ret = ingredientService.addNewRecipeIngredient(recipeIngredient, 0);
+        RecipeIngredient ret = ingredientService.addNewRecipeIngredient(recipeIngredient, RECIPE_ID);
 
         //3. Asserts
         Assert.assertEquals(2 * INGREDIENT_FLOAT, ret.getAmount(), 0.001);
@@ -83,4 +79,45 @@ public class IngredientServiceImplTest {
         //3. Asserts
         Assert.assertEquals(INGREDIENT_ID_LOCAL, ret.getIngredient().getId());
     }
+
+    @Test
+    public void testAddNewUserIngredientAlreadyExists() {
+        //1. Setup
+        Ingredient ingredient = new Ingredient.Builder(INGREDIENT_ID, INGREDIENT_NAME, INGREDIENT_DOUBLES, INGREDIENT_TYPE_OF_SERVING, INGREDIENT_USER_ID, INGREDIENT_STATUS).build();
+        RecipeIngredient recipeIngredient = new RecipeIngredient.Builder(ingredient, INGREDIENT_FLOAT).build();
+
+        int USER_ID = 1;
+
+        Mockito.when(ingredientsDao.getById(INGREDIENT_ID)).thenReturn(Optional.of(ingredient));
+        Mockito.when(ingredientsDao.getUserIngById(INGREDIENT_ID, USER_ID)).thenReturn(Optional.of(recipeIngredient));
+
+        //2.
+        RecipeIngredient ret = ingredientService.addNewUserIngredient(recipeIngredient, USER_ID);
+
+        //3. Asserts
+        Assert.assertEquals(2 * INGREDIENT_FLOAT, ret.getAmount(), 0.001);
+    }
+
+    @Test
+    public void testAddNewUserIngredientNotExists() {
+        //1. Setup
+        Ingredient ingredient = new Ingredient.Builder(INGREDIENT_ID, INGREDIENT_NAME, INGREDIENT_DOUBLES, INGREDIENT_TYPE_OF_SERVING, INGREDIENT_USER_ID, INGREDIENT_STATUS).build();
+        RecipeIngredient recipeIngredient = new RecipeIngredient.Builder(ingredient, INGREDIENT_FLOAT).build();
+
+        int INGREDIENT_ID_LOCAL = 10;
+
+        Mockito.when(ingredientsDao.getById(INGREDIENT_ID)).thenReturn(Optional.empty());
+        Mockito.doAnswer((i) -> {
+            ingredient.setId(INGREDIENT_ID_LOCAL);
+            return ingredient;
+        }).when(ingredientsDao).addNewIngredient(ingredient);
+
+        //2.
+        RecipeIngredient ret = ingredientService.addNewUserIngredient(recipeIngredient, 0);
+
+        //3. Asserts
+        Assert.assertEquals(INGREDIENT_ID_LOCAL, ret.getIngredient().getId());
+    }
+
+    //updateI
 }

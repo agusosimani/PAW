@@ -224,7 +224,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     private Map<String, Object> updateRUIInternal(RecipeIngredient old, RecipeIngredient newRI) {
         Map<String, Object> map = new HashMap<>();
-        if (!old.getObservation().equals(newRI.getObservation())) {
+        if (newRI.getObservation() != null && !newRI.getObservation().equals(old.getObservation())) {
             map.put("obs", newRI.getObservation());
         }
         if (old.getAmount() != newRI.getAmount()) {
