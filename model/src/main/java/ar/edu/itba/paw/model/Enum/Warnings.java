@@ -10,7 +10,9 @@ public enum Warnings {
     CantCookRecipe("User does not have the ingredients to cook the recipe"),
     CouldNotFindIngredient("Could not find the ingredient"),
     UserAlreadyExists("This user already exists"),
-    NoSuchUser("This user does not exist");
+    NoSuchUser("This user does not exist"),
+    AddRecipeValuesWrong("The values put cannot be null"),
+    NoSuchRecipeUser("The recipe with this name was not found under this user's belongings");
 
     private String warning;
 

@@ -84,15 +84,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe findUserRecipeByName(int userId, String name) {
+    public Either<Recipe,Warnings> findUserRecipeByName(int userId, String name) {
         List<Recipe> list = this.findByUser(userId);
         for (Recipe r : list) {
             if (r.getName().equals(name)) {
-                return r;
+                return Either.value(r);
             }
         }
-        //TODO crear excepcion
-        throw new RuntimeException();
+        return Either.alternative(Warnings.valueOf("NoSuchRecipeUser"));
     }
 
     @Transactional

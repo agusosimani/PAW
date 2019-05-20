@@ -130,7 +130,7 @@ public class RecipeServiceImplTest {
                 .thenReturn(recipeList);
 
         //2.
-        Recipe ret = recipeService.findUserRecipeByName(RECIPE_USER_ID, RECIPE_NAME);
+        Recipe ret = recipeService.findUserRecipeByName(RECIPE_USER_ID, RECIPE_NAME).getValue();
 
         //3. Asserts
         Assert.assertEquals(recipe, ret);

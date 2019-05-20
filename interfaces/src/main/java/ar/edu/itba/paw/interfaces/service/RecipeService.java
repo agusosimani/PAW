@@ -21,7 +21,7 @@ public interface RecipeService {
 
     int userRecipesNumber(int userId);
 
-    Recipe findUserRecipeByName(int userId, String name);
+    Either<Recipe,Warnings> findUserRecipeByName(int userId, String name);
 
     Either<Recipe,Warnings> addNewRecipe(Recipe recipe);
 
