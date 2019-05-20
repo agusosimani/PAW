@@ -76,12 +76,6 @@
       <spring:message code="Register.signUp"/>
     </button>
 
-    <!-- Terms of service -->
-    <p><spring:message code="Register.signUpDisclaimer1"/>
-      <em><spring:message code="Register.signUp"/></em> <spring:message code="Register.signUpDisclaimer2"/>
-      <a href="" target="_blank"><spring:message code="Register.signUpDisclaimer3"/></a>
-    </p>
-
   </form:form>
   <div class="offset_register"></div>
 

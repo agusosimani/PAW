@@ -29,7 +29,7 @@ body {
 }
 
 .logo {
-    height: 30%;
+    height: 20%;
     min-height: 180px;
     margin-bottom: 10%;
 }
@@ -58,13 +58,13 @@ body {
 }
 
 .centered_login, .centered_error {
-    height: 60%;
+    height: auto;
     background: rgba(221,221,221,0.8);
     border-radius: 2%;
 }
 
 .centered_register {
-    height: 80%;
+    height: auto;
     background: rgba(221,221,221,0.8);
     border-radius: 2%;
 }
@@ -383,6 +383,36 @@ ingredients-tags-div {
     .modal {
         width: 100% !important;
         left: 0 !important;
+    }
+
+    .centered_login, .centered_error {
+        width: 100% !important;
+    }
+
+    .centered_register {
+        width: 100% !important;
+    }
+
+    body {
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    .p-5 {
+        padding: 0 !important;
+    }
+
+    .offset_login, .offset_error {
+        height: 12%;
+    }
+
+    .offset_register {
+        height: 7%;
+    }
+
+    .form-row {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 }
 
