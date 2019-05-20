@@ -13,7 +13,7 @@ public class ImageFormatValidator implements ConstraintValidator<ImageFormat, Mu
 
     public boolean isValid(MultipartFile multipartFile, ConstraintValidatorContext context) {
         try {
-            return ImageIO.read(new ByteArrayInputStream(multipartFile.getBytes())) != null;
+            return multipartFile.getSize() == 0 || ImageIO.read(new ByteArrayInputStream(multipartFile.getBytes())) != null;
         } catch (Exception e){
             return true;
         }
