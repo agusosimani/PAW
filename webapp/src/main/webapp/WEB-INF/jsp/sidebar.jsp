@@ -85,8 +85,7 @@
     <div class="navigation__list">
         <div>
             <c:url value="/logout" var="logOutB"/>
-            <a href="${logOutB}" class="navigation__list__item">
-                <!-- <i class="ion-ios-musical-notes"></i> -->
+            <a href="${logOutB}">
                 <span><spring:message code="logOut"/></span>
             </a>
         </div>
@@ -95,7 +94,7 @@
     <c:if test="${not empty user}">
         <div class="navigation__list navigation_list_modal">
             <div>
-                <button type="button" class="bg-transparent" data-toggle="modal" id="user-modal-btn" data-target="#user-modal">
+                <button type="button" class="bg-transparent btn-modal-sidebar" data-toggle="modal" id="user-modal-btn" data-target="#user-modal">
                     <i class="fas fa-user fa-2x green-ic"></i>
                 </button>
             </div>
@@ -105,7 +104,7 @@
     <c:if test="${isIndex eq true}">
         <div class="navigation__list navigation_list_modal">
             <div>
-                <button type="button" class="bg-transparent" data-toggle="modal" id="filters-modal-btn" data-target="#filters-modal">
+                <button type="button" class="bg-transparent btn-modal-sidebar" data-toggle="modal" id="filters-modal-btn" data-target="#filters-modal">
                     <i class="fas fa-filter fa-2x green-ic"></i>
                 </button>
             </div>
@@ -116,13 +115,10 @@
 <div class="modal fade" id="user-modal" tabindex="-1" role="form">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-
-            <div class="modal-body">
                 <%@include file="userbar.jsp" %>
             </div>
         </div>
@@ -132,13 +128,10 @@
 <div class="modal fade" id="filters-modal" tabindex="-1" role="form">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-
-            <div class="modal-body">
                 <%@include file="filters_card.jsp" %>
             </div>
         </div>

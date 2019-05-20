@@ -369,6 +369,10 @@ ingredients-tags-div {
     height: 100% !important;
 }
 
+.btn-modal-sidebar{
+    float: right;
+}
+
 @media (max-width: 768px) {
 
     .bar_arrow{
