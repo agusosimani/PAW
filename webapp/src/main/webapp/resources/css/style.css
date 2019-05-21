@@ -79,13 +79,13 @@ body {
 
 .browse {
     float: left;
-    width: calc(101% - 330px) ;
+    width: calc(100% - 320px) ;
 }
 
 .main_container{
     margin-left: calc(15% + 10px);
     float: left;
-    width: 84%;
+    width: calc(85% - 10px);
     margin-top: 10px;
     margin-bottom: 10px;
 }
