@@ -66,8 +66,6 @@ public class HomeController {
         else
             filterForm.setOrder(Order.New);
 
-        System.out.printf("\nCon ingredientes: %s", filterForm.getWithMyIngredients());
-
         if(filterForm.getTags() != null ) {
             for (String s : filterForm.getTags()) {
                 System.out.printf("%s\n", s);

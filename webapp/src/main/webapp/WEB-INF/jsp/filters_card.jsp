@@ -18,7 +18,7 @@
         <c:forEach var="order" items="${allOrders}">
             <div class="custom-control custom-radio">
                 <form:radiobutton path="order" value="${order}" class="custom-control-input" id="${order}" name="groupOrderFilter"/>
-                <form:label class="custom-control-label" path="order" for="${order}">${order}</form:label>
+                <form:label class="custom-control-label" path="order" for="${order}"><spring:message code="${order}"/></form:label>
             </div>
         </c:forEach>
 
