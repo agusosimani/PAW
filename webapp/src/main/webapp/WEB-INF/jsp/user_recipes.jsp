@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-</htm>
+</html>
 
 <head>
     <meta charset="utf-8">
@@ -26,18 +26,18 @@
 
 <section class="main_container">
 
-    <h3>${title}</h3>
+    <h4 class="navigation-title">${title}</h4>
+    <c:if test="${empty RecipeList}">
+        <c:choose>
+            <c:when test="${yourAccount}">
+                <h3 class="navigation-subtitle"><spring:message code="emptyMyRecipes"/></h3>
+            </c:when>
+            <c:otherwise>
+                <h3 class="navigation-subtitle"><spring:message code="emptyRecipes" arguments="${user.username}"/></h3>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
     <section class="browse">
-        <c:if test="${empty RecipeList}">
-            <c:choose>
-                <c:when test="${yourAccount}">
-                    <p class="empty-warning"><spring:message code="emptyMyRecipes"/></p>
-                </c:when>
-                <c:otherwise>
-                    <p class="empty-warning"><spring:message code="emptyRecipes" arguments="${user.username}"/></p>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
         <%@include file="recipe_cards.jsp" %>
     </section>
     <section class="side_card">

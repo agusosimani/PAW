@@ -30,7 +30,7 @@
 
         <section class="browse">
             <c:if test="${empty RecipeList}">
-                <spring:message code="NoRecipesMatchingFilter"/>
+                <h3 class="navigation-subtitle"><spring:message code="NoRecipesMatchingFilter"/></h3>
             </c:if>
             <%@include file="recipe_cards.jsp" %>
         </section>

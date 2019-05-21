@@ -43,14 +43,10 @@
 
                             <c:if test="${editable}">
                                 <div class="float-right">
-                                    <c:url value="/delete_recipe" var="deleteRecipeUrl">
-                                        <c:param name="recipeId" value="${recipe.id}"/>
-                                    </c:url>
-                                    <form:form action="${deleteRecipeUrl}" method="post">
-                                        <button type="submit" class="bg-transparent">
-                                            <i class="fas fa-trash fa-2x red-ic"></i>
-                                        </button>
-                                    </form:form>
+                                    <button data-toggle="modal" id="delete-recipe-modal"
+                                            data-target="#delete-recipe" class="bg-transparent">
+                                        <i class="fas fa-trash fa-2x red-ic"></i>
+                                    </button>
                                 </div>
                                 <div class="float-right">
                                     <c:url value="/edit_recipe" var="editRecipeUrl">
@@ -90,89 +86,97 @@
                             <c:url var="rateUrl" value="/rate_recipe"/>
 
                             <p class="ingredients-title"><spring:message code="rating.general"/></p>
-                            <fieldset class="rating rating-recipe disabled">
-                                <input type="radio" id="fiveGeneral" name="" value="5"
-                                       <c:if test="${recipe.rating == 5}">checked</c:if>/><label class="full"
-                                                                                                 for="fiveGeneral"
-                                                                                                 title="Awesome - 5 stars"></label>
-                                <input type="radio" id="fourhalfGeneral" value="4 and a half"
-                                       <c:if test="${recipe.rating >= 4.5}">checked</c:if>/><label class="half"
-                                                                                                   for="fourhalfGeneral"
-                                                                                                   title="Pretty good - 4.5 stars"></label>
-                                <input type="radio" id="fourGeneral" name="" value="4"
-                                       <c:if test="${recipe.rating >= 4}">checked</c:if>/><label class="full"
-                                                                                                 for="fourGeneral"
-                                                                                                 title="Pretty good - 4 stars"></label>
-                                <input type="radio" id="threehalfGeneral" name="" value="3 and a half"
-                                       <c:if test="${recipe.rating >= 3.5}">checked</c:if>/><label class="half"
-                                                                                                   for="threehalfGeneral"
-                                                                                                   title="Meh - 3.5 stars"></label>
-                                <input type="radio" id="threeGeneral" name="" value="3"
-                                       <c:if test="${recipe.rating >= 3}">checked</c:if>/><label class="full"
-                                                                                                 for="threeGeneral"
-                                                                                                 title="Meh - 3 stars"></label>
-                                <input type="radio" id="twohalfGeneral" name="" value="2 and a half"
-                                       <c:if test="${recipe.rating >= 2.5}">checked</c:if>/><label class="half"
-                                                                                                   for="twohalfGeneral"
-                                                                                                   title="Kinda bad - 2.5 stars"></label>
-                                <input type="radio" id="twoGeneral" name="" value="2"
-                                       <c:if test="${recipe.rating >= 2}">checked</c:if>/><label class="full"
-                                                                                                 for="two"
-                                                                                                 title="Kinda bad - 2 stars"></label>
-                                <input type="radio" id="onehalfGeneral" name="" value="1 and a half"
-                                       <c:if test="${recipe.rating >= 1.5}">checked</c:if>/><label class="half"
-                                                                                                   for="onehalfGeneral"
-                                                                                                   title="Meh - 1.5 stars"></label>
-                                <input type="radio" id="oneGeneral" name="" value="1"
-                                       <c:if test="${recipe.rating >= 1}">checked</c:if>/><label class="full"
-                                                                                                 for="oneGeneral"
-                                                                                                 title="Sucks big time - 1 star"></label>
-                                <input type="radio" id="halfGeneral" name="" value="half"
-                                       <c:if test="${recipe.rating >= 0.5}">checked</c:if>/><label class="half"
-                                                                                                   for="halfGeneral"
-                                                                                                   title="Sucks big time - 0.5 stars"></label>
-                            </fieldset>
-                            <br/>
-                            <p class="ingredients-title"><spring:message code="rating.user"/></p>
-                            <fieldset class="rating rating-recipe">
-                                <input onclick="add_rate(5)" type="radio" id="five" name="" value="5"
-                                       <c:if test="${previous_rate == 5}">checked</c:if>/><label class="full" for="five"
-                                                                                                 title="Awesome - 5 stars"></label>
-                                <input onclick="add_rate(4.5)" type="radio" id="fourhalf" value="4 and a half"
-                                       <c:if test="${previous_rate >= 4.5}">checked</c:if>/><label class="half"
-                                                                                                   for="fourhalf"
-                                                                                                   title="Pretty good - 4.5 stars"></label>
-                                <input onclick="add_rate(4)" type="radio" id="four" name="" value="4"
-                                       <c:if test="${previous_rate >= 4}">checked</c:if>/><label class="full" for="four"
-                                                                                                 title="Pretty good - 4 stars"></label>
-                                <input onclick="add_rate(3.5)" type="radio" id="threehalf" name="" value="3 and a half"
-                                       <c:if test="${previous_rate >= 3.5}">checked</c:if>/><label class="half"
-                                                                                                   for="threehalf"
-                                                                                                   title="Meh - 3.5 stars"></label>
-                                <input onclick="add_rate(3)" type="radio" id="three" name="" value="3"
-                                       <c:if test="${previous_rate >= 3}">checked</c:if>/><label class="full"
-                                                                                                 for="three"
-                                                                                                 title="Meh - 3 stars"></label>
-                                <input onclick="add_rate(2.5)" type="radio" id="twohalf" name="" value="2 and a half"
-                                       <c:if test="${previous_rate >= 2.5}">checked</c:if>/><label class="half"
-                                                                                                   for="twohalf"
-                                                                                                   title="Kinda bad - 2.5 stars"></label>
-                                <input onclick="add_rate(2)" type="radio" id="two" name="" value="2"
-                                       <c:if test="${previous_rate >= 2}">checked</c:if>/><label class="full" for="two"
-                                                                                                 title="Kinda bad - 2 stars"></label>
-                                <input onclick="add_rate(1.5)" type="radio" id="onehalf" name="" value="1 and a half"
-                                       <c:if test="${previous_rate >= 1.5}">checked</c:if>/><label class="half"
-                                                                                                   for="onehalf"
-                                                                                                   title="Meh - 1.5 stars"></label>
-                                <input onclick="add_rate(1)" type="radio" id="one" name="" value="1"
-                                       <c:if test="${previous_rate >= 1}">checked</c:if>/><label class="full" for="one"
-                                                                                                 title="Sucks big time - 1 star"></label>
-                                <input onclick="add_rate(0.5)" type="radio" id="half" name="" value="half"
-                                       <c:if test="${previous_rate >= 0.5}">checked</c:if>/><label class="half"
-                                                                                                   for="half"
-                                                                                                   title="Sucks big time - 0.5 stars"></label>
-                            </fieldset>
-
+                            <div class="ratings-recipe">
+                                <fieldset class="rating rating-recipe disabled">
+                                    <input type="radio" id="fiveGeneral" name="" value="5"
+                                           <c:if test="${recipe.rating == 5}">checked</c:if>/><label class="full"
+                                                                                                     for="fiveGeneral"
+                                                                                                     title="Awesome - 5 stars"></label>
+                                    <input type="radio" id="fourhalfGeneral" value="4 and a half"
+                                           <c:if test="${recipe.rating >= 4.5}">checked</c:if>/><label class="half"
+                                                                                                       for="fourhalfGeneral"
+                                                                                                       title="Pretty good - 4.5 stars"></label>
+                                    <input type="radio" id="fourGeneral" name="" value="4"
+                                           <c:if test="${recipe.rating >= 4}">checked</c:if>/><label class="full"
+                                                                                                     for="fourGeneral"
+                                                                                                     title="Pretty good - 4 stars"></label>
+                                    <input type="radio" id="threehalfGeneral" name="" value="3 and a half"
+                                           <c:if test="${recipe.rating >= 3.5}">checked</c:if>/><label class="half"
+                                                                                                       for="threehalfGeneral"
+                                                                                                       title="Meh - 3.5 stars"></label>
+                                    <input type="radio" id="threeGeneral" name="" value="3"
+                                           <c:if test="${recipe.rating >= 3}">checked</c:if>/><label class="full"
+                                                                                                     for="threeGeneral"
+                                                                                                     title="Meh - 3 stars"></label>
+                                    <input type="radio" id="twohalfGeneral" name="" value="2 and a half"
+                                           <c:if test="${recipe.rating >= 2.5}">checked</c:if>/><label class="half"
+                                                                                                       for="twohalfGeneral"
+                                                                                                       title="Kinda bad - 2.5 stars"></label>
+                                    <input type="radio" id="twoGeneral" name="" value="2"
+                                           <c:if test="${recipe.rating >= 2}">checked</c:if>/><label class="full"
+                                                                                                     for="two"
+                                                                                                     title="Kinda bad - 2 stars"></label>
+                                    <input type="radio" id="onehalfGeneral" name="" value="1 and a half"
+                                           <c:if test="${recipe.rating >= 1.5}">checked</c:if>/><label class="half"
+                                                                                                       for="onehalfGeneral"
+                                                                                                       title="Meh - 1.5 stars"></label>
+                                    <input type="radio" id="oneGeneral" name="" value="1"
+                                           <c:if test="${recipe.rating >= 1}">checked</c:if>/><label class="full"
+                                                                                                     for="oneGeneral"
+                                                                                                     title="Sucks big time - 1 star"></label>
+                                    <input type="radio" id="halfGeneral" name="" value="half"
+                                           <c:if test="${recipe.rating >= 0.5}">checked</c:if>/><label class="half"
+                                                                                                       for="halfGeneral"
+                                                                                                       title="Sucks big time - 0.5 stars"></label>
+                                </fieldset>
+                                <br/>
+                                <p class="ingredients-title"><spring:message code="rating.user"/></p>
+                                <fieldset class="rating rating-recipe">
+                                    <input onclick="add_rate(5)" type="radio" id="five" name="" value="5"
+                                           <c:if test="${previous_rate == 5}">checked</c:if>/><label class="full"
+                                                                                                     for="five"
+                                                                                                     title="Awesome - 5 stars"></label>
+                                    <input onclick="add_rate(4.5)" type="radio" id="fourhalf" value="4 and a half"
+                                           <c:if test="${previous_rate >= 4.5}">checked</c:if>/><label class="half"
+                                                                                                       for="fourhalf"
+                                                                                                       title="Pretty good - 4.5 stars"></label>
+                                    <input onclick="add_rate(4)" type="radio" id="four" name="" value="4"
+                                           <c:if test="${previous_rate >= 4}">checked</c:if>/><label class="full"
+                                                                                                     for="four"
+                                                                                                     title="Pretty good - 4 stars"></label>
+                                    <input onclick="add_rate(3.5)" type="radio" id="threehalf" name=""
+                                           value="3 and a half"
+                                           <c:if test="${previous_rate >= 3.5}">checked</c:if>/><label class="half"
+                                                                                                       for="threehalf"
+                                                                                                       title="Meh - 3.5 stars"></label>
+                                    <input onclick="add_rate(3)" type="radio" id="three" name="" value="3"
+                                           <c:if test="${previous_rate >= 3}">checked</c:if>/><label class="full"
+                                                                                                     for="three"
+                                                                                                     title="Meh - 3 stars"></label>
+                                    <input onclick="add_rate(2.5)" type="radio" id="twohalf" name=""
+                                           value="2 and a half"
+                                           <c:if test="${previous_rate >= 2.5}">checked</c:if>/><label class="half"
+                                                                                                       for="twohalf"
+                                                                                                       title="Kinda bad - 2.5 stars"></label>
+                                    <input onclick="add_rate(2)" type="radio" id="two" name="" value="2"
+                                           <c:if test="${previous_rate >= 2}">checked</c:if>/><label class="full"
+                                                                                                     for="two"
+                                                                                                     title="Kinda bad - 2 stars"></label>
+                                    <input onclick="add_rate(1.5)" type="radio" id="onehalf" name=""
+                                           value="1 and a half"
+                                           <c:if test="${previous_rate >= 1.5}">checked</c:if>/><label class="half"
+                                                                                                       for="onehalf"
+                                                                                                       title="Meh - 1.5 stars"></label>
+                                    <input onclick="add_rate(1)" type="radio" id="one" name="" value="1"
+                                           <c:if test="${previous_rate >= 1}">checked</c:if>/><label class="full"
+                                                                                                     for="one"
+                                                                                                     title="Sucks big time - 1 star"></label>
+                                    <input onclick="add_rate(0.5)" type="radio" id="half" name="" value="half"
+                                           <c:if test="${previous_rate >= 0.5}">checked</c:if>/><label class="half"
+                                                                                                       for="half"
+                                                                                                       title="Sucks big time - 0.5 stars"></label>
+                                </fieldset>
+                            </div>
                             <br/>
                             <p class="ingredients-title"><spring:message code="ingredients"/></p>
                             <c:forEach var="ingredient" items="${recipe.ingredients}">
@@ -261,6 +265,7 @@
 </form:form>
 
 <%@include file="add_recipe_to_cooklist.jsp" %>
+<%@include file="delete_recipe_modal.jsp" %>
 
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <!-- Bootstrap tooltips -->

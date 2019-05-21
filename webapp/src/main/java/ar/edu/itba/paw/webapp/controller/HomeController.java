@@ -94,30 +94,20 @@ public class HomeController {
 
     @RequestMapping(value = "/cooklist", method = {RequestMethod.GET})
     public ModelAndView cooklist(@RequestParam int cookListId, @RequestParam int userId) {
-        //TODO: el userId no seria necesario si tengo el cooklistId, lo puedo obtener con ese, capaz no vale la pena ver despues
+        //TODO: tomar la cooklist con el userId dueño
 
-        final ModelAndView mav = new ModelAndView("user_recipes");
+        final ModelAndView mav = new ModelAndView("cooklist_recipes");
 
-
-        Either<List<Recipe>, Warnings> eitherRecipeList = recipeService.getRecipesFromCookList(cookListId);
-        List<Recipe> recipeList = new ArrayList<>();
-        if (eitherRecipeList.isValuePresent()) {
-            recipeList = eitherRecipeList.getValue();
-        } else {
-            System.out.printf("NO HAY NADA en la cooklist con id:  %d", cookListId);
-        }
 
         Either<User, Warnings> eitherUser = userService.getById(userId);
-
         if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
         else {
             //TODO: tirar el error
         }
 
-        mav.addObject("RecipeList", recipeList);
-        //TODO GET COOKLIST NAME WITH ID
-        mav.addObject("title", messageSource.getMessage("cooklist.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
+        mav.addObject("cooklist", recipeService.getCookList(cookListId).getValue());
+        mav.addObject("yourCooklist", userId == getCurrentUserID());
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
 
         return mav;
@@ -231,16 +221,29 @@ public class HomeController {
         return mav;
     }
 
+    @RequestMapping(value = "/delete_cooklist", method = RequestMethod.POST) //Le digo que url mappeo
+    public ModelAndView deleteCooklist(@RequestParam int cooklistId) {
+        //TODO VERIFICAR QUE ESTE AUTORIZADO!
+        //TODO Por que le tengo que pasar el userId?
+        recipeService.deleteCookList(cooklistId,getCurrentUserID());
+        return new ModelAndView("redirect:/your_cooklists");
+    }
 
     @RequestMapping(value = "/delete_recipe", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteRecipe(@RequestParam int recipeId) {
         //TODO VERIFICAR QUE ESTE AUTORIZADO!
+        if(getCurrentUserID() != recipeService.getById(recipeId).get().getUserId()){
+            return new ModelAndView("redirect:/403");
+        }
         recipeService.deleteRecipe(recipeId);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/my_recipes");
     }
 
     @RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
+        if(getCurrentUserID() != ingredientService.getById(ingredientId).get().getUserId()){
+            return new ModelAndView("redirect:/403");
+        }
         ingredientService.deleteUI(ingredientId, getCurrentUserID());
         return new ModelAndView("redirect:/my_ingredients");
     }

@@ -26,7 +26,7 @@
 <%@include file="sidebar.jsp" %>
 <!-- Section: Blog v.2 -->
 <section class="main_container">
-    <h3>
+    <h4 class="navigation-title">
         <c:choose>
             <c:when test="${yourAccount}">
                 <spring:message code="myAccount"/>
@@ -35,7 +35,7 @@
                 <spring:message code="otherUserAccount" arguments="${user.username}"/>
             </c:otherwise>
         </c:choose>
-    </h3>
+    </h4>
     <section class="browse">
 
         <div class="card-deck">
@@ -47,12 +47,12 @@
                 <!-- Featured image -->
                 <div class="card card-cascade card-recipe ">
                     <div class="view view-cascade">
-                        <div class="view overlay rounded z-depth-2 mb-4">
+                        <div class="bg-dark">
                             <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
                         </div>
-                        <a>
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
                     </div>
 
                     <div class="card-body">

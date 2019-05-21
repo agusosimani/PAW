@@ -27,15 +27,15 @@
 <%@include file="sidebar.jsp" %>
 
 <section class="main_container">
-    <h3>${title}</h3>
+    <h4 class="navigation-title">${title}</h4>
     <section class="browse">
         <c:if test="${empty cookList}">
             <c:choose>
                 <c:when test="${editable}">
-                    <p class="empty-warning"><spring:message code="noCookListsMy"/></p>
+                    <h3 class="navigation-subtitle"><spring:message code="noCookListsMy"/></h3>
                 </c:when>
                 <c:otherwise>
-                    <p class="empty-warning"><spring:message code="noCookLists" arguments="${user.username}"/></p>
+                    <h3 class="navigation-subtitle"><spring:message code="noCookLists" arguments="${user.username}"/></h3>
                 </c:otherwise>
             </c:choose>
         </c:if>

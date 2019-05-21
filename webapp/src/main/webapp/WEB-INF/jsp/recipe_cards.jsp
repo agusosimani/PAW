@@ -13,14 +13,16 @@
 
                 <!--Card image-->
                 <div class="view view-cascade">
-                    <img class="card-img-top"
-                         src="<c:choose>
-                                    <c:when test="${recipe.encodedImage == ''}"><c:url value="/resources/img/no_recipe_image.png"/></c:when>
-                                    <c:otherwise>data:image/png;base64,${recipe.encodedImage}</c:otherwise>
-                                  </c:choose>" alt="<c:out value="${recipe.name}"/>"/>
-                    <a>
-                        <div class="mask rgba-white-slight"></div>
-                    </a>
+                    <div class="bg-dark">
+                        <img class="card-img-top"
+                             src="<c:choose>
+                                        <c:when test="${recipe.encodedImage == ''}"><c:url value="/resources/img/no_recipe_image.png"/></c:when>
+                                        <c:otherwise>data:image/png;base64,${recipe.encodedImage}</c:otherwise>
+                                      </c:choose>" alt="<c:out value="${recipe.name}"/>"/>
+                        <a>
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
                 </div>
                 <!--/.Card image-->
 
@@ -38,6 +40,15 @@
                         <c:param name="recipeId" value="${recipe.id}"/>
                     </c:url>
                     <a href="${recipeUrl}" class="stretched-link"></a>
+
+                    <c:if test="${not empty yourCooklist && yourCooklist eq true}">
+                        <div class="delete-from-cooklist">
+                            <button data-toggle="modal" id="delete-recipe-from-cooklist-modal"
+                                    data-target="#delete-recipe-from-cooklist" class="bg-transparent">
+                                <i class="fas fa-trash fa-2x red-ic"></i>
+                            </button>
+                        </div>
+                    </c:if>
                     <div class="rating-container">
                         <fieldset id="rating-${recipe.id}" class="rating rating-card">
                         <input type="radio" id="five" name="" value="5"

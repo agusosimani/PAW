@@ -4,5 +4,6 @@ public enum Order {
     Rising,
     TopRated,
     New,
-    Old
+    Old,
+    NoOrder
 }
