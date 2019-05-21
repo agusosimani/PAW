@@ -10,6 +10,7 @@
 <div id="filters-card">
     <h4><spring:message code="searchFilters"/></h4>
 
+
     <form:form>
     <div>
         <label class="text-filter"><spring:message code="sortBy"/> </label>

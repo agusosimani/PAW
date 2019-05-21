@@ -342,6 +342,7 @@ ingredients-tags-div {
 
 .rating-container{
     height: 50px;
+    clear: both;
 }
 
 .rating {
@@ -443,7 +444,7 @@ ingredients-tags-div {
     grid-gap: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 790px) {
 
     .card-deck{
         grid-gap:10px;
