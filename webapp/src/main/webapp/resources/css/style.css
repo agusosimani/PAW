@@ -2,7 +2,6 @@
 
 body {
     z-index: 1000;
-    overflow-x: hidden;
 }
 
 .p {
@@ -80,13 +79,13 @@ body {
 
 .browse {
     float: left;
-    width: calc(100% - 330px) ;
+    width: calc(101% - 330px) ;
 }
 
 .main_container{
     margin-left: calc(15% + 10px);
     float: left;
-    width: 85%;
+    width: 84%;
     margin-top: 10px;
     margin-bottom: 10px;
 }
