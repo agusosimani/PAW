@@ -3,6 +3,7 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.interfaces.dao.*;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.Order;
 import ar.edu.itba.paw.model.Enum.Status;
 import ar.edu.itba.paw.model.Enum.Warnings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -250,12 +251,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> FilterRecipesByTags(List<String> tags) {
-        return recipeDao.getRecipesWithTags(tags);
+        return recipeDao.getRecipesWithtagAndOrder(Order.NoOrder,tags);
     }
 
     @Override
     public List<Recipe> getAllRecipesByDate() {
-        return recipeDao.getAllRecipesOrderedByDate();
+        return recipeDao.getAllRecipesOrderedByDateNew();
     }
 
     @Override
@@ -382,6 +383,62 @@ public class RecipeServiceImpl implements RecipeService {
             return Warnings.valueOf("Success");
         }
         return Warnings.valueOf("AuthorizationDenied");
+    }
+
+    //rising = order by rating where date > ayer
+
+    @Override
+    public List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order, int userId) {
+        List <Recipe> recipeList = recipeDao.getRecipesWithtagAndOrder(order,tags);
+
+        List<Recipe> returnList = new ArrayList<>();
+
+        List<RecipeIngredient> userIngredients = ingredientsDao.getByUserId(userId);
+
+        for (Recipe recipe: recipeList) {
+
+            boolean flag = true;
+
+
+            recipe.setIngredients(ingredientsDao.getByRecipeId(recipe.getId()));
+
+
+            for (RecipeIngredient recipeIngredient: recipe.getIngredients()) {
+
+                boolean canUseIng = false;
+
+                for (RecipeIngredient userIngredient: recipe.getIngredients()){
+                    if(recipeIngredient.getIngredient().equals(userIngredient.getIngredient())){
+                        if(recipeIngredient.getAmount() <= userIngredient.getAmount()) {
+                            canUseIng = true;
+                        }
+                    }
+
+                }
+                if(!canUseIng){
+                    flag = false;
+                }
+            }
+
+            if(flag){
+
+                recipe.setComments(commentsDao.getAllRecipeComments(recipe.getId()));
+
+                List<RecipeTag> recipeTags = recipeDao.getAllRecipeTags(recipe);
+                List<String> tagsString = new ArrayList<>();
+
+                for (RecipeTag tag : recipeTags) {
+                    tagsString.add(tag.getTag());
+                }
+                recipe.setTags(tagsString);
+
+                returnList.add(recipe);
+            }
+        }
+
+
+
+        return returnList;
     }
 
 }

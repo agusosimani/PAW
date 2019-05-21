@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.dao;
 
+import ar.edu.itba.paw.model.Enum.Order;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeList;
 import ar.edu.itba.paw.model.RecipeTag;
@@ -17,7 +18,11 @@ public interface RecipeDao {
 
     List<Recipe> getAllRecipes();
 
-    List<Recipe> getAllRecipesOrderedByDate();
+    List<Recipe> getAllRecipesOrderedByDateNew();
+
+    List<Recipe> getAllRecipesOrderedByDateOld();
+
+    List<Recipe> getRecipesWithtagAndOrder(Order order, List<String> tags);
 
     Recipe addNewRecipe(Recipe recipe);
 
@@ -34,8 +39,6 @@ public interface RecipeDao {
     void addNewRecipeTag(RecipeTag tag);
 
     List<Recipe> getAllRecipesByUserId(int userId);
-
-    List<Recipe> getRecipesWithTags(List<String> tags);
 
     //PARA LAS LISTAS
     void addNewUserList(RecipeList rl, int userId);
@@ -57,4 +60,6 @@ public interface RecipeDao {
     boolean checkCookListUser(int listId, int userId);
 
     Optional<RecipeList> getCookList(int cookListId);
+
+    List<Recipe> getAllRecipesOrderByRising();
 }

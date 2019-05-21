@@ -49,6 +49,10 @@
     </section>
 </section>
 
+<c:url value="/new_recipe" var="newRecipeUrl"/>
+<a href="${newRecipeUrl}">
+    <button class="btn btn-green add">+</button>
+</a>
 
 <!-- SCRIPTS -->
 <!-- JQuery -->

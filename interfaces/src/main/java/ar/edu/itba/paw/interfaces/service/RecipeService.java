@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.Order;
 import ar.edu.itba.paw.model.Enum.Warnings;
 
 import java.util.List;
@@ -76,4 +77,6 @@ public interface RecipeService {
     Warnings deleteCookList(int listId, int userId);
 
     Warnings changeCookListName(int listId, String name, int userId);
+
+    List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order, int userId);
 }
