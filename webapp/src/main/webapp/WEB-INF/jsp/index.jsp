@@ -28,19 +28,17 @@
 
 <section class="main_container">
 
-    <section class="browse">
-        <%@include file="recipe_cards.jsp" %>
-    </section>
+        <section class="browse">
+            <%@include file="recipe_cards.jsp" %>
+        </section>
 
-    <section class="side_card">
-
-        <div class="card">
-
-            <div class="card-body" id="filters-big-card">
-                <%@include file="filters_card.jsp" %>
+        <section class="side_card">
+            <div class="card">
+                <div class="card-body" id="filters-big-card">
+                    <%@include file="filters_card.jsp" %>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 </section>
 
 <!-- Button trigger modal -->
