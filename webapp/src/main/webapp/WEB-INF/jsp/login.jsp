@@ -35,18 +35,22 @@
         <!-- Password -->
         <spring:message code="User.password" var="password"/>
         <input type="password" id="password" name="j_password" class="form-control mb-4" placeholder="${password}">
-
-        <c:if test="${logged == false}">
-            <div class="form-text text-muted mb-4">
-                <spring:message code="confirmationError"/>
-            </div>
-        </c:if>
-
-        <c:if test="${not empty errorMessage}">
-            <div class="form-text text-muted mb-4">
-                <spring:message code="signInError"/>
-            </div>
-        </c:if>
+            <c:if test="${param.error != null}">
+                <div class="form-text text-muted mb-4">
+                    <c:choose>
+                        <c:when test="${UserNotConfirmError}">
+                            <spring:message code="confirmationError"/>
+                        </c:when>
+                        <c:when test="${userExpired}">
+                            expiration error
+                            <%--<spring:message code="expiration.error"></spring:message>--%>
+                        </c:when>
+                        <c:otherwise>
+                            <spring:message code="signInError"/>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </c:if>
 
             <div class="d-flex justify-content-around">
             <div>

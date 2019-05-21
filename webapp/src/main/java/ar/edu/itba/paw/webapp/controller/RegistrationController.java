@@ -49,35 +49,29 @@ public class RegistrationController {
         //Se busca en la DB al token pasado en la url
         Either<VerificationToken, Warnings> verificationToken = userService.getVerificationToken(token);
         if(!verificationToken.isValuePresent()) {
-            System.out.println("inexistent token");
             return new ModelAndView("redirect:/error").addObject("message", verificationToken.getAlternative().getWarning());
         }
 
         Either<UserTokenState, Warnings> userTokenState = userService.getUserTokenState(verificationToken.getValue());
         if(!userTokenState.isValuePresent()) {
-            System.out.println("inexistent user");
             return new ModelAndView("redirect:/error").addObject("message", messageSource.getMessage(verificationToken.getAlternative().name(), null, LocaleContextHolder.getLocale()));
         }
         if(userTokenState.getValue() == UserTokenState.USER_DISABLED_EXPIRED_TOKEN) {
             //resend email verification
-            System.out.println("user disabled expired token");
             ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
             builder.scheme("http");
             URI uri = builder.build().toUri();
+            // TODO resend email
             return new ModelAndView("indexResendEmailVerification").addObject("token", token).addObject("uri", uri);
         }
         if(userTokenState.getValue() == UserTokenState.USER_ENABLED_EXPIRED_TOKEN) {
-            //El usuario no pude entrar directo a su cuenta usando el token
-            System.out.println("user enabled expired token");
             return new ModelAndView("redirect:/login");
         }
         Either<User, Warnings> user = userService.getById(verificationToken.getValue().getUserID());
         if(userTokenState.getValue() == UserTokenState.USER_ENABLED_VALID_TOKEN) {
-            System.out.println("user enabled, valid token. Puede ingresar directo con el token");
             authWithoutPassword(user.getValue());
             return new ModelAndView("redirect:/");
         }
-        System.out.println("user disabled valid token");
 
         userService.setUserEnabledStatus(verificationToken.getValue().getUserID(), true);
         authWithoutPassword(user.getValue());
@@ -85,7 +79,7 @@ public class RegistrationController {
     }
 
     private void authWithoutPassword(User user){
-        List<GrantedAuthority> authorities = Arrays.asList( new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_VALIDATED"));
+        List<GrantedAuthority> authorities = Arrays.asList( new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("VALIDATED"));
         Authentication auth = new UsernamePasswordAuthenticationToken(new PawUserDetails(user.getUsername(), user.getPassword(), user.getId(), authorities) ,null, authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
@@ -94,7 +88,6 @@ public class RegistrationController {
     public ModelAndView resendEmailVerification(HttpServletRequest request, @RequestParam("token") String existingToken, @RequestParam("uri") String uri) {
         Warnings emailValidation = emailService.resendMailConfirmationEmail(existingToken, uri);
         if(emailValidation == Warnings.EmailError) {
-            System.out.println("email error");
             return new ModelAndView("redirect:/500");
         }
         return new ModelAndView("redirect:/login");

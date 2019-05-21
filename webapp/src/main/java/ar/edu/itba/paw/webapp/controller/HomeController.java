@@ -242,19 +242,10 @@ public class HomeController {
         //return new ModelAndView("redirect:/");
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(required = false) String error) {
-        if (getCurrentUserID() != -1)
-            return new ModelAndView("redirect:/");
 
         final ModelAndView mav = new ModelAndView("login");
-
-        if (!authenticationService.isUserLogged())
-            mav.addObject("logged", "false");
-
-        if (error != null)
-            mav.addObject("errorMessage", "error");
-
         return mav;
     }
 
