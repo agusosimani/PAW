@@ -6,9 +6,19 @@ import java.util.List;
 
 public class FilterForm {
 
-    private Order order;
+    private Order order = Order.New;
 
     private List<String> tags;
+
+    private boolean withMyIngredients = true;
+
+    public boolean getWithMyIngredients() {
+        return withMyIngredients;
+    }
+
+    public void setWithMyIngredients(boolean withMyIngredients) {
+        this.withMyIngredients = withMyIngredients;
+    }
 
     public List<String> getTags() {
         return tags;

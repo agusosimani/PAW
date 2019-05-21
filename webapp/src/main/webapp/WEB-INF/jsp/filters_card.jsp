@@ -33,6 +33,15 @@
             </c:forEach>
         </div>
 
+        <div>
+            <label class="text-filter"><spring:message code="ingredientsFilter"/></label>
+                <div class="custom-control custom-checkbox">
+                    <form:checkbox path="withMyIngredients" value="true" class="custom-control-input" id="withMyIngredients"
+                                   name="groupIngredientsFilter"/>
+                    <form:label class="custom-control-label" path="withMyIngredients" for="withMyIngredients"><spring:message code="withMyIngredients"/></form:label>
+                </div>
+        </div>
+
         <button class="btn btn-green btn-apply-filters" type="submit"><spring:message code="confirm"/></button>
     </form:form>
 </div>

@@ -56,7 +56,7 @@ public class HomeController {
     }
 
     @RequestMapping("/") //Le digo que url mappeo
-    public ModelAndView helloWorld(@ModelAttribute("filterForm") final FilterForm filterForm) {
+    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm) {
         final ModelAndView mav = new ModelAndView("index");
 
         //filterForm.setTags(tags);
@@ -66,6 +66,8 @@ public class HomeController {
         else
             filterForm.setOrder(Order.New);
 
+        System.out.printf("\nCon ingredientes: %s", filterForm.getWithMyIngredients());
+
         if(filterForm.getTags() != null ) {
             for (String s : filterForm.getTags()) {
                 System.out.printf("%s\n", s);
@@ -74,7 +76,10 @@ public class HomeController {
 
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
-        mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID()));
+        if(filterForm.getWithMyIngredients())
+            mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID()));
+        else
+            mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder()));
         return mav;
     }
 
@@ -440,6 +445,7 @@ public class HomeController {
             mav.addObject("recipeDescription", recipe.getDescription());
             //mav.addObject("recipeInstructions", recipe.getInstructions());
         }
+        mav.addObject("allIngredients", ingredientService.getAllIngredients());
         mav.addObject("recipeId", recipeId);
 
         return mav;
