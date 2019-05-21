@@ -251,7 +251,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> FilterRecipesByTags(List<String> tags) {
-        return recipeDao.getRecipesWithtagAndOrder(Order.NoOrder, tags);
+        return recipeDao.getRecipesWithtagAndOrder(null, tags);
     }
 
     @Override
@@ -389,8 +389,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId) {
-        if (order == null)
-            order = Order.NoOrder;
         if(tags == null)
             tags = new ArrayList<>();
         List<Recipe> recipeList = recipeDao.getRecipesWithtagAndOrder(order, tags);
@@ -446,11 +444,27 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order) {
-        if (order == null)
-            order = Order.NoOrder;
         if(tags == null)
             tags = new ArrayList<>();
-        return recipeDao.getRecipesWithtagAndOrder(order, tags);
+
+        List<Recipe> list = recipeDao.getRecipesWithtagAndOrder(order, tags);
+
+
+
+        for (Recipe recipe:list) {
+            List<String> tagsString = new ArrayList<>();
+            List<RecipeTag> recipeTags = recipeDao.getAllRecipeTags(recipe);
+            for(RecipeTag rt:recipeTags){
+                tagsString.add(rt.getTag());
+            }
+            recipe.setTags(tagsString);
+
+
+            recipe.setComments(commentsDao.getAllRecipeComments(recipe.getId()));
+        }
+
+
+        return list;
     }
 
 }
