@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
+import ar.edu.itba.paw.model.Enum.Order;
 import ar.edu.itba.paw.model.Enum.Status;
 import ar.edu.itba.paw.model.Recipe;
 import ar.edu.itba.paw.model.RecipeList;
@@ -111,16 +112,122 @@ public class RecipeDaoImpl implements RecipeDao {
         return list;
     }
 
-    //TODO Probar una vez que el cambio lo termine
     @Override
-    public List<Recipe> getAllRecipesOrderedByDate() {
+    public List<Recipe> getAllRecipesOrderedByDateNew() {
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY date_created", ROW_MAPPER);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY date_created DESC", ROW_MAPPER);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
 
         return list;
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesOrderByRising() {
+        final List<Recipe> list =
+                jdbcTemplate.query("SELECT	*	FROM recipes " +
+                        "WHERE recipe_status = 'REGULAR' " +
+                        "AND rating >= 4 ORDER BY date_created DESC", ROW_MAPPER);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return list;
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesOrderedByDateOld() {
+        final List<Recipe> list =
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE " +
+                        "recipe_status = 'REGULAR' ORDER BY date_created", ROW_MAPPER);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Recipe> getRecipesWithtagAndOrder(Order order,List<String> tags) {
+
+        StringBuilder sb = new StringBuilder();
+
+        if(tags.size() == 0) {
+            return this.getAllRecipesOnOrder(order);
+        }
+        if(tags.size() == 1) {
+            sb.append(tags.get(0));
+        }
+        else {
+            for (int i = 0;i < tags.size();i++) {
+                sb.append(tags.get(i));
+                if(i < tags.size()-1)
+                    sb.append(" OR recipe_tags.tag = ");
+            }
+        }
+
+        List<Recipe> list;
+
+        if(order.equals(Order.Rising)){
+            list = new ArrayList<>(jdbcTemplate.query(
+                    "SELECT	 *	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                            "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                            " WHERE recipe_tags.tag = ?  AND recipe_status = 'REGULAR'" +
+                            " ORDER BY recipes.rating",
+                    ROW_MAPPER, sb.toString()));
+        }
+        else if(order.equals(Order.TopRated)){
+            list = new ArrayList<>(jdbcTemplate.query(
+                    "SELECT	 *	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                            "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                            " WHERE recipe_tags.tag = ?  AND recipe_status = 'REGULAR'" +
+                            " ORDER BY recipes.date_created DESC",
+                    ROW_MAPPER, sb.toString()));
+        }
+        else if(order.equals(Order.New)){
+            list = new ArrayList<>(jdbcTemplate.query(
+                    "SELECT	 *	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                            "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                            " WHERE recipe_tags.tag = ?  AND recipe_status = 'REGULAR'" +
+                            " ORDER BY recipes.date_created DESC",
+                    ROW_MAPPER, sb.toString()));
+        }
+        else if(order.equals(Order.Old)){
+            list = new ArrayList<>(jdbcTemplate.query(
+                    "SELECT	 *	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                            "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                            " WHERE recipe_tags.tag = ?  AND recipe_status = 'REGULAR'" +
+                            " ORDER BY recipes.date_created",
+                    ROW_MAPPER, sb.toString()));
+        }
+        else {
+            list = new ArrayList<>(jdbcTemplate.query(
+                    "SELECT	*	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                            "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE recipe_tags.tag = ? AND recipe_status = 'REGULAR'",
+                    ROW_MAPPER, sb.toString()));
+
+        }
+        return list;
+
+    }
+
+    private List<Recipe> getAllRecipesOnOrder(Order order) {
+
+        if(order.equals(Order.Rising)){
+            return this.getAllRecipesOrderByRising();
+        }
+        if(order.equals(Order.TopRated)){
+            return this.getAllRecipesOrderedByRating();
+        }
+        if(order.equals(Order.New)){
+            return this.getAllRecipesOrderedByDateNew();
+        }
+        if(order.equals(Order.Old)){
+            return this.getAllRecipesOrderedByDateOld();
+        }
+        else {
+            return this.getAllRecipes();
+        }
     }
 
     @Override
@@ -236,36 +343,6 @@ public class RecipeDaoImpl implements RecipeDao {
         map.put("tags_status","REGULAR");
 
         jdbcInsertTag.execute(map);
-    }
-
-    @Override
-    public List<Recipe> getRecipesWithTags(List<String> tags) {
-
-        StringBuilder sb = new StringBuilder();
-
-        if(tags.size() == 0) {
-            return this.getAllRecipes();
-        }
-        if(tags.size() == 1) {
-            sb.append(tags.get(0));
-        }
-        else {
-            for (int i = 0;i < tags.size();i++) {
-                sb.append(tags.get(i));
-                if(i < tags.size()-1)
-                    sb.append(" OR recipe_tags.tag = ");
-            }
-        }
-
-        final List<Recipe> list = jdbcTemplate.query(
-                "SELECT	*	FROM recipe_tags LEFT OUTER JOIN recipes " +
-                        "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE recipe_tags.tag = ? AND recipe_status = 'REGULAR'",
-                ROW_MAPPER, sb.toString());
-        if (list.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        return list;
     }
 
     //PARA LAS LISTAS
