@@ -407,7 +407,7 @@ public class RecipeServiceImpl implements RecipeService {
 
                 boolean canUseIng = false;
 
-                for (RecipeIngredient userIngredient: recipe.getIngredients()){
+                for (RecipeIngredient userIngredient: userIngredients){
                     if(recipeIngredient.getIngredient().equals(userIngredient.getIngredient())){
                         if(recipeIngredient.getAmount() <= userIngredient.getAmount()) {
                             canUseIng = true;
