@@ -6,10 +6,11 @@
 
 </head>
 <body>
-<h4><spring:message code="searchFilters"/></h4>
 
 <div id="filters-card">
+    <h4><spring:message code="searchFilters"/></h4>
 
+    <form:form>
     <div>
         <label class="text-filter"><spring:message code="sortBy"/> </label>
         <div class="custom-control custom-radio">
@@ -48,6 +49,9 @@
         </c:forEach>
 
     </div>
+
+        <button class="btn btn-green btn-apply-filters" type="submit"><spring:message code="confirm"/></button>
+    </form:form>
 </div>
 </body>
 </html>

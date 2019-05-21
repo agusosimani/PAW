@@ -26,14 +26,14 @@
 
                 <!--Card content-->
                 <div class="card-body card-body-cascade">
+
+                    <h4 class="card-title recipe-card-title"><strong><c:out value="${recipe.name}"/></strong></h4>
                     <div>
                         <c:forEach var="recipe_tag" items="${recipe.tags}">
                             <p class="pink-text-tag"> ${recipe_tag}</p>
                         </c:forEach>
                     </div>
-
-                    <h4 class="card-title recipe-card-title"><strong><c:out value="${recipe.name}"/></strong></h4>
-                    <p class="card-text"><c:out value="${recipe.description}"/></p>
+                    <p class="card-text recipe-card-description"><c:out value="${recipe.description}"/></p>
 
                     <c:url value="/recipe" var="recipeUrl">
                         <c:param name="recipeId" value="${recipe.id}"/>

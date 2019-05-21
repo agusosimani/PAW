@@ -2,6 +2,7 @@
 
 body {
     z-index: 1000;
+    overflow-x: hidden;
 }
 
 .p {
@@ -79,12 +80,11 @@ body {
 
 .browse {
     float: left;
-    margin-left: 10px;
     width: calc(100% - 330px) ;
 }
 
 .main_container{
-    margin-left: 15%;
+    margin-left: calc(15% + 10px);
     float: left;
     width: 85%;
     margin-top: 10px;
@@ -332,6 +332,9 @@ ingredients-tags-div {
     position: relative;
 }
 
+.recipe-card-description{
+    clear: both;
+}
 
 .recipe-card-title{
     clear: both;
@@ -376,6 +379,12 @@ ingredients-tags-div {
     float: left;
     margin-left: 5px;
     margin-top: 5px;
+}
+
+.btn-apply-filters{
+    float: right;
+    margin-top: 30px;
+    clear: both;
 }
 
 .row {
@@ -434,6 +443,7 @@ ingredients-tags-div {
     }
 
     .btn-modal-sidebar{
+        margin-right: 20px;
         visibility: visible;
         float: right;
     }
@@ -444,7 +454,7 @@ ingredients-tags-div {
 
     .navigation{
         box-sizing: content-box !important;
-        height: 64px !important;
+        height: 32px !important;
         overflow-y: hidden !important;
     }
 
