@@ -82,24 +82,23 @@ public class HomeController {
 
         Either<List<Recipe>, Warnings> eitherRecipeList = recipeService.getRecipesFromCookList(cookListId);
         List<Recipe> recipeList = new ArrayList<>();
-        if(eitherRecipeList.isValuePresent()){
+        if (eitherRecipeList.isValuePresent()) {
             recipeList = eitherRecipeList.getValue();
-        }
-        else{
+        } else {
             System.out.printf("NO HAY NADA en la cooklist con id:  %d", cookListId);
         }
 
-        Either <User,Warnings> eitherUser = userService.getById(userId);
+        Either<User, Warnings> eitherUser = userService.getById(userId);
 
-        if(eitherUser.isValuePresent())
-            mav.addObject("user",eitherUser.getValue());
+        if (eitherUser.isValuePresent())
+            mav.addObject("user", eitherUser.getValue());
         else {
             //TODO: tirar el error
         }
 
         mav.addObject("RecipeList", recipeList);
         //TODO GET COOKLIST NAME WITH ID
-        mav.addObject("title",messageSource.getMessage("cooklist.title", new Object[] {eitherUser.getValue().getName()}, Locale.getDefault()));
+        mav.addObject("title", messageSource.getMessage("cooklist.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
 
         return mav;
@@ -108,7 +107,7 @@ public class HomeController {
 
     @RequestMapping(value = "/your_cooklists", method = {RequestMethod.GET})
     public ModelAndView yourCooklists(@Valid @ModelAttribute("newCookListForm") final NewCookListForm form) {
-        return userCooklists(form,getCurrentUserID());
+        return userCooklists(form, getCurrentUserID());
     }
 
 
@@ -116,15 +115,15 @@ public class HomeController {
     public ModelAndView userCooklists(@Valid @ModelAttribute("newCookListForm") final NewCookListForm form, @RequestParam int userId) {
         final ModelAndView mav = new ModelAndView("cooklists");
 
-        if(userId == -1)
+        if (userId == -1)
             userId = getCurrentUserID();
 
         User user = userService.getById(userId).getValue();
 
-        if(userId != getCurrentUserID())
-            mav.addObject("title",messageSource.getMessage("cooklist.title", new Object[] {user.getName()}, Locale.getDefault()));
+        if (userId != getCurrentUserID())
+            mav.addObject("title", messageSource.getMessage("cooklist.title", new Object[]{user.getName()}, Locale.getDefault()));
         else
-            mav.addObject("title", messageSource.getMessage("myCooklists",null, Locale.getDefault()));
+            mav.addObject("title", messageSource.getMessage("myCooklists", null, Locale.getDefault()));
 
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(userId).size());
         mav.addObject("editable", getCurrentUserID() == userId);
@@ -139,9 +138,9 @@ public class HomeController {
 //            return newRecipe(form);
         }
 
-        recipeService.addNewCookListWithoutIngredients(getCurrentUserID(),form.getName());
+        recipeService.addNewCookListWithoutIngredients(getCurrentUserID(), form.getName());
 
-        Map<String,Object> arguments = new HashMap<>();
+        Map<String, Object> arguments = new HashMap<>();
         arguments.put("form", form);
         arguments.put("userId", getCurrentUserID());
         return new ModelAndView("redirect:/user_cooklists", arguments);
@@ -153,7 +152,7 @@ public class HomeController {
             return newRecipe(recipeForm);
         }
 
-        for(String tag : recipeForm.getTags()) {
+        for (String tag : recipeForm.getTags()) {
             System.out.printf("LA LISTA TIENE TAGS: %s", tag);
         }
         List<RecipeIngredient> listIngredients = new ArrayList<>();
@@ -172,7 +171,7 @@ public class HomeController {
 
         List<Integer> formIngredients = recipeForm.getIngredients();
         List<Integer> formIngredientsAmount = recipeForm.getIngredientsAmount();
-        for(int i = 0; i < formIngredients.size(); i++) {
+        for (int i = 0; i < formIngredients.size(); i++) {
             listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(formIngredients.get(i)).get(), formIngredientsAmount.get(i)).build());
         }
 
@@ -193,12 +192,11 @@ public class HomeController {
 
         List<RecipeIngredient> ingredientsList = addIngredientForm.getIngredients();
 
-        for(RecipeIngredient ri : ingredientsList){
+        for (RecipeIngredient ri : ingredientsList) {
             ingredientService.addNewUserIngredient(ri, getCurrentUserID());
         }
         return new ModelAndView("redirect:/my_ingredients");
     }
-
 
 
     @RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
@@ -230,7 +228,7 @@ public class HomeController {
 
     @RequestMapping(value = "/rate_recipe", method = RequestMethod.POST) //Le digo que url mappeo
     public void rateRecipe(@RequestParam float rate, @RequestParam int recipeId) {
-        recipeService.addNewRating(getCurrentUserID(), recipeId ,rate);
+        recipeService.addNewRating(getCurrentUserID(), recipeId, rate);
         //return new ModelAndView("redirect:/");
     }
 
@@ -256,12 +254,11 @@ public class HomeController {
     public ModelAndView account(Authentication authentication, @RequestParam int userId) {
         final ModelAndView mav = new ModelAndView("account");
 
-        Either <User,Warnings> eitherUser = userService.getById(userId);
+        Either<User, Warnings> eitherUser = userService.getById(userId);
 
-        if(eitherUser.isValuePresent()) {
+        if (eitherUser.isValuePresent()) {
             mav.addObject("user", eitherUser.getValue());
-        }
-        else {
+        } else {
             //TODO: tirar el warning
         }
 
@@ -281,12 +278,12 @@ public class HomeController {
 
         List<Ingredient> allIngredientsList = ingredientService.getAllIngredients();
 
-        Either <User,Warnings> eitherUser = userService.getById(id);
+        Either<User, Warnings> eitherUser = userService.getById(id);
 
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(getCurrentUserID()).size());
-        if(eitherUser.isValuePresent())
+        if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
-        else{
+        else {
             //TODO: tirar el warning
         }
         mav.addObject("allIngredients", allIngredientsList);
@@ -294,18 +291,18 @@ public class HomeController {
         return mav;
     }
 
-	//CON EL ID LLAMO A SERVICES Y LA TRAIGO
-	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
-	public ModelAndView recipe(@ModelAttribute("selectCookListForm") final SelectCookListForm cookListForm, @ModelAttribute("commentForm") final CommentForm commentForm, @RequestParam Integer recipeId) {
-		final ModelAndView mav = new ModelAndView("recipe");
+    //CON EL ID LLAMO A SERVICES Y LA TRAIGO
+    @RequestMapping(value = "/recipe", method = RequestMethod.GET)
+    public ModelAndView recipe(@ModelAttribute("selectCookListForm") final SelectCookListForm cookListForm, @ModelAttribute("commentForm") final CommentForm commentForm, @RequestParam Integer recipeId) {
+        final ModelAndView mav = new ModelAndView("recipe");
 
         Recipe recipe = recipeService.getById(recipeId).get();
 
-        Either <User,Warnings> eitherUser = userService.getById(recipe.getUserId());
+        Either<User, Warnings> eitherUser = userService.getById(recipe.getUserId());
 
         float userRating = 0;
-        Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(),recipeId);
-        if(maybeUserRating.isPresent())
+        Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(), recipeId);
+        if (maybeUserRating.isPresent())
             userRating = maybeUserRating.get();
 
         mav.addObject("editable", recipe.getUserId() == getCurrentUserID());
@@ -313,7 +310,7 @@ public class HomeController {
         mav.addObject("previous_rate", userRating);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
-        if(eitherUser.isValuePresent())
+        if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
         else {
             //TODO tirar el warning
@@ -329,7 +326,7 @@ public class HomeController {
         }
 
         recipeService.addRecipeToCookList(form.getCooklistId(), recipeId);
-        Map<String,Object> arguments = new HashMap<>();
+        Map<String, Object> arguments = new HashMap<>();
         arguments.put("recipeId", recipeId);
         return new ModelAndView("redirect:/recipe", arguments);
     }
@@ -338,9 +335,9 @@ public class HomeController {
     @RequestMapping(value = "/add_comment", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteIngredient(@ModelAttribute("commentForm") final CommentForm form, @RequestParam Integer recipeId) {
 
-        recipeService.addComment(new Comment(getCurrentUserID(),recipeId,form.getComment()));
+        recipeService.addComment(new Comment(getCurrentUserID(), recipeId, form.getComment()));
 
-        Map<String,Object> arguments = new HashMap<>();
+        Map<String, Object> arguments = new HashMap<>();
         arguments.put("recipeId", recipeId);
         return new ModelAndView("redirect:/recipe", arguments);
     }
@@ -350,7 +347,6 @@ public class HomeController {
         if (getCurrentUserID() != -1)
             return new ModelAndView("redirect:/");
 
-        System.out.println("lll");
         final ModelAndView mav = new ModelAndView("register");
         return mav;
     }
@@ -364,7 +360,7 @@ public class HomeController {
         String hashedPassword = passwordEncoder.encode(registerForm.getPassword());
         final Either<User, Warnings> u = userService.signUpUser(new User.Builder(registerForm.getUsername(), hashedPassword, registerForm.getEmail())
                 .name(registerForm.getName()).surname(registerForm.getSurname()).build());
-        if(u.isValuePresent())
+        if (u.isValuePresent())
             return new ModelAndView("redirect:/login");
         else {
             //TODO: mostrar el warning y volver a la pagina
@@ -392,38 +388,53 @@ public class HomeController {
 
         List<Recipe> recipeList = recipeService.getAllRecipesByUserId(userId);
 
-        Either <User,Warnings> eitherUser = userService.getById(userId);
+        Either<User, Warnings> eitherUser = userService.getById(userId);
 
         mav.addObject("RecipeList", recipeList);
-        if(eitherUser.isValuePresent())
-            mav.addObject("user",eitherUser.getValue());
+        if (eitherUser.isValuePresent())
+            mav.addObject("user", eitherUser.getValue());
         else {
             //TODO: tirar el error
         }
         List<Recipe> rec = recipeService.getAllRecipesByUserId(userId);
 
-        if(userId != getCurrentUserID())
-            mav.addObject("title",messageSource.getMessage("recipe.title", new Object[] {eitherUser.getValue().getName()}, Locale.getDefault()));
+        if (userId != getCurrentUserID())
+            mav.addObject("title", messageSource.getMessage("recipe.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
         else
-            mav.addObject("title", messageSource.getMessage("myRecipes",null, Locale.getDefault()));
+            mav.addObject("title", messageSource.getMessage("myRecipes", null, Locale.getDefault()));
         mav.addObject("yourAccount", getCurrentUserID() == userId);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
 
         return mav;
     }
 
-    @RequestMapping(value = "/edit_recipe", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit_recipe", method = RequestMethod.GET)
     public ModelAndView editRecipe(@RequestParam int recipeId, @ModelAttribute("recipeForm") final RecipeForm recipeForm) {
 
         final ModelAndView mav = new ModelAndView("edit_recipe");
         Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
-        if(maybeRecipe.isPresent()){
+        if (maybeRecipe.isPresent()) {
             Recipe recipe = maybeRecipe.get();
-            mav.addObject("recipeName",recipe.getName());
-            mav.addObject("recipeDescription",recipe.getDescription());
-            mav.addObject("recipeInstructions",recipe.getInstructions());
+            //recipeForm.setIngredients(recipe.getIngredients());
+            recipeForm.setTags(recipe.getTags());
+            recipeForm.setInstructions(recipe.getInstructions());
+
+            mav.addObject("allTags", Tag.values());
+            mav.addObject("recipeName", recipe.getName());
+            mav.addObject("recipeDescription", recipe.getDescription());
+            //mav.addObject("recipeInstructions", recipe.getInstructions());
         }
-        mav.addObject("recipeId",recipeId);
+        mav.addObject("recipeId", recipeId);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/save_edit_changes", method = RequestMethod.POST)
+    public ModelAndView editRecipeSave(@RequestParam int recipeId, @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
+        if (errors.hasErrors()) {
+            //TODO
+        }
+        final ModelAndView mav = new ModelAndView("edit_recipe");
 
         return mav;
     }

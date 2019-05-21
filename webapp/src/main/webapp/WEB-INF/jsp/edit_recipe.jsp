@@ -30,7 +30,9 @@
     <div class="card card-new-recipe">
         <div class="card-body">
             <h3><spring:message code="editRecipe"/></h3>
-            <c:url value="/create_recipe" var="createRecipe"/>
+            <c:url value="/save_edit_changes" var="createRecipe">
+                <c:param name="recipeId" value="${recipeId}"/>
+            </c:url>
             <form:form autocomplete="off" modelAttribute="recipeForm" action="${createRecipe}" method="post"
                        enctype="multipart/form-data">
 
@@ -63,16 +65,20 @@
 
                 <div class="form-row mb-4">
                     <spring:message code="instructions.title" var="instructionsTitle"/>
-                    <form:label path="instructions" for="recipe_description"><spring:message code="Recipe.instructions"/>
+                    <form:label path="instructions" for="recipe_description"><spring:message
+                            code="Recipe.instructions"/>
                         <a href="#" class="tooltip-test" title="${instructionsTitle}">
                             <i class="fas fa-info-circle"></i>
                         </a>
                     </form:label>
                     <spring:message code="instructions.placeholder" var="instructionsPlaceholder"/>
-                    <textarea class="comment-textarea" type="text" id="recipe_instruction_area"
+                        <%--                    <textarea class="comment-textarea" type="text" id="recipe_instruction_area"--%>
+                        <%--                                   class="form-control mb-4"--%>
+                        <%--                                   placeholder="${instructionsPlaceholder}" onchange="putInstructionsInTextArea();">${recipeInstructions}</textarea>--%>
+                        <%--                    <form:input path="instructions" type="hidden" id="instructionTextAreaContent" value="third hello world!"/>--%>
+                    <form:textarea cssClass="comment-textarea" path="instructions" type="text" id="recipe_description"
                                    class="form-control mb-4"
-                                   placeholder="${instructionsPlaceholder}" onchange="putInstructionsInTextArea();">${recipeInstructions}</textarea>
-                    <form:input path="instructions" type="hidden" id="instructionTextAreaContent" value="third hello world!"/>
+                                   placeholder="${instructionsPlaceholder}"/>
                     <form:errors path="instructions" cssClass="form-text text-muted" element="small"/>
                 </div>
 
@@ -82,7 +88,8 @@
                         </form:label>
                         <form:select path="ingredients" cssClass="form-control" multiple="">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
-                                <form:option value="${ingredient_type.id}">${ingredient_type.name} (${ingredient_type.typeOfServing})</form:option>
+                                <form:option
+                                        value="${ingredient_type.id}">${ingredient_type.name} (${ingredient_type.typeOfServing})</form:option>
                             </c:forEach>
                         </form:select>
                     </div>
@@ -109,7 +116,7 @@
                 <div class="form-row">
                     <button type="button" id="btnFile" name="btnAdd" class="btn btn-green">
                         <spring:message code="Recipe.addImage"/></button>
-                    <form:input path="image" id="fileInput" cssClass="d-none"  type="file"/>
+                    <form:input path="image" id="fileInput" cssClass="d-none" type="file"/>
                 </div>
                 <div class="form-row mb-4">
                     <form:errors path="image" cssClass="form-text text-muted" element="small"/>
@@ -122,18 +129,22 @@
                     </button>
                 </p>
                 <div class="collapse" id="collapseExample">
-                    <form:checkboxes path="tags" element="span class='custom-control custom-checkbox'" items="${allTags}"/>
+                    <form:checkboxes path="tags" element="span class='custom-control custom-checkbox'"
+                                     items="${allTags}"/>
                 </div>
                 <div class="float-right">
-                    <c:url var="indexUrl" value="/recipe">
-                        <c:param name="recipeId" value="${recipeId}"/>
-                    </c:url>
-                    <c:url var="deleteURL" value="/delete_recipe">
+                    <c:url var="indexUrl" value="/">
                         <c:param name="recipeId" value="${recipeId}"/>
                     </c:url>
                     <a class="btn btn-blue-grey" href="${indexUrl}"><spring:message code="close"/></a>
                     <button type="submit" class="btn btn-green"><spring:message code="saveChangesButton"/></button>
-                    <a class="btn btn-red" href="${deleteURL}"><spring:message code="deleteRecipe"/></a>
+
+                    <c:url var="deleteURL" value="/delete_recipe">
+                        <c:param name="recipeId" value="${recipeId}"/>
+                    </c:url>
+                    <form:form action="${deleteURL}" method="post">
+                        <button type="submit" class="btn btn-red"><spring:message code="deleteRecipe"/></button>
+                    </form:form>
                 </div>
             </form:form>
 
@@ -156,11 +167,12 @@
         document.getElementById("btnFile").textContent = "Archivo seleccionado: " + this.value.replace(/C:\\fakepath\\/i, '');
     };
 
-    $("#btnFile").on("click", function() {
+    $("#btnFile").on("click", function () {
         $("#fileInput").trigger("click");
     });
 
     let text1 = document.getElementById('recipe_instruction_area').value;
+
     function putInstructionsInTextArea() {
         text1 = document.getElementById('recipe_instruction_area').value;
         document.getElementById("instructionTextAreaContent").value = text1;
