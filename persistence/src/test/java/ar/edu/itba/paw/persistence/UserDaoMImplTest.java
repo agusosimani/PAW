@@ -69,8 +69,6 @@ public class UserDaoMImplTest {
     @BeforeClass
     public void setUpClass() throws Exception {
 
-
-
     }
 
     @AfterClass
@@ -102,9 +100,5 @@ public class UserDaoMImplTest {
     public void getUserByEmailTest() {
         User u;
 
-
-
     }
-
-
 }
