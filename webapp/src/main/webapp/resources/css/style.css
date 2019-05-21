@@ -403,6 +403,7 @@ ingredients-tags-div {
 
 .navigation{
     height: 100% !important;
+    overflow-x: hidden;
 }
 
 .btn-modal-sidebar{
@@ -439,6 +440,7 @@ ingredients-tags-div {
 
     .navigation{
         height: 64px !important;
+        overflow-y: hidden;
     }
 
     .navigation_list_modal{
@@ -451,12 +453,12 @@ ingredients-tags-div {
 
     .browse {
         float: left;
-        width: 95%;
-        margin-top: 15%;
+        width: 99%;
+        margin: calc(64px + 1%) 1% 1% 1%;
     }
 
     .main_container{
-        margin: 2.5%;
+        margin: 0;
         width: 100%;
     }
 
