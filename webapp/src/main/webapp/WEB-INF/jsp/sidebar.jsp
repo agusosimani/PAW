@@ -23,7 +23,7 @@
             <img class="nav_logo" src="<c:url value="/resources/img/foodify_inline.png"/>" alt="LOGO">
         </a>
 
-        <div>
+        <div class="main-item-sidebar">
             <a class="float_left" href="${homeUrl}">
                 <label><spring:message code="Home"/></label>
             </a>
@@ -35,22 +35,14 @@
     <!-- Your Music -->
     <div class="navigation__list">
 
-        <div>
+        <div class="main-item-sidebar">
             <c:url value="/my_account" var="myAccountUrl"/>
             <a class="float_left" href="${myAccountUrl}">
                 <label><spring:message code="myAccount"/></label>
             </a>
-
-            <div class="bar_arrow navigation__list__header"
-                 role="button"
-                 data-toggle="collapse"
-                 href="#myAccount"
-                 aria-expanded="true"
-                 aria-controls="myAccount">
-            </div>
         </div>
 
-        <div class="collapse in collapse-sidebar" id="myAccount">
+        <div class="sub-item-sidebar">
 
             <c:url value="/my_recipes" var="userRecipesUrl"/>
             <a href="${userRecipesUrl}" class="navigation__list__item">
@@ -66,27 +58,15 @@
             <a href="${cooklistsUrl}" class="navigation__list__item">
                 <span><spring:message code="myCooklists"/></span>
             </a>
-
-
-            <%--
-            <a href="#" class="navigation__list__item">
-                <i class="ion-person"></i>
-                <span><spring:message code="myLists"/></span>
-            </a>
-
-            <a href="#" class="navigation__list__item">
-                <i class="ion-document"></i>
-                <span><spring:message code="myFavouriteRecipes"/></span>
-            </a>
-            --%>
         </div>
+
     </div>
 
     <div class="navigation__list">
-        <div>
+        <div class="main-item-sidebar log-out-sidebar">
             <c:url value="/logout" var="logOutB"/>
             <a href="${logOutB}">
-                <span><spring:message code="logOut"/></span>
+                <label><spring:message code="logOut"/></label>
             </a>
         </div>
     </div>
@@ -94,7 +74,8 @@
     <c:if test="${not empty user}">
         <div class="navigation__list navigation_list_modal">
             <div>
-                <button type="button" class="bg-transparent btn-modal-sidebar" data-toggle="modal" id="user-modal-btn" data-target="#user-modal">
+                <button type="button" class="bg-transparent btn-modal-sidebar" data-toggle="modal" id="user-modal-btn"
+                        data-target="#user-modal">
                     <i class="fas fa-user fa-2x green-ic"></i>
                 </button>
             </div>
@@ -104,7 +85,8 @@
     <c:if test="${isIndex eq true}">
         <div class="navigation__list navigation_list_modal">
             <div>
-                <button type="button" class="bg-transparent btn-modal-sidebar" data-toggle="modal" id="filters-modal-btn" data-target="#filters-modal">
+                <button type="button" class="bg-transparent btn-modal-sidebar" data-toggle="modal"
+                        id="filters-modal-btn" data-target="#filters-modal">
                     <i class="fas fa-filter fa-2x green-ic"></i>
                 </button>
             </div>

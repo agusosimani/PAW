@@ -79,13 +79,14 @@ body {
 
 .browse {
     float: left;
-    width: calc(98% - 300px) ;
+    margin-left: 1%;
+    width: calc(97% - 300px) ;
 }
 
 .main_container{
-    margin-left: 16%;
+    margin-left: 15%;
     float: left;
-    width: 84%;
+    width: 85%;
     margin-top: 1%;
     margin-bottom: 1%;
 }
@@ -108,12 +109,18 @@ a.custom-card:hover {
 }
 
 .side_card{
-    margin-right: 1%;
+    margin-right: 0.7%;
     margin-left: 1%;
     width: 300px;
     position: fixed;
     right: 0;
 }
+
+.log-out-sidebar{
+    position: absolute;
+    bottom: 0;
+}
+
 .card-body{
     text-align: left;
 }
@@ -330,6 +337,16 @@ ingredients-tags-div {
     clear: both;
 }
 
+.main-item-sidebar{
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.sub-item-sidebar{
+    margin-left: 10px;
+    font-size: 17px;
+}
+
 .pink-text-tag{
     color: deeppink;
     float: left;
@@ -401,11 +418,15 @@ ingredients-tags-div {
     margin: 0 !important;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: .5rem;
+    grid-gap: 1%;
 }
 
 @media (max-width: 768px) {
 
+
+    .log-out-sidebar{
+        position: relative;
+    }
 
     .btn-modal-sidebar{
         visibility: visible;
