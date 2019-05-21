@@ -48,7 +48,7 @@
             <ul class="list-group">
                 <c:forEach var="ingredient" items="${ingredientsList}">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        ${ingredient.ingredient.name}
+                        <spring:message code="${ingredient.ingredient.name}"/>
                         <div class="float-right">
                             <div class="float-right">
                                 <c:url value="/delete_ingredient" var="deleteIngredientUrl">

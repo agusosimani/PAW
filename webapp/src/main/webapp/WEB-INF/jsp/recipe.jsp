@@ -181,7 +181,8 @@
                             <p class="ingredients-title"><spring:message code="ingredients"/></p>
                             <c:forEach var="ingredient" items="${recipe.ingredients}">
                                 <div>
-                                    <p class="ingredients-item"><c:out value="${ingredient.ingredient.name}"/></p>
+                                    <spring:message var="ingredientsName" code="${ingredient.ingredient.name}" />
+                                    <p class="ingredients-item"><c:out value="${ingredientsName}"/></p>
                                     <p class="ingredients-amount">${ingredient.amount}</p>
                                 </div>
 

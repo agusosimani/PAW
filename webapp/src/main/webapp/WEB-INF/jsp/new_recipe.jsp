@@ -81,14 +81,14 @@
                         </form:label>
                         <form:select path="ingredients" cssClass="form-control" multiple="">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
-                                <form:option value="${ingredient_type.id}">${ingredient_type.name} (${ingredient_type.typeOfServing})</form:option>
+                                <form:option value="${ingredient_type.id}"><spring:message code="${ingredient_type.name}"/> (${ingredient_type.typeOfServing})</form:option>
                             </c:forEach>
                         </form:select>
                     </div>
                     <div class="new-recipe-ingredient-amount">
                         <form:label path="ingredientsAmount"><spring:message code="addIngredient.amount"/>
                         </form:label>
-                        <form:input class="form-control mb-4" path="ingredientsAmount"/>
+                        <form:input type="number" class="form-control mb-4" path="ingredientsAmount"/>
                     </div>
                 </div>
 
