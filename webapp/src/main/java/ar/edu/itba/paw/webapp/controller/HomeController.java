@@ -27,7 +27,7 @@ import java.util.*;
 import javax.validation.Valid;
 
 @Controller
-public class HelloWorldController {
+public class HomeController {
 
 
     @Autowired
@@ -216,6 +216,7 @@ public class HelloWorldController {
 
     @RequestMapping(value = "/delete_recipe", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteRecipe(@RequestParam int recipeId) {
+        //TODO VERIFICAR QUE ESTE AUTORIZADO!
         recipeService.deleteRecipe(recipeId);
         return new ModelAndView("redirect:/");
     }

@@ -128,11 +128,11 @@
 <div class="modal fade" id="filters-modal" tabindex="-1" role="form">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-body">
+            <div class="modal-body" id="filters-modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <%@include file="filters_card.jsp" %>
+
             </div>
         </div>
     </div>

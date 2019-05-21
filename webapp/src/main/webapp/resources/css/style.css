@@ -312,11 +312,21 @@ ingredients-tags-div {
 .recipe-body{
     text-align: left;
     margin: 2%;
-    width: -webkit-fill-available;
+    width: 100%;
     min-width: 0;
     position: relative;
 }
 
+
+.recipe-card-title{
+    clear: both;
+}
+
+.pink-text-tag{
+    color: deeppink;
+    float: left;
+    margin-right: 10px;
+}
 
 .user_image {
     float: left;
@@ -330,6 +340,7 @@ ingredients-tags-div {
     margin-top: 24px;
     margin-left: 20px;
 }
+
 
 .float_left{
     float: left;
@@ -370,10 +381,17 @@ ingredients-tags-div {
 }
 
 .btn-modal-sidebar{
+    visibility: hidden;
     float: right;
 }
 
 @media (max-width: 768px) {
+
+
+    .btn-modal-sidebar{
+        visibility: visible;
+        float: right;
+    }
 
     .bar_arrow{
         visibility: hidden;

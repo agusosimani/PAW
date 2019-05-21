@@ -74,7 +74,7 @@
 
 <c:if test="${editable}">
     <button class="btn btn-green add" data-toggle="modal" id="add-recipe-cooklist-modal"
-            data-target="#add-recipe-cooklist">+
+            data-target="#new-cooklist">+
     </button>
 </c:if>
 <%@include file="cooklists_add_modal.jsp" %>

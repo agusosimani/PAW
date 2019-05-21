@@ -6,6 +6,7 @@
 <body>
 
 <div class="card-deck">
+
     <c:forEach var="recipe" items="${RecipeList}">
 
         <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 columns-cards-recipe">
@@ -28,11 +29,11 @@
                 <div class="card-body card-body-cascade">
                     <div>
                         <c:forEach var="recipe_tag" items="${recipe.tags}">
-                            <p class="pink-text"> ${recipe_tag.tag}</p>
+                            <p class="pink-text-tag"> ${recipe_tag}</p>
                         </c:forEach>
                     </div>
 
-                    <h4 class="card-title"><strong><c:out value="${recipe.name}"/></strong></h4>
+                    <h4 class="card-title recipe-card-title"><strong><c:out value="${recipe.name}"/></strong></h4>
                     <p class="card-text"><c:out value="${recipe.description}"/></p>
 
                     <c:url value="/recipe" var="recipeUrl">

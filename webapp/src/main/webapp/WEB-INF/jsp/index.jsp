@@ -36,7 +36,7 @@
 
         <div class="card">
 
-            <div class="card-body">
+            <div class="card-body" id="filters-big-card">
                 <%@include file="filters_card.jsp" %>
             </div>
         </div>
@@ -59,6 +59,7 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
 
 <%--TODO no deberia estar aca
 <script>

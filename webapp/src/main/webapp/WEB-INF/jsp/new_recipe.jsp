@@ -81,7 +81,7 @@
                         </form:label>
                         <form:select path="ingredients" cssClass="form-control" multiple="">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
-                                <form:option value="${ingredient_type.id}">${ingredient_type.name}</form:option>
+                                <form:option value="${ingredient_type.id}">${ingredient_type.name} (${ingredient_type.typeOfServing})</form:option>
                             </c:forEach>
                         </form:select>
                     </div>
@@ -108,7 +108,9 @@
                 <div class="form-row">
                     <button type="button" id="btnFile" name="btnAdd" class="btn btn-green">
                         <spring:message code="Recipe.addImage"/></button>
-                    <form:input path="image" id="fileInput" cssClass="custom-file-input"  type="file"/>
+                    <form:input path="image" id="fileInput" cssClass="d-none"  type="file"/>
+                </div>
+                <div class="form-row mb-4">
                     <form:errors path="image" cssClass="form-text text-muted" element="small"/>
                 </div>
                 

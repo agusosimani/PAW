@@ -1,11 +1,11 @@
-function add_rate(clicked_id){
+function add_rate(clicked_id) {
     let searchParams = new URLSearchParams(window.location.search);
     //$.post("/rate_recipe", {rate: clicked_id, recipeId: searchParams.get("recipeId")});
     $.ajax({
         url: "/rate_recipe",
         data: {rate: clicked_id, recipeId: searchParams.get("recipeId")},
         type: "POST",
-        complete:function() {
+        complete: function () {
             window.location.reload();
         }
     });
@@ -31,16 +31,16 @@ $(function () {
 
 
     $('#btnDel_1').click(function () {
-        if (confirm("Are you sure you wish to remove this email? This cannot be undone.")) {
-            var num = $('.clonedInput_1').length;
-            $('#clonedInput' + num).slideUp('slow', function () {
-                $(this).remove();
-                if (num - 1 === 1)
-                    $('#btnDel_1').attr('disabled', true);
-               $('#btnAdd_1').attr('disabled', false).prop('value', "Add Ingredient");
-                $('#btnAdd_1').attr('disabled', false).text("Add Ingredient");
-            });
-        }
+
+        var num = $('.clonedInput_1').length;
+        $('#clonedInput' + num).slideUp('slow', function () {
+            $(this).remove();
+            if (num - 1 === 1)
+                $('#btnDel_1').attr('disabled', true);
+            $('#btnAdd_1').attr('disabled', false).prop('value', "Add Ingredient");
+            $('#btnAdd_1').attr('disabled', false).text("Add Ingredient");
+        });
+
         return false;
     });
     $('#btnAdd_1').attr('disabled', false);
@@ -69,19 +69,32 @@ $(function () {
     });
 
     $('#btnDel_2').click(function () {
-        if (confirm("Are you sure you wish to remove this email? This cannot be undone.")) {
-            var num = $('.cloneInput_1').length;
-            $('#cloneInput' + num).slideUp('slow', function () {
-                $(this).remove();
-                if (num - 1 === 1)
-                    $('#btnDel_2').attr('disabled', true);
-                $('#btnAdd_2').attr('disabled', false).prop('value', "Add Ingredient");
-                $('#btnAdd_2').attr('disabled', false).text("Add Ingredient");
-            });
-        }
+
+        var num = $('.cloneInput_1').length;
+        $('#cloneInput' + num).slideUp('slow', function () {
+            $(this).remove();
+            if (num - 1 === 1)
+                $('#btnDel_2').attr('disabled', true);
+            $('#btnAdd_2').attr('disabled', false).prop('value', "Add Ingredient");
+            $('#btnAdd_2').attr('disabled', false).text("Add Ingredient");
+        });
+
         return false;
     });
     $('#btnAdd_2').attr('disabled', false);
     $('#btnDel_2').attr('disabled', true);
+
+    $(window).on('resize', function(){
+        var win = $(this); //this = window
+        if (win.width() > 768) {
+            $("#filters-big-card").append($("#filters-card").show());
+            console.log("asdmoaskd");
+        }
+        if(win.width() <= 768){
+            console.log("modal");
+            $("#filters-modal-body").append($("#filters-card").show());
+        }
+        console.log("asdmoaskd");
+    });
 
 });
