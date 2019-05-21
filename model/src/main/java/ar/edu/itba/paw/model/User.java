@@ -21,7 +21,7 @@ public class User {
     private User(int id, String email, String password, String name, String surname,
                  String username, String gender, String status,
                  List<RecipeIngredient> ingredients, List<Recipe> recipes,
-                 List<RecipeList> recipeLists) {
+                 List<RecipeList> recipeLists, boolean enabled) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -33,7 +33,7 @@ public class User {
         this.ingredients = ingredients;
         this.recipes = recipes;
         this.recipeLists = recipeLists;
-        this.enabled = false;
+        this.enabled = enabled;
     }
 
     public String getStatus() {
@@ -235,8 +235,7 @@ public class User {
         }
 
         public User build() {
-            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes,recipeLists);
+            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes,recipeLists, enabled);
         }
     }
-
 }

@@ -197,7 +197,7 @@ public class UserServiceImpl implements UserService {
             return Either.alternative(Warnings.valueOf("ExpiredToken"));
         }
         Authentication auth = new UsernamePasswordAuthenticationToken(
-                this.getById((int)verificationToken.getValue().getUserID()), null, Arrays.asList( new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
+                this.getById((int)verificationToken.getValue().getUserID()), null, Arrays.asList( new SimpleGrantedAuthority("ROLE_CHANGE_PASSWORD_PRIVILEGE")));
         SecurityContextHolder.getContext().setAuthentication(auth);
         return verificationToken;
     }
@@ -229,5 +229,4 @@ public class UserServiceImpl implements UserService {
     private boolean isLoggedUserAuthorizedToUpdateUser(long userId) {
         return authenticationService.getLoggedUser().isPresent() && authenticationService.getLoggedUser().get().getId() == userId;
     }
-
 }

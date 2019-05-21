@@ -24,7 +24,8 @@ public class UserDaoImpl implements UserDao {
             new User.Builder(rs.getInt("user_id"),rs.getString("username"),
             rs.getString("password"),rs.getString("mail"))
             .gender(rs.getString("gender")).name(rs.getString("name"))
-            .surname(rs.getString("surname")).status(rs.getString("user_status")).build();
+            .surname(rs.getString("surname")).status(rs.getString("user_status"))
+                    .enabled(rs.getBoolean("enabled")).build();
 
 
     @Autowired
@@ -58,6 +59,7 @@ public class UserDaoImpl implements UserDao {
             map.put("gender",user.getGender());
 
         map.put("user_status","REGULAR");
+        map.put("enabled",false);
 
         System.out.printf("%s", user.toString());
 
@@ -120,9 +122,9 @@ public class UserDaoImpl implements UserDao {
     public Warnings setUserStatus(final int userId, final boolean status) {
         if (getById(userId).isPresent()) {
             try {
-                jdbcTemplate.update(String.format("UPDATE users SET enabled = ? WHERE user_id = ? ",
+                jdbcTemplate.update("UPDATE users SET enabled = ? WHERE user_id = ? ",
                         status,
-                        userId));
+                        userId);
                 return Warnings.valueOf("Success");
             } catch (Exception e ) {
                 System.err.println(e.getMessage());

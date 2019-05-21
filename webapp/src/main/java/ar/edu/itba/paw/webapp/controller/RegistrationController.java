@@ -7,6 +7,7 @@ import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.model.UserTokenState;
 import ar.edu.itba.paw.model.VerificationToken;
+import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -84,8 +85,8 @@ public class RegistrationController {
     }
 
     private void authWithoutPassword(User user){
-        List<GrantedAuthority> authorities = Arrays.asList( new SimpleGrantedAuthority("ROLE_USER"));
-        Authentication auth = new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities) ,null, authorities);
+        List<GrantedAuthority> authorities = Arrays.asList( new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_VALIDATED"));
+        Authentication auth = new UsernamePasswordAuthenticationToken(new PawUserDetails(user.getUsername(), user.getPassword(), user.getId(), authorities) ,null, authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
