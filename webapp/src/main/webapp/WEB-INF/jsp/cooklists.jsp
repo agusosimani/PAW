@@ -48,7 +48,6 @@
                         <div class="card-body card-body-cascade">
 
                             <h4 class="card-title"><strong><c:out value="${cooklist.name}"/></strong></h4>
-                            <h4 class="card-text"><c:out value="${cooklist.list.size}"/></h4>
 
                             <c:url value="/cooklist" var="cooklistUrl">
                                 <c:param name="cookListId" value="${cooklist.id}"/>
