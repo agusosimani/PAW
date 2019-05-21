@@ -1,14 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.service.IngredientService;
-import ar.edu.itba.paw.interfaces.service.RecipeService;
+import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.Enum.Order;
 import ar.edu.itba.paw.model.Enum.Tag;
 import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.form.*;
-import ar.edu.itba.paw.interfaces.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -21,8 +19,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.*;
 
 import javax.validation.Valid;
@@ -45,6 +46,13 @@ public class HomeController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
 
     private int getCurrentUserID() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -254,16 +262,10 @@ public class HomeController {
         //return new ModelAndView("redirect:/");
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET) //Le digo que url mappeo
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(required = false) String error) {
-        if (getCurrentUserID() != -1)
-            return new ModelAndView("redirect:/");
 
         final ModelAndView mav = new ModelAndView("login");
-
-        if (error != null)
-            mav.addObject("errorMessage", "error");
-
         return mav;
     }
 
@@ -374,7 +376,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
-    public ModelAndView create(@Valid @ModelAttribute("registerForm") final RegisterForm registerForm, final BindingResult errors) {
+    public ModelAndView create(@Valid @ModelAttribute("registerForm") final RegisterForm registerForm, final BindingResult errors, WebRequest request) {
         if (errors.hasErrors()) {
             return register(registerForm);
         }
@@ -382,9 +384,14 @@ public class HomeController {
         String hashedPassword = passwordEncoder.encode(registerForm.getPassword());
         final Either<User, Warnings> u = userService.signUpUser(new User.Builder(registerForm.getUsername(), hashedPassword, registerForm.getEmail())
                 .name(registerForm.getName()).surname(registerForm.getSurname()).build());
-        if (u.isValuePresent())
-            return new ModelAndView("redirect:/login");
-        else {
+        if(u.isValuePresent()) {
+            ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
+            builder.scheme("http");
+            URI uri = builder.build().toUri();
+            Warnings emailWarnings = emailService.sendMailConfirmationEmail(u.getValue(), uri.toString());
+            if (emailWarnings != Warnings.valueOf("EmailError"))
+                return new ModelAndView("redirect:/login");
+        } else {
             //TODO: mostrar el warning y volver a la pagina
         }
         return new ModelAndView("redirect:/register");

@@ -3,21 +3,24 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.interfaces.dao.IngredientsDao;
 import ar.edu.itba.paw.interfaces.dao.RecipeDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
+import ar.edu.itba.paw.interfaces.dao.VerificationTokenDao;
+import ar.edu.itba.paw.interfaces.service.AuthenticationService;
 import ar.edu.itba.paw.interfaces.service.UserService;
-import ar.edu.itba.paw.model.Either;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.model.Enum.Status;
 import ar.edu.itba.paw.model.Enum.Warnings;
-import ar.edu.itba.paw.model.Recipe;
-import ar.edu.itba.paw.model.RecipeIngredient;
-import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
+import static ar.edu.itba.paw.model.UserTokenState.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,6 +33,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     RecipeDao recipeDao;
+
+    @Autowired
+    private VerificationTokenDao verificationTokenDao;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @Override
     public Either<User, Warnings> getByIdComplete(int id) {
@@ -120,5 +132,101 @@ public class UserServiceImpl implements UserService {
         userDao.update(user, map);
     }
 
+    @Override
+    public Either<VerificationToken, Warnings> createVerificationToken(User user) {
+        String token = UUID.randomUUID().toString();
+        VerificationToken.Builder myToken = new VerificationToken.Builder(token, user.getId());
+        return Either.value(verificationTokenDao.save(myToken).get());
+    }
 
+    @Override
+    public Either<VerificationToken, Warnings> createNewVerificationToken(String existingTokenValue) {
+        Either<VerificationToken, Warnings> existingToken = Either.value(verificationTokenDao.findByToken(existingTokenValue).get());
+        if(!existingToken.isValuePresent()) {
+            return Either.alternative(Warnings.valueOf("NoSuchToken"));
+        }
+        Either<User, Warnings> user = Either.value(userDao.getById((int)existingToken.getValue().getUserID()).get());
+        if(!user.isValuePresent()) {
+            return Either.alternative(Warnings.valueOf("NoSuchUser"));
+        }
+        return createVerificationToken(user.getValue());
+    }
+
+    @Override
+    public Either<VerificationToken, Warnings> getVerificationToken(String tokenString) {
+        return Either.value(verificationTokenDao.findByToken(tokenString).get());
+    }
+
+    @Override
+    public Either<UserTokenState, Warnings> getUserTokenState(VerificationToken verificationToken) {
+        Either<VerificationToken, Warnings> validToken = Either.value(verificationTokenDao.findByToken(verificationToken.getToken()).get());
+        if(!validToken.isValuePresent()){
+            return Either.alternative(Warnings.valueOf("NoSuchToken"));
+        }
+
+        Either<User, Warnings> user = Either.value(userDao.getById((int)verificationToken.getUserID()).get());
+        if(!user.isValuePresent()) {
+            return Either.alternative(Warnings.valueOf("ServerError"));
+        }
+
+        Calendar cal = Calendar.getInstance();
+        boolean tokenExpired = verificationToken.getExpiryDate().getTime() - cal.getTime().getTime() <= 0;
+        boolean userEnabled = user.getValue().isEnabled();
+
+        if(tokenExpired){
+            if (userEnabled){
+                return Either.value(USER_ENABLED_EXPIRED_TOKEN);
+            }
+            return Either.value(USER_DISABLED_EXPIRED_TOKEN);
+        }
+
+        if(userEnabled) {
+            return Either.value(USER_ENABLED_VALID_TOKEN);
+        }
+        return Either.value(USER_DISABLED_VALID_TOKEN);
+    }
+
+    @Override
+    public Either<VerificationToken, Warnings> getVerificationTokenWithRole(final int userId, final String VerificationToken) {
+        Either<VerificationToken, Warnings> verificationToken = Either.value(verificationTokenDao.findByToken(VerificationToken).get());
+        if(!verificationToken.isValuePresent() || Integer.compare(verificationToken.getValue().getUserID(), userId) != 0){
+            return Either.alternative(Warnings.valueOf("NoSuchToken"));
+        }
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getValue().getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            return Either.alternative(Warnings.valueOf("ExpiredToken"));
+        }
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                this.getById((int)verificationToken.getValue().getUserID()), null, Arrays.asList( new SimpleGrantedAuthority("ROLE_CHANGE_PASSWORD_PRIVILEGE")));
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        return verificationToken;
+    }
+
+    @Override
+    public Warnings setUserEnabledStatus(int userId, boolean status) {
+        return userDao.setUserStatus(userId, status);
+    }
+
+    @Override
+    public void resetPassword(int id, String password) {
+        userDao.updatePassword(id, passwordEncoder.encode(password));
+    }
+
+    @Override
+    public void confirmMailVerification(final int userId, final int tokenId) {
+        setUserEnabledStatus(userId, true);
+    }
+
+    @Override
+    public Either<User, Warnings> update(final int userId, User.Builder userBuilder) {
+        if(!isLoggedUserAuthorizedToUpdateUser(userId)){
+            return Either.alternative(Warnings.valueOf("AuthorizationDenied"));
+        }
+
+        return Either.value(userDao.getById(userId).get());
+    }
+
+    private boolean isLoggedUserAuthorizedToUpdateUser(long userId) {
+        return authenticationService.getLoggedUser().isPresent() && authenticationService.getLoggedUser().get().getId() == userId;
+    }
 }

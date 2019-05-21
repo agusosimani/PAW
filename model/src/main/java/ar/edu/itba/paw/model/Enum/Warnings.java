@@ -12,7 +12,12 @@ public enum Warnings {
     UserAlreadyExists("This user already exists"),
     NoSuchUser("This user does not exist"),
     AddRecipeValuesWrong("The values put cannot be null"),
-    NoSuchRecipeUser("The recipe with this name was not found under this user's belongings");
+    NoSuchRecipeUser("The recipe with this name was not found under this user's belongings"),
+    ExpiredToken("Token has expired"),
+    ServerError("There was an error in the server"),
+    NoSuchToken("This token does not exist"),
+    EmailError("There was an error with the email");
+
 
     private String warning;
 

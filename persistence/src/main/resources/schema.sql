@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users
     username    varchar(255),
     gender      varchar(20) DEFAULT 'notSpecified',
     user_status varchar(20) DEFAULT 'REGULAR',
+    enabled     BOOLEAN DEFAULT FALSE,
     image       bytea,
     PRIMARY KEY (user_id)
 );
@@ -131,6 +132,17 @@ CREATE TABLE IF NOT EXISTS recipes_comments
     PRIMARY KEY (comment_id),
     CONSTRAINT recipes_comments_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
     CONSTRAINT recipes_comments_constraint_2 FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
+CREATE TABLE IF NOT EXISTS verification_tokens
+(
+    token_id     SERIAL,
+    token        text,
+    user_id      int NOT NULL,
+    expiry_date  DATE NOT NULL,
+    token_status varchar(20) DEFAULT 'REGULAR',
+    PRIMARY KEY (token_id),
+    CONSTRAINT tokens_constraint FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
 

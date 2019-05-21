@@ -26,10 +26,10 @@ public class RegisterForm {
 
     @Size(min = 6, max = 100)
     @Email
-    @AvailableEmail
     private String email;
 
     private String gender;
+    private boolean sendMail;
 
     //TODO: poner las otras validaciones
 
@@ -79,6 +79,14 @@ public class RegisterForm {
 
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
+    }
+
+    public boolean getSendMail() {
+        return sendMail;
+    }
+
+    public void setSendMail(boolean sendMail) {
+        this.sendMail = sendMail;
     }
 }
 

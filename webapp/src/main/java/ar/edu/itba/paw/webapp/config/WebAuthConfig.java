@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.config;
 
+import ar.edu.itba.paw.webapp.auth.FoodifyUrlAuthentificationFailureHandler;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,17 +28,21 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.sessionManagement().invalidSessionUrl("/login")
+        http.userDetailsService(userDetailsService)
+                .sessionManagement()
+                .invalidSessionUrl("/")
                 .and().authorizeRequests()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/register").permitAll()
                     .antMatchers("/create").anonymous()
+                    .antMatchers("/create/registration-confirm").anonymous()
                     //.antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/**").authenticated()
+                    .antMatchers("/**").hasRole("VALIDATED")
                 .and().formLogin()
                     .usernameParameter("j_username")
                     .passwordParameter("j_password")
                     .defaultSuccessUrl("/", true)
+                    .failureHandler(new FoodifyUrlAuthentificationFailureHandler())
                     .loginPage("/login")
                 .and().rememberMe()
                     .rememberMeParameter("j_rememberme")

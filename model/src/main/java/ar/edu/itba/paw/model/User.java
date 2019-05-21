@@ -15,12 +15,13 @@ public class User {
     private List<RecipeIngredient> ingredients;
     private List<Recipe> recipes;
     private List<RecipeList> recipeLists;
+    private boolean enabled;
     //private byte[] image;
 
     private User(int id, String email, String password, String name, String surname,
                  String username, String gender, String status,
                  List<RecipeIngredient> ingredients, List<Recipe> recipes,
-                 List<RecipeList> recipeLists) {
+                 List<RecipeList> recipeLists, boolean enabled) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -32,6 +33,7 @@ public class User {
         this.ingredients = ingredients;
         this.recipes = recipes;
         this.recipeLists = recipeLists;
+        this.enabled = enabled;
     }
 
     public String getStatus() {
@@ -122,6 +124,10 @@ public class User {
         this.recipeLists = recipeLists;
     }
 
+    public boolean isEnabled() { return enabled; }
+
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -173,6 +179,7 @@ public class User {
         private List<RecipeIngredient> ingredients = null;
         private List<Recipe> recipes = null;
         private List<RecipeList> recipeLists= null;
+        private boolean enabled = false;
 
         public Builder(int id, String username, String password, String email) {
             this.id = id;
@@ -222,9 +229,13 @@ public class User {
             return this;
         }
 
+        public Builder enabled(boolean enabled) {
+            this.enabled = enabled;
+            return this;
+        }
+
         public User build() {
-            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes,recipeLists);
+            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes,recipeLists, enabled);
         }
     }
-
 }

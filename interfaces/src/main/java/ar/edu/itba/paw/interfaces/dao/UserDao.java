@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.interfaces.dao;
 
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.User;
 
 import java.util.Map;
@@ -13,5 +14,7 @@ public interface UserDao {
 
     Optional<User> getByEmail(final String email);
     Optional<User> getByUsername(final String username);
+    Warnings setUserStatus(final int userId, boolean status);
+    void updatePassword(final int id, final String password);
 
 }
