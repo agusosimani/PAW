@@ -30,9 +30,12 @@ public class PawUserDetailsService implements UserDetailsService {
         final Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        if(user.getValue().isEnabled()) {
+        if(user.getValue().isEnabled())
             authorities.add(new SimpleGrantedAuthority("ROLE_VALIDATED"));
-        }
+
+        if(user.getValue().isAdmin())
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
         return new PawUserDetails(username, user.getValue().getPassword(), user.getValue().getId(), user.getValue().isEnabled(), authorities);
         //return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
     }

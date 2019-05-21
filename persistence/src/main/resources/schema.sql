@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS users
     gender      varchar(20) DEFAULT 'notSpecified',
     user_status varchar(20) DEFAULT 'REGULAR',
     enabled     BOOLEAN DEFAULT FALSE,
+    is_admin    BOOLEAN DEFAULT FALSE,
     image       bytea,
     PRIMARY KEY (user_id)
 );
