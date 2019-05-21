@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.UserDao;
+import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -114,6 +115,29 @@ public class UserDaoImpl implements UserDao {
         }
 
         return Optional.of(list.get(0));
+    }
+
+    public Warnings setUserStatus(final int userId, final boolean status) {
+        if (getById(userId).isPresent()) {
+            try {
+                jdbcTemplate.update(String.format("UPDATE users SET enabled = ? WHERE user_id = ? ",
+                        status,
+                        userId));
+                return Warnings.valueOf("Success");
+            } catch (Exception e ) {
+                System.err.println(e.getMessage());
+                return Warnings.valueOf("ServerError");
+            }
+        } else {
+            return Warnings.valueOf("NoSuchUser");
+        }
+    }
+
+    @Override
+    public void updatePassword(int id, String password) {
+        jdbcTemplate.update(String.format("UPDATE users SET password = ? WHERE user_id = ? ",
+                password,
+                id));
     }
 
 }

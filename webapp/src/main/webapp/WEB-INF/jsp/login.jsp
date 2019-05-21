@@ -36,6 +36,12 @@
         <spring:message code="User.password" var="password"/>
         <input type="password" id="password" name="j_password" class="form-control mb-4" placeholder="${password}">
 
+        <c:if test="${logged == false}">
+            <div class="form-text text-muted mb-4">
+                <spring:message code="confirmationError"/>
+            </div>
+        </c:if>
+
         <c:if test="${not empty errorMessage}">
             <div class="form-text text-muted mb-4">
                 <spring:message code="signInError"/>

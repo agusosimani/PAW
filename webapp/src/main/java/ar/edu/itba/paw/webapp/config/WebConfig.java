@@ -12,6 +12,8 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
 @EnableTransactionManagement
 @EnableWebMvc
@@ -109,6 +112,26 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public PlatformTransactionManager transactionManager(final DataSource ds) {
         return new DataSourceTransactionManager(ds);
+    }
+
+    @Bean
+    public JavaMailSender javaMailSender() {
+
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("donotreplyfoodify@gmail.com");
+        mailSender.setPassword("foodifypawitba");
+
+        Properties mailProperties = mailSender.getJavaMailProperties();
+
+        mailProperties.put("mail.transport.protocol", "smtp");
+        mailProperties.put("mail.smtp.starttls.enable", true);
+        mailProperties.put("mail.smtp.auth", true);
+        mailProperties.put("mail.smtp.debug", true);
+
+        return mailSender;
     }
 
 }
