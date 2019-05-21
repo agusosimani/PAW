@@ -340,6 +340,17 @@ ingredients-tags-div {
     clear: both;
 }
 
+.rating-container{
+    height: 50px;
+}
+
+.rating {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 20px;
+}
+
 .main-item-sidebar{
     font-size: 23px;
     font-weight: bold;

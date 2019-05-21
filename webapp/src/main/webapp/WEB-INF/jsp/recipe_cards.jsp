@@ -39,7 +39,8 @@
                         <c:param name="recipeId" value="${recipe.id}"/>
                     </c:url>
                     <a href="${recipeUrl}" class="stretched-link"></a>
-                    <fieldset id="rating-${recipe.id}" class="rating">
+                    <div class="rating-container">
+                        <fieldset id="rating-${recipe.id}" class="rating">
                         <input type="radio" id="five" name="" value="5"
                                <c:if test="${recipe.rating >= 5}">checked</c:if>/><label class="full" for="five"
                                                                                          title="Awesome - 5 stars"></label>
@@ -71,6 +72,7 @@
                                <c:if test="${recipe.rating >= 0.5}">checked</c:if>/><label class="half" for="half"
                                                                                            title="Sucks big time - 0.5 stars"></label>
                     </fieldset>
+                    </div>
                 </div>
                 <!--/.Card content-->
 
