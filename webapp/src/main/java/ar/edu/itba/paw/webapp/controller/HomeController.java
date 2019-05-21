@@ -59,7 +59,7 @@ public class HomeController {
     public ModelAndView helloWorld(@ModelAttribute("filterForm") final FilterForm filterForm) {
         final ModelAndView mav = new ModelAndView("index");
 
-        filterForm.setInput1(Order.New.toString());
+        filterForm.setOrder(Order.New);
 
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
@@ -68,30 +68,42 @@ public class HomeController {
     }
 
     @RequestMapping("/filters") //Le digo que url mappeo
-    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam List<String> tags) {
+    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam List<String> tags, @RequestParam Order order) {
         final ModelAndView mav = new ModelAndView("index");
 
         filterForm.setTags(tags);
+        filterForm.setOrder(order);
 
+
+
+        mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
-        mav.addObject("RecipeList", recipeService.getRecipes());
+        mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID()));
         return mav;
     }
 
-    @RequestMapping(value = "/filter", method = {RequestMethod.POST})
+    @RequestMapping(value = "/filter", method = {RequestMethod.GET})
     public ModelAndView filterRecipes(@Valid @ModelAttribute("filterForm") final FilterForm filterForm, final BindingResult errors) {
         if (errors.hasErrors()) {
 //           return newRecipe(form);
         }
 
-        System.out.printf("EL BOTON ES: %s\n", filterForm.getInput1());
-        for(String s : filterForm.getTags()){
-            System.out.printf("TAG: %s\n", s);
+        System.out.printf("EL BOTON ES: %s\n", filterForm.getOrder());
+        if(filterForm != null && filterForm.getTags() != null){
+            for(String s : filterForm.getTags()){
+                System.out.printf("TAG: %s\n", s);
+            }
+        }
+
+        List<String> tags = new ArrayList<>();
+        if(filterForm.getTags() != null){
+            tags = filterForm.getTags();
         }
 
         Map<String,Object> arguments = new HashMap<>();
-        arguments.put("tags", filterForm.getTags());
-        return new ModelAndView("redirect:/index",arguments);
+        arguments.put("tags", tags);
+        arguments.put("order", filterForm.getOrder());
+        return new ModelAndView("redirect:/filters",arguments);
     }
 
     @RequestMapping(value = "/new_recipe", method = {RequestMethod.GET})

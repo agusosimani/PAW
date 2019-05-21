@@ -1,10 +1,12 @@
 package ar.edu.itba.paw.webapp.form;
 
+import ar.edu.itba.paw.model.Enum.Order;
+
 import java.util.List;
 
 public class FilterForm {
 
-    private String input1;
+    private Order order;
 
     private List<String> tags;
 
@@ -16,11 +18,11 @@ public class FilterForm {
         this.tags = tags;
     }
 
-    public String getInput1() {
-        return input1;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setInput1(String input1) {
-        this.input1 = input1;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
