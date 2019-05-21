@@ -56,56 +56,23 @@ public class HomeController {
     }
 
     @RequestMapping("/") //Le digo que url mappeo
-    public ModelAndView helloWorld(@ModelAttribute("filterForm") final FilterForm filterForm) {
-        final ModelAndView mav = new ModelAndView("index");
-
-        filterForm.setOrder(Order.New);
-
-        mav.addObject("allOrders", Order.values());
-        mav.addObject("allTags", Tag.values());
-        mav.addObject("RecipeList", recipeService.getRecipes());
-        return mav;
-    }
-
-    @RequestMapping("/filters") //Le digo que url mappeo
-    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam List<String> tags, @RequestParam Order order) {
+    public ModelAndView helloWorld(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam(required = false) List<String> tags, @RequestParam(required = false) Order order) {
         final ModelAndView mav = new ModelAndView("index");
 
         filterForm.setTags(tags);
-        filterForm.setOrder(order);
 
-
+        if(order != null)
+            filterForm.setOrder(order);
+        else
+            filterForm.setOrder(Order.New);
 
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
-        mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID()));
+        mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(tags,filterForm.getOrder(),getCurrentUserID()));
         return mav;
     }
 
-    @RequestMapping(value = "/filter", method = {RequestMethod.GET})
-    public ModelAndView filterRecipes(@Valid @ModelAttribute("filterForm") final FilterForm filterForm, final BindingResult errors) {
-        if (errors.hasErrors()) {
-//           return newRecipe(form);
-        }
-
-        System.out.printf("EL BOTON ES: %s\n", filterForm.getOrder());
-        if(filterForm != null && filterForm.getTags() != null){
-            for(String s : filterForm.getTags()){
-                System.out.printf("TAG: %s\n", s);
-            }
-        }
-
-        List<String> tags = new ArrayList<>();
-        if(filterForm.getTags() != null){
-            tags = filterForm.getTags();
-        }
-
-        Map<String,Object> arguments = new HashMap<>();
-        arguments.put("tags", tags);
-        arguments.put("order", filterForm.getOrder());
-        return new ModelAndView("redirect:/filters",arguments);
-    }
-
+    
     @RequestMapping(value = "/new_recipe", method = {RequestMethod.GET})
     public ModelAndView newRecipe(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
         final ModelAndView mav = new ModelAndView("new_recipe");

@@ -12,7 +12,7 @@
     <h4><spring:message code="searchFilters"/></h4>
 
     <label class="text-filter"><spring:message code="sortBy"/> </label>
-    <c:url value="/filter" var="filter"/>
+    <c:url value="/" var="filter"/>
     <form:form autocomplete="off" modelAttribute="filterForm" action="${filter}" method="get"
                enctype="multipart/form-data">
         <c:forEach var="order" items="${allOrders}">
