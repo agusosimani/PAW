@@ -145,7 +145,7 @@
 
 <script>
     document.getElementById("fileInput").onchange = function () {
-        document.getElementById("btnFile").textContent = "Archivo seleccionado: " + this.value.replace(/C:\\fakepath\\/i, '');
+        document.getElementById("btnFile").textContent = "<spring:message code='Recipe.selectedFile'/> " + this.value.replace(/C:\\fakepath\\/i, '');
     };
 
     $("#btnFile").on("click", function() {

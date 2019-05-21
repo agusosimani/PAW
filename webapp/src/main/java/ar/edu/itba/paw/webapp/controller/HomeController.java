@@ -188,8 +188,12 @@ public class HomeController {
 
         List<Integer> formIngredients = recipeForm.getIngredients();
         List<Integer> formIngredientsAmount = recipeForm.getIngredientsAmount();
-        for (int i = 0; i < formIngredients.size(); i++) {
-            listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(formIngredients.get(i)).get(), formIngredientsAmount.get(i)).build());
+        if (formIngredients != null) {
+            for(int i = 0; i < formIngredients.size(); i++) {
+                listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(formIngredients.get(i)).get(), formIngredientsAmount.get(i)).build());
+            }
+        } else {
+            //TODO: tirar el error
         }
 
         final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(), getCurrentUserID())
