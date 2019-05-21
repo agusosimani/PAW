@@ -27,7 +27,7 @@
 <section class="main_container">
 
     <h3>${title}</h3>
-    <section class="browse text-center">
+    <section class="browse">
         <c:if test="${empty RecipeList}">
             <c:choose>
                 <c:when test="${yourAccount}">

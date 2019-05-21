@@ -28,7 +28,7 @@
 
 <section class="main_container">
 
-    <section class="browse text-center">
+    <section class="browse">
         <%@include file="recipe_cards.jsp" %>
     </section>
 

@@ -27,7 +27,7 @@
 <%@include file="sidebar.jsp" %>
 
 <section class="main_container">
-    <section class="browse text-center">
+    <section class="browse">
         <!-- Card -->
         <div class="card">
 

@@ -87,6 +87,7 @@ body {
     float: left;
     width: 84%;
     margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .text-muted{
@@ -383,6 +384,17 @@ ingredients-tags-div {
 .btn-modal-sidebar{
     visibility: hidden;
     float: right;
+}
+
+.card-recipe {
+    margin: 0 !important;
+}
+
+.card-deck {
+    margin: 0 !important;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: .5rem;
 }
 
 @media (max-width: 768px) {

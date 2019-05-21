@@ -36,7 +36,7 @@
             </c:otherwise>
         </c:choose>
     </h3>
-    <section class="browse text-center">
+    <section class="browse">
 
         <div class="card-deck">
             <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
