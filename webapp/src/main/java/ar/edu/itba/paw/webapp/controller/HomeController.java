@@ -138,12 +138,13 @@ public class HomeController {
         if (errors.hasErrors()) {
 //            return newRecipe(form);
         }
-        System.out.printf("AGREGANDO\n");
 
         recipeService.addNewCookListWithoutIngredients(getCurrentUserID(),form.getName());
 
-        System.out.printf("TERMINE\n");
-        return userCooklists(form,getCurrentUserID());
+        Map<String,Object> arguments = new HashMap<>();
+        arguments.put("form", form);
+        arguments.put("userId", getCurrentUserID());
+        return new ModelAndView("redirect:/user_cooklists", arguments);
     }
 
     @RequestMapping(value = "/create_recipe", method = {RequestMethod.POST})

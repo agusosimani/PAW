@@ -43,13 +43,11 @@
 
             <c:forEach var="cooklist" items="${cookList}">
 
-                <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 columns-cards-recipe">
-                    <div class="card card-cascade narrower mb-4">
+                    <div class="card card-cascade card-recipe">
 
                         <div class="card-body card-body-cascade">
 
                             <h4 class="card-title"><strong><c:out value="${cooklist.name}"/></strong></h4>
-
                             <c:url value="/cooklist" var="cooklistUrl">
                                 <c:param name="cookListId" value="${cooklist.id}"/>
                                 <c:param name="userId" value="${user.id}"/>
@@ -58,7 +56,6 @@
                         </div>
 
                     </div>
-                </div>
             </c:forEach>
         </div>
     </section>

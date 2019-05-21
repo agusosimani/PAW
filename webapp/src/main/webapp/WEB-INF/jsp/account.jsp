@@ -39,18 +39,21 @@
     <section class="browse">
 
         <div class="card-deck">
-            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
                 <c:url value="/user_recipes" var="userRecipesUrl">
                     <c:param name="userId" value="${user.id}"/>
                 </c:url>
+
                 <!-- Featured image -->
-                <div class="card card-cascade narrower mb-4">
-
-                    <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+                <div class="card card-cascade card-recipe ">
+                    <div class="view view-cascade">
+                        <div class="view overlay rounded z-depth-2 mb-4">
+                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+                        </div>
+                        <a>
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
                     </div>
-
 
                     <div class="card-body">
                         <h4 class="card-title"><strong><spring:message code="recipes"/></strong></h4>
@@ -66,12 +69,11 @@
                         </p>
                         <a href="${userRecipesUrl}" class="stretched-link"></a>
                     </div>
-                </div>
             </div>
 
-            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                <div class="card card-cascade narrower mb-4">
+
+                <div class="card card-cascade card-recipe ">
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
@@ -87,12 +89,10 @@
                         <a href="${cooklistsUrl}" class="stretched-link"></a>
                     </div>
                 </div>
-            </div>
 
             <c:if test="${yourAccount}">
-                <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                    <div class="card card-cascade narrower mb-4">
+                    <div class="card card-cascade card-recipe ">
                         <div class="view overlay rounded z-depth-2 mb-4">
                             <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                             <a>
@@ -106,12 +106,10 @@
                             <p class="card-text"><spring:message code="myIngredientsExplanation"/></p>
                         </div>
                     </div>
-                </div>
             </c:if>
 
-            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
 
-                <div class="card card-cascade narrower mb-4">
+                <div class="card card-cascade card-recipe ">
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
@@ -126,11 +124,7 @@
                 </div>
                 <!-- Post title -->
 
-            </div>
-
-            <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
-
-                <div class="card card-cascade narrower mb-4">
+                <div class="card card-cascade card-recipe ">
                     <div class="view overlay rounded z-depth-2 mb-4">
                         <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
                         <a>
@@ -145,7 +139,6 @@
                 </div>
                 <!-- Post title -->
 
-            </div>
 
         </div>
 
