@@ -56,11 +56,11 @@
                                     <c:url value="/edit_recipe" var="editRecipeUrl">
                                         <c:param name="recipeId" value="${recipe.id}"/>
                                     </c:url>
-                                    <form:form action="${editRecipeUrl}" method="get">
-                                        <button type="submit" class="bg-transparent">
+                                    <a href="${editRecipeUrl}">
+                                        <button class="bg-transparent">
                                             <i class="fas fa-edit fa-2x grey-ic"></i>
                                         </button>
-                                    </form:form>
+                                    </a>
                                 </div>
                             </c:if>
 

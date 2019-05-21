@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.IngredientService;
 import ar.edu.itba.paw.interfaces.service.RecipeService;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.Order;
 import ar.edu.itba.paw.model.Enum.Tag;
 import ar.edu.itba.paw.model.Enum.Warnings;
 import ar.edu.itba.paw.webapp.auth.PawUserDetails;
@@ -58,9 +59,39 @@ public class HomeController {
     public ModelAndView helloWorld(@ModelAttribute("filterForm") final FilterForm filterForm) {
         final ModelAndView mav = new ModelAndView("index");
 
+        filterForm.setInput1(Order.New.toString());
+
+        mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
         mav.addObject("RecipeList", recipeService.getRecipes());
         return mav;
+    }
+
+    @RequestMapping("/filters") //Le digo que url mappeo
+    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam List<String> tags) {
+        final ModelAndView mav = new ModelAndView("index");
+
+        filterForm.setTags(tags);
+
+        mav.addObject("allTags", Tag.values());
+        mav.addObject("RecipeList", recipeService.getRecipes());
+        return mav;
+    }
+
+    @RequestMapping(value = "/filter", method = {RequestMethod.POST})
+    public ModelAndView filterRecipes(@Valid @ModelAttribute("filterForm") final FilterForm filterForm, final BindingResult errors) {
+        if (errors.hasErrors()) {
+//           return newRecipe(form);
+        }
+
+        System.out.printf("EL BOTON ES: %s\n", filterForm.getInput1());
+        for(String s : filterForm.getTags()){
+            System.out.printf("TAG: %s\n", s);
+        }
+
+        Map<String,Object> arguments = new HashMap<>();
+        arguments.put("tags", filterForm.getTags());
+        return new ModelAndView("redirect:/index",arguments);
     }
 
     @RequestMapping(value = "/new_recipe", method = {RequestMethod.GET})
@@ -409,7 +440,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/edit_recipe", method = RequestMethod.GET)
-    public ModelAndView editRecipe(@RequestParam int recipeId, @ModelAttribute("recipeForm") final RecipeForm recipeForm) {
+    public ModelAndView editRecipe(@ModelAttribute("recipeForm") final RecipeForm recipeForm, @RequestParam int recipeId) {
 
         final ModelAndView mav = new ModelAndView("edit_recipe");
         Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
@@ -434,7 +465,8 @@ public class HomeController {
         if (errors.hasErrors()) {
             //TODO
         }
-        final ModelAndView mav = new ModelAndView("edit_recipe");
+        final ModelAndView mav = new ModelAndView("redirect:/recipe");
+        mav.addObject("recipeId", recipeId);
 
         return mav;
     }

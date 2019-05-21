@@ -36,6 +36,7 @@
             <form:form autocomplete="off" modelAttribute="recipeForm" action="${createRecipe}" method="post"
                        enctype="multipart/form-data">
 
+
                 <div class="form-row mb-4">
                     <spring:message code="recipeName.title" var="recipeNameTitle"/>
                     <form:label path="name" for="recipe_title"><spring:message code="Recipe.name"/>

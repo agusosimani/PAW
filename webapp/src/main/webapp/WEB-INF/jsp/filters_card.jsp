@@ -11,44 +11,39 @@
 <div id="filters-card">
     <h4><spring:message code="searchFilters"/></h4>
 
-    <div>
-        <label class="text-filter"><spring:message code="sortBy"/> </label>
+    <label class="text-filter"><spring:message code="sortBy"/> </label>
+    <c:url value="/filter" var="createRecipe"/>
+    <form:form autocomplete="off" modelAttribute="filterForm" action="${createRecipe}" method="post"
+               enctype="multipart/form-data">
         <div class="custom-control custom-radio">
+            <form:radiobutton path="input1" value="New" class="custom-control-input" id="New" name="groupOrderFilter"/>
+            <form:label class="custom-control-label" path="input1" for="New">New</form:label>
+        </div>
+        <div class="custom-control custom-radio">
+            <form:radiobutton path="input1" value="Rising" class="custom-control-input" id="Rising"
+                              name="groupOrderFilter"/>
+            <form:label class="custom-control-label" path="input1" for="Rising">Rising</form:label>
+        </div>
+        <div class="custom-control custom-radio">
+            <form:radiobutton path="input1" value="Top" class="custom-control-input" id="Top" name="groupOrderFilter"/>
+            <form:label class="custom-control-label" path="input1" for="Top">Top</form:label>
         </div>
 
-        <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="defaultGroupExample2"
-                   name="groupOfDefaultRadios" checked>
-            <label class="custom-control-label" for="defaultGroupExample2">New</label>
+
+        <div>
+            <label class="text-filter"><spring:message code="cuisineType"/></label>
+            <c:forEach var="tag" items="${allTags}">
+                <div class="custom-control custom-checkbox">
+                    <form:checkbox path="tags" value="${tag}" class="custom-control-input" id="${tag}"
+                                      name="groupTagFilter"/>
+                    <form:label class="custom-control-label" path="tags" for="${tag}"><spring:message code="${tag}"/></form:label>
+                </div>
+            </c:forEach>
+
         </div>
-
-        <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="defaultGroupExample3"
-                   name="groupOfDefaultRadios">
-            <label class="custom-control-label" for="defaultGroupExample3">Top</label>
-        </div>
-
-        <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="defaultGroupExample4"
-                   name="groupOfDefaultRadios">
-            <label class="custom-control-label" for="defaultGroupExample4">Hot</label>
-        </div>
-
-    </div>
-
-    <div>
-        <label class="text-filter"><spring:message code="cuisineType"/></label>
-        <c:forEach var="tag" items="${allTags}">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="${tag}">
-                <label class="custom-control-label" for="${tag}"><spring:message code="${tag}"/></label>
-            </div>
-        </c:forEach>
-
-    </div>
 
         <button class="btn btn-green btn-apply-filters" type="submit"><spring:message code="confirm"/></button>
-
+    </form:form>
 </div>
 </body>
 </html>
