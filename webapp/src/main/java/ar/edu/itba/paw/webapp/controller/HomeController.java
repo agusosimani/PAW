@@ -412,11 +412,19 @@ public class HomeController {
         return mav;
     }
 
-    //No quiero repetirle todo el tiempo el path "WEB-INF/jsp/.." entonces configuro mi propio view resolver en web config
+    @RequestMapping(value = "/edit_recipe", method = RequestMethod.POST)
+    public ModelAndView editRecipe(@RequestParam int recipeId, @ModelAttribute("recipeForm") final RecipeForm recipeForm) {
 
-//	@ModelAttribute("user")
-//	public Integer loggedUser(final HttpSession session)
-//	{
-//		return (Integer) session.getAttribute(LOGGED_USER_ID);
-//	}
+        final ModelAndView mav = new ModelAndView("edit_recipe");
+        Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
+        if(maybeRecipe.isPresent()){
+            Recipe recipe = maybeRecipe.get();
+            mav.addObject("recipeName",recipe.getName());
+            mav.addObject("recipeDescription",recipe.getDescription());
+            mav.addObject("recipeInstructions",recipe.getInstructions());
+        }
+        mav.addObject("recipeId",recipeId);
+
+        return mav;
+    }
 }

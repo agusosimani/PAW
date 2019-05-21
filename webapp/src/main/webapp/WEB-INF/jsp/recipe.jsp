@@ -52,10 +52,21 @@
                                         </button>
                                     </form:form>
                                 </div>
+                                <div class="float-right">
+                                    <c:url value="/edit_recipe" var="editRecipeUrl">
+                                        <c:param name="recipeId" value="${recipe.id}"/>
+                                    </c:url>
+                                    <form:form action="${editRecipeUrl}" method="post">
+                                        <button type="submit" class="bg-transparent">
+                                            <i class="fas fa-edit fa-2x grey-ic"></i>
+                                        </button>
+                                    </form:form>
+                                </div>
                             </c:if>
 
                             <div class="float-right">
-                                <button data-toggle="modal" id="add-recipe-cooklist-modal" data-target="#add-recipe-cooklist" class="bg-transparent">
+                                <button data-toggle="modal" id="add-recipe-cooklist-modal"
+                                        data-target="#add-recipe-cooklist" class="bg-transparent">
                                     <i class="fas fa-plus-circle fa-2x green-ic"></i>
                                 </button>
                             </div>
@@ -105,7 +116,8 @@
                                                                                                    for="twohalfGeneral"
                                                                                                    title="Kinda bad - 2.5 stars"></label>
                                 <input type="radio" id="twoGeneral" name="" value="2"
-                                       <c:if test="${recipe.rating >= 2}">checked</c:if>/><label class="full" for="two"
+                                       <c:if test="${recipe.rating >= 2}">checked</c:if>/><label class="full"
+                                                                                                 for="two"
                                                                                                  title="Kinda bad - 2 stars"></label>
                                 <input type="radio" id="onehalfGeneral" name="" value="1 and a half"
                                        <c:if test="${recipe.rating >= 1.5}">checked</c:if>/><label class="half"
