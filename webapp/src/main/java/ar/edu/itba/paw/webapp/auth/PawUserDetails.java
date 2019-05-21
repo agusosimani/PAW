@@ -8,8 +8,8 @@ import java.util.Collection;
 public class PawUserDetails extends org.springframework.security.core.userdetails.User {
     private int id;
 
-    public PawUserDetails(String username, String password, int id, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+    public PawUserDetails(String username, String password, int id, boolean isEnabled, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, isEnabled, true, true, true, authorities);
         this.id = id;
     }
 

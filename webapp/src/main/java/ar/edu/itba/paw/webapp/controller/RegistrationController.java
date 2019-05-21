@@ -79,8 +79,8 @@ public class RegistrationController {
     }
 
     private void authWithoutPassword(User user){
-        List<GrantedAuthority> authorities = Arrays.asList( new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("VALIDATED"));
-        Authentication auth = new UsernamePasswordAuthenticationToken(new PawUserDetails(user.getUsername(), user.getPassword(), user.getId(), authorities) ,null, authorities);
+        List<GrantedAuthority> authorities = Arrays.asList( new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_VALIDATED"));
+        Authentication auth = new UsernamePasswordAuthenticationToken(new PawUserDetails(user.getUsername(), user.getPassword(), user.getId(), true, authorities) ,null, authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 

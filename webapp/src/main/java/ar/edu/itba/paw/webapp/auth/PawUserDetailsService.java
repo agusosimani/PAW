@@ -33,7 +33,7 @@ public class PawUserDetailsService implements UserDetailsService {
         if(user.getValue().isEnabled()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_VALIDATED"));
         }
-        return new PawUserDetails(username, user.getValue().getPassword(), user.getValue().getId(), authorities);
+        return new PawUserDetails(username, user.getValue().getPassword(), user.getValue().getId(), user.getValue().isEnabled(), authorities);
         //return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
     }
 }
