@@ -97,7 +97,7 @@
                     <div class="new-recipe-ingredient-amount">
                         <form:label path="ingredientsAmount"><spring:message code="addIngredient.amount"/>
                         </form:label>
-                        <form:input class="form-control mb-4" path="ingredientsAmount"/>
+                        <form:input type="number" class="form-control mb-4" path="ingredientsAmount"/>
                     </div>
                 </div>
 

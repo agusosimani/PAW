@@ -388,7 +388,9 @@ public class RecipeServiceImpl implements RecipeService {
     //rising = order by rating where date > ayer
 
     @Override
-    public List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order, int userId) {
+    public List<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId) {
+        if(order == null)
+            order = Order.NoOrder;
         List <Recipe> recipeList = recipeDao.getRecipesWithtagAndOrder(order,tags);
 
         List<Recipe> returnList = new ArrayList<>();
@@ -441,4 +443,11 @@ public class RecipeServiceImpl implements RecipeService {
         return returnList;
     }
 
-}
+    @Override
+    public List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order) {
+        if(order == null)
+            order = Order.NoOrder;
+        return recipeDao.getRecipesWithtagAndOrder(order,tags);
+    }
+
+    }

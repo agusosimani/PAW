@@ -78,7 +78,7 @@ public class HomeController {
 
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
-        mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID()));
+        mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID()));
         return mav;
     }
 

@@ -78,5 +78,7 @@ public interface RecipeService {
 
     Warnings changeCookListName(int listId, String name, int userId);
 
-    List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order, int userId);
+    List<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId);
+
+    List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order);
 }
