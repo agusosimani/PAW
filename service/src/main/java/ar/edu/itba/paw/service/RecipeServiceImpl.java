@@ -85,7 +85,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Either<Recipe,Warnings> findUserRecipeByName(int userId, String name) {
+    public Either<Recipe, Warnings> findUserRecipeByName(int userId, String name) {
         List<Recipe> list = this.findByUser(userId);
         for (Recipe r : list) {
             if (r.getName().equals(name)) {
@@ -97,7 +97,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public Either<Recipe,Warnings> addNewRecipe(Recipe recipe){
+    public Either<Recipe, Warnings> addNewRecipe(Recipe recipe) {
 
         if (recipe.getName().isEmpty() || recipe.getInstructions().isEmpty()) {
             return Either.alternative(Warnings.valueOf("AddRecipeValuesWrong"));
@@ -106,7 +106,7 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe rec = recipeDao.addNewRecipe(recipe);
 
         for (String rt : rec.getTags()) {
-            RecipeTag recipeTag = new RecipeTag(rt,recipe.getId());
+            RecipeTag recipeTag = new RecipeTag(rt, recipe.getId());
             recipeDao.addNewRecipeTag(recipeTag);
         }
 
@@ -234,7 +234,7 @@ public class RecipeServiceImpl implements RecipeService {
             List<RecipeTag> tags = recipeDao.getAllRecipeTags(rep);
             List<String> tagString = new ArrayList<>();
 
-            for (RecipeTag rt:tags) {
+            for (RecipeTag rt : tags) {
                 tagString.add(rt.getTag());
             }
 
@@ -251,7 +251,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> FilterRecipesByTags(List<String> tags) {
-        return recipeDao.getRecipesWithtagAndOrder(Order.NoOrder,tags);
+        return recipeDao.getRecipesWithtagAndOrder(Order.NoOrder, tags);
     }
 
     @Override
@@ -338,10 +338,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Either<RecipeList,Warnings> getCookList(int cookListId) {
+    public Either<RecipeList, Warnings> getCookList(int cookListId) {
 
         Optional<RecipeList> maybeRecipeList = recipeDao.getCookList(cookListId);
-        if(!maybeRecipeList.isPresent())
+        if (!maybeRecipeList.isPresent())
             return Either.alternative(Warnings.valueOf("NoCookLists"));
 
         RecipeList recipeList = maybeRecipeList.get();
@@ -389,15 +389,17 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId) {
-        if(order == null)
+        if (order == null)
             order = Order.NoOrder;
-        List <Recipe> recipeList = recipeDao.getRecipesWithtagAndOrder(order,tags);
+        if(tags == null)
+            tags = new ArrayList<>();
+        List<Recipe> recipeList = recipeDao.getRecipesWithtagAndOrder(order, tags);
 
         List<Recipe> returnList = new ArrayList<>();
 
         List<RecipeIngredient> userIngredients = ingredientsDao.getByUserId(userId);
 
-        for (Recipe recipe: recipeList) {
+        for (Recipe recipe : recipeList) {
 
             boolean flag = true;
 
@@ -405,24 +407,24 @@ public class RecipeServiceImpl implements RecipeService {
             recipe.setIngredients(ingredientsDao.getByRecipeId(recipe.getId()));
 
 
-            for (RecipeIngredient recipeIngredient: recipe.getIngredients()) {
+            for (RecipeIngredient recipeIngredient : recipe.getIngredients()) {
 
                 boolean canUseIng = false;
 
-                for (RecipeIngredient userIngredient: userIngredients){
-                    if(recipeIngredient.getIngredient().equals(userIngredient.getIngredient())){
-                        if(recipeIngredient.getAmount() <= userIngredient.getAmount()) {
+                for (RecipeIngredient userIngredient : userIngredients) {
+                    if (recipeIngredient.getIngredient().equals(userIngredient.getIngredient())) {
+                        if (recipeIngredient.getAmount() <= userIngredient.getAmount()) {
                             canUseIng = true;
                         }
                     }
 
                 }
-                if(!canUseIng){
+                if (!canUseIng) {
                     flag = false;
                 }
             }
 
-            if(flag){
+            if (flag) {
 
                 recipe.setComments(commentsDao.getAllRecipeComments(recipe.getId()));
 
@@ -439,15 +441,16 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
 
-
         return returnList;
     }
 
     @Override
     public List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order) {
-        if(order == null)
+        if (order == null)
             order = Order.NoOrder;
-        return recipeDao.getRecipesWithtagAndOrder(order,tags);
+        if(tags == null)
+            tags = new ArrayList<>();
+        return recipeDao.getRecipesWithtagAndOrder(order, tags);
     }
 
-    }
+}
