@@ -177,7 +177,7 @@
 
                                 <div>
                                     <c:forEach var="tag" items="${recipe.tags}">
-                                        <p class="categories-names">${tag.tag}</p>
+                                        <p class="categories-names">${tag}</p>
                                     </c:forEach>
                                 </div>
                             </c:if>

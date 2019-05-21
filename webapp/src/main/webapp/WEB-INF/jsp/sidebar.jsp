@@ -25,7 +25,7 @@
 
         <div class="main-item-sidebar">
             <a class="float_left" href="${homeUrl}">
-                <label><spring:message code="Home"/></label>
+                <span><spring:message code="Home"/></span>
             </a>
         </div>
 
@@ -38,7 +38,7 @@
         <div class="main-item-sidebar">
             <c:url value="/my_account" var="myAccountUrl"/>
             <a class="float_left" href="${myAccountUrl}">
-                <label><spring:message code="myAccount"/></label>
+                <span><spring:message code="myAccount"/></span>
             </a>
         </div>
 
@@ -66,7 +66,7 @@
         <div class="main-item-sidebar log-out-sidebar">
             <c:url value="/logout" var="logOutB"/>
             <a href="${logOutB}">
-                <label><spring:message code="logOut"/></label>
+                <span><spring:message code="logOut"/></span>
             </a>
         </div>
     </div>

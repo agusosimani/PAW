@@ -55,7 +55,7 @@ public class HomeController {
     }
 
     @RequestMapping("/") //Le digo que url mappeo
-    public ModelAndView helloWorld() {
+    public ModelAndView helloWorld(@ModelAttribute("filterForm") final FilterForm filterForm) {
         final ModelAndView mav = new ModelAndView("index");
 
         mav.addObject("allTags", Tag.values());

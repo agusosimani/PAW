@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -10,14 +11,9 @@
 <div id="filters-card">
     <h4><spring:message code="searchFilters"/></h4>
 
-
-    <form:form>
     <div>
         <label class="text-filter"><spring:message code="sortBy"/> </label>
         <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="defaultGroupExample1"
-                   name="groupOfDefaultRadios">
-            <label class="custom-control-label" for="defaultGroupExample1">Rising</label>
         </div>
 
         <div class="custom-control custom-radio">
@@ -52,7 +48,7 @@
     </div>
 
         <button class="btn btn-green btn-apply-filters" type="submit"><spring:message code="confirm"/></button>
-    </form:form>
+
 </div>
 </body>
 </html>

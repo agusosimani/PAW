@@ -39,7 +39,7 @@
                     </c:url>
                     <a href="${recipeUrl}" class="stretched-link"></a>
                     <div class="rating-container">
-                        <fieldset id="rating-${recipe.id}" class="rating">
+                        <fieldset id="rating-${recipe.id}" class="rating rating-card">
                         <input type="radio" id="five" name="" value="5"
                                <c:if test="${recipe.rating >= 5}">checked</c:if>/><label class="full" for="five"
                                                                                          title="Awesome - 5 stars"></label>
