@@ -56,23 +56,29 @@ public class HomeController {
     }
 
     @RequestMapping("/") //Le digo que url mappeo
-    public ModelAndView helloWorld(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam(required = false) List<String> tags, @RequestParam(required = false) Order order) {
+    public ModelAndView helloWorld(@ModelAttribute("filterForm") final FilterForm filterForm) {
         final ModelAndView mav = new ModelAndView("index");
 
-        filterForm.setTags(tags);
+        //filterForm.setTags(tags);
 
-        if(order != null)
-            filterForm.setOrder(order);
+        if(filterForm.getOrder() != null )
+            ;//filterForm.setOrder(order);
         else
             filterForm.setOrder(Order.New);
 
+        if(filterForm.getTags() != null ) {
+            for (String s : filterForm.getTags()) {
+                System.out.printf("%s\n", s);
+            }
+        }
+
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
-        mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(tags,filterForm.getOrder(),getCurrentUserID()));
+        mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID()));
         return mav;
     }
 
-    
+
     @RequestMapping(value = "/new_recipe", method = {RequestMethod.GET})
     public ModelAndView newRecipe(@ModelAttribute("recipeForm") final RecipeForm recipeForm) {
         final ModelAndView mav = new ModelAndView("new_recipe");

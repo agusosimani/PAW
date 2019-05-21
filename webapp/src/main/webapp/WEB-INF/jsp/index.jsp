@@ -29,6 +29,9 @@
 <section class="main_container">
 
         <section class="browse">
+            <c:if test="${empty RecipeList}">
+                <spring:message code="NoRecipesMatchingFilter"/>
+            </c:if>
             <%@include file="recipe_cards.jsp" %>
         </section>
 
