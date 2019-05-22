@@ -39,7 +39,7 @@
                         <form:input class="ingredientAmountInput form-control mb-4" path="ingredients[0].amount"/>
                     </div>
 
-                    <button type="button" id="0" onclick="delete_ingredient(this)" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn delete-ingredient-button">
+                    <button type="button" id="0" onclick="delete_ingredient2(this)" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn delete-ingredient-button">
                         Delete ingredienttt
                     </button>
                 </div>

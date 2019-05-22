@@ -164,6 +164,8 @@
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/loadItems.js"/>"></script>
+<script>var formList = </script>
 
 <script>
     document.getElementById("fileInput").onchange = function () {
@@ -173,13 +175,6 @@
     $("#btnFile").on("click", function () {
         $("#fileInput").trigger("click");
     });
-
-    let text1 = document.getElementById('recipe_instruction_area').value;
-
-    function putInstructionsInTextArea() {
-        text1 = document.getElementById('recipe_instruction_area').value;
-        document.getElementById("instructionTextAreaContent").value = text1;
-    }
 
 </script>
 
