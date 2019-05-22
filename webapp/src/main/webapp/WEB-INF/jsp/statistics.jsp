@@ -37,9 +37,9 @@
 
             <div>
                 <form:label path="from"><spring:message code="date.from"/></form:label>
-                <form:input id="datepicker" path="from" type="date" maxlength="10"/>
-                <form:label id="datepicker2" path="to"><spring:message code="date.to"/></form:label>
-                <form:input path="to" type="date" maxlength="10"/>
+                <form:input id="datepicker" path="from" maxlength="10"/>
+                <form:label path="to"><spring:message code="date.to"/></form:label>
+                <form:input id="datepicker2" path="to" maxlength="10"/>
                 <button class="btn btn-green" type="submit">
                     <spring:message code="getStatistics"/>
                 </button>

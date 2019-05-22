@@ -1,13 +1,15 @@
 $(function () {
 
-    $('#datepicker').datepicker();
-    $('#datepicker2').datepicker();
+    $("#datepicker").datepicker();
+    $("#datepicker2").datepicker();
 
     var labelsName = [];
     var labelsData = [];
-    for(var i = 0; i < list.length; i++){
-        labelsName[i] = list[i].type;
-        labelsData[i] = (Math.round(list[i].amount * 100) / 100);
+    var i = 0;
+    for (var key in list) {
+        labelsName[i] = key;
+        labelsData[i] = list[key];
+        i++;
     }
 
     var ctxB = document.getElementById("barChart").getContext('2d');
@@ -57,11 +59,11 @@ $(function () {
         '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
         '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
 
-    var i = 0;
+    var j = 0;
     for (var key in donutList) {
-        donutLabels[i] = key;
-        donutData[i] = donutList[key];
-        i++;
+        donutLabels[j] = key;
+        donutData[j] = donutList[key];
+        j++;
     }
 
     var ctxD = document.getElementById("doughnutChart").getContext('2d');

@@ -24,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -54,8 +55,6 @@ public class HomeController {
     private AuthenticationService authenticationService;
 
     private String fromDefaultDate = "01/05/2019";
-
-    private String toDefaultDate = "01/06/2019";
 
     private int cardsPerPage = 999;
 
@@ -349,10 +348,16 @@ public class HomeController {
     }
 
     private Date parseStringToDate(String date){
-        DateTimeFormatter fromPattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter fromPattern = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         DateTimeFormatter toPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         return Date.valueOf(LocalDate.parse(date, fromPattern).format(toPattern));
+    }
+
+    private String getToday() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate localDate = LocalDate.now();
+        return dtf.format(localDate);
     }
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
@@ -363,8 +368,11 @@ public class HomeController {
             dateForm.setFrom(fromDefaultDate);
         }
         if(dateForm.getTo() == null){
-            dateForm.setTo(toDefaultDate);
+            dateForm.setTo(getToday());
         }
+
+        Date from = parseStringToDate(dateForm.getFrom());
+        Date to = parseStringToDate(dateForm.getTo());
 
         Either<User,Warnings> user = userService.getById(getCurrentUserID());
         try {mapUserParams(mav,user.getValue());}
@@ -373,36 +381,15 @@ public class HomeController {
         }
 
 
-        System.out.printf("DATE: %s    %s", dateForm.getFrom(), dateForm.getTo());
+        System.out.printf("DATE: %s \n TO:  %s\n", dateForm.getFrom(), dateForm.getTo());
 
-        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(), parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()));
-
-        double calorie = 0, fat = 0, carbohydrate= 0, protein = 0;
-
-        List<TagInfo> tagsInfo = new ArrayList<>();
-        for(Tag tag : Tag.values()){
-            tagsInfo.add(new TagInfo(tag));
-        }
-
-
-        for(RecipeIngredient recipeIngredient : list){
-            fat +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getTotalFat();
-            calorie +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCalories();
-            carbohydrate +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCarbohydrates();
-            protein +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getProtein();
-        }
-
-        List<NutricionalInfo> nutricionalList = new ArrayList<>();
-        nutricionalList.add(new NutricionalInfo(NutritionalInfoTypes.Calorie,calorie));
-        nutricionalList.add(new NutricionalInfo(NutritionalInfoTypes.Fat,fat));
-        nutricionalList.add(new NutricionalInfo(NutritionalInfoTypes.Carbohydrate,carbohydrate));
-        nutricionalList.add(new NutricionalInfo(NutritionalInfoTypes.Protein,protein));
+        Map<NutritionalInfoTypes, Float> nutricionalList = recipeService.nutritionStatistics(getCurrentUserID(),from,to);
 
         Gson g = new Gson();
-        System.out.printf("\n\n%s\n\n", g.toJson(recipeService.tagStatistics(getCurrentUserID(),parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()))));
+        System.out.printf("\n\n%s\n\n", g.toJson(recipeService.tagStatistics(getCurrentUserID(),from, to)));
 
         System.out.printf("\n\n%s\n\n", g.toJson(nutricionalList));
-        mav.addObject("donutList", g.toJson(recipeService.tagStatistics(getCurrentUserID(),parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()))));
+        mav.addObject("donutList", g.toJson(recipeService.tagStatistics(getCurrentUserID(),from, to)));
         mav.addObject("list", g.toJson(nutricionalList));
         return mav;
     }
