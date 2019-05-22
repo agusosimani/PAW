@@ -37,40 +37,14 @@ function delete_ingredient2(button) {
     }
 };
 
-function delete_ingredient(button) {
-    var num = $('.clonedInput_1').length,
-        newNum = new Number(num + 1);
-
-
-    var i = button.id;
-
-    i = parseInt(i) + 2;
-    for (i; i <= num; i++) {
-        var replaceFor = i - 1;
-        var replaceIndex = replaceFor - 1;
-        $('#clonedInput' + i).find('.ingredientLabel').attr('for', 'ingredients[' + replaceIndex + '].ingredient.id');
-        $('#clonedInput' + i).find('.ingredientSelect').attr('name', 'ingredients[' +replaceIndex + '].ingredient.id');
-        $('#clonedInput' + i).find('.ingredientAmountLabel').attr('for', 'ingredients[' + replaceIndex + '].amount');
-        $('#clonedInput' + i).find('.ingredientAmountInput').attr('name', 'ingredients[' +replaceIndex + '].amount');
-        $('#clonedInput' + i).find('.ingredientAmountInput').attr('name', 'ingredients[' + replaceIndex + '].amount');
-        $('#clonedInput' + i).find('.delete-ingredient-button').attr('id', replaceIndex);
-        $('#clonedInput' + i).attr('id', 'cloneInput' + replaceFor);
-    }
-
-    if (num > 1) {
-        $(button).parent().remove();
-    }
-};
-
 $(function () {
     $('#btnAdd_1').click(function () {
-        var num = $('.cloneInput_1').length,
+        var num = JSON.parse(localStorage.getItem("count_new_recipe")),
             newNum = new Number(num + 1),
-            newElem = $('#clonedInput' + num).clone().attr('id', 'clonedInput' + newNum).fadeIn('slow');
+            newElem = $('.to_clone:first').clone().attr('id', 'clonedInput' + newNum).fadeIn('slow');
 
-        $('#clonedInput' + num).after(newElem);
-
-        $('#btnDel_1').attr('disabled', false);
+        $('.to_clone:last').after(newElem);
+        localStorage.setItem("count_new_recipe", JSON.stringify(JSON.parse(localStorage.getItem("count_new_recipe")) +1));
     });
 
 
