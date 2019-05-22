@@ -51,8 +51,7 @@ public class RecipeServiceImpl implements RecipeService {
             List<RecipeIngredient> ingredientsList = ingredientsDao.getByRecipeId(recipe.getId());
             recipe.setIngredients(ingredientsList);
 
-            List<Comment> commentsList = commentsDao.getAllRecipeComments(id);
-            recipe.setComments(commentsList);
+            recipe.setComments(this.getRecipeComments(recipe.getId()));
 
             return Optional.of(recipe);
         }
@@ -133,7 +132,7 @@ public class RecipeServiceImpl implements RecipeService {
         if (maybeOldRecipe.isPresent()) {
             Recipe oldRecipe = maybeOldRecipe.get();
             Map<String, Object> map = new HashMap<>();
-            
+
             if (!oldRecipe.getDescription().equals(recipe.getDescription())) {
                 map.put("description", recipe.getDescription());
             }
@@ -524,7 +523,7 @@ public class RecipeServiceImpl implements RecipeService {
 
             if (flag) {
 
-                recipe.setComments(commentsDao.getAllRecipeComments(recipe.getId()));
+                recipe.setComments(this.getRecipeComments(recipe.getId()));
 
                 List<RecipeTag> recipeTags = recipeDao.getAllRecipeTags(recipe);
                 List<String> tagsString = new ArrayList<>();
@@ -559,7 +558,7 @@ public class RecipeServiceImpl implements RecipeService {
             recipe.setTags(tagsString);
 
 
-            recipe.setComments(commentsDao.getAllRecipeComments(recipe.getId()));
+            recipe.setComments(this.getRecipeComments(recipe.getId()));
         }
 
 
@@ -588,7 +587,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         for (Recipe rec : recipeList) {
 
-            rec.setComments(commentsDao.getAllRecipeComments(rec.getId()));
+            rec.setComments(this.getRecipeComments(rec.getId()));
 
             rec.setIngredients(ingredientsDao.getByRecipeId(rec.getId()));
 

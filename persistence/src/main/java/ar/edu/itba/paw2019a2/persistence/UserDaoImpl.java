@@ -26,6 +26,8 @@ public class UserDaoImpl implements UserDao {
             .gender(rs.getString("gender")).name(rs.getString("name"))
             .surname(rs.getString("surname")).status(rs.getString("user_status"))
                     .enabled(rs.getBoolean("enabled")).isAdmin(rs.getBoolean("is_admin")).build();
+    private final static RowMapper<String> STRING_ROW_MAPPER = (rs,rowNum) ->
+            rs.getString("username");
 
 
     @Autowired
@@ -140,5 +142,15 @@ public class UserDaoImpl implements UserDao {
         jdbcTemplate.update(String.format("UPDATE users SET password = ? WHERE user_id = ? ",
                 password,
                 id));
+    }
+
+    @Override
+    public Optional<String> getUsernameFromId(int userId) {
+        final List<String> list = jdbcTemplate.query("SELECT	username	FROM	users	WHERE	user_id	=	?", STRING_ROW_MAPPER, userId);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(list.get(0));
     }
 }
