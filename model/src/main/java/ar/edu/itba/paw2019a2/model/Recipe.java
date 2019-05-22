@@ -133,6 +133,12 @@ public class Recipe {
         return id == recipe.id;
     }
 
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     public static class Builder{
         private int id;
         private String name;

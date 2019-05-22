@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -53,10 +54,17 @@
                     <br/>
                     <p class="recipe-instructions"><c:out value="${recipe.instructions}"/></p>
 
+
+                    <div class="recipe-nutritional-div">
+                        <p class="recipe-nutritional-title"><spring:message code="nutritionalValueAprox"/></p>
                     <c:forEach var="nutrition" items="${nutricionalInfoList}">
-                        <p>${nutrition.type}</p>
-                        <p>${nutrition.amount}</p>
+                        <div class="recipe-nutritional-item">
+
+                            <p class="recipe-nutritional-type">${nutrition.type}</p>
+                            <p class="recipe-nutritional-amount"><fmt:formatNumber type="number" maxFractionDigits="2" value="${nutrition.amount}"/></p>
+                        </div>
                     </c:forEach>
+                    </div>
 
                     <div class="recipe-body-bottom">
                         <div class="recipe-bottom-icon">

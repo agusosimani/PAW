@@ -249,6 +249,12 @@ a.custom-card:hover {
     height: auto;
 }
 
+.user-card-info {
+    float: left;
+    margin-top: 30px;
+    clear: both;
+}
+
 .user-date-comment {
     margin-top: 12px;
     margin-left: 18px;
@@ -359,7 +365,6 @@ a.custom-card:hover {
 .card-comments{
     border-bottom: grey;
     margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 .columns-cards-recipe{
@@ -507,6 +512,34 @@ a.custom-card:hover {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-gap: 10px;
+}
+
+.recipe-nutritional-title{
+    font-size: larger;
+    font-weight: bold;
+}
+
+.recipe-nutritional-item{
+    clear: both;
+}
+
+.recipe-nutritional-type{
+    float: left;
+    max-width: calc(100% - 50px);
+}
+
+.recipe-nutritional-amount{
+    float: right;
+    text-align: right;
+    width: 50px;
+}
+
+.recipe-nutritional-div{
+    margin-top: 40px;
+    width: 100%;
+    margin-bottom: 50px;
+    clear: both;
+    float: left;
 }
 
 @media (max-width: 790px) {
