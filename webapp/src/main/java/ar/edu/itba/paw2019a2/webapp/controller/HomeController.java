@@ -222,6 +222,7 @@ public class HomeController {
         List<RecipeIngredient> ingredientsList = addIngredientForm.getIngredients();
 
         for (RecipeIngredient ri : ingredientsList) {
+            System.out.printf("Nombre: %s,  %f", ingredientService.getById(ri.getIngredient().getId()).get().getName(), ri.getAmount());
             ingredientService.addNewUserIngredient(ri, getCurrentUserID());
         }
         return new ModelAndView("redirect:/my_ingredients");
@@ -326,6 +327,7 @@ public class HomeController {
         System.out.printf("DATE: %s    %s", dateForm.getFrom(), dateForm.getTo());
 
         List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(), parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()));
+
         double calorie = 0, fat = 0, carbohydrate= 0, protein = 0;
 
         for(RecipeIngredient recipeIngredient : list){

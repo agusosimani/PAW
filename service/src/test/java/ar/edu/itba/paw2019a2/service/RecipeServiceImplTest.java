@@ -144,8 +144,8 @@ public class RecipeServiceImplTest {
     @Test
     public void testUpdateRecipe() {
         //1. Setup
-        Recipe oldRecipe = new Recipe.Builder(RECIPE_ID, RECIPE_NAME, null, RECIPE_INSTRUCTIONS, RECIPE_USER_ID).build();
-        Recipe newRecipe = new Recipe.Builder(RECIPE_ID, RECIPE_NAME2, null, RECIPE_INSTRUCTIONS2, RECIPE_USER_ID).build();
+        Recipe oldRecipe = new Recipe.Builder(RECIPE_ID, RECIPE_NAME, new ArrayList<>(), RECIPE_INSTRUCTIONS, RECIPE_USER_ID).build();
+        Recipe newRecipe = new Recipe.Builder(RECIPE_ID, RECIPE_NAME2,new ArrayList<>(), RECIPE_INSTRUCTIONS2, RECIPE_USER_ID).build();
 
         Mockito.when(mockRecipeDao.getById(RECIPE_ID)).thenReturn(Optional.of(oldRecipe));
 
