@@ -51,8 +51,7 @@ public class RecipeServiceImpl implements RecipeService {
             List<RecipeIngredient> ingredientsList = ingredientsDao.getByRecipeId(recipe.getId());
             recipe.setIngredients(ingredientsList);
 
-            List<Comment> commentsList = commentsDao.getAllRecipeComments(id);
-            recipe.setComments(commentsList);
+            recipe.setComments(this.getRecipeComments(recipe.getId()));
 
             return Optional.of(recipe);
         }
@@ -133,7 +132,7 @@ public class RecipeServiceImpl implements RecipeService {
         if (maybeOldRecipe.isPresent()) {
             Recipe oldRecipe = maybeOldRecipe.get();
             Map<String, Object> map = new HashMap<>();
-            
+
             if (!oldRecipe.getDescription().equals(recipe.getDescription())) {
                 map.put("description", recipe.getDescription());
             }
@@ -162,6 +161,9 @@ public class RecipeServiceImpl implements RecipeService {
                 for (RecipeIngredient oldIng : oldIngList) {
 
                     if (oldIng.getIngredient().getId() == recipeIngredient.getIngredient().getId()) {
+                        Map<String, Object> UPmap = new HashMap<>();
+                        UPmap.put("serving_amount", recipeIngredient.getAmount());
+                        ingredientsDao.updateRecipeIngredient(oldIng.getIngredient().getId(), UPmap, recipe.getId());
                         newIng = false;
                     }
                     System.out.println("opa");
@@ -171,8 +173,8 @@ public class RecipeServiceImpl implements RecipeService {
                     if (ingredientsDao.isRecipeIngredientDeleted(recipeIngredient.getIngredient().getId())) {
                         Map<String, Object> RIDmap = new HashMap<>();
                         RIDmap.put("ri_status", Status.REGULAR.toString());
-                        RIDmap.put("amount", recipeIngredient.getAmount());
-                        ingredientsDao.updateRecipeIngredient(recipe.getId(), RIDmap, recipe.getId());
+                        RIDmap.put("serving_amount", recipeIngredient.getAmount());
+                        ingredientsDao.updateRecipeIngredient(recipeIngredient.getIngredient().getId(), RIDmap, recipe.getId());
                     } else {
                         ingredientsDao.addNewRecipeIngredient(recipe.getId(), recipeIngredient);
                     }
@@ -190,7 +192,7 @@ public class RecipeServiceImpl implements RecipeService {
                     }
                     if(oldIngDelete) {
                         Map<String, Object> RDmap = new HashMap<>();
-                        RDmap.put("ri_status", Status.REGULAR.toString());
+                        RDmap.put("ri_status", Status.DELETED.toString());
                         ingredientsDao.updateRecipeIngredient(oldIng.getIngredient().getId(), RDmap, oldRecipe.getId());
                         deleteIngredients--;
                     }
@@ -524,7 +526,7 @@ public class RecipeServiceImpl implements RecipeService {
 
             if (flag) {
 
-                recipe.setComments(commentsDao.getAllRecipeComments(recipe.getId()));
+                recipe.setComments(this.getRecipeComments(recipe.getId()));
 
                 List<RecipeTag> recipeTags = recipeDao.getAllRecipeTags(recipe);
                 List<String> tagsString = new ArrayList<>();
@@ -559,7 +561,7 @@ public class RecipeServiceImpl implements RecipeService {
             recipe.setTags(tagsString);
 
 
-            recipe.setComments(commentsDao.getAllRecipeComments(recipe.getId()));
+            recipe.setComments(this.getRecipeComments(recipe.getId()));
         }
 
 
@@ -588,7 +590,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         for (Recipe rec : recipeList) {
 
-            rec.setComments(commentsDao.getAllRecipeComments(rec.getId()));
+            rec.setComments(this.getRecipeComments(rec.getId()));
 
             rec.setIngredients(ingredientsDao.getByRecipeId(rec.getId()));
 

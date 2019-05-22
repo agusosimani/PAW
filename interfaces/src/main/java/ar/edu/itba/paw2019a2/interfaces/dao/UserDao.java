@@ -17,4 +17,5 @@ public interface UserDao {
     Warnings setUserStatus(final int userId, boolean status);
     void updatePassword(final int id, final String password);
 
+    Optional<String> getUsernameFromId(int userId);
 }
