@@ -7,13 +7,8 @@ import ar.edu.itba.paw2019a2.model.*;
 import ar.edu.itba.paw2019a2.model.Enum.Status;
 import ar.edu.itba.paw2019a2.model.Enum.Warnings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 import java.util.*;
 
@@ -38,32 +33,7 @@ public class UserServiceImpl implements UserService {
     private VerificationTokenDao verificationTokenDao;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private AuthenticationService authenticationService;
-
-    @Override
-    public Either<User, Warnings> getByIdComplete(int id) {
-        Optional<User> possibleUser = userDao.getById(id);
-        if (possibleUser.isPresent()) {
-
-            List<RecipeIngredient> list = ingredientsDao.getByUserId(id);
-            if (!list.isEmpty()) {
-                User user = possibleUser.get();
-                user.setIngredients(list);
-
-                List<Recipe> recipeList = recipeDao.getByUserId(id);
-                if (!recipeList.isEmpty()) {
-                    user.setRecipes(recipeList);
-                }
-
-                return Either.value(user);
-            }
-
-        }
-        return Either.alternative(Warnings.valueOf("NoSuchUser"));
-    }
 
     @Override
     public Either<User, Warnings> getById(int id) {
@@ -191,34 +161,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Either<VerificationToken, Warnings> getVerificationTokenWithRole(final int userId, final String VerificationToken) {
-        Either<VerificationToken, Warnings> verificationToken = Either.value(verificationTokenDao.findByToken(VerificationToken).get());
-        if(!verificationToken.isValuePresent() || Integer.compare(verificationToken.getValue().getUserID(), userId) != 0){
-            return Either.alternative(Warnings.valueOf("NoSuchToken"));
-        }
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getValue().getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return Either.alternative(Warnings.valueOf("ExpiredToken"));
-        }
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                this.getById((int)verificationToken.getValue().getUserID()), null, Arrays.asList( new SimpleGrantedAuthority("ROLE_CHANGE_PASSWORD_PRIVILEGE")));
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        return verificationToken;
-    }
-
-    @Override
     public Warnings setUserEnabledStatus(int userId, boolean status) {
         return userDao.setUserStatus(userId, status);
-    }
-
-    @Override
-    public void resetPassword(int id, String password) {
-        userDao.updatePassword(id, passwordEncoder.encode(password));
-    }
-
-    @Override
-    public void confirmMailVerification(final int userId, final int tokenId) {
-        setUserEnabledStatus(userId, true);
     }
 
     @Override

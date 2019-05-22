@@ -9,8 +9,6 @@ import ar.edu.itba.paw2019a2.model.VerificationToken;
 public interface UserService {
     Either<User, Warnings> getById(final int id);
 
-    Either<User, Warnings> getByIdComplete(int id);
-
     Either<User, Warnings> findByUsername(final String username);
 
     Either<User, Warnings> findByEmail(final String username);
@@ -26,12 +24,6 @@ public interface UserService {
     Either<VerificationToken,Warnings> getVerificationToken(String VerificationToken);
 
     Warnings setUserEnabledStatus(final int userId, final boolean status);
-
-    Either<VerificationToken, Warnings> getVerificationTokenWithRole(final int userId, final String VerificationToken);
-
-    void resetPassword(final int id, final String password);
-
-    void confirmMailVerification(final int userId, final int tokenId);
 
     Either<User, Warnings> update(final int userId, User.Builder userBuilder);
 
