@@ -339,7 +339,7 @@ public class HomeController {
 
         List<RecipeIngredient> list = maybeList.get();
 
-        Boolean s = ingredientService.cookRecipe(list, this.getCurrentUserID()).equals(Warnings.Success);
+        Boolean s = ingredientService.cookRecipe(recipeId,list, this.getCurrentUserID()).equals(Warnings.Success);
 
 
         Map<String, Object> arguments = new HashMap<>();

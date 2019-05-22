@@ -287,16 +287,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getRecipes() {
         List<Recipe> rList = recipeDao.getAllRecipes();
-        for (Recipe rep : rList) {
-            List<RecipeTag> tags = recipeDao.getAllRecipeTags(rep);
-            List<String> tagString = new ArrayList<>();
-
-            for (RecipeTag rt : tags) {
-                tagString.add(rt.getTag());
-            }
-
-            rep.setTags(tagString);
-        }
+        putIngredientsAndTagsToRecipe(rList);
         return rList;
     }
 
@@ -529,6 +520,66 @@ public class RecipeServiceImpl implements RecipeService {
 
 
         return new HashSet<>(list);
+    }
+
+    @Override
+    public List<RecipeIngredient> getIngredientsCookedRangeTime(int userId, Date from, Date to) {
+        List<RecipeIngredient> retList = new ArrayList<>();
+
+        List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId,from,to);
+
+        for (Recipe rec: recipeList) {
+            retList.addAll(ingredientsDao.getByRecipeId(rec.getId()));
+        }
+
+
+        return retList;
+    }
+
+
+    @Override
+    public List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to) {
+
+        List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId,from,to);
+
+        for (Recipe rec: recipeList) {
+
+            rec.setComments(commentsDao.getAllRecipeComments(rec.getId()));
+
+            rec.setIngredients(ingredientsDao.getByRecipeId(rec.getId()));
+
+            List<String> tagsString = new ArrayList<>();
+            List<RecipeTag> recipeTags = recipeDao.getAllRecipeTags(rec);
+            for (RecipeTag rt : recipeTags) {
+                tagsString.add(rt.getTag());
+            }
+            rec.setTags(tagsString);
+        }
+
+        return recipeList;
+    }
+
+
+
+    @Override
+    public List<Recipe> getRecipesOrderCooked(int userId) {
+        List<Recipe> list = recipeDao.getRecipesInCookOrder(userId);
+        putIngredientsAndTagsToRecipe(list);
+        return list;
+    }
+
+    private void putIngredientsAndTagsToRecipe(List<Recipe> list) {
+        for (Recipe rec : list) {
+            rec.setIngredients(ingredientsDao.getByRecipeId(rec.getId()));
+            List<RecipeTag> tags = recipeDao.getAllRecipeTags(rec);
+            List<String> tagString = new ArrayList<>();
+
+            for (RecipeTag rt : tags) {
+                tagString.add(rt.getTag());
+            }
+
+            rec.setTags(tagString);
+        }
     }
 
 }

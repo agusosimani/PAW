@@ -6,6 +6,7 @@ import ar.edu.itba.paw2019a2.model.Recipe;
 import ar.edu.itba.paw2019a2.model.RecipeList;
 import ar.edu.itba.paw2019a2.model.RecipeTag;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -67,4 +68,10 @@ public interface RecipeDao {
     boolean isTagDeleted(String tag, int id);
 
     void changeTagStatus(String tag, int id, Status regular);
+
+    void addRecentlyCooked(int userId, int recipeId);
+
+    List<Recipe> getRecipesInCookOrder(int userId);
+
+    List<Recipe> getRecipesCookedInBetweenDates(int userId, Date from, Date to);
 }

@@ -4,6 +4,7 @@ import ar.edu.itba.paw2019a2.model.*;
 import ar.edu.itba.paw2019a2.model.Enum.Order;
 import ar.edu.itba.paw2019a2.model.Enum.Warnings;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -81,4 +82,10 @@ public interface RecipeService {
     Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId);
 
     Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order);
+
+    List<RecipeIngredient> getIngredientsCookedRangeTime(int userId, Date from, Date to);
+
+    List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to);
+
+    List<Recipe> getRecipesOrderCooked(int userId);
 }

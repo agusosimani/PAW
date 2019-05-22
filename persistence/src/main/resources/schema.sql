@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS users
     username    varchar(255),
     gender      varchar(20) DEFAULT 'notSpecified',
     user_status varchar(20) DEFAULT 'REGULAR',
-    enabled     BOOLEAN DEFAULT FALSE,
-    is_admin    BOOLEAN DEFAULT FALSE,
+    enabled     BOOLEAN     DEFAULT FALSE,
+    is_admin    BOOLEAN     DEFAULT FALSE,
     image       bytea,
     PRIMARY KEY (user_id)
 );
@@ -115,9 +115,9 @@ CREATE TABLE IF NOT EXISTS user_recipe_list
 CREATE TABLE IF NOT EXISTS recipe_list
 (
     recipe_list_id INT NOT NULL,
-    recipe_id INT NOT NULL,
+    recipe_id      INT NOT NULL,
     rl_status      VARCHAR(20) DEFAULT 'REGULAR',
-    PRIMARY KEY (recipe_list_id,recipe_id),
+    PRIMARY KEY (recipe_list_id, recipe_id),
     CONSTRAINT recipe_list_constraint_1 FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
     CONSTRAINT recipe_list_constraint_2 FOREIGN KEY (recipe_list_id) REFERENCES user_recipe_list (recipe_list_id)
 );
@@ -139,11 +139,22 @@ CREATE TABLE IF NOT EXISTS verification_tokens
 (
     token_id     SERIAL,
     token        text,
-    user_id      int NOT NULL,
+    user_id      int  NOT NULL,
     expiry_date  DATE NOT NULL,
     token_status varchar(20) DEFAULT 'REGULAR',
     PRIMARY KEY (token_id),
     CONSTRAINT tokens_constraint FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
+CREATE TABLE IF NOT EXISTS recently_cooked
+(
+    rc_id       SERIAL,
+    rc_user_id     int       NOT NULL,
+    rc_recipe_id   int       NOT NULL,
+    date_cooked timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (rc_id),
+    CONSTRAINT recently_cooked_constraint_1 FOREIGN KEY (rc_user_id) REFERENCES users (user_id),
+    CONSTRAINT recently_cooked_constraint_2 FOREIGN KEY (rc_recipe_id) REFERENCES recipes (recipe_id)
 );
 
 

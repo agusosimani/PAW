@@ -26,7 +26,8 @@ public class RecipeDaoImpl implements RecipeDao {
     private SimpleJdbcInsert jdbcInsertRecipe;
     private SimpleJdbcInsert jdbcInsertTag;
     private SimpleJdbcInsert jdbcInsertUserList;
-    private SimpleJdbcInsert getJdbcInsertRecipeList;
+    private SimpleJdbcInsert jdbcInsertRecipeList;
+    private SimpleJdbcInsert jdbcInsertRecentlyCooked;
 
     private final static RowMapper<Recipe> ROW_MAPPER = (rs, rowNum) ->
             new Recipe.Builder(
@@ -59,8 +60,11 @@ public class RecipeDaoImpl implements RecipeDao {
         jdbcInsertUserList = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("user_recipe_list")
                 .usingGeneratedKeyColumns("recipe_list_id");
-        getJdbcInsertRecipeList = new SimpleJdbcInsert(jdbcTemplate)
+        jdbcInsertRecipeList = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("recipe_list");
+        jdbcInsertRecentlyCooked = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("recently_cooked")
+                .usingGeneratedKeyColumns("rc_id");
     }
 
 
@@ -433,7 +437,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
         map.put("rl_status", Status.REGULAR.toString());
 
-        getJdbcInsertRecipeList.execute(map);
+        jdbcInsertRecipeList.execute(map);
 
     }
 
@@ -510,7 +514,50 @@ public class RecipeDaoImpl implements RecipeDao {
         return Optional.of(list.get(0));
     }
 
+    //RECENTLY COOKED
 
+    @Override
+    public void addRecentlyCooked(int userId, int recipeId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("rc_user_id",userId);
+        map.put("rc_recipe_id",recipeId);
+
+        Date date = new Date();
+        long time = date.getTime();
+        map.put("date_cooked", new Timestamp(time));
+
+        jdbcInsertRecentlyCooked.execute(map);
+    }
+
+    @Override
+    public List<Recipe> getRecipesInCookOrder(int userId) {
+        final List<Recipe> list =
+                jdbcTemplate.query("SELECT	*	FROM recently_cooked " +
+                        "LEFT OUTER JOIN recipes ON (recipe_id = rc_recipe_id) WHERE " +
+                        "recipe_status = 'REGULAR' AND rc_user_id = ? ORDER BY date_cooked DESC", ROW_MAPPER,userId);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Recipe> getRecipesCookedInBetweenDates(int userId, Date from, Date to) {
+        Timestamp fromT = new Timestamp(from.getTime());
+        Timestamp toT = new Timestamp(to.getTime());
+
+        final List<Recipe> list =
+                jdbcTemplate.query("SELECT	*	FROM recently_cooked " +
+                        "LEFT OUTER JOIN recipes ON (recipe_id = rc_recipe_id) WHERE " +
+                        "recipe_status = 'REGULAR' AND rc_user_id = ? AND date_cooked >= ? AND date_cooked <= ? ORDER BY date_cooked DESC", ROW_MAPPER,userId,fromT,toT);
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return list;
+
+    }
 
 
 }

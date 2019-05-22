@@ -43,5 +43,5 @@ public interface IngredientService {
     void deleteI(Ingredient i);
 
 
-    Warnings cookRecipe(List<RecipeIngredient> ri, int currentUserID);
+    Warnings cookRecipe(int recipeId, List<RecipeIngredient> ri, int currentUserID);
 }

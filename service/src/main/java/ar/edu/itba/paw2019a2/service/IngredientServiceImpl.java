@@ -251,7 +251,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Warnings cookRecipe(List<RecipeIngredient> ri, int userId) {
+    public Warnings cookRecipe(int recipeId, List<RecipeIngredient> ri, int userId) {
         List<RecipeIngredient> rep = ingredientsDao.getByUserId(userId);
 
         for (RecipeIngredient recipeIngredient : ri) {
@@ -282,6 +282,7 @@ public class IngredientServiceImpl implements IngredientService {
                 }
             }
         }
+        recipeDao.addRecentlyCooked(userId,recipeId);
         return Warnings.valueOf("Success");
     }
 }
