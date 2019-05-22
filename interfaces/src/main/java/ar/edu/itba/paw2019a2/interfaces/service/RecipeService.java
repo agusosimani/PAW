@@ -87,7 +87,7 @@ public interface RecipeService {
 
     List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to);
 
-    List<Recipe> getRecipesOrderCooked(int userId);
+    Set<Recipe> getRecipesOrderCooked(int userId);
 
     int getRecipesAmountBasedOnOrderTags(List<String> tags, Order order, String search);
 }

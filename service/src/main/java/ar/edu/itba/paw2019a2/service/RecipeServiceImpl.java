@@ -129,7 +129,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public void update(Recipe recipe) {
-        Optional<Recipe> maybeOldRecipe = recipeDao.getById(recipe.getId());
+        Optional<Recipe> maybeOldRecipe = this.getById(recipe.getId());
         if (maybeOldRecipe.isPresent()) {
             Recipe oldRecipe = maybeOldRecipe.get();
             Map<String, Object> map = new HashMap<>();
@@ -146,14 +146,25 @@ public class RecipeServiceImpl implements RecipeService {
 
             recipeDao.update(recipe.getId(), map);
 
+            int aux = 0;
+
             for (RecipeIngredient ri : recipe.getIngredients()) {
+
                 Optional<RecipeIngredient> maybeIng = ingredientsDao.getUserIngById(ri.getIngredient().getId(), recipe.getUserId());
                 if (maybeIng.isPresent()) {
+                    ri.setIngredient(ri.getIngredient());
                     ingredientService.updateUI(ri, recipe.getUserId());
                 } else {
-                    ingredientService.addNewUserIngredient(ri, recipe.getUserId());
+                    Optional<Ingredient> maybeI = ingredientsDao.getById(ri.getIngredient().getId());
+                    if(maybeI.isPresent()){
+                        ri.setIngredient(maybeI.get());
+                        ingredientService.addNewUserIngredient(ri, recipe.getUserId());
+                    }
                 }
+                aux++;
             }
+
+
 
             List<RecipeTag> listTagsOld = recipeDao.getAllRecipeTags(oldRecipe);
 
@@ -561,10 +572,11 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
-    public List<Recipe> getRecipesOrderCooked(int userId) {
+    public Set<Recipe> getRecipesOrderCooked(int userId) {
         List<Recipe> list = recipeDao.getRecipesInCookOrder(userId);
         putIngredientsAndTagsToRecipe(list);
-        return list;
+
+        return new LinkedHashSet<>(list);
     }
 
     private void putIngredientsAndTagsToRecipe(List<Recipe> list) {
