@@ -77,6 +77,8 @@ public class HomeController {
         final ModelAndView mav = new ModelAndView("index");
 
         //filterForm.setTags(tags);
+        if(filterForm.getSearchBar() == null)
+            filterForm.setSearchBar("");
 
         if(filterForm.getOrder() != null )
             ;//filterForm.setOrder(order);
@@ -92,9 +94,9 @@ public class HomeController {
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
         if(filterForm.getWithMyIngredients())
-            mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID(),"",0));
+            mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID(),filterForm.getSearchBar(),0));
         else
-            mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder(),"",0));
+            mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder(),filterForm.getSearchBar(),0));
         return mav;
     }
 

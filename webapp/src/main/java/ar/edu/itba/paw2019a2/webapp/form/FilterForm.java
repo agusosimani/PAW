@@ -10,6 +10,8 @@ public class FilterForm {
 
     private List<String> tags;
 
+    private String searchBar;
+
     private boolean withMyIngredients = true;
 
     public boolean getWithMyIngredients() {
@@ -34,5 +36,13 @@ public class FilterForm {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public String getSearchBar() {
+        return searchBar;
+    }
+
+    public void setSearchBar(String searchBar) {
+        this.searchBar = searchBar;
     }
 }
