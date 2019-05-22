@@ -36,7 +36,7 @@
                     <div class="new-recipe-ingredient-amount">
                         <form:label class="ingredientAmountLabel" path="ingredients[0].amount"><spring:message code="addIngredient.amount"/>
                         </form:label>
-                        <form:input class="ingredientAmountInput form-control mb-4" path="ingredients[0].amount"/>
+                        <form:input type="number" class="ingredientAmountInput form-control mb-4" path="ingredients[0].amount"/>
                     </div>
 
                     <button type="button" id="0" onclick="delete_ingredient2(this)" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn delete-ingredient-button">

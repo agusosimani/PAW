@@ -90,6 +90,15 @@ $(function () {
         return false;
     });
 
+    $('#btnAdd_3').click(function () {
+        var num = JSON.parse(localStorage.getItem("count_edit_recipe")),
+            newNum = new Number(num + 1),
+            newElem = $('.to_clone:first').clone().attr('id', 'clonedInput' + newNum).fadeIn('slow');
+
+        $('.to_clone:last').after(newElem);
+        localStorage.setItem("count_edit_recipe", JSON.stringify(JSON.parse(localStorage.getItem("count_edit_recipe")) +1));
+    });
+
     $(window).on('load', function () {
         var ingredients_count = 1;
         localStorage.setItem("count_add_ingredients", JSON.stringify(ingredients_count));
