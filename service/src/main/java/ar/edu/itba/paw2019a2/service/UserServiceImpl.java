@@ -230,19 +230,26 @@ public class UserServiceImpl implements UserService {
         return authenticationService.getLoggedUser().isPresent() && authenticationService.getLoggedUser().get().getId() == userId;
     }
 
-
-    public double getRelativeRatingfromUser(int userId){
+    @Override
+    public double getRelativeRatingFromUser(int userId){
 
         double retVal = 0;
+        double totalRatings = 0;
 
-        List<Rating> list = ratingsDao.getRatingsUser(userId);
+        List<Recipe> list = recipeDao.getAllRecipesByUserId(userId);
+
+        for (Recipe recipe : list) {
+            int nOfRatings = ratingsDao.getAmountRatings(recipe.getId());
+            retVal += recipe.getRating()*nOfRatings;
+            totalRatings += nOfRatings;
+        }
+
+        if(totalRatings == 0)
+            return 0;
 
 
+        return retVal/totalRatings;
 
-
-
-
-        return retVal;
     }
 
 

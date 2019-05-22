@@ -38,5 +38,7 @@ public interface UserService {
     Either<UserTokenState, Warnings> getUserTokenState(VerificationToken verificationToken);
 
     Either<VerificationToken, Warnings> createNewVerificationToken(String existingTokenValue);
+
+    double getRelativeRatingFromUser(int userId);
 }
 
