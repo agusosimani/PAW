@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -524,7 +527,17 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Map<Tag,Integer> tagStatistics(int userId, Date from, Date to) {
 
-        List<Recipe> recipeList = getRecipesCookedRangeTime(userId,from,to);
+
+        Timestamp timestamp = new Timestamp(to.getTime());
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTimeInMillis(timestamp.getTime());
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+
+        timestamp = new Timestamp(cal.getTime().getTime());
+
+        List<Recipe> recipeList = getRecipesCookedRangeTime(userId,from,timestamp);
 
         if(recipeList.isEmpty()) {
             return new HashMap<>();
@@ -548,9 +561,20 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Map<NutritionalInfoTypes,Float> nutritionStatistics(int userId, Date from, Date to) {
 
-        List<RecipeIngredient> list = this.getIngredientsCookedRangeTime(userId,from,to);
+        Timestamp timestamp = new Timestamp(to.getTime());
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTimeInMillis(timestamp.getTime());
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+
+        timestamp = new Timestamp(cal.getTime().getTime());
+
+
+        List<RecipeIngredient> list = this.getIngredientsCookedRangeTime(userId,from,timestamp);
 
         Map<NutritionalInfoTypes,Float> retMap = new HashMap<>();
+
 
 
         for(NutritionalInfoTypes tag : NutritionalInfoTypes.values()) {
