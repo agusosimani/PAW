@@ -30,7 +30,14 @@
 
         <section class="browse">
             <c:if test="${empty RecipeList}">
-                <h3 class="navigation-subtitle"><spring:message code="NoRecipesMatchingFilter"/></h3>
+                <c:choose>
+                    <c:when test="${empty filterForm.tags}">
+                        <h3 class="navigation-subtitle"><spring:message code="NoRecipesYet"/></h3>
+                    </c:when>
+                    <c:otherwise>
+                        <h3 class="navigation-subtitle"><spring:message code="NoRecipesMatchingFilter"/></h3>
+                    </c:otherwise>
+                </c:choose>
             </c:if>
             <%@include file="recipe_cards.jsp" %>
         </section>

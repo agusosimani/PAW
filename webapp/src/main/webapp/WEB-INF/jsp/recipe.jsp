@@ -27,8 +27,22 @@
 <%@include file="sidebar.jsp" %>
 
 <section class="main_container">
+
+    <c:if test="${not empty cooked}">
+        <c:choose>
+            <c:when test="${cooked}">
+                <div class="alert alert-success alert-cooked" role="alert">
+                    <spring:message code="successFullyCooked"/>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="alert alert-danger alert-cooked" role="alert">
+                    <spring:message code="cantCooked"/>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
     <section class="browse">
-        <!-- Card -->
         <div class="card">
 
             <div class="flex">
@@ -38,6 +52,12 @@
 
                     <br/>
                     <p class="recipe-instructions"><c:out value="${recipe.instructions}"/></p>
+
+                    <c:forEach var="nutrition" items="${nutricionalInfoList}">
+                        <p>${nutrition.type}</p>
+                        <p>${nutrition.amount}</p>
+                    </c:forEach>
+
                     <div class="recipe-body-bottom">
                         <div class="recipe-bottom-icon">
 
@@ -180,7 +200,7 @@
                             <br/>
                             <p class="ingredients-title"><spring:message code="ingredients"/></p>
                             <c:forEach var="ingredient" items="${recipe.ingredients}">
-                                <div>
+                                <div class="ingredients-recipe">
                                     <spring:message var="ingredientsName" code="${ingredient.ingredient.name}" />
                                     <p class="ingredients-item"><c:out value="${ingredientsName}"/></p>
                                     <p class="ingredients-amount">${ingredient.amount}</p>

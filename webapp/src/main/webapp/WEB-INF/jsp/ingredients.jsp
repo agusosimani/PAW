@@ -56,12 +56,11 @@
                                 </c:url>
                                 <form:form action="${deleteIngredientUrl}" method="post">
                                     <button type="submit" class="bg-transparent">
-                                        <i class="fas fa-trash fa-2x red-ic"></i>
+                                        <i class="fas fa-trash fa-2x red-ic fa-trash-ingredient"></i>
                                     </button>
                                 </form:form>
                             </div>
-                            <span class="float-right badge badge-primary badge-pill">${ingredient.amount}</span>
-
+                            <span class="float-right badge badge-primary badge-pill badge-ingredients">${ingredient.amount}</span>
                         </div>
                     </li>
                 </c:forEach>

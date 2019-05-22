@@ -77,6 +77,16 @@ body {
     color: #1ED760;
 }
 
+.badge-ingredients{
+    margin-top: 5px;
+    margin-right: 10px;
+    font-size: medium;
+}
+
+.ingredients-recipe{
+    clear: both;
+}
+
 .browse {
     float: left;
     width: calc(100% - 320px) ;
@@ -147,12 +157,14 @@ a.custom-card:hover {
 }
 
 .ingredients-item{
-    margin-left: 8px;
+    max-width: calc(100% - 53px);
+    margin-left: 3px;
     font-size: medium;
     float: left;
 }
 
 .ingredients-title{
+    clear: both;
     font-weight: bold;
     text-align: left;
     font-size: large;
@@ -160,7 +172,13 @@ a.custom-card:hover {
 
 .ingredients-amount {
     text-align: right;
+    float: right;
+    width: 50px;
     font-size: medium;
+}
+
+.alert-cooked{
+    margin-right: 10px;
 }
 
 .recipe-title{
@@ -180,7 +198,7 @@ a.custom-card:hover {
     margin-bottom: 80px;
 }
 
-ingredients-tags-div {
+.ingredients-tags-div {
     float: left;
     width: 100%;
 }

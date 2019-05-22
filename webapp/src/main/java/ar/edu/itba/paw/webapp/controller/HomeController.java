@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.Enum.NutricionalInfoTypes;
 import ar.edu.itba.paw.model.Enum.Order;
 import ar.edu.itba.paw.model.Enum.Tag;
 import ar.edu.itba.paw.model.Enum.Warnings;
@@ -219,20 +220,6 @@ public class HomeController {
         return new ModelAndView("redirect:/my_ingredients");
     }
 
-
-    @RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
-    public ModelAndView cookRecipes(@RequestParam int recipeId) {
-
-
-        List<RecipeIngredient> list = ingredientService.findByRecipe(recipeId);
-        ingredientService.cookRecipe(list, this.getCurrentUserID());
-
-
-        final ModelAndView mav = new ModelAndView("redirect:/recipe");
-        mav.addObject("recipeId", recipeId);
-        return mav;
-    }
-
     @RequestMapping(value = "/delete_cooklist", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteCooklist(@RequestParam int cooklistId) {
         //TODO VERIFICAR QUE ESTE AUTORIZADO!
@@ -319,9 +306,24 @@ public class HomeController {
         return mav;
     }
 
+    @RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
+    public ModelAndView cookRecipes(@RequestParam int recipeId) {
+
+
+        List<RecipeIngredient> list = ingredientService.findByRecipe(recipeId);
+        Boolean s = ingredientService.cookRecipe(list, this.getCurrentUserID()).equals(Warnings.Success);
+
+
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("recipeId", recipeId);
+        arguments.put("cooked", s);
+        return new ModelAndView("redirect:/recipe", arguments);
+    }
+
     //CON EL ID LLAMO A SERVICES Y LA TRAIGO
     @RequestMapping(value = "/recipe", method = RequestMethod.GET)
-    public ModelAndView recipe(@ModelAttribute("selectCookListForm") final SelectCookListForm cookListForm, @ModelAttribute("commentForm") final CommentForm commentForm, @RequestParam Integer recipeId) {
+    public ModelAndView recipe(@ModelAttribute("selectCookListForm") final SelectCookListForm cookListForm, @ModelAttribute("commentForm") final CommentForm commentForm, @RequestParam Integer recipeId
+            , @RequestParam(required = false) Boolean cooked) {
         final ModelAndView mav = new ModelAndView("recipe");
 
         Recipe recipe = recipeService.getById(recipeId).get();
@@ -333,6 +335,26 @@ public class HomeController {
         if (maybeUserRating.isPresent())
             userRating = maybeUserRating.get();
 
+        double fat =0;
+        double calorie=0,carbohydrate=0,protein=0;
+        for(RecipeIngredient recipeIngredient : recipe.getIngredients()){
+            System.out.printf("RECIPE CANTIDA: %f\n EN SERVING: %f\n", recipeIngredient.getAmount(),recipeIngredient.getIngredient().getServing());
+            double fatAdd = recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getTotalFat();
+            System.out.printf("Agrego: %f", recipeIngredient.getIngredient().getTotalFat());
+            fat +=  fatAdd;
+            calorie +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCalories();
+            carbohydrate +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCarbohydrates();
+            protein +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getProtein();
+        }
+
+        List<NutricionalInfo> nutricionalInfo = new ArrayList<>();
+        nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Fat,fat));
+        nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Calorie,calorie));
+        nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Carbohydrate,carbohydrate));
+        nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
+
+        mav.addObject("nutricionalInfoList", nutricionalInfo);
+        mav.addObject("cooked", cooked);
         mav.addObject("editable", recipe.getUserId() == getCurrentUserID());
         mav.addObject("cookLists", recipeService.getUserCookLists(getCurrentUserID()));
         mav.addObject("previous_rate", userRating);
