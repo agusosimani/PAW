@@ -83,8 +83,28 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"><strong><spring:message code="myLists"/></strong></h4>
-                        <p class="card-text"><spring:message code="myListsExplanation"/></p>
+                        <h4 class="card-title">
+                            <strong>
+                                <c:choose>
+                                    <c:when test="${yourAccount}">
+                                        <spring:message code="myLists"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <spring:message code="cooklist.title" arguments="${user.username}"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </strong>
+                        </h4>
+                        <p class="card-text">
+                            <c:choose>
+                                <c:when test="${yourAccount}">
+                                    <spring:message code="myListsExplanation"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <spring:message code="listsExplation" arguments="${user.username}"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </p>
                         <c:url var="cooklistsUrl" value="/user_cooklists">
                             <c:param name="userId" value="${user.id}"/>
                         </c:url>
@@ -121,9 +141,18 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"><strong>Cocinadas recientemente</strong></h4>
+                        <h4 class="card-title"><strong><spring:message code="recentlyCooked"/></strong></h4>
 
-                        <p class="card-text">Recetas cocinadas recientemente</p>
+                        <p class="card-text">
+                            <c:choose>
+                                <c:when test="${yourAccount}">
+                                    <spring:message code="MyrecentlyCookedExplanation"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <spring:message code="recentlyCookedExplanation" arguments="${user.username}"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </p>
                     </div>
                 </div>
                 <!-- Post title -->
@@ -139,7 +168,16 @@
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><strong><spring:message code="myFavouriteRecipes"/></strong></h4>
-                        <p class="card-text"><spring:message code="myFavouriteRecipesExplanation"/></p>
+                        <p class="card-text">
+                            <c:choose>
+                                <c:when test="${yourAccount}">
+                                    <spring:message code="myFavouriteRecipesExplanation"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <spring:message code="FavouriteRecipesExplanation" arguments="${user.username}"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </p>
                         <c:url var="favouritesUrl" value="/favourites_recipes">
                             <c:param name="userId" value="${user.id}"/>
                         </c:url>
