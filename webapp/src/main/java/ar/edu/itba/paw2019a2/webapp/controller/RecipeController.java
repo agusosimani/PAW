@@ -55,7 +55,7 @@ public class RecipeController {
     private AuthenticationService authenticationService;
 
     @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam(required=false) Integer page) {
+    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm) {
 
         final ModelAndView mav = new ModelAndView("index");
 
@@ -65,20 +65,14 @@ public class RecipeController {
         if(filterForm.getOrder() == null )
             filterForm.setOrder(Order.New);
 
-        if(page == null)
-            page = 1;
-
-        int limit = page * 999;
         Set<Recipe> recipeList;
         if(filterForm.getWithMyIngredients())
-            recipeList = recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID(),filterForm.getSearchBar(),limit);
+            recipeList = recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID(),filterForm.getSearchBar(),0);
         else
-            recipeList = recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder(),filterForm.getSearchBar(),limit);
+            recipeList = recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder(),filterForm.getSearchBar(),0);
 
 
         mav.addObject("RecipeList",recipeList);
-        mav.addObject("page", page);
-        mav.addObject("hasMoreRecipes", recipeList.size() + 1 >= limit);
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
         return mav;

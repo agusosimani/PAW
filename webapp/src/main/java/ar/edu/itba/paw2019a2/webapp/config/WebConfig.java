@@ -53,22 +53,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ds.setDriverClass(org.postgresql.Driver.class);
 
 
-
-        ds.setUrl("jdbc:postgresql://localhost/foodify");
-        ds.setUsername("postgres");
-        ds.setPassword("root");
-
-//        ds.setUsername("postgres");
-//        ds.setPassword("12345678");
-//        ds.setUrl("jdbc:postgresql://localhost/foodify");
-//
-//        ds.setUrl("jdbc:postgresql://localhost/foodifynew");
-//        ds.setUsername("pedroremigiopingarilho");
-//        ds.setPassword("pedroremigiopingarilho");
-
-//        ds.setUrl("jdbc:postgresql://localhost/paw-2019a-2");
-//        ds.setUsername("paw-2019a-2");
-//        ds.setPassword("1sz6lIwcK");
+        ds.setUrl("jdbc:postgresql://localhost/paw-2019a-2");
+        ds.setUsername("paw-2019a-2");
+        ds.setPassword("1sz6lIwcK");
 
 
         return ds;
@@ -96,7 +83,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean(name="multipartResolver")
     public CommonsMultipartResolver multipartResolver(){
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        //resolver.setMaxUploadSizePerFile(1024 * 1024); //1MB
         resolver.setDefaultEncoding("UTF-8");
         resolver.setResolveLazily(true);
         return resolver;
