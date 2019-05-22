@@ -161,6 +161,9 @@ public class RecipeServiceImpl implements RecipeService {
                 for (RecipeIngredient oldIng : oldIngList) {
 
                     if (oldIng.getIngredient().getId() == recipeIngredient.getIngredient().getId()) {
+                        Map<String, Object> UPmap = new HashMap<>();
+                        UPmap.put("serving_amount", recipeIngredient.getAmount());
+                        ingredientsDao.updateRecipeIngredient(oldIng.getIngredient().getId(), UPmap, recipe.getId());
                         newIng = false;
                     }
                     System.out.println("opa");
@@ -170,8 +173,8 @@ public class RecipeServiceImpl implements RecipeService {
                     if (ingredientsDao.isRecipeIngredientDeleted(recipeIngredient.getIngredient().getId())) {
                         Map<String, Object> RIDmap = new HashMap<>();
                         RIDmap.put("ri_status", Status.REGULAR.toString());
-                        RIDmap.put("amount", recipeIngredient.getAmount());
-                        ingredientsDao.updateRecipeIngredient(recipe.getId(), RIDmap, recipe.getId());
+                        RIDmap.put("serving_amount", recipeIngredient.getAmount());
+                        ingredientsDao.updateRecipeIngredient(recipeIngredient.getIngredient().getId(), RIDmap, recipe.getId());
                     } else {
                         ingredientsDao.addNewRecipeIngredient(recipe.getId(), recipeIngredient);
                     }
@@ -189,7 +192,7 @@ public class RecipeServiceImpl implements RecipeService {
                     }
                     if(oldIngDelete) {
                         Map<String, Object> RDmap = new HashMap<>();
-                        RDmap.put("ri_status", Status.REGULAR.toString());
+                        RDmap.put("ri_status", Status.DELETED.toString());
                         ingredientsDao.updateRecipeIngredient(oldIng.getIngredient().getId(), RDmap, oldRecipe.getId());
                         deleteIngredients--;
                     }
