@@ -88,15 +88,15 @@
                     <div class="new-recipe-ingredient-amount">
                         <form:label path="ingredientsAmount"><spring:message code="addIngredient.amount"/>
                         </form:label>
-                        <form:input type="number" class="form-control mb-4" path="ingredientsAmount"/>
+                        <form:input type="number" cssClass="form-control mb-4 select-ingredient-recipe-amount" path="ingredientsAmount"/>
                     </div>
-                    <button type="button" onclick="delete_item_new_recipe(this)" class="btnDel_1 btn btn-danger text-center">
+                    <button type="button" id="0" onclick="delete_item_edit_recipe(this)" class="btnDel_1 btn btn-danger text-center delete-ingredient-button">
                         <i class="fas fa-trash fa-2x white-ic"></i>
                     </button>
                 </div>
 
                 <div class="form-row mb-4">
-                    <button type="button" id="btnAdd_1" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">
+                    <button type="button" id="btnAdd_3" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">
                         <spring:message code="Recipe.addIngredient"/></button>
                 </div>
 

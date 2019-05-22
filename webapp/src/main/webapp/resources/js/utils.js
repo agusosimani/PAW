@@ -72,6 +72,7 @@ $(function () {
         newElem.find('.ingredientAmountLabel').attr('for', 'ingredients[' + num + '].amount');
         newElem.find('.ingredientAmountInput').attr('name', 'ingredients[' + num + '].amount');
         newElem.find('.delete-ingredient-button').attr('id', num);
+        newElem.find('.ingredientAmountInput').val(0);
 
         $('#cloneInput' + num).after(newElem);
     });

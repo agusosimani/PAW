@@ -74,14 +74,6 @@ function delete_item_new_recipe(button) {
 };
 
 function delete_item_edit_recipe(button) {
-/*    var num = $('.clonedInput_1').length;
-    console.log(num);
-    if(num > 1) {
-        $(button).parent().slideUp('slow', function () {
-            $(button).parent().remove();
-        });
-    }
-    */
 
     var num = $('.clonedInput_1').length;
 
