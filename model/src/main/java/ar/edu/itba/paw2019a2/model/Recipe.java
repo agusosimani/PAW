@@ -3,6 +3,7 @@ package ar.edu.itba.paw2019a2.model;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Recipe {
@@ -122,6 +123,14 @@ public class Recipe {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return id == recipe.id;
     }
 
     public static class Builder{
