@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteAccount(int user) {
         Map<String, Object> map = new HashMap<>();
-        map.put("status", Status.DELETED.toString());
+        map.put("user_status", Status.DELETED.toString());
         Either<User,Warnings> u = getById(user);
         if(!u.isValuePresent())
             return false;

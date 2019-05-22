@@ -5,9 +5,10 @@
     <title>Title</title>
 </head>
 <body>
+<div id="user-card">
 <c:choose>
     <c:when test="${disabledUser}">
-        <p><spring:message code="recipe.userNotExist"/></p>
+        <p><spring:message code="userNotExist"/></p>
     </c:when>
     <c:otherwise>
         <c:url value="/account" var="userRecipesUrl">
@@ -22,7 +23,7 @@
         <div class="user-card-info">
             <p class="card-text"><spring:message code="Recipe.amount" arguments="${recipes_amount}"/></p>
 
-            <c:if test="${isAdmin}">
+            <c:if test="${isAdmin && accountPage}">
                 <button type="button" class="btn btn-danger" data-toggle="modal" id="ban-user-modal"
                         data-target="#ban-user">
                     <spring:message code="user.ban"/>
@@ -31,7 +32,6 @@
         </div>
     </c:otherwise>
 </c:choose>
-
-<%@include file="ban_user_modal.jsp" %>
+</div>
 </body>
 </html>

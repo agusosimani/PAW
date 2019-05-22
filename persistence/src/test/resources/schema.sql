@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS recipes
     instructions  varchar(1000000),
     recipe_status varchar(20)        DEFAULT 'REGULAR',
     rating        float              DEFAULT NULL,
-    date_created  timestamp NOT NULL,
+    date_created  timestamp DEFAULT CURRENT_TIMESTAMP,
     image         blob,
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 ) ;
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS ratings
     user_id   int       NOT NULL,
     recipe_id int       NOT NULL,
     rating    float              DEFAULT NULL,
-    date      timestamp NOT NULL,
+    date      timestamp DEFAULT CURRENT_TIMESTAMP,
     status    varchar(20)        DEFAULT 'REGULAR',
     PRIMARY KEY (user_id, recipe_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id),
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS recipes_comments
     recipe_id      int       NOT NULL,
     user_id        int       NOT NULL,
     comment_status varchar(20)        DEFAULT 'REGULAR',
-    comment_date   timestamp NOT NULL,
+    comment_date   timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );

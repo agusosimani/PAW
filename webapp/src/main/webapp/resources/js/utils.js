@@ -50,28 +50,28 @@ $(function () {
         localStorage.setItem("count_new_recipe", JSON.stringify(ingredients_count));
         localStorage.setItem("count_edit_recipe", JSON.stringify(ingredients_count));
         var win = $(this); //this = window
-        if (win.width() > 768) {
+        if (win.width() > 790) {
             $("#filters-big-card").append($("#filters-card").show());
-            console.log("asdmoaskd");
+            $("#user-big-card").append($("#user-card").show());
         }
-        if(win.width() <= 768){
-            console.log("modal");
+        if(win.width() <= 790){
             $("#filters-modal-body").append($("#filters-card").show());
+            $("#user-modal-body").append($("#user-card").show());
         }
-        console.log("asdmoaskd");
     });
 
     $(window).on('resize', function(){
         var win = $(this); //this = window
-        if (win.width() > 768) {
+        if (win.width() > 790) {
             $("#filters-big-card").append($("#filters-card").show());
-            console.log("asdmoaskd");
+            $("#user-big-card").append($("#user-card").show());
         }
-        if(win.width() <= 768){
+        if(win.width() <= 790){
             console.log("modal");
             $("#filters-modal-body").append($("#filters-card").show());
+            $("#user-modal-body").append($("#user-card").show());
         }
-        console.log("asdmoaskd");
     });
+
 
 });

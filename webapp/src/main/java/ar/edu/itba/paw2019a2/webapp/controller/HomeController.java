@@ -280,9 +280,14 @@ public class HomeController {
         final ModelAndView mav = new ModelAndView("account");
 
         Either<User, Warnings> eitherUser = userService.getById(userId);
-
         if (eitherUser.isValuePresent()) {
             mav.addObject("user", eitherUser.getValue());
+            try{
+                mapUserParams(mav,eitherUser.getValue());
+            }
+            catch (Exception e){
+                //TODO
+            }
         } else {
             return new ModelAndView("404");
         }
@@ -319,7 +324,8 @@ public class HomeController {
             return new ModelAndView("redirect:/404");
         }
         if(user.getValue().isAdmin()){
-            //userService.deleteAccount();
+            System.out.printf("BANEANDO, %d",userId);
+            userService.deleteAccount(userId);
         }
         else{
             return new ModelAndView("redirect:/403");
@@ -360,15 +366,19 @@ public class HomeController {
         }
         Recipe recipe = maybeRecipe.get();
         Either<User, Warnings> eitherUser = userService.getById(recipe.getUserId());
-        Boolean isAdmin = false;
+
         Boolean disabledUser = false;
         if(!eitherUser.isValuePresent()){
             disabledUser = true;
         }
         else{
-            isAdmin = eitherUser.getValue().isAdmin();
+            try {
+                mapUserParams(mav, eitherUser.getValue());
+            }
+            catch (Exception e) {
+            }
         }
-
+        mav.addObject("disabledUser", disabledUser);
 
         float userRating = 0;
         Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(), recipeId);
@@ -389,21 +399,28 @@ public class HomeController {
         nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Carbohydrate,carbohydrate));
         nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
 
-        mav.addObject("isAdmin", isAdmin);
-        mav.addObject("disabledUser", disabledUser);
+
         mav.addObject("nutricionalInfoList", nutricionalInfo);
         mav.addObject("cooked", cooked);
-        mav.addObject("editable", recipe.getUserId() == getCurrentUserID());
         mav.addObject("editable", recipe.getUserId() == getCurrentUserID() || isAdmin());
         mav.addObject("cookLists", recipeService.getUserCookLists(getCurrentUserID()));
         mav.addObject("previous_rate", userRating);
-        mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
-        if (eitherUser.isValuePresent())
-            mav.addObject("user", eitherUser.getValue());
 
         mav.addObject("ingredientsList", recipe.getIngredients());
         return mav;
+    }
+
+    private void mapUserParams(final ModelAndView mav, User user) throws Exception {
+        Either<User,Warnings> eitherUser = userService.getById(getCurrentUserID());
+        if(!eitherUser.isValuePresent())
+            throw new Exception("Error while loading user");
+        if(eitherUser.getValue().isAdmin() && user.getId() != getCurrentUserID())
+            mav.addObject("isAdmin", true);
+        else
+            mav.addObject("isAdmin", false);
+        mav.addObject("user", user);
+        mav.addObject("recipes_amount", recipeService.userRecipesNumber(user.getId()));
     }
 
     @RequestMapping(value = "/add_recipe_to_cooklist", method = RequestMethod.POST) //Le digo que url mappeo

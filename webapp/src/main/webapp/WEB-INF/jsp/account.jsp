@@ -154,7 +154,8 @@
     </section>
     <section class="side_card">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" id="user-big-card">
+                <c:set var="accountPage" value="${true}"/>
                 <%@include file="userbar.jsp" %>
             </div>
         </div>
@@ -173,6 +174,7 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
 
 </body>
 
