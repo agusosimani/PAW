@@ -34,7 +34,6 @@ import javax.validation.Valid;
 @Controller
 public class HomeController {
 
-
     @Autowired
     private MessageSource messageSource;
 
@@ -198,7 +197,7 @@ public class HomeController {
         List<Integer> formIngredientsAmount = recipeForm.getIngredientsAmount();
 
         if (formIngredients == null || formIngredients.size() != formIngredientsAmount.size() || formIngredients.size() == 0) {
-            return new ModelAndView("redirect:/403");
+            return new ModelAndView("redirect:/400");
         }
 
         for(int i = 0; i < formIngredients.size(); i++) {

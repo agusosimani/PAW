@@ -52,7 +52,7 @@
                     <p class="recipe-description"><c:out value="${recipe.description}"/></p>
 
                     <br/>
-                    <p class="recipe-instructions"><c:out value="${recipe.instructions}"/></p>
+                    <p class="recipe-instructions">${recipe.escapedInstructions}</p>
 
 
                     <div class="recipe-nutritional-div">
