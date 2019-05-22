@@ -541,8 +541,8 @@ public class RecipeServiceImpl implements RecipeService {
 
         for (Recipe recipe: recipeList) {
             for (String tag:recipe.getTags()) {
-                int aux = retMap.get(Tag.valueOf("tag"));
-                retMap.put(Tag.valueOf("tag"),aux + 1);
+                int aux = retMap.get(Tag.valueOf(tag));
+                retMap.put(Tag.valueOf(tag),aux + 1);
             }
         }
         return retMap;

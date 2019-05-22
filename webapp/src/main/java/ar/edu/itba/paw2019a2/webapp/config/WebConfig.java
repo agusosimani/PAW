@@ -16,6 +16,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -51,6 +53,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ds.setDriverClass(org.postgresql.Driver.class);
 
 
+
         ds.setUrl("jdbc:postgresql://localhost/foodify");
         ds.setUsername("postgres");
         ds.setPassword("root");
@@ -62,6 +65,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        ds.setUrl("jdbc:postgresql://localhost/foodifynew");
 //        ds.setUsername("pedroremigiopingarilho");
 //        ds.setPassword("pedroremigiopingarilho");
+
+//        ds.setUrl("jdbc:postgresql://localhost/paw-2019a-2");
+//        ds.setUsername("paw-2019a-2");
+//        ds.setPassword("1sz6lIwcK");
+
 
         return ds;
     }
@@ -76,6 +84,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         messageSource.setCacheSeconds(5);
 
         return messageSource;
+    }
+    @Override
+
+    public Validator getValidator() {
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(messageSource());
+        return validator;
     }
 
     @Bean(name="multipartResolver")

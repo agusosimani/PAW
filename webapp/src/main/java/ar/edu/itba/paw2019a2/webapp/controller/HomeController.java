@@ -57,9 +57,9 @@ public class HomeController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    private Date fromDefaultDate = parseStringToDate("01/05/2019");
+    private String fromDefaultDate = "01/05/2019";
 
-    private Date toDefaultDate = parseStringToDate("01/06/2019");
+    private String toDefaultDate = "01/06/2019";
 
     private int cardsPerPage = 999;
 
@@ -379,7 +379,7 @@ public class HomeController {
 
         System.out.printf("DATE: %s    %s", dateForm.getFrom(), dateForm.getTo());
 
-        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(), dateForm.getFrom(), dateForm.getTo());
+        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(), parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()));
 
         double calorie = 0, fat = 0, carbohydrate= 0, protein = 0;
 
@@ -403,7 +403,10 @@ public class HomeController {
         nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
 
         Gson g = new Gson();
-        //mav.addObject("donutList", g.toJson())
+        System.out.printf("\n\n%s\n\n", g.toJson(recipeService.tagStatistics(getCurrentUserID(),parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()))));
+
+        System.out.printf("\n\n%s\n\n", g.toJson(nutricionalList));
+        mav.addObject("donutList", g.toJson(recipeService.tagStatistics(getCurrentUserID(),parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()))));
         mav.addObject("list", g.toJson(nutricionalList));
         return mav;
     }

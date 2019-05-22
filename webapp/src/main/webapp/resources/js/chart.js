@@ -1,14 +1,22 @@
 $(function () {
 
-    $('.datepicker').datepicker();
+    $('#datepicker').datepicker();
+    $('#datepicker2').datepicker();
+
+    var labelsName = [];
+    var labelsData = [];
+    for(var i = 0; i < list.length; i++){
+        labelsName[i] = list[i].type;
+        labelsData[i] = (Math.round(list[i].amount * 100) / 100);
+    }
 
     var ctxB = document.getElementById("barChart").getContext('2d');
     var myBarChart = new Chart(ctxB, {
         type: 'bar',
         data: {
-            labels: [list[0].type, list[1].type, list[2].type, list[3].type],
+            labels: labelsName,
             datasets: [{
-                data: [ (Math.round(list[0].amount * 100) / 100), (Math.round(list[1].amount * 100) / 100), (Math.round(list[2].amount * 100) / 100), (Math.round(list[3].amount * 100) / 100)],
+                data: labelsData,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -36,13 +44,27 @@ $(function () {
         }
     });
 
+    var donutLabels = [];
+    var donutData = [];
+    var randomColors = [];
+    var i = 0;
+    var back = ["#ff0000","blue","gray"];
+    var rand = back[Math.floor(Math.random() * back.length)];
+    for (var key in donutList) {
+        randomColors[i] = rand;
+        donutLabels[i] = key;
+        donutData[i] = donutList[key];
+        rand = back[Math.floor(Math.random() * back.length)];
+        i++;
+    }
+
     var ctxD = document.getElementById("doughnutChart").getContext('2d');
     var myLineChart = new Chart(ctxD, {
         type: 'doughnut',
         data: {
-            labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+            labels: donutLabels,
             datasets: [{
-                data: [300, 50, 100, 40, 120],
+                data: donutData,
                 backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
                 hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
             }]
