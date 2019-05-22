@@ -96,7 +96,6 @@ public class UserDaoImpl implements UserDao {
             jdbcTemplate.update("UPDATE users SET gender = ? WHERE user_id = ?",v,user.getId());
         }
         if(k.equals("user_status")){
-            System.out.println(v);
             jdbcTemplate.update("UPDATE users SET user_status = ? WHERE user_id = ?",v,user.getId());
         }
     }

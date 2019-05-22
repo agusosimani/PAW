@@ -10,15 +10,10 @@ public class Rating {
 
     private float rating;
 
-    //cambialo a timestamp TODO
     private Date date;
 
     private String status;
 
-
-    /*protected*/ Rating() {
-        //Para hibernate futuro.
-    }
 
     public Rating(int userId,int recipeId, float rating, Date date, String status) {
         this.userId = userId;

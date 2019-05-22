@@ -76,23 +76,17 @@ public class HomeController {
         return authenticationService.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
-    @RequestMapping("/") //Le digo que url mappeo
+    @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam(required=false) Integer page) {
 
         final ModelAndView mav = new ModelAndView("index");
 
-        //filterForm.setTags(tags);
         if(filterForm.getSearchBar() == null)
             filterForm.setSearchBar("");
 
         if(filterForm.getOrder() == null )
             filterForm.setOrder(Order.New);
 
-        if(filterForm.getTags() != null ) {
-            for (String s : filterForm.getTags()) {
-                System.out.printf("%s\n", s);
-            }
-        }
 
         System.out.printf("PAGINA: %d", page);
         if(page == null)

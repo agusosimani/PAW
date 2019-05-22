@@ -161,7 +161,6 @@ public class RecipeServiceImpl implements RecipeService {
                         ingredientsDao.updateRecipeIngredient(oldIng.getIngredient().getId(), UPmap, recipe.getId());
                         newIng = false;
                     }
-                    System.out.println("opa");
                 }
 
                 if (newIng) {
