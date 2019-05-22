@@ -69,13 +69,6 @@
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
 
-<%--TODO no deberia estar aca
-<script>
-    autocomplete(document.getElementById("Item"), ingredients);
-    autocomplete(document.getElementById("cuisine"), cuisine);
-    autocomplete(document.getElementById("special_consideration"), special_considerations);
-</script>
---%>
 </body>
 
 </html>

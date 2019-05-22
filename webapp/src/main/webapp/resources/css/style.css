@@ -168,7 +168,7 @@ a.custom-card:hover {
     max-width: 50% !important;
 }
 
-.btnDel {
+.btnDel_1, .btnDel_2 {
     float:left;
     margin: 2% 0 0 3%;
     max-height: 3%;
