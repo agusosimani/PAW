@@ -99,23 +99,6 @@ public class RecipeDaoImplTest {
     }
 
     @Test
-    public void testGetAllRecipes() {
-        List<Recipe> allRecipes = recipeDao.getAllRecipes("",0);
-
-        Assert.assertEquals(2, allRecipes.size());
-
-        boolean flag1 = false;
-        boolean flag2 = false;
-        for (int i = 0; i < allRecipes.size(); i++) {
-            flag1 = flag1 || allRecipes.get(i).getName().equals("recipe1");
-            flag2 = flag2 || allRecipes.get(i).getName().equals("recipe2");
-        }
-
-        Assert.assertTrue(flag1);
-        Assert.assertTrue(flag2);
-    }
-
-    @Test
     public void testAddNewRecipe() {
         Recipe recipe = recipeDao.addNewRecipe(new Recipe.Builder("recipe3", new ArrayList<>(), "instructions3", 2)
         .description("description3").build());
@@ -155,6 +138,4 @@ public class RecipeDaoImplTest {
 
         Assert.assertEquals(1, recipeList.size());
     }
-
-    //get all recipe tags
 }
