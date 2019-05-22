@@ -9,7 +9,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -182,20 +181,20 @@ public class HomeController {
 
         byte[] bytes = null;
         try {
-            //TODO: VALIDAR ESTO!
             bytes = recipeForm.getImage().getBytes();
         } catch (Exception e) {
-
+            bytes = new byte[0];
         }
 
         List<Integer> formIngredients = recipeForm.getIngredients();
         List<Integer> formIngredientsAmount = recipeForm.getIngredientsAmount();
-        if (formIngredients != null) {
-            for(int i = 0; i < formIngredients.size(); i++) {
-                listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(formIngredients.get(i)).get(), formIngredientsAmount.get(i)).build());
-            }
-        } else {
-            //TODO: tirar el error
+
+        if (formIngredients == null || formIngredients.size() != formIngredientsAmount.size() || formIngredients.size() == 0) {
+            return new ModelAndView("redirect:/403");
+        }
+
+        for(int i = 0; i < formIngredients.size(); i++) {
+            listIngredients.add(new RecipeIngredient.Builder(ingredientService.getById(formIngredients.get(i)).get(), formIngredientsAmount.get(i)).build());
         }
 
         final Recipe recipeToAdd = new Recipe.Builder(0, recipeForm.getName(), listIngredients, recipeForm.getInstructions(), getCurrentUserID())
@@ -223,6 +222,15 @@ public class HomeController {
 
     @RequestMapping(value = "/delete_cooklist", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteCooklist(@RequestParam int cooklistId) {
+        Either<RecipeList, Warnings> eitherCooklist = recipeService.getCookList(cooklistId);
+
+        /*if (eitherCooklist.isValuePresent() && (eitherCooklist.getValue()  == getCurrentUserID() || isAdmin())) {
+            recipeService.deleteRecipe(recipeId);
+            return new ModelAndView("redirect:/my_recipes");
+        } else {
+            return new ModelAndView("redirect:/403");
+        }*/
+
         //TODO VERIFICAR QUE ESTE AUTORIZADO!
         //TODO Por que le tengo que pasar el userId?
         recipeService.deleteCookList(cooklistId,getCurrentUserID());
@@ -242,11 +250,13 @@ public class HomeController {
 
     @RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
-        if(getCurrentUserID() != ingredientService.getById(ingredientId).get().getUserId()){
+        Optional<Ingredient> maybeIngredient = ingredientService.getById(ingredientId);
+        if (maybeIngredient.isPresent() && (maybeIngredient.get().getUserId() == getCurrentUserID())) {
+            ingredientService.deleteUI(ingredientId, getCurrentUserID());
+            return new ModelAndView("redirect:/my_ingredients");
+        } else {
             return new ModelAndView("redirect:/403");
         }
-        ingredientService.deleteUI(ingredientId, getCurrentUserID());
-        return new ModelAndView("redirect:/my_ingredients");
     }
 
     @RequestMapping(value = "/rate_recipe", method = RequestMethod.POST) //Le digo que url mappeo
@@ -257,9 +267,7 @@ public class HomeController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(required = false) String error) {
-
-        final ModelAndView mav = new ModelAndView("login");
-        return mav;
+        return new ModelAndView("login");
     }
 
     @RequestMapping(value = "/my_account", method = RequestMethod.GET)
@@ -276,7 +284,7 @@ public class HomeController {
         if (eitherUser.isValuePresent()) {
             mav.addObject("user", eitherUser.getValue());
         } else {
-            //TODO: tirar el warning
+            return new ModelAndView("redirect:/404");
         }
 
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
@@ -301,7 +309,7 @@ public class HomeController {
         if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
         else {
-            //TODO: tirar el warning
+            return new ModelAndView("redirect:/404");
         }
         mav.addObject("allIngredients", allIngredientsList);
         mav.addObject("ingredientsList", ingredientList);
@@ -328,9 +336,16 @@ public class HomeController {
             , @RequestParam(required = false) Boolean cooked) {
         final ModelAndView mav = new ModelAndView("recipe");
 
-        Recipe recipe = recipeService.getById(recipeId).get();
+        Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
+        if (!maybeRecipe.isPresent())
+            return new ModelAndView("redirect:/404");
 
+        Recipe recipe = maybeRecipe.get();
         Either<User, Warnings> eitherUser = userService.getById(recipe.getUserId());
+        if (!eitherUser.isValuePresent())
+            System.out.println("error either");
+
+        mav.addObject("user", eitherUser.getValue());
 
         float userRating = 0;
         Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(), recipeId);
@@ -363,11 +378,7 @@ public class HomeController {
         mav.addObject("previous_rate", userRating);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));
         mav.addObject("recipe", recipe);
-        if (eitherUser.isValuePresent())
-            mav.addObject("user", eitherUser.getValue());
-        else {
-            //TODO tirar el warning
-        }
+
         mav.addObject("ingredientsList", recipe.getIngredients());
         return mav;
     }
@@ -400,8 +411,7 @@ public class HomeController {
         if (getCurrentUserID() != -1)
             return new ModelAndView("redirect:/");
 
-        final ModelAndView mav = new ModelAndView("register");
-        return mav;
+        return new ModelAndView("register");
     }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
@@ -411,17 +421,17 @@ public class HomeController {
         }
 
         String hashedPassword = passwordEncoder.encode(registerForm.getPassword());
-        final Either<User, Warnings> u = userService.signUpUser(new User.Builder(registerForm.getUsername(), hashedPassword, registerForm.getEmail())
+        final Either<User, Warnings> eitherUser = userService.signUpUser(new User.Builder(registerForm.getUsername(), hashedPassword, registerForm.getEmail())
                 .name(registerForm.getName()).surname(registerForm.getSurname()).build());
-        if(u.isValuePresent()) {
+        if(eitherUser.isValuePresent()) {
             ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
             builder.scheme("http");
             URI uri = builder.build().toUri();
-            Warnings emailWarnings = emailService.sendMailConfirmationEmail(u.getValue(), uri.toString());
+            Warnings emailWarnings = emailService.sendMailConfirmationEmail(eitherUser.getValue(), uri.toString());
             if (emailWarnings != Warnings.valueOf("EmailError"))
                 return new ModelAndView("redirect:/login");
         } else {
-            //TODO: mostrar el warning y volver a la pagina
+            return new ModelAndView("redirect:/403");
         }
         return new ModelAndView("redirect:/register");
     }
@@ -452,7 +462,7 @@ public class HomeController {
         if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
         else {
-            //TODO: tirar el error
+            return new ModelAndView("redirect:/404");
         }
         List<Recipe> rec = recipeService.getAllRecipesByUserId(userId);
 

@@ -148,7 +148,9 @@ public class User {
                 Objects.equals(surname, user.surname) &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(ingredients, user.ingredients) &&
-                Objects.equals(recipes, user.recipes);
+                Objects.equals(recipes, user.recipes) &&
+                Objects.equals(enabled, user.enabled) &&
+                Objects.equals(isAdmin, user.isAdmin);
     }
 
     @Override
