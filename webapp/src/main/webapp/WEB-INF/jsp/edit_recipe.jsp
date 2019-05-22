@@ -165,7 +165,7 @@
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/loadItems.js"/>"></script>
-<script>var formList = </script>
+<script>var formList = ${recipeIngredientsList}</script>
 
 <script>
     document.getElementById("fileInput").onchange = function () {

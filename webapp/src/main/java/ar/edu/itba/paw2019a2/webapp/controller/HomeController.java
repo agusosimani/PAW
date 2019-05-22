@@ -621,7 +621,8 @@ public class HomeController {
             recipeForm.setInstructions(recipe.getInstructions());
 
             Gson g = new Gson();
-            mav.addObject("recipeList", g.toJson(recipe.getIngredients()));
+            System.out.printf(g.toJson(recipe.getIngredients()));
+            mav.addObject("recipeIngredientsList", g.toJson(recipe.getIngredients()));
 
             mav.addObject("allTags", Tag.values());
             mav.addObject("recipeName", recipe.getName());

@@ -2,8 +2,6 @@ $(function () {
     $("#datepicker").datepicker();
     $("#datepicker2").datepicker();
 
-    console.log(list[0].type);
-
     var ctxB = document.getElementById("barChart").getContext('2d');
     var myBarChart = new Chart(ctxB, {
         type: 'bar',
