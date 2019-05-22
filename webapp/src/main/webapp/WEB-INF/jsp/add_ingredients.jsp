@@ -11,7 +11,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><spring:message code="addIngredient.title"/></h3>
+                <h3>Add ingredients</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -21,7 +21,8 @@
                 <c:url value="/add_ingredient_user" var="addIngredient"/>
                 <form:form autocomplete="off" modelAttribute="addIngredientForm" action="${addIngredient}"
                            method="post">
-                <div id="cloneInput1" class="to_clone cloneInput_1 flex">
+
+                <div id="cloneInput1" class="cloneInput_1 flex">
                     <div class="new-recipe-ingredient-select">
                         <form:label class="ingredientLabel" path="ingredients[0].ingredient.id"><spring:message code="addIngredient.select"/>
                         </form:label>
@@ -38,14 +39,14 @@
                         <form:input class="ingredientAmountInput form-control mb-4" path="ingredients[0].amount"/>
                     </div>
 
-                    <div class="new-recipe-ingredient-amount">
-                        <label class="ingredientAmountLabel"><spring:message code="addIngredient.type"/></label>
-                    </div>
-
-                    <button type="button" onclick="delete_item_add_ingredient(this)" class="btnDel_2 btn btn-danger text-center">X</button>
+                    <button type="button" id="0" onclick="delete_ingredient(this)" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn delete-ingredient-button">
+                        Delete ingredienttt
+                    </button>
                 </div>
 
-                <button type="button" id="btnAdd_2" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn"><spring:message code="addIngredient.add"/></button>
+                <button type="button" id="btnAdd_2" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">Add
+                    ingredienttt
+                </button>
             </div>
             <div class="modal-footer">
                 <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>
@@ -55,6 +56,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
