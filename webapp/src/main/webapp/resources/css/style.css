@@ -139,12 +139,12 @@ a.custom-card:hover {
 }
 
 .new-recipe-ingredient-btn{
-    margin-top: 20px;
+    float: left;
 }
 
 .new-recipe-ingredient-amount{
     float: left;
-    margin:20px 0px 0px 20px;
+    margin:0 0 0 2%;
 }
 
 .new-recipe-image{
@@ -153,7 +153,7 @@ a.custom-card:hover {
 
 .new-recipe-ingredient-select{
     float:left;
-    margin: 20px 0px 0px 0px;
+    width: 40%;
 }
 
 .ingredients-item{
@@ -161,6 +161,20 @@ a.custom-card:hover {
     margin-left: 3px;
     font-size: medium;
     float: left;
+}
+
+.modal-dialog {
+    width: 50% !important;
+    max-width: 50% !important;
+}
+
+.btnDel {
+    float:left;
+    margin: 2% 0 0 3%;
+    max-height: 3%;
+    height: 3%;
+    max-width: 3%;
+    width: 3% !important;
 }
 
 .ingredients-title{
@@ -590,6 +604,11 @@ a.custom-card:hover {
     .form-row {
         margin-right: 0 !important;
         margin-left: 0 !important;
+    }
+
+    .modal-dialog {
+        max-width: 98% !important;
+        width: 98% !important;
     }
 }
 
