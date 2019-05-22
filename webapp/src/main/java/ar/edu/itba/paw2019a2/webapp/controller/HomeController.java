@@ -34,7 +34,6 @@ import javax.validation.Valid;
 @Controller
 public class HomeController {
 
-
     @Autowired
     private MessageSource messageSource;
 
