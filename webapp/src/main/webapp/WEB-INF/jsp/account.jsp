@@ -48,7 +48,7 @@
                 <div class="card card-cascade card-recipe ">
                     <div class="view view-cascade">
                         <div class="bg-dark">
-                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_1.png"/>" alt="Sample image">
+                            <img class="card-img-top" src="<c:url value="/resources/img/recipes.jpg"/>" alt="Sample image">
                             <a>
                                 <div class="mask rgba-white-slight"></div>
                             </a>
@@ -76,7 +76,7 @@
                 <div class="card card-cascade card-recipe ">
                     <div class="view view-cascade">
                         <div class="bg-dark">
-                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                            <img class="card-img-top" src="<c:url value="/resources/img/cooklists.jpeg"/>" alt="Sample image">
                             <a>
                                 <div class="mask rgba-white-slight"></div>
                             </a>
@@ -116,7 +116,7 @@
 
                     <div class="card card-cascade card-recipe ">
                         <div class="view overlay rounded z-depth-2 mb-4">
-                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                            <img class="card-img-top" src="<c:url value="/resources/img/ingredients.jpg"/>" alt="Sample image">
                             <a>
                                 <div class="mask rgba-white-slight"></div>
                             </a>
@@ -134,7 +134,7 @@
                 <div class="card card-cascade card-recipe ">
                     <div class="view view-cascade">
                         <div class="bg-dark">
-                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                            <img class="card-img-top" src="<c:url value="/resources/img/recently_cooked.png"/>" alt="Sample image">
                             <a>
                                 <div class="mask rgba-white-slight"></div>
                             </a>
@@ -163,7 +163,7 @@
                 <div class="card card-cascade card-recipe ">
                     <div class="view view-cascade">
                         <div class="bg-dark">
-                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                            <img class="card-img-top" src="<c:url value="/resources/img/favourites_recipes.jpg"/>" alt="Sample image">
                             <a>
                                 <div class="mask rgba-white-slight"></div>
                             </a>

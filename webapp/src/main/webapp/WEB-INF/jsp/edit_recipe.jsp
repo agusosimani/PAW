@@ -83,9 +83,6 @@
                     <form:errors path="instructions" cssClass="form-text text-muted" element="small"/>
                 </div>
 
-
-                <form:errors path="ingredientsAmount" cssClass="form-text text-muted" element="small"/>
-                <form:errors path="ingredients" cssClass="form-text text-muted" element="small"/>
                 <div id="clonedInput1" class="to_clone clonedInput_1 flex">
                     <div class="new-recipe-ingredient-select">
                         <form:label path="ingredients"><spring:message code="addIngredient.select"/>
@@ -106,6 +103,8 @@
                         <i class="fas fa-trash fa-2x red-ic"></i>
                     </button>
                 </div>
+                <form:errors path="ingredientsAmount" cssClass="form-text text-muted" element="small"/>
+                <form:errors path="ingredients" cssClass="form-text text-muted" element="small"/>
 
                 <div class="form-row mb-4">
                     <button type="button" id="btnAdd_3" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">
