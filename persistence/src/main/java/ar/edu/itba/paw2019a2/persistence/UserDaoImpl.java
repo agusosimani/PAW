@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
             rs.getString("password"),rs.getString("mail"))
             .gender(rs.getString("gender")).name(rs.getString("name"))
             .surname(rs.getString("surname")).status(rs.getString("user_status"))
-                    .enabled(rs.getBoolean("enabled")).build();
+                    .enabled(rs.getBoolean("enabled")).isAdmin(rs.getBoolean("is_admin")).build();
 
 
     @Autowired
@@ -60,6 +60,7 @@ public class UserDaoImpl implements UserDao {
 
         map.put("user_status","REGULAR");
         map.put("enabled",false);
+        map.put("is_admin",false);
 
         System.out.printf("%s", user.toString());
 
@@ -141,5 +142,4 @@ public class UserDaoImpl implements UserDao {
                 password,
                 id));
     }
-
 }

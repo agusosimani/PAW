@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -52,12 +53,16 @@ public class HomeController {
 
 
     private int getCurrentUserID() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken)
+        if (authenticationService.getAuthentication() == null || !authenticationService.getAuthentication().isAuthenticated()
+                || authenticationService.getAuthentication() instanceof AnonymousAuthenticationToken)
             return -1;
         else {
-            return ((PawUserDetails) authentication.getPrincipal()).getId();
+            return ((PawUserDetails) authenticationService.getAuthentication().getPrincipal()).getId();
         }
+    }
+
+    private boolean isAdmin() {
+        return authenticationService.getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     @RequestMapping("/") //Le digo que url mappeo
@@ -226,12 +231,13 @@ public class HomeController {
 
     @RequestMapping(value = "/delete_recipe", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteRecipe(@RequestParam int recipeId) {
-        //TODO VERIFICAR QUE ESTE AUTORIZADO!
-        if(getCurrentUserID() != recipeService.getById(recipeId).get().getUserId()){
+        Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
+        if (maybeRecipe.isPresent() && (maybeRecipe.get().getUserId() == getCurrentUserID() || isAdmin())) {
+            recipeService.deleteRecipe(recipeId);
+            return new ModelAndView("redirect:/my_recipes");
+        } else {
             return new ModelAndView("redirect:/403");
         }
-        recipeService.deleteRecipe(recipeId);
-        return new ModelAndView("redirect:/my_recipes");
     }
 
     @RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
@@ -352,6 +358,7 @@ public class HomeController {
         mav.addObject("nutricionalInfoList", nutricionalInfo);
         mav.addObject("cooked", cooked);
         mav.addObject("editable", recipe.getUserId() == getCurrentUserID());
+        mav.addObject("editable", recipe.getUserId() == getCurrentUserID() || isAdmin());
         mav.addObject("cookLists", recipeService.getUserCookLists(getCurrentUserID()));
         mav.addObject("previous_rate", userRating);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(recipe.getUserId()));

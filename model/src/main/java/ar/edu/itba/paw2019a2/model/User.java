@@ -16,12 +16,13 @@ public class User {
     private List<Recipe> recipes;
     private List<RecipeList> recipeLists;
     private boolean enabled;
+    private boolean isAdmin;
     //private byte[] image;
 
     private User(int id, String email, String password, String name, String surname,
                  String username, String gender, String status,
                  List<RecipeIngredient> ingredients, List<Recipe> recipes,
-                 List<RecipeList> recipeLists, boolean enabled) {
+                 List<RecipeList> recipeLists, boolean enabled, boolean isAdmin) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -34,6 +35,7 @@ public class User {
         this.recipes = recipes;
         this.recipeLists = recipeLists;
         this.enabled = enabled;
+        this.isAdmin = isAdmin;
     }
 
     public String getStatus() {
@@ -128,6 +130,10 @@ public class User {
 
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -180,6 +186,7 @@ public class User {
         private List<Recipe> recipes = null;
         private List<RecipeList> recipeLists= null;
         private boolean enabled = false;
+        private boolean isAdmin = false;
 
         public Builder(int id, String username, String password, String email) {
             this.id = id;
@@ -234,8 +241,13 @@ public class User {
             return this;
         }
 
+        public Builder isAdmin(boolean isAdmin) {
+            this.isAdmin = isAdmin;
+            return this;
+        }
+
         public User build() {
-            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes,recipeLists, enabled);
+            return new User(id, email, password, name, surname, username, gender, status, ingredients, recipes,recipeLists, enabled, isAdmin);
         }
     }
 }
