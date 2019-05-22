@@ -1,6 +1,7 @@
 package ar.edu.itba.paw2019a2.webapp.config;
 
 import ar.edu.itba.paw2019a2.webapp.auth.FoodifyUrlAuthentificationFailureHandler;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -46,8 +51,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                 .and().rememberMe()
                     .rememberMeParameter("j_rememberme")
-                //TODO: cambiar esto
-                    .key("mysupersecretketthatnobodyknowsabout")//TODO CAMBIARLO!!!
+                    .key(getKey())
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()
                     .logoutUrl("/logout")
@@ -56,6 +60,17 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .accessDeniedPage("/403")
                 .and().csrf().disable();
     }
+
+    private String getKey() {
+        InputStream inputStream = getClass()
+                .getClassLoader().getResourceAsStream("rememberMe.key");
+        try {
+            return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
     @Override
     public void configure(final WebSecurity web) throws Exception {
         web.ignoring()

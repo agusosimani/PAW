@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
-
+import org.apache.commons.text.StringEscapeUtils;
 
 public class Recipe {
 
@@ -83,7 +83,12 @@ public class Recipe {
         return instructions;
     }
 
+    public String getEscapedInstructions() {
+        return StringEscapeUtils.escapeXml10(this.instructions).replace("\n", "<br/>");
+    }
+
     public void setInstructions(String instructions) {
+
         this.instructions = instructions;
     }
 
