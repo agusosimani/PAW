@@ -580,6 +580,12 @@ public class RecipeDaoImpl implements RecipeDao {
         Timestamp fromT = new Timestamp(from.getTime());
         Timestamp toT = new Timestamp(to.getTime());
 
+        System.out.printf("%s\n",from.toString());
+        System.out.printf("%s\n",to.toString());
+        System.out.printf("%s\n",fromT.toString());
+        System.out.printf("%s\n",toT.toString());
+
+
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recently_cooked " +
                         "LEFT OUTER JOIN recipes ON (recipe_id = rc_recipe_id) WHERE " +

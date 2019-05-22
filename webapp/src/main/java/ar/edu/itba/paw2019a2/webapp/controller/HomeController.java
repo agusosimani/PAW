@@ -4,6 +4,7 @@ import ar.edu.itba.paw2019a2.model.*;
 import ar.edu.itba.paw2019a2.model.Enum.*;
 import ar.edu.itba.paw2019a2.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw2019a2.webapp.form.*;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.sql.Date;
 import java.util.*;
 
 import javax.validation.Valid;
@@ -300,21 +302,26 @@ public class HomeController {
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public ModelAndView statistics(@Valid @ModelAttribute("dateForm") final DateForm dateForm, final BindingResult errors) {
         final ModelAndView mav = new ModelAndView("statistics");
-        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(),new Date(2019,4,1), new Date());
+        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(),new Date(2019,4,1), new Date(2019,6,1));
+        double calorie = 0, fat = 0, carbohydrate= 0, protein = 0;
 
-        List<Integer> nutricionalList = new ArrayList<>();
-        nutricionalList.add(2);
-        nutricionalList.add(3);
-        nutricionalList.add(4);
-        nutricionalList.add(10);
-
-        List<String> stringList = new ArrayList<>();
-        for(NutricionalInfoTypes n : NutricionalInfoTypes.values()){
-            stringList.add(n.toString());
+        for(RecipeIngredient recipeIngredient : list){
+            System.out.printf("Nombre: %s, grasa: %d\n", recipeIngredient.getIngredient().getName(), recipeIngredient.getIngredient().getTotalFat());
+            fat +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getTotalFat();
+            calorie +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCalories();
+            carbohydrate +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCarbohydrates();
+            protein +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getProtein();
         }
 
-        mav.addObject("stringList", stringList);
-        mav.addObject("list", nutricionalList);
+        List<NutricionalInfo> nutricionalList = new ArrayList<>();
+        nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Calorie,calorie));
+        nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Fat,fat));
+        nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Carbohydrate,carbohydrate));
+        nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
+
+        Gson g = new Gson();
+        System.out.printf("%s", g.toJson(nutricionalList));
+        mav.addObject("list", g.toJson(nutricionalList));
         return mav;
     }
 

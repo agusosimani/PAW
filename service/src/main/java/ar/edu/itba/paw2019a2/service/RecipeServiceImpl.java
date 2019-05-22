@@ -541,6 +541,7 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to) {
 
         List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId,from,to);
+        System.out.printf("holisssss");
 
         for (Recipe rec: recipeList) {
 
