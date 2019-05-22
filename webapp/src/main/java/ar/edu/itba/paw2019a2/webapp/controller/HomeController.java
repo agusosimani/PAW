@@ -376,6 +376,13 @@ public class HomeController {
             dateForm.setTo(toDefaultDate);
         }
 
+        Either<User,Warnings> user = userService.getById(getCurrentUserID());
+        try {mapUserParams(mav,user.getValue());}
+        catch (Exception e){
+
+        }
+
+
         System.out.printf("DATE: %s    %s", dateForm.getFrom(), dateForm.getTo());
 
         List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(), dateForm.getFrom(), dateForm.getTo());
@@ -419,9 +426,15 @@ public class HomeController {
             return new ModelAndView("404");
         }
 
+        List<Ingredient> allIngredients = ingredientService.getAllIngredients();
+        for(Ingredient in : allIngredients){
+            System.out.printf("%s\n", in.getName());
+        }
+
+
         mav.addObject("averageRate",userService.getRelativeRatingFromUser(getCurrentUserID()));
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(getCurrentUserID()).size());
-        mav.addObject("allIngredients", ingredientService.getAllIngredients());
+        mav.addObject("allIngredients", allIngredients);
         mav.addObject("ingredientsList", ingredientService.findByUser(id));
         return mav;
     }

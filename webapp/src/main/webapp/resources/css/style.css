@@ -119,10 +119,12 @@ a.custom-card:hover {
 
 .side_card{
     margin-right: 10px;
-    margin-left: 1%;
+    margin-left: 10px;
     width: 300px;
     position: fixed;
     right: 0;
+    overflow-y: scroll;
+    max-height: 100%;
 }
 
 .log-out-sidebar{
