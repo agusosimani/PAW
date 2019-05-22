@@ -664,7 +664,21 @@ public class HomeController {
 
         Recipe recipe = new Recipe.Builder(recipeForm.getName(),new ArrayList<>(),recipeForm.getInstructions(),getCurrentUserID()).description(recipeForm.getDescription()).tags(recipeForm.getTags()).build();
 
-        recipeService.update(recipe);
+        recipe.setId(recipeId);
+
+        System.out.printf("\nACA ESTA: %s\n",recipe.getName());
+        System.out.printf("\nACA ESTA: %s\n",recipe.getDescription());
+        System.out.printf("\nACA ESTA: %s\n",recipe.getInstructions());
+
+        for (String tag : recipe.getTags()) {
+            System.out.printf("\nACA ESTA: %s\n",tag);
+        }
+
+        for (RecipeIngredient ri : recipe.getIngredients())
+            System.out.printf("\nACA ESTA: %d : %f\n",ri.getIngredient().getId(),ri.getAmount());
+
+
+        //recipeService.update(recipe);
 
 
 
