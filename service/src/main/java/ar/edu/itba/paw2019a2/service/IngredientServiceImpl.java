@@ -4,7 +4,6 @@ import ar.edu.itba.paw2019a2.interfaces.dao.IngredientsDao;
 import ar.edu.itba.paw2019a2.interfaces.dao.RecipeDao;
 import ar.edu.itba.paw2019a2.interfaces.dao.UserDao;
 import ar.edu.itba.paw2019a2.interfaces.service.IngredientService;
-import ar.edu.itba.paw2019a2.model.Either;
 import ar.edu.itba.paw2019a2.model.Enum.Warnings;
 import ar.edu.itba.paw2019a2.model.Ingredient;
 import ar.edu.itba.paw2019a2.model.RecipeIngredient;
@@ -57,41 +56,22 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Optional<RecipeIngredient> getByIngredientUserId(int ingredientId,int userId){
+    public Optional<RecipeIngredient> getByIngredientUserId(int ingredientId, int userId){
         return ingredientsDao.getUserIngById(ingredientId,userId);
     }
 
     @Override
-    public Either<RecipeIngredient,Warnings> findUserIngredientByName(int u, String name) {
-        List<RecipeIngredient> list = this.findByUser(u);
+    public Optional<List<RecipeIngredient>> findByRecipe(int recipeId) {
 
-        for (RecipeIngredient r : list) {
-            if (r.getIngredient().getName().equals(name)) {
-                return Either.value(r);
-            }
-        }
-        return Either.alternative(Warnings.valueOf("CouldNotFindIngredient"));
-    }
+        if(!recipeDao.getById(recipeId).isPresent())
+            return Optional.empty();
 
-    @Override
-    public List<RecipeIngredient> findByRecipe(int recipeId) {
         List<RecipeIngredient> list = ingredientsDao.getByRecipeId(recipeId);
         for (RecipeIngredient i : list) {
             Optional<Ingredient> ingredient = ingredientsDao.getById(i.getIngredient().getId());
             ingredient.ifPresent(i::setIngredient);
         }
-        return list;
-    }
-
-    @Override
-    public Either<RecipeIngredient,Warnings> findRecipeIngredientByName(int recipe, String name) {
-        List<RecipeIngredient> list = this.findByRecipe(recipe);
-        for (RecipeIngredient r : list) {
-            if (r.getIngredient().getName().equals(name)) {
-                return Either.value(r);
-            }
-        }
-        return Either.alternative(Warnings.valueOf("CouldNotFindIngredient"));
+        return Optional.of(list);
     }
 
     @Transactional

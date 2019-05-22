@@ -332,7 +332,12 @@ public class HomeController {
     public ModelAndView cookRecipes(@RequestParam int recipeId) {
 
 
-        List<RecipeIngredient> list = ingredientService.findByRecipe(recipeId);
+        Optional<List<RecipeIngredient>> maybeList = ingredientService.findByRecipe(recipeId);
+
+        if(!maybeList.isPresent())
+            return new ModelAndView("redirect:/404");
+
+        List<RecipeIngredient> list = maybeList.get();
 
         Boolean s = ingredientService.cookRecipe(list, this.getCurrentUserID()).equals(Warnings.Success);
 

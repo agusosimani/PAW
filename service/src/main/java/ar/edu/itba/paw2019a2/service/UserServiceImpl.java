@@ -126,10 +126,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void deleteAccount(User user) {
+    public boolean deleteAccount(int user) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", Status.DELETED.toString());
-        userDao.update(user, map);
+        Either<User,Warnings> u = getById(user);
+        if(!u.isValuePresent())
+            return false;
+        userDao.update(u.getValue(), map);
+        return true;
     }
 
     @Override

@@ -19,7 +19,7 @@ public interface UserService {
 
     void update(User user);
 
-    void deleteAccount(User user);
+    boolean deleteAccount(int userId);
 
     Either<VerificationToken, Warnings> createVerificationToken(User user);
 

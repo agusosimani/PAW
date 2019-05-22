@@ -18,13 +18,9 @@ public interface IngredientService {
 
     List<RecipeIngredient> findByUser(int userId);
 
-    List<RecipeIngredient> findByRecipe(int recipeId);
+    Optional<List<RecipeIngredient>> findByRecipe(int recipeId);
 
     Optional<RecipeIngredient> getByIngredientUserId(int ingredientId, int userId);
-
-    Either<RecipeIngredient,Warnings> findUserIngredientByName(int u, String name);
-
-    Either<RecipeIngredient,Warnings> findRecipeIngredientByName(int recipeId, String name);
 
     RecipeIngredient addNewRecipeIngredient(RecipeIngredient ri, int recipe);
 
