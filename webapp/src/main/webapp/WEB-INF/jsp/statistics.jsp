@@ -63,7 +63,8 @@
 
 <script type="text/javascript" src="<c:url value="/resources/js/chart.js"/>"></script>
 <script>
-    var number = ${paramTry};
+    var list = ${list};
+    var stringList = ${stringList};
 </script>
 
 </body>

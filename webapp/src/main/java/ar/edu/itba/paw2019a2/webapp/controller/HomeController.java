@@ -300,7 +300,21 @@ public class HomeController {
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public ModelAndView statistics(@Valid @ModelAttribute("dateForm") final DateForm dateForm, final BindingResult errors) {
         final ModelAndView mav = new ModelAndView("statistics");
-        List<RecipeIngredient> list = recipeService.
+        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(),new Date(2019,4,1), new Date());
+
+        List<Integer> nutricionalList = new ArrayList<>();
+        nutricionalList.add(2);
+        nutricionalList.add(3);
+        nutricionalList.add(4);
+        nutricionalList.add(10);
+
+        List<String> stringList = new ArrayList<>();
+        for(NutricionalInfoTypes n : NutricionalInfoTypes.values()){
+            stringList.add(n.toString());
+        }
+
+        mav.addObject("stringList", stringList);
+        mav.addObject("list", nutricionalList);
         return mav;
     }
 

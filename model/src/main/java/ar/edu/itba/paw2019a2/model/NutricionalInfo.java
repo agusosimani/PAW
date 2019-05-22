@@ -3,6 +3,7 @@ package ar.edu.itba.paw2019a2.model;
 import ar.edu.itba.paw2019a2.model.Enum.NutricionalInfoTypes;
 
 public class NutricionalInfo {
+
     private NutricionalInfoTypes type;
     private double amount;
 
