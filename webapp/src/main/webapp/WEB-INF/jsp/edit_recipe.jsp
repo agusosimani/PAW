@@ -87,7 +87,7 @@
                     <div class="new-recipe-ingredient-select">
                         <form:label path="ingredients"><spring:message code="addIngredient.select"/>
                         </form:label>
-                        <form:select path="ingredients" cssClass="form-control" multiple="">
+                        <form:select path="ingredients" cssClass="form-control select-ingredient-recipe" multiple="">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
                                 <form:option
                                         value="${ingredient_type.id}">${ingredient_type.name} (${ingredient_type.typeOfServing})</form:option>
@@ -97,7 +97,7 @@
                     <div class="new-recipe-ingredient-amount">
                         <form:label path="ingredientsAmount"><spring:message code="addIngredient.amount"/>
                         </form:label>
-                        <form:input type="number" class="form-control mb-4" path="ingredientsAmount"/>
+                        <form:input type="number" class="form-control mb-4 select-ingredient-recipe-amount" path="ingredientsAmount"/>
                     </div>
                     <div class="new-recipe-ingredient-amount">
                         <label class="ingredientAmountLabel"><spring:message code="addIngredient.type"/></label>
@@ -165,7 +165,7 @@
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/loadItems.js"/>"></script>
-<script>var formList = ${recipeIngredientsList}</script>
+<script>var formList = ${recipeIngredientsList};</script>
 
 <script>
     document.getElementById("fileInput").onchange = function () {
