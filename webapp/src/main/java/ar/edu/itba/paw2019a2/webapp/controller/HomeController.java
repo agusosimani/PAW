@@ -382,8 +382,13 @@ public class HomeController {
 
         double calorie = 0, fat = 0, carbohydrate= 0, protein = 0;
 
+        List<TagInfo> tagsInfo = new ArrayList<>();
+        for(Tag tag : Tag.values()){
+            tagsInfo.add(new TagInfo(tag));
+        }
+
+
         for(RecipeIngredient recipeIngredient : list){
-            System.out.printf("Nombre: %s, grasa: %f\n", recipeIngredient.getIngredient().getName(), recipeIngredient.getIngredient().getTotalFat());
             fat +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getTotalFat();
             calorie +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCalories();
             carbohydrate +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCarbohydrates();
@@ -397,6 +402,7 @@ public class HomeController {
         nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
 
         Gson g = new Gson();
+        //mav.addObject("donutList", g.toJson())
         mav.addObject("list", g.toJson(nutricionalList));
         return mav;
     }
@@ -696,9 +702,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/save_edit_changes", method = RequestMethod.POST)
-    public ModelAndView editRecipeSave(@RequestParam int recipeId, @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
+    public ModelAndView editRecipeSave(@RequestParam int recipeId, @Valid @ModelAttribute("recipeForm") final RecipeForm recipeForm, final BindingResult errors) {
         if (errors.hasErrors()) {
-            //TODO
+            return editRecipe(recipeForm,recipeId);
         }
         Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
         if(!maybeRecipe.isPresent())

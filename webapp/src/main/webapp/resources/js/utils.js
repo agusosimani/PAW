@@ -37,6 +37,25 @@ function delete_ingredient2(button) {
     }
 };
 
+
+function delete_item_edit_recipe(button) {
+
+    var num = $('.clonedInput_1').length;
+
+    var i = button.id;
+    i = parseInt(i) + 2;
+    for (i; i <= num; i++) {
+        var replaceFor = i - 1;
+        var replaceIndex = replaceFor - 1;
+        $('#clonedInput' + i).find('.delete-ingredient-button').attr('id', replaceIndex);
+        $('#clonedInput' + i).attr('id', 'clonedInput' + replaceFor);
+    }
+
+    if (num > 1) {
+        $(button).parent().remove();
+    }
+};
+
 $(function () {
     $('#btnAdd_1').click(function () {
         var num = JSON.parse(localStorage.getItem("count_new_recipe")),

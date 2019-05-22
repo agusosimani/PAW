@@ -56,37 +56,3 @@ $(window).on("resize load", function(){
 
     }
 });
-
-function delete_item_add_ingredient(button) {
-    var key = "count_add_ingredients";
-    if (JSON.parse(localStorage.getItem(key)) > 1) {
-        $(button).parent().remove();
-        localStorage.setItem(key, JSON.stringify(JSON.parse(localStorage.getItem(key)) - 1));
-    }
-};
-
-function delete_item_new_recipe(button) {
-    var key = "count_new_recipe";
-    if (JSON.parse(localStorage.getItem(key)) > 1) {
-        $(button).parent().remove();
-        localStorage.setItem(key, JSON.stringify(JSON.parse(localStorage.getItem(key)) - 1));
-    }
-};
-
-function delete_item_edit_recipe(button) {
-
-    var num = $('.clonedInput_1').length;
-
-    var i = button.id;
-    i = parseInt(i) + 2;
-    for (i; i <= num; i++) {
-        var replaceFor = i - 1;
-        var replaceIndex = replaceFor - 1;
-        $('#clonedInput' + i).find('.delete-ingredient-button').attr('id', replaceIndex);
-        $('#clonedInput' + i).attr('id', 'clonedInput' + replaceFor);
-    }
-
-    if (num > 1) {
-        $(button).parent().remove();
-    }
-};

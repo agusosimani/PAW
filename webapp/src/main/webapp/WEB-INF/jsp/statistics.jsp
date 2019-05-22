@@ -34,7 +34,7 @@
 
         <c:url value="/statistics" var="statisticsUrl"/>
         <form:form modelAttribute="dateForm" action="${statisticsUrl}" method="get">
-            <form:input path="from" type="date" maxlength="10"/>
+            <form:input cssClass="form-input" path="from" type="date" maxlength="10"/>
             <form:input path="to" type="date" maxlength="10"/>
             <button class="btn btn-green" type="submit">
                 <spring:message code="getStatistics"/>
@@ -43,6 +43,7 @@
 
 
         <canvas id="barChart"></canvas>
+        <canvas id="doughnutChart"></canvas>
     </section>
 
     <section class="side_card">

@@ -16,7 +16,7 @@
                enctype="multipart/form-data">
         <spring:message code="search" var="search"/>
 
-        <form:input path="searchBar" placeholder="${search}"/>
+        <form:input cssClass="form-control" path="searchBar" placeholder="${search}"/>
 
         <label class="text-filter"><spring:message code="sortBy"/> </label>
 

@@ -46,8 +46,8 @@
                     </button>
                 </div>
 
-                <button type="button" id="btnAdd_2" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">Add
-                    ingredienttt
+                <button type="button" id="btnAdd_2" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">
+                    <spring:message code="addIngredient.add"/>
                 </button>
             </div>
             <div class="modal-footer">
