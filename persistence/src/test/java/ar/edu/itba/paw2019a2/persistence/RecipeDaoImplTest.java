@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
-import javax.swing.text.html.Option;
 import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -101,7 +100,7 @@ public class RecipeDaoImplTest {
 
     @Test
     public void testGetAllRecipes() {
-        List<Recipe> allRecipes = recipeDao.getAllRecipes();
+        List<Recipe> allRecipes = recipeDao.getAllRecipes("");
 
         Assert.assertEquals(2, allRecipes.size());
 

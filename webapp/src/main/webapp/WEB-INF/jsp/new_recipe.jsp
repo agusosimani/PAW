@@ -93,7 +93,9 @@
                     <div class="new-recipe-ingredient-amount">
                         <label class="ingredientAmountLabel"><spring:message code="addIngredient.type"/></label>
                     </div>
-                    <button type="button" onclick="delete_item_new_recipe(this)" class="btnDel_1 btn btn-danger text-center">X</button>
+                    <button type="button" onclick="delete_item_new_recipe(this)" class="btnDel_1 btn btn-danger text-center">
+                        <i class="fas fa-trash fa-2x white-ic"></i>
+                    </button>
                 </div>
 
                 <div class="form-row mb-4">

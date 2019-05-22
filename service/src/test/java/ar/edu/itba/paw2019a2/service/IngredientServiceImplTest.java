@@ -22,7 +22,7 @@ public class IngredientServiceImplTest {
     private String INGREDIENT_NAME = "Ingredient";
     private boolean INGREDIENT_BOOLEANS = false;
     private double INGREDIENT_DOUBLES = 1.0;
-    private float INGREDIENT_FLOAT = (float)1.0;
+    private float INGREDIENT_FLOAT = 1.0f;
     private String INGREDIENT_TYPE_OF_SERVING = "Units";
     private int INGREDIENT_USER_ID = 1;
     private String INGREDIENT_STATUS = "REGULAR";

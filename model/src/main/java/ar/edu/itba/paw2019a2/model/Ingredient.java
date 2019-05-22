@@ -173,7 +173,7 @@ public class Ingredient {
         private double sugar = -1;
         private double serving;
         private String typeOfServing;
-        private String status;
+        private String status = "REGULAR";
         private int userId;
 
         public Builder(int id, String name, double serving, String typeOfServing, int userId, String status) {
@@ -185,8 +185,20 @@ public class Ingredient {
             this.status = status;
         }
 
+        public Builder(String name, double serving, String typeOfServing, int userId) {
+            this.name = name;
+            this.serving = serving;
+            this.typeOfServing = typeOfServing;
+            this.userId = userId;
+        }
+
+        public Builder status(String status) {
+            this.status = status;
+            return this;
+        }
+
         public Builder isVegetararian(boolean isVegetarian) {
-            this.isVegetarian =isVegetarian;
+            this.isVegetarian = isVegetarian;
             return this;
         }
 

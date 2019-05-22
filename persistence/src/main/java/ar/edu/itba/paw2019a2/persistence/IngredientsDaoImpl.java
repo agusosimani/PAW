@@ -279,40 +279,40 @@ public class IngredientsDaoImpl implements IngredientsDao {
     }
 
     private void update(Ingredient ingredient, String k, Object v) {
-        if (!k.equals("ingredient_name")) {
+        if (k.equals("ingredient_name")) {
             jdbcTemplate.update("UPDATE ingredients SET ingredient_name = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("ingredient_status")) {
+        if (k.equals("ingredient_status")) {
             jdbcTemplate.update("UPDATE ingredients SET ingredient_status = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("is_vegetarian")) {
+        if (k.equals("is_vegetarian")) {
             jdbcTemplate.update("UPDATE ingredients SET is_vegetarian = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("is_vegan")) {
+        if (k.equals("is_vegan")) {
             jdbcTemplate.update("UPDATE ingredients SET is_vegan = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("tacc_free")) {
+        if (k.equals("tacc_free")) {
             jdbcTemplate.update("UPDATE ingredients SET tacc_free = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("protein_count")) {
+        if (k.equals("protein_count")) {
             jdbcTemplate.update("UPDATE ingredients SET protein_count = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("calorie_count")) {
+        if (k.equals("calorie_count")) {
             jdbcTemplate.update("UPDATE ingredients SET calorie_count = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("carbohydrate_count")) {
+        if (k.equals("carbohydrate_count")) {
             jdbcTemplate.update("UPDATE ingredients SET carbohydrate_count = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("fat_count")) {
+        if (k.equals("fat_count")) {
             jdbcTemplate.update("UPDATE ingredients SET fat_count = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("sugar_count")) {
+        if (k.equals("sugar_count")) {
             jdbcTemplate.update("UPDATE ingredients SET sugar_count = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("serving_type")) {
+        if (k.equals("serving_type")) {
             jdbcTemplate.update("UPDATE ingredients SET serving_type = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
-        if (!k.equals("serving")) {
+        if (k.equals("serving")) {
             jdbcTemplate.update("UPDATE ingredients SET serving = ? WHERE ingredient_id = ?", v, ingredient.getId());
         }
 

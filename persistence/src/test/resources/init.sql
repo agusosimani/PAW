@@ -31,3 +31,12 @@ VALUES (1, 1, 'obs', 2.0, 'REGULAR');
 
 INSERT INTO recipes_ingredients(recipe_id, ingredient_id, obs, serving_amount, ri_status)
 VALUES (2, 2, 'obs', 4.0, 'REGULAR');
+
+
+/* USER INGREDIENTS */
+INSERT INTO user_ingredients(user_id, ingredient_id, obs, serving_amount, ui_status)
+VALUES (1, 1, 'obs', 10.0, 'REGULAR');
+
+
+INSERT INTO user_ingredients(user_id, ingredient_id, obs, serving_amount, ui_status)
+VALUES (2, 2, 'obs', 15.0, 'REGULAR');

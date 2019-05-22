@@ -26,7 +26,7 @@
                 <form:label path="cooklistId"><spring:message code="cooklist.select"/></form:label>
                 <form:select path="cooklistId" class="ingredientSelect form-control mb-4">
                     <c:forEach var="cooklist" items="${cookLists}">
-                        <form:option value="${cooklist.id}">${cooklist.name}</form:option>
+                        <form:option value="${cooklist.id}"><c:out value="${cooklist.name}"/></form:option>
                     </c:forEach>
                 </form:select>
                 <form:errors path="cooklistId" cssClass="form-text text-muted" element="small"/>
