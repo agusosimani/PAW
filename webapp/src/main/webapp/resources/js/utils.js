@@ -12,7 +12,7 @@ function add_rate(clicked_id) {
 };
 
 
-function delete_ingredient(button) {
+function delete_ingredient2(button) {
     var num = $('.cloneInput_1').length,
         newNum = new Number(num + 1);
 
@@ -30,6 +30,31 @@ function delete_ingredient(button) {
         $('#cloneInput' + i).find('.ingredientAmountInput').attr('name', 'ingredients[' + replaceIndex + '].amount');
         $('#cloneInput' + i).find('.delete-ingredient-button').attr('id', replaceIndex);
         $('#cloneInput' + i).attr('id', 'cloneInput' + replaceFor);
+    }
+
+    if (num > 1) {
+        $(button).parent().remove();
+    }
+};
+
+function delete_ingredient(button) {
+    var num = $('.clonedInput_1').length,
+        newNum = new Number(num + 1);
+
+
+    var i = button.id;
+
+    i = parseInt(i) + 2;
+    for (i; i <= num; i++) {
+        var replaceFor = i - 1;
+        var replaceIndex = replaceFor - 1;
+        $('#clonedInput' + i).find('.ingredientLabel').attr('for', 'ingredients[' + replaceIndex + '].ingredient.id');
+        $('#clonedInput' + i).find('.ingredientSelect').attr('name', 'ingredients[' +replaceIndex + '].ingredient.id');
+        $('#clonedInput' + i).find('.ingredientAmountLabel').attr('for', 'ingredients[' + replaceIndex + '].amount');
+        $('#clonedInput' + i).find('.ingredientAmountInput').attr('name', 'ingredients[' +replaceIndex + '].amount');
+        $('#clonedInput' + i).find('.ingredientAmountInput').attr('name', 'ingredients[' + replaceIndex + '].amount');
+        $('#clonedInput' + i).find('.delete-ingredient-button').attr('id', replaceIndex);
+        $('#clonedInput' + i).attr('id', 'cloneInput' + replaceFor);
     }
 
     if (num > 1) {
