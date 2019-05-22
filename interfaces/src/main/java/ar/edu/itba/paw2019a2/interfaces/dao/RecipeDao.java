@@ -18,17 +18,17 @@ public interface RecipeDao {
 
     List<Recipe> getByUserId(final int id);
 
-    List<Recipe> getAllRecipes();
+    List<Recipe> getAllRecipes(String search);
 
-    List<Recipe> getAllRecipesOrderedByDateNew();
+    List<Recipe> getAllRecipesOrderedByDateNew(String search);
 
-    List<Recipe> getAllRecipesOrderedByDateOld();
+    List<Recipe> getAllRecipesOrderedByDateOld(String search);
 
-    List<Recipe> getRecipesWithtagAndOrder(Order order, List<String> tags);
+    List<Recipe> getRecipesWithTagAndOrder(Order order, List<String> tags, String search);
 
     Recipe addNewRecipe(Recipe recipe);
 
-    List<Recipe> getAllRecipesOrderedByRating();
+    List<Recipe> getAllRecipesOrderedByRating(String search);
 
     void update(int recipe, Map<String,Object> changes);
 
@@ -63,7 +63,7 @@ public interface RecipeDao {
 
     Optional<RecipeList> getCookList(int cookListId);
 
-    List<Recipe> getAllRecipesOrderByRising();
+    List<Recipe> getAllRecipesOrderByRising(String search);
 
     boolean isTagDeleted(String tag, int id);
 

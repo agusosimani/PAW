@@ -286,7 +286,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getRecipes() {
-        List<Recipe> rList = recipeDao.getAllRecipes();
+        List<Recipe> rList = recipeDao.getAllRecipes("");
         putIngredientsAndTagsToRecipe(rList);
         return rList;
     }
@@ -299,17 +299,17 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> FilterRecipesByTags(List<String> tags) {
-        return recipeDao.getRecipesWithtagAndOrder(null, tags);
+        return recipeDao.getRecipesWithTagAndOrder(null, tags,"");
     }
 
     @Override
     public List<Recipe> getAllRecipesByDate() {
-        return recipeDao.getAllRecipesOrderedByDateNew();
+        return recipeDao.getAllRecipesOrderedByDateNew("");
     }
 
     @Override
     public List<Recipe> getAllRecipesByRating() {
-        return recipeDao.getAllRecipesOrderedByRating();
+        return recipeDao.getAllRecipesOrderedByRating("");
     }
 
     @Override
@@ -444,10 +444,10 @@ public class RecipeServiceImpl implements RecipeService {
     //rising = order by rating where date > ayer
 
     @Override
-    public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId) {
+    public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId,String search) {
         if (tags == null)
             tags = new ArrayList<>();
-        List<Recipe> recipeList = recipeDao.getRecipesWithtagAndOrder(order, tags);
+        List<Recipe> recipeList = recipeDao.getRecipesWithTagAndOrder(order, tags,search);
 
         List<Recipe> returnList = new ArrayList<>();
 
@@ -498,12 +498,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order) {
+    public Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order,String search) {
         if (tags == null)
             tags = new ArrayList<>();
 
 
-        List<Recipe> list = recipeDao.getRecipesWithtagAndOrder(order, tags);
+        List<Recipe> list = recipeDao.getRecipesWithTagAndOrder(order, tags,search);
 
 
         for (Recipe recipe : list) {
