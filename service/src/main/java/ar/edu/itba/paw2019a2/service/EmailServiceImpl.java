@@ -56,16 +56,10 @@ public class EmailServiceImpl implements EmailService {
         try {
             if(message instanceof MimeMessage) {
                 emailSender.send((MimeMessage) message);
-            } else if (message instanceof SimpleMailMessage){
+            } else if (message instanceof SimpleMailMessage) {
                 emailSender.send((SimpleMailMessage) message);
-            } else {
-                System.out.println("Wrong message type");
             }
-            System.out.println("sending email to: " + to);
         } catch (Exception ex){
-            System.out.println(ex.getCause());
-            System.out.println(ex.getMessage());
-            System.out.println("failed sending email to: " + to);
             return Warnings.valueOf("EmailError");
         }
         return Warnings.valueOf("Success");
