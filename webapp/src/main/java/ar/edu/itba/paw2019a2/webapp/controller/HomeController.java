@@ -73,7 +73,7 @@ public class HomeController {
     }
 
     @RequestMapping("/") //Le digo que url mappeo
-    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm) {
+    public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam(required=false) Integer page) {
         final ModelAndView mav = new ModelAndView("index");
 
         //filterForm.setTags(tags);
@@ -90,6 +90,12 @@ public class HomeController {
                 System.out.printf("%s\n", s);
             }
         }
+
+        System.out.printf("PAGINA: %d", page);
+        if(page != null)
+            mav.addObject("page", page);
+        else
+            mav.addObject("page", 0);
 
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());

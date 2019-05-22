@@ -40,6 +40,12 @@
                 </c:choose>
             </c:if>
             <%@include file="recipe_cards.jsp" %>
+            <c:url var="indexUrl" value="/">
+                <c:param name="page" value="${page + 1}"/>
+            </c:url>
+            <a href="${indexUrl}">
+                <button class="btn btn-green"></button>
+            </a>
         </section>
 
         <section class="side_card">
