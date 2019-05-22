@@ -286,7 +286,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getRecipes() {
-        List<Recipe> rList = recipeDao.getAllRecipes("",0);
+        List<Recipe> rList = recipeDao.getAllRecipes("", 0);
         putIngredientsAndTagsToRecipe(rList);
         return rList;
     }
@@ -299,22 +299,22 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> FilterRecipesByTags(List<String> tags) {
-        return recipeDao.getRecipesWithTagAndOrder(null, tags,"",0);
+        return recipeDao.getRecipesWithTagAndOrder(null, tags, "", 0);
     }
 
     @Override
     public List<Recipe> getAllRecipesByDate() {
-        return recipeDao.getAllRecipesOrderedByDateNew("",0);
+        return recipeDao.getAllRecipesOrderedByDateNew("", 0);
     }
 
     @Override
     public List<Recipe> getAllRecipesByRating() {
-        return recipeDao.getAllRecipesOrderedByRating("",0);
+        return recipeDao.getAllRecipesOrderedByRating("", 0);
     }
 
     @Override
     public List<Recipe> getFavouriteRecipes(int userId) {
-        List<Rating> ratingsList =  ratingsDao.getRatingsBiggerThanFour(userId);
+        List<Rating> ratingsList = ratingsDao.getRatingsBiggerThanFour(userId);
 
         List<Recipe> retList = new ArrayList<>();
 
@@ -444,10 +444,10 @@ public class RecipeServiceImpl implements RecipeService {
     //rising = order by rating where date > ayer
 
     @Override
-    public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId,String search,int limit) {
+    public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId, String search, int limit) {
         if (tags == null)
             tags = new ArrayList<>();
-        List<Recipe> recipeList = recipeDao.getRecipesWithTagAndOrder(order, tags,search, limit);
+        List<Recipe> recipeList = recipeDao.getRecipesWithTagAndOrder(order, tags, search, limit);
 
         List<Recipe> returnList = new ArrayList<>();
 
@@ -498,12 +498,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order,String search, int limit) {
+    public Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order, String search, int limit) {
         if (tags == null)
             tags = new ArrayList<>();
 
 
-        List<Recipe> list = recipeDao.getRecipesWithTagAndOrder(order, tags,search, limit);
+        List<Recipe> list = recipeDao.getRecipesWithTagAndOrder(order, tags, search, limit);
 
 
         for (Recipe recipe : list) {
@@ -526,9 +526,9 @@ public class RecipeServiceImpl implements RecipeService {
     public List<RecipeIngredient> getIngredientsCookedRangeTime(int userId, Date from, Date to) {
         List<RecipeIngredient> retList = new ArrayList<>();
 
-        List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId,from,to);
+        List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId, from, to);
 
-        for (Recipe rec: recipeList) {
+        for (Recipe rec : recipeList) {
             retList.addAll(ingredientsDao.getByRecipeId(rec.getId()));
         }
 
@@ -540,9 +540,9 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to) {
 
-        List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId,from,to);
+        List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId, from, to);
 
-        for (Recipe rec: recipeList) {
+        for (Recipe rec : recipeList) {
 
             rec.setComments(commentsDao.getAllRecipeComments(rec.getId()));
 
@@ -558,7 +558,6 @@ public class RecipeServiceImpl implements RecipeService {
 
         return recipeList;
     }
-
 
 
     @Override
@@ -581,5 +580,12 @@ public class RecipeServiceImpl implements RecipeService {
             rec.setTags(tagString);
         }
     }
+
+    @Override
+    public int getRecipesAmountBasedOnOrderTags(List<String> tags, Order order, String search) {
+
+        return recipeDao.amountOfRecipesApplied(order,tags,search);
+    }
+
 
 }

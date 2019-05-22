@@ -672,16 +672,9 @@ public class HomeController {
 
         recipe.setId(recipeId);
 
-        System.out.printf("\nACA ESTA: %s\n",recipe.getName());
-        System.out.printf("\nACA ESTA: %s\n",recipe.getDescription());
-        System.out.printf("\nACA ESTA: %s\n",recipe.getInstructions());
+        for (int i = 0; i < recipeForm.getIngredientsAmount().size();i++) {
 
-        for (String tag : recipe.getTags()) {
-            System.out.printf("\nACA ESTA: %s\n",tag);
         }
-
-        for (RecipeIngredient ri : recipe.getIngredients())
-            System.out.printf("\nACA ESTA: %d : %f\n",ri.getIngredient().getId(),ri.getAmount());
 
 
         //recipeService.update(recipe);

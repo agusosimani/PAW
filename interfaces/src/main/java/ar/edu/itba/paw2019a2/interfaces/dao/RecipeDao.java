@@ -74,4 +74,6 @@ public interface RecipeDao {
     List<Recipe> getRecipesInCookOrder(int userId);
 
     List<Recipe> getRecipesCookedInBetweenDates(int userId, Date from, Date to);
+
+    int amountOfRecipesApplied(Order order, List<String> tags, String search);
 }

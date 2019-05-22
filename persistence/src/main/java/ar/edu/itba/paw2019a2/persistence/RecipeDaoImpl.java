@@ -47,6 +47,9 @@ public class RecipeDaoImpl implements RecipeDao {
     private final static RowMapper<RecipeList> LIST_ROW_MAPPER = (rs, rowNum) ->
             new RecipeList(rs.getInt("recipe_list_id"), rs.getString("list_name"));
 
+    private final static RowMapper<Integer> ROW_MAPPER_RECIPE_NUMBER = (rs, rowNum) ->
+            rs.getInt("amountOfRecipes");
+
 
     @Autowired
     public RecipeDaoImpl(final DataSource ds) {
@@ -104,7 +107,7 @@ public class RecipeDaoImpl implements RecipeDao {
                 '%';
         final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes" +
                 " WHERE recipe_status =" +
-                " 'REGULAR' AND recipe_name ILIKE ? ORDER BY recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
+                " 'REGULAR' AND recipe_name ILIKE ? ORDER BY recipe_name LIMIT ?", ROW_MAPPER, searchAux, limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -120,7 +123,7 @@ public class RecipeDaoImpl implements RecipeDao {
                 '%';
 
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' AND recipe_name ILIKE ? ORDER BY rating DESC, recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' AND recipe_name ILIKE ? ORDER BY rating DESC, recipe_name LIMIT ?", ROW_MAPPER, searchAux, limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -131,7 +134,7 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public List<Recipe> getAllRecipesOrderedByDateNew(String search, int limit) {
 
-        if(limit <= 0) {
+        if (limit <= 0) {
             limit = Integer.MAX_VALUE;
         }
 
@@ -141,7 +144,7 @@ public class RecipeDaoImpl implements RecipeDao {
                 '%';
 
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' AND recipe_name ILIKE ? ORDER BY date_created DESC, recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' AND recipe_name ILIKE ? ORDER BY date_created DESC, recipe_name LIMIT ?", ROW_MAPPER, searchAux, limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -152,7 +155,7 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public List<Recipe> getAllRecipesOrderByRising(String search, int limit) {
 
-        if(limit <= 0) {
+        if (limit <= 0) {
             limit = Integer.MAX_VALUE;
         }
 
@@ -163,7 +166,7 @@ public class RecipeDaoImpl implements RecipeDao {
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recipes " +
                         "WHERE recipe_status = 'REGULAR' " +
-                        "AND rating >= 4 AND recipe_name ILIKE ? ORDER BY date_created DESC, recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
+                        "AND rating >= 4 AND recipe_name ILIKE ? ORDER BY date_created DESC, recipe_name LIMIT ?", ROW_MAPPER, searchAux, limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -173,7 +176,7 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public List<Recipe> getAllRecipesOrderedByDateOld(String search, int limit) {
 
-        if(limit <= 0) {
+        if (limit <= 0) {
             limit = Integer.MAX_VALUE;
         }
 
@@ -184,7 +187,7 @@ public class RecipeDaoImpl implements RecipeDao {
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recipes WHERE " +
                         "recipe_status = 'REGULAR' AND recipe_name ILIKE ?" +
-                        " ORDER BY date_created, recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
+                        " ORDER BY date_created, recipe_name LIMIT ?", ROW_MAPPER, searchAux, limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -197,13 +200,13 @@ public class RecipeDaoImpl implements RecipeDao {
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recipe_tags " +
                         "WHERE tags_status = 'DELETED'" +
-                        "AND tag = ? AND recipe_id = ?", ROW_MAPPER,tag,id);
+                        "AND tag = ? AND recipe_id = ?", ROW_MAPPER, tag, id);
         return !list.isEmpty();
     }
 
     @Override
     public void changeTagStatus(String tag, int id, Status status) {
-        if(status.name().equals("REGULAR"))
+        if (status.name().equals("REGULAR"))
             jdbcTemplate.update("UPDATE recipe_tags SET tags_status = 'REGULAR' WHERE recipe_id = ? AND tag = ?",
                     id, tag);
         else
@@ -214,21 +217,21 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public List<Recipe> getRecipesWithTagAndOrder(Order order, List<String> tags, String search, int limit) {
 
-        if(limit <= 0) {
+        if (limit <= 0) {
             limit = Integer.MAX_VALUE;
         }
 
-        if(search == null)
+        if (search == null)
             search = "";
 
 
         if (tags.size() == 0) {
-            return this.getAllRecipesOnOrder(order,search,limit);
+            return this.getAllRecipesOnOrder(order, search, limit);
         }
 
-        List<String>list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
 
-        for (String tag:tags) {
+        for (String tag : tags) {
             for (Tag c : Tag.values()) {
                 if (c.name().equals(tag)) {
                     list.add(tag);
@@ -236,11 +239,11 @@ public class RecipeDaoImpl implements RecipeDao {
             }
         }
 
-        return jdbcTemplate.query(queryBuilder(order,list,search, limit),ROW_MAPPER);
+        return jdbcTemplate.query(queryBuilder(order, list, search, limit), ROW_MAPPER);
 
     }
 
-    private String queryBuilder(Order order, List<String> tags,String search,int limit) {
+    private String queryBuilder(Order order, List<String> tags, String search, int limit) {
 
         StringBuilder sb = new StringBuilder();
 
@@ -252,8 +255,7 @@ public class RecipeDaoImpl implements RecipeDao {
             sb.append(search);
             sb.append("%\' ORDER BY recipe_name limit ").append(limit);
 
-        }
-        else if (order.equals(Order.Rising)) {
+        } else if (order.equals(Order.Rising)) {
             sb.append("SELECT	 *	FROM recipe_tags LEFT OUTER JOIN recipes " +
                     "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
                     " WHERE (recipe_tags.tag in(");
@@ -316,25 +318,25 @@ public class RecipeDaoImpl implements RecipeDao {
         }
     }
 
-    private List<Recipe> getAllRecipesOnOrder(Order order, String search,int limit) {
+    private List<Recipe> getAllRecipesOnOrder(Order order, String search, int limit) {
 
         if (order == null) {
-            return this.getAllRecipes(search,limit);
+            return this.getAllRecipes(search, limit);
         }
 
         if (order.equals(Order.Rising)) {
-            return this.getAllRecipesOrderByRising(search,limit);
+            return this.getAllRecipesOrderByRising(search, limit);
         }
         if (order.equals(Order.TopRated)) {
-            return this.getAllRecipesOrderedByRating(search,limit);
+            return this.getAllRecipesOrderedByRating(search, limit);
         }
         if (order.equals(Order.New)) {
-            return this.getAllRecipesOrderedByDateNew(search,limit);
+            return this.getAllRecipesOrderedByDateNew(search, limit);
         }
         if (order.equals(Order.Old)) {
-            return this.getAllRecipesOrderedByDateOld(search,limit);
+            return this.getAllRecipesOrderedByDateOld(search, limit);
         } else {
-            return this.getAllRecipes(search,limit);
+            return this.getAllRecipes(search, limit);
         }
     }
 
@@ -572,9 +574,9 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public void addRecentlyCooked(int userId, int recipeId) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("rc_user_id",userId);
-        map.put("rc_recipe_id",recipeId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("rc_user_id", userId);
+        map.put("rc_recipe_id", recipeId);
 
         Date date = new Date();
         long time = date.getTime();
@@ -588,7 +590,7 @@ public class RecipeDaoImpl implements RecipeDao {
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recently_cooked " +
                         "LEFT OUTER JOIN recipes ON (recipe_id = rc_recipe_id) WHERE " +
-                        "recipe_status = 'REGULAR' AND rc_user_id = ? ORDER BY date_cooked DESC", ROW_MAPPER,userId);
+                        "recipe_status = 'REGULAR' AND rc_user_id = ? ORDER BY date_cooked DESC", ROW_MAPPER, userId);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -601,22 +603,170 @@ public class RecipeDaoImpl implements RecipeDao {
         Timestamp fromT = new Timestamp(from.getTime());
         Timestamp toT = new Timestamp(to.getTime());
 
-        System.out.printf("%s\n",from.toString());
-        System.out.printf("%s\n",to.toString());
-        System.out.printf("%s\n",fromT.toString());
-        System.out.printf("%s\n",toT.toString());
+        System.out.printf("%s\n", from.toString());
+        System.out.printf("%s\n", to.toString());
+        System.out.printf("%s\n", fromT.toString());
+        System.out.printf("%s\n", toT.toString());
 
 
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recently_cooked " +
                         "LEFT OUTER JOIN recipes ON (recipe_id = rc_recipe_id) WHERE " +
-                        "recipe_status = 'REGULAR' AND rc_user_id = ? AND date_cooked >= ? AND date_cooked <= ? ORDER BY date_cooked DESC", ROW_MAPPER,userId,fromT,toT);
+                        "recipe_status = 'REGULAR' AND rc_user_id = ? AND date_cooked >= ? AND date_cooked <= ? ORDER BY date_cooked DESC", ROW_MAPPER, userId, fromT, toT);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
 
         return list;
 
+    }
+
+    @Override
+    public int amountOfRecipesApplied(Order order, List<String> tags, String search) {
+        if (search == null)
+            search = "";
+
+        String str;
+
+        if (tags.size() == 0) {
+            str = this.getRecipeSizeNoTag(order, search);
+        } else {
+            List<String> list = new ArrayList<>();
+
+            for (String tag : tags) {
+                for (Tag c : Tag.values()) {
+                    if (c.name().equals(tag)) {
+                        list.add(tag);
+                    }
+                }
+            }
+            str = queryBuilderForCount(order, list, search);
+        }
+
+
+
+        List<Integer> finalList = jdbcTemplate.query(str,
+                ROW_MAPPER_RECIPE_NUMBER);
+
+        if (finalList.isEmpty())
+            return 0;
+
+        return finalList.get(0);
+
+    }
+
+    private String getRecipeSizeNoTag(Order order, String search) {
+        StringBuilder sb = new StringBuilder();
+
+        if (order == null) {
+            sb.append("SELECT count(recipe_id) as amountOfRecipes	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE recipe_status = 'REGULAR' AND recipe_name ILIKE \'%");
+            sb.append(search);
+            sb.append("%\' ORDER BY recipe_name");
+
+        } else if (order.equals(Order.Rising)) {
+            sb.append("SELECT	 count(recipe_id) as amountOfRecipes FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                    " WHERE recipes.rating >= 4 AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%");
+            sb.append(search);
+            sb.append("%\' ORDER BY recipes.date_created DESC, recipe_name");
+
+        } else if (order.equals(Order.TopRated)) {
+            sb.append("SELECT count(recipe_id) as amountOfRecipes FROM recipe_tags " +
+                    "LEFT OUTER JOIN recipes ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                    " WHERE AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%");
+            sb.append(search);
+            sb.append("%\' ORDER BY recipes.rating DESC, recipe_name");
+
+
+        } else if (order.equals(Order.New)) {
+
+            sb.append("SELECT count(recipe_id) as amountOfRecipes	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                    " WHERE recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
+                    .append(search)
+                    .append("%\' ORDER BY recipes.date_created DESC,recipe_name");
+
+        } else if (order.equals(Order.Old)) {
+
+            sb.append("SELECT count(recipe_id) as amountOfRecipes FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                    " WHERE recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
+                    .append(search)
+                    .append("%\' ORDER BY recipes.date_created,recipe_name");
+
+        } else {
+
+            sb.append("SELECT count(recipe_id) as amountOfRecipes FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE " +
+                    "recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
+                    .append(search)
+                    .append("%\' ORDER BY recipe_name");
+        }
+        return sb.toString();
+    }
+
+
+    private String queryBuilderForCount(Order order, List<String> tags, String search) {
+
+        StringBuilder sb = new StringBuilder();
+
+        if (order == null) {
+            sb.append("SELECT count(recipe_id) as amountOfRecipes	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE (recipe_tags.tag in(");
+            queryAppender(tags, sb);
+            sb.append(")) AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%");
+            sb.append(search);
+            sb.append("%\' ORDER BY recipe_name");
+
+        } else if (order.equals(Order.Rising)) {
+            sb.append("SELECT	 count(recipe_id) as amountOfRecipes FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                    " WHERE (recipe_tags.tag in(");
+            queryAppender(tags, sb);
+            sb.append(")) AND recipes.rating >= 4 AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%");
+            sb.append(search);
+            sb.append("%\' ORDER BY recipes.date_created DESC, recipe_name");
+
+        } else if (order.equals(Order.TopRated)) {
+            sb.append("SELECT count(recipe_id) as amountOfRecipes FROM recipe_tags " +
+                    "LEFT OUTER JOIN recipes ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE (recipe_tags.tag in(");
+            queryAppender(tags, sb);
+            sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%");
+            sb.append(search);
+            sb.append("%\' ORDER BY recipes.rating DESC, recipe_name");
+
+
+        } else if (order.equals(Order.New)) {
+
+            sb.append("SELECT count(recipe_id) as amountOfRecipes	FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                    " WHERE (recipe_tags.tag in(");
+            queryAppender(tags, sb);
+            sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
+                    .append(search)
+                    .append("%\' ORDER BY recipes.date_created DESC,recipe_name");
+
+        } else if (order.equals(Order.Old)) {
+
+            sb.append("SELECT count(recipe_id) as amountOfRecipes FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id)" +
+                    " WHERE (recipe_tags.tag in(");
+            queryAppender(tags, sb);
+            sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
+                    .append(search)
+                    .append("%\' ORDER BY recipes.date_created,recipe_name");
+
+        } else {
+
+            sb.append("SELECT count(recipe_id) as amountOfRecipes FROM recipe_tags LEFT OUTER JOIN recipes " +
+                    "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE (recipe_tags.tag in(");
+            queryAppender(tags, sb);
+            sb.append(")) AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
+                    .append(search)
+                    .append("%\' ORDER BY recipe_name");
+        }
+        return sb.toString();
     }
 
 
