@@ -1,6 +1,7 @@
 package ar.edu.itba.paw2019a2.interfaces.dao;
 
 import ar.edu.itba.paw2019a2.model.Enum.Order;
+import ar.edu.itba.paw2019a2.model.Enum.Status;
 import ar.edu.itba.paw2019a2.model.Recipe;
 import ar.edu.itba.paw2019a2.model.RecipeList;
 import ar.edu.itba.paw2019a2.model.RecipeTag;
@@ -62,4 +63,8 @@ public interface RecipeDao {
     Optional<RecipeList> getCookList(int cookListId);
 
     List<Recipe> getAllRecipesOrderByRising();
+
+    boolean isTagDeleted(String tag, int id);
+
+    void changeTagStatus(String tag, int id, Status regular);
 }

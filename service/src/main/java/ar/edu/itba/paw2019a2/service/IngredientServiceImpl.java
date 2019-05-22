@@ -57,6 +57,11 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    public Optional<RecipeIngredient> getByIngredientUserId(int ingredientId,int userId){
+        return ingredientsDao.getUserIngById(ingredientId,userId);
+    }
+
+    @Override
     public Either<RecipeIngredient,Warnings> findUserIngredientByName(int u, String name) {
         List<RecipeIngredient> list = this.findByUser(u);
 

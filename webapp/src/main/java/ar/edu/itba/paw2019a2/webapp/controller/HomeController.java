@@ -176,10 +176,6 @@ public class HomeController {
         }
         List<RecipeIngredient> listIngredients = new ArrayList<>();
 
-        for (String tagName : recipeForm.getTags()) {
-            //recipeTags.add(new RecipeTag("Vegetariana",1));
-        }
-
         byte[] bytes = null;
         try {
             //TODO: VALIDAR ESTO!
@@ -242,7 +238,8 @@ public class HomeController {
 
     @RequestMapping(value = "/delete_ingredient", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView deleteIngredient(@RequestParam int ingredientId) {
-        if(getCurrentUserID() != ingredientService.getById(ingredientId).get().getUserId()){
+        Optional<RecipeIngredient> maybeRI = ingredientService.getByIngredientUserId(ingredientId,getCurrentUserID());
+        if(!maybeRI.isPresent()){
             return new ModelAndView("redirect:/403");
         }
         ingredientService.deleteUI(ingredientId, getCurrentUserID());
@@ -258,8 +255,7 @@ public class HomeController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(required = false) String error) {
 
-        final ModelAndView mav = new ModelAndView("login");
-        return mav;
+        return new ModelAndView("login");
     }
 
     @RequestMapping(value = "/my_account", method = RequestMethod.GET)
@@ -328,7 +324,13 @@ public class HomeController {
             , @RequestParam(required = false) Boolean cooked) {
         final ModelAndView mav = new ModelAndView("recipe");
 
-        Recipe recipe = recipeService.getById(recipeId).get();
+        Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
+
+        if(!maybeRecipe.isPresent()) {
+            return new ModelAndView("redirect:/404");
+        }
+
+        Recipe recipe = maybeRecipe.get();
 
         Either<User, Warnings> eitherUser = userService.getById(recipe.getUserId());
 
@@ -481,11 +483,13 @@ public class HomeController {
             mav.addObject("recipeName", recipe.getName());
             mav.addObject("recipeDescription", recipe.getDescription());
             //mav.addObject("recipeInstructions", recipe.getInstructions());
-        }
-        mav.addObject("allIngredients", ingredientService.getAllIngredients());
-        mav.addObject("recipeId", recipeId);
+            mav.addObject("allIngredients", ingredientService.getAllIngredients());
+            mav.addObject("recipeId", recipeId);
 
-        return mav;
+            return mav;
+        }
+        return new ModelAndView("redirect:/404");
+
     }
 
     @RequestMapping(value = "/save_edit_changes", method = RequestMethod.POST)
@@ -493,6 +497,20 @@ public class HomeController {
         if (errors.hasErrors()) {
             //TODO
         }
+        Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
+        if(!maybeRecipe.isPresent())
+            return new ModelAndView("redirect:/404");
+        if(maybeRecipe.get().getUserId() != getCurrentUserID())
+            return new ModelAndView("redirect:/403");
+
+        //TODO CAMBIAR en recipe forms a lista de recipeIngredients
+
+        Recipe recipe = new Recipe.Builder(recipeForm.getName(),new ArrayList<>(),recipeForm.getInstructions(),getCurrentUserID()).description(recipeForm.getDescription()).tags(recipeForm.getTags()).build();
+
+        recipeService.update(recipe);
+
+
+
         final ModelAndView mav = new ModelAndView("redirect:/recipe");
         mav.addObject("recipeId", recipeId);
 

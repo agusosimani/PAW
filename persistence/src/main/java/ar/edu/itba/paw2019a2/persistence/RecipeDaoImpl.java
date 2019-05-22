@@ -96,7 +96,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public List<Recipe> getAllRecipes() {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR'", ROW_MAPPER);
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY recipe_name", ROW_MAPPER);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -107,7 +107,7 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public List<Recipe> getAllRecipesOrderedByRating() {
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY rating DESC", ROW_MAPPER);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY rating DESC, recipe_name", ROW_MAPPER);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -118,7 +118,7 @@ public class RecipeDaoImpl implements RecipeDao {
     @Override
     public List<Recipe> getAllRecipesOrderedByDateNew() {
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY date_created DESC", ROW_MAPPER);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' ORDER BY date_created DESC, recipe_name", ROW_MAPPER);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -131,7 +131,7 @@ public class RecipeDaoImpl implements RecipeDao {
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recipes " +
                         "WHERE recipe_status = 'REGULAR' " +
-                        "AND rating >= 4 ORDER BY date_created DESC", ROW_MAPPER);
+                        "AND rating >= 4 ORDER BY date_created DESC, recipe_name", ROW_MAPPER);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -139,10 +139,29 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
+    public boolean isTagDeleted(String tag, int id) {
+        final List<Recipe> list =
+                jdbcTemplate.query("SELECT	*	FROM recipe_tags " +
+                        "WHERE tags_status = 'DELETED'" +
+                        "AND tag = ? AND recipe_id = ?", ROW_MAPPER,tag,id);
+        return !list.isEmpty();
+    }
+
+    @Override
+    public void changeTagStatus(String tag, int id, Status status) {
+        if(status.name().equals("REGULAR"))
+            jdbcTemplate.update("UPDATE recipe_tags SET tags_status = 'REGULAR' WHERE recipe_id = ? AND tag = ?",
+                    id, tag);
+        else
+            jdbcTemplate.update("UPDATE recipe_tags SET tags_status = 'DELETED' WHERE recipe_id = ? AND tag = ?",
+                    id, tag);
+    }
+
+    @Override
     public List<Recipe> getAllRecipesOrderedByDateOld() {
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recipes WHERE " +
-                        "recipe_status = 'REGULAR' ORDER BY date_created", ROW_MAPPER);
+                        "recipe_status = 'REGULAR' ORDER BY date_created, recipe_name", ROW_MAPPER);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -182,7 +201,7 @@ public class RecipeDaoImpl implements RecipeDao {
             sb.append("SELECT	*	FROM recipe_tags LEFT OUTER JOIN recipes " +
                     "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE (recipe_tags.tag in(");
             queryAppender(tags, sb);
-            sb.append(")) AND recipe_status = 'REGULAR'");
+            sb.append(")) AND recipe_status = 'REGULAR' ORDER BY recipe_name");
 
         }
         else if (order.equals(Order.Rising)) {
@@ -191,12 +210,12 @@ public class RecipeDaoImpl implements RecipeDao {
                     " WHERE (recipe_tags.tag in(");
             queryAppender(tags, sb);
             sb.append(")) AND recipes.rating >= 4 AND recipe_status = 'REGULAR'" +
-            " ORDER BY recipes.date_created DESC");
+            " ORDER BY recipes.date_created DESC, recipe_name");
 
         } else if (order.equals(Order.TopRated)) {
             sb.append("SELECT	 *	FROM recipe_tags LEFT OUTER JOIN recipes ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE (recipe_tags.tag in(");
             queryAppender(tags, sb);
-            sb.append("))  AND recipe_status = 'REGULAR' ORDER BY recipes.rating DESC");
+            sb.append("))  AND recipe_status = 'REGULAR' ORDER BY recipes.rating DESC, recipe_name");
 
 
         } else if (order.equals(Order.New)) {
@@ -206,7 +225,7 @@ public class RecipeDaoImpl implements RecipeDao {
                     " WHERE (recipe_tags.tag in(");
             queryAppender(tags, sb);
             sb.append("))  AND recipe_status = 'REGULAR'" +
-                    " ORDER BY recipes.date_created DESC");
+                    " ORDER BY recipes.date_created DESC,recipe_name");
 
         } else if (order.equals(Order.Old)) {
 
@@ -215,14 +234,14 @@ public class RecipeDaoImpl implements RecipeDao {
                     " WHERE (recipe_tags.tag in(");
             queryAppender(tags, sb);
             sb.append("))  AND recipe_status = 'REGULAR'" +
-                    " ORDER BY recipes.date_created");
+                    " ORDER BY recipes.date_created,recipe_name");
 
         } else {
 
             sb.append("SELECT	*	FROM recipe_tags LEFT OUTER JOIN recipes " +
                     "ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE (recipe_tags.tag in(");
             queryAppender(tags, sb);
-            sb.append(")) AND recipe_status = 'REGULAR'");
+            sb.append(")) AND recipe_status = 'REGULAR' ORDER BY recipe_name");
 
         }
         return sb.toString();

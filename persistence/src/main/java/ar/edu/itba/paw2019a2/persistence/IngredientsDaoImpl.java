@@ -23,16 +23,19 @@ public class IngredientsDaoImpl implements IngredientsDao {
 
     private final static RowMapper<Ingredient> INGREDIENT_ROW_MAPPER = (rs, rowNum) ->
             new Ingredient.Builder(rs.getInt("ingredient_id"),
-            rs.getString("ingredient_name"),
-            rs.getInt("serving"),
-            rs.getString("serving_type"), rs.getInt("user_id"),
-            rs.getString("ingredient_status"))
+                    rs.getString("ingredient_name"),
+                    rs.getInt("serving"),
+                    rs.getString("serving_type"), rs.getInt("user_id"),
+                    rs.getString("ingredient_status"))
 
-            .calories(rs.getInt("calorie_count"))
-            .carbohydrates(rs.getInt("carbohydrate_count"))
-            .isVegan(rs.getBoolean("is_vegan"))
-            .isVegetararian(rs.getBoolean("is_vegetarian"))
-            .taccFree(rs.getBoolean("tacc_free")).build();
+                    .sugar(rs.getFloat("sugar_count"))
+                    .totalFat(rs.getFloat("fat_count"))
+                    .proteins(rs.getFloat("protein_count"))
+                    .calories(rs.getFloat("calorie_count"))
+                    .carbohydrates(rs.getFloat("carbohydrate_count"))
+                    .isVegan(rs.getBoolean("is_vegan"))
+                    .isVegetararian(rs.getBoolean("is_vegetarian"))
+                    .taccFree(rs.getBoolean("tacc_free")).build();
 
     private final static RowMapper<RecipeIngredient> RECIPE_INGREDIENT_ROW_MAPPER = (rs, rowNum) -> {
 
@@ -42,8 +45,11 @@ public class IngredientsDaoImpl implements IngredientsDao {
                 rs.getString("serving_type"), rs.getInt("user_id"),
                 rs.getString("ingredient_status"))
 
-                .calories(rs.getInt("calorie_count"))
-                .carbohydrates(rs.getInt("carbohydrate_count"))
+                .sugar(rs.getFloat("sugar_count"))
+                .totalFat(rs.getFloat("fat_count"))
+                .proteins(rs.getFloat("protein_count"))
+                .calories(rs.getFloat("calorie_count"))
+                .carbohydrates(rs.getFloat("carbohydrate_count"))
                 .isVegan(rs.getBoolean("is_vegan"))
                 .isVegetararian(rs.getBoolean("is_vegetarian"))
                 .taccFree(rs.getBoolean("tacc_free")).build();
@@ -73,7 +79,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
                 jdbcTemplate.query("SELECT * FROM user_ingredients LEFT OUTER JOIN ingredients" +
                         " ON user_ingredients.ingredient_id = ingredients.ingredient_id" +
                         " WHERE user_ingredients.ingredient_id= ? AND user_ingredients.ui_status = 'REGULAR' AND" +
-                        " user_ingredients.user_id = ?", RECIPE_INGREDIENT_ROW_MAPPER, ingredientId, userId);
+                        " user_ingredients.user_id = ? ORDER BY ingredient_name", RECIPE_INGREDIENT_ROW_MAPPER, ingredientId, userId);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -87,7 +93,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
                 jdbcTemplate.query("SELECT * FROM recipes_ingredients LEFT OUTER JOIN ingredients" +
                         " ON recipes_ingredients.ingredient_id = ingredients.ingredient_id" +
                         " WHERE recipes_ingredients.ingredient_id= ? AND ri_status = 'REGULAR' AND" +
-                        " recipes_ingredients.recipe_id = ?", RECIPE_INGREDIENT_ROW_MAPPER, ingredientId, recipeId);
+                        " recipes_ingredients.recipe_id = ? ORDER BY ingredient_name", RECIPE_INGREDIENT_ROW_MAPPER, ingredientId, recipeId);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -140,7 +146,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     @Override
     public List<Ingredient> getAllIngredients() {
         final List<Ingredient> list =
-                jdbcTemplate.query("SELECT * FROM ingredients WHERE ingredient_status = 'REGULAR'",
+                jdbcTemplate.query("SELECT * FROM ingredients WHERE ingredient_status = 'REGULAR' ORDER BY ingredient_name",
                         INGREDIENT_ROW_MAPPER);
         if (list.isEmpty()) {
             return new ArrayList<>();
@@ -153,7 +159,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
     public Optional<Ingredient> getByIngredientName(String name) {
         final List<Ingredient> list =
                 jdbcTemplate.query("SELECT * FROM ingredients" +
-                                " WHERE  ingredient_name	= ? AND ingredient_status = 'REGULAR'",
+                                " WHERE  ingredient_name	= ? AND ingredient_status = 'REGULAR' ORDER BY ingredient_name",
                         INGREDIENT_ROW_MAPPER, name);
         if (list.isEmpty()) {
             return Optional.empty();
@@ -169,7 +175,7 @@ public class IngredientsDaoImpl implements IngredientsDao {
                 jdbcTemplate.query("SELECT * FROM (user_ingredients LEFT OUTER JOIN" +
                                 " ingredients ON " +
                                 "user_ingredients.ingredient_id = ingredients.ingredient_id) " +
-                                "WHERE (user_ingredients.user_id= ?) AND (ui_status = 'REGULAR');",
+                                "WHERE (user_ingredients.user_id= ?) AND (ui_status = 'REGULAR') ORDER BY ingredient_name",
                         RECIPE_INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return new ArrayList<>();
@@ -184,7 +190,8 @@ public class IngredientsDaoImpl implements IngredientsDao {
                 jdbcTemplate.query("SELECT * FROM (recipes_ingredients LEFT OUTER JOIN" +
                                 " ingredients ON " +
                                 "recipes_ingredients.ingredient_id = ingredients.ingredient_id) " +
-                                "WHERE (recipes_ingredients.recipe_id= ?) AND (ri_status = 'REGULAR');",
+                                "WHERE (recipes_ingredients.recipe_id= ?)" +
+                                " AND (ri_status = 'REGULAR') ORDER BY ingredient_name",
                         RECIPE_INGREDIENT_ROW_MAPPER, id);
         if (list.isEmpty()) {
             return new ArrayList<>();
