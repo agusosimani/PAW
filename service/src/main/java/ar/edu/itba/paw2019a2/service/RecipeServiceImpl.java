@@ -322,8 +322,16 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Rating> getFavouriteRecipes(int userId) {
-        return ratingsDao.getRatingsBiggerThanFour(userId);
+    public List<Recipe> getFavouriteRecipes(int userId) {
+        List<Rating> ratingsList =  ratingsDao.getRatingsBiggerThanFour(userId);
+
+        List<Recipe> retList = new ArrayList<>();
+
+        for (Rating rating : ratingsList) {
+            Optional<Recipe> maybeRec = recipeDao.getById(rating.getRecipeId());
+            maybeRec.ifPresent(retList::add);
+        }
+        return retList;
     }
 
     @Override

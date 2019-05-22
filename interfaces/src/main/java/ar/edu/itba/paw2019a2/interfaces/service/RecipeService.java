@@ -52,7 +52,7 @@ public interface RecipeService {
 
     List<Recipe> getAllRecipesByRating();
 
-    List<Rating> getFavouriteRecipes(int userId);
+    List<Recipe> getFavouriteRecipes(int userId);
 
     Optional<Float> getUserRating(int userId, int recipeId);
 

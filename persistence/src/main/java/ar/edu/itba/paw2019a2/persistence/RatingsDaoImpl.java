@@ -127,5 +127,11 @@ public class RatingsDaoImpl implements RatingsDao {
         return list;
     }
 
+    public List<Rating> getRatingsFromUserGroupByRecipe(int userId) {
+
+
+        return null;
+    }
+
 
 }

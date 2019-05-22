@@ -1,9 +1,6 @@
 package ar.edu.itba.paw2019a2.service;
 
-import ar.edu.itba.paw2019a2.interfaces.dao.IngredientsDao;
-import ar.edu.itba.paw2019a2.interfaces.dao.RecipeDao;
-import ar.edu.itba.paw2019a2.interfaces.dao.UserDao;
-import ar.edu.itba.paw2019a2.interfaces.dao.VerificationTokenDao;
+import ar.edu.itba.paw2019a2.interfaces.dao.*;
 import ar.edu.itba.paw2019a2.interfaces.service.AuthenticationService;
 import ar.edu.itba.paw2019a2.interfaces.service.UserService;
 import ar.edu.itba.paw2019a2.model.*;
@@ -33,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     RecipeDao recipeDao;
+
+    @Autowired
+    RatingsDao ratingsDao;
 
     @Autowired
     private VerificationTokenDao verificationTokenDao;
@@ -229,4 +229,22 @@ public class UserServiceImpl implements UserService {
     private boolean isLoggedUserAuthorizedToUpdateUser(long userId) {
         return authenticationService.getLoggedUser().isPresent() && authenticationService.getLoggedUser().get().getId() == userId;
     }
+
+
+    public double getRelativeRatingfromUser(int userId){
+
+        double retVal = 0;
+
+        List<Rating> list = ratingsDao.getRatingsUser(userId);
+
+
+
+
+
+
+        return retVal;
+    }
+
+
+
 }
