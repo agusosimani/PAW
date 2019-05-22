@@ -195,6 +195,10 @@ a.custom-card:hover {
     margin-right: 10px;
 }
 
+.side-bar-title{
+    font-size: 30px;
+}
+
 .recipe-title{
     font-weight: bolder;
     font-size: xx-large;
@@ -594,6 +598,12 @@ a.custom-card:hover {
         margin-left: 0;
         margin-top: calc(64px + 1%);
         width: 100%;
+    }
+
+
+    .main-item-sidebar{
+        font-size: 15px;
+        font-weight: bold;
     }
 
     .side_card{

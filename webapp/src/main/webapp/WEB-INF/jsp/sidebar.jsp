@@ -16,7 +16,6 @@
 <body>
 <section class="navigation">
 
-    <!-- Main -->
     <div class="navigation__list">
         <c:url value="/" var="homeUrl"/>
         <a class="bg-transparent" href="${homeUrl}">
@@ -30,9 +29,8 @@
         </div>
 
     </div>
-    <!-- / -->
 
-    <!-- Your Music -->
+
     <div class="navigation__list">
 
         <div class="main-item-sidebar">
@@ -70,7 +68,7 @@
     <div class="navigation__list">
         <div class="main-item-sidebar log-out-sidebar">
             <c:url value="/logout" var="logOutB"/>
-            <a href="${logOutB}">
+            <a class="float-left" href="${logOutB}">
                 <span><spring:message code="logOut"/></span>
             </a>
         </div>

@@ -83,7 +83,7 @@
                         <form:select path="ingredients" cssClass="form-control" multiple="">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
                                 <form:option value="${ingredient_type.id}"><spring:message
-                                        code="${ingredient_type.name}"/> (${ingredient_type.typeOfServing})</form:option>
+                                        code="${ingredient_type.name}"/> (<spring:message code="${ingredient_type.typeOfServing}"/>)</form:option>
                             </c:forEach>
                         </form:select>
                     </div>
