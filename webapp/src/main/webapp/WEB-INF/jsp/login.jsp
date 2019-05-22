@@ -60,10 +60,7 @@
                     <label class="custom-control-label" for="defaultLoginFormRemember"><spring:message code="rememberMe"/></label>
                 </div>
             </div>
-            <div>
-                <!-- Forgot password -->
-                <a href=""><spring:message code="forgotPassword"/></a>
-            </div>
+            
         </div>
 
         <!-- Sign in button -->
