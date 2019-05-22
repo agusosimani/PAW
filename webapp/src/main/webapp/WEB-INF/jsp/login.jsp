@@ -26,34 +26,50 @@
     <div class="offset_login"></div>
     <form action="${loginUrl}" method="post" enctype="application/x-www-form-urlencoded" class="centered_login text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
 
-        <img class="logo" src="./resources/img/foodify.png" alt="LOGO">
+        <img class="logo" src="<c:url value="/resources/img/foodify.png"/>" alt="LOGO">
 
         <!-- Username -->
-        <input type="text" id="username" name="j_username" class="form-control mb-4" placeholder="Username">
+        <spring:message code="User.username" var="username"/>
+        <input type="text" id="username" name="j_username" class="form-control mb-4" placeholder="${username}">
 
         <!-- Password -->
-        <input type="password" id="password" name="j_password" class="form-control mb-4" placeholder="Password">
+        <spring:message code="User.password" var="password"/>
+        <input type="password" id="password" name="j_password" class="form-control mb-4" placeholder="${password}">
+            <c:if test="${param.error != null}">
+                <div class="form-text text-muted mb-4">
+                    <c:choose>
+                        <c:when test="${UserNotConfirmError}">
+                            <spring:message code="confirmationError"/>
+                        </c:when>
+                        <c:when test="${userExpired}">
+                            expiration error
+                            <%--<spring:message code="expiration.error"></spring:message>--%>
+                        </c:when>
+                        <c:otherwise>
+                            <spring:message code="signInError"/>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </c:if>
 
-        <div class="d-flex justify-content-around">
+            <div class="d-flex justify-content-around">
             <div>
                 <!-- Remember me -->
                 <div class="custom-control custom-checkbox">
                     <input name="j_rememberme" type="checkbox" class="custom-control-input" id="defaultLoginFormRemember"/>
-                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                    <label class="custom-control-label" for="defaultLoginFormRemember"><spring:message code="rememberMe"/></label>
                 </div>
             </div>
-            <div>
-                <!-- Forgot password -->
-                <a href="">Forgot password?</a>
-            </div>
+            
         </div>
 
         <!-- Sign in button -->
-        <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+        <button class="btn btn-info btn-block my-4" type="submit"><spring:message code="signIn"/></button>
 
         <!-- Register -->
-        <p>Not a member?
-            <a href="">Register</a>
+        <p><spring:message code="notAmember"/>
+            <c:url var="registerUrl" value="/register"/>
+            <a href="${registerUrl}"><spring:message code="register"/></a>
         </p>
 
     </form>
@@ -71,4 +87,5 @@
         <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 
     </body>
+
 </html>

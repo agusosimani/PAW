@@ -131,7 +131,7 @@ body a:hover {
     display: none;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .content__left {
     width: 100%;
   }
@@ -184,7 +184,7 @@ body a:hover {
   margin-bottom: 10%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .navigation {
     display: flex;
     flex-flow: row wrap;
@@ -194,7 +194,7 @@ body a:hover {
   }
   .navigation__list {
     margin-bottom: 0;
-    width: calc( 100% / 3 );
+    width: calc( 100% / 4 );
     text-align: center;
   }
   .navigation__list__item {
@@ -241,7 +241,7 @@ body a:hover {
   margin-right: 15px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .playlist {
     display: none;
   }
@@ -276,7 +276,7 @@ body a:hover {
   color: #aaaaaa;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .playing {
     border-top: 1px solid #181818;
   }
@@ -433,7 +433,7 @@ body a:hover {
     width: 50%;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .current-track__actions {
     width: 25%;
   }
@@ -460,7 +460,7 @@ body a:hover {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .current-track__action {
     padding-top: 15px;
   }
@@ -690,13 +690,13 @@ body a:hover {
     margin-top: 15px;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .artist__content .overview__artist {
     padding-right: 0;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .artist {
     overflow-y: auto;
   }
@@ -885,7 +885,7 @@ body a:hover {
     width: calc( (100% / 3) - 20px );
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .related-artists .related-artist {
     margin: 5px;
     width: calc( (100% / 2) - 10px );
@@ -1059,7 +1059,7 @@ body a:hover {
     width: calc( (100% / 3) - 30px );
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   .media-cards .media-card {
     width: calc( (100% / 2) - 30px );
   }
