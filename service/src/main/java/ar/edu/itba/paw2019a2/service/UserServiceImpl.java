@@ -110,35 +110,46 @@ public class UserServiceImpl implements UserService {
     public Either<VerificationToken, Warnings> createVerificationToken(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken.Builder myToken = new VerificationToken.Builder(token, user.getId());
-        return Either.value(verificationTokenDao.save(myToken).get());
+        Optional<VerificationToken> verToken = verificationTokenDao.save(myToken);
+        return verToken.isPresent()? Either.value(verToken.get()) : Either.alternative(Warnings.NoSuchToken);
     }
 
     @Override
     public Either<VerificationToken, Warnings> createNewVerificationToken(String existingTokenValue) {
-        Either<VerificationToken, Warnings> existingToken = Either.value(verificationTokenDao.findByToken(existingTokenValue).get());
+        Optional<VerificationToken> verToken = verificationTokenDao.findByToken(existingTokenValue);
+        if (!verToken.isPresent()) {
+            return Either.alternative(Warnings.valueOf("NoSuchToken"));
+        }
+        Either<VerificationToken, Warnings> existingToken = Either.value(verToken.get());
         if(!existingToken.isValuePresent()) {
             return Either.alternative(Warnings.valueOf("NoSuchToken"));
         }
-        Either<User, Warnings> user = Either.value(userDao.getById((int)existingToken.getValue().getUserID()).get());
-        if(!user.isValuePresent()) {
+        Optional<User> u = userDao.getById(existingToken.getValue().getUserID());
+        if (!u.isPresent())
             return Either.alternative(Warnings.valueOf("NoSuchUser"));
-        }
-        return createVerificationToken(user.getValue());
+        Either<User, Warnings> user = Either.value(u.get());
+        return user.isValuePresent()? createVerificationToken(user.getValue()) : Either.alternative(Warnings.valueOf("NoSuchUser"));
     }
 
     @Override
     public Either<VerificationToken, Warnings> getVerificationToken(String tokenString) {
-        return Either.value(verificationTokenDao.findByToken(tokenString).get());
+        Optional<VerificationToken> verToken = verificationTokenDao.findByToken(tokenString);
+        return verToken.isPresent()? Either.value(verToken.get()) : Either.alternative(Warnings.NoSuchToken);
     }
 
     @Override
     public Either<UserTokenState, Warnings> getUserTokenState(VerificationToken verificationToken) {
-        Either<VerificationToken, Warnings> validToken = Either.value(verificationTokenDao.findByToken(verificationToken.getToken()).get());
-        if(!validToken.isValuePresent()){
+        Optional<VerificationToken> verToken = verificationTokenDao.findByToken(verificationToken.getToken());
+        if (!verToken.isPresent()) {
             return Either.alternative(Warnings.valueOf("NoSuchToken"));
         }
+        Either<VerificationToken, Warnings> validToken = Either.value(verToken.get());
 
-        Either<User, Warnings> user = Either.value(userDao.getById((int)verificationToken.getUserID()).get());
+        Optional<User> u = userDao.getById(verificationToken.getUserID());
+        if (!u.isPresent()) {
+            return Either.alternative(Warnings.valueOf("ServerError"));
+        }
+        Either<User, Warnings> user = Either.value(u.get());
         if(!user.isValuePresent()) {
             return Either.alternative(Warnings.valueOf("ServerError"));
         }
@@ -170,12 +181,17 @@ public class UserServiceImpl implements UserService {
         if(!isLoggedUserAuthorizedToUpdateUser(userId)){
             return Either.alternative(Warnings.valueOf("AuthorizationDenied"));
         }
-
-        return Either.value(userDao.getById(userId).get());
+        Optional<User> u = userDao.getById(userId);
+        if (!u.isPresent())
+            return Either.alternative(Warnings.NoSuchUser);
+        return Either.value(u.get());
     }
 
     private boolean isLoggedUserAuthorizedToUpdateUser(long userId) {
-        return authenticationService.getLoggedUser().isPresent() && authenticationService.getLoggedUser().get().getId() == userId;
+        Optional<User> u = authenticationService.getLoggedUser();
+        if (!u.isPresent())
+            return false;
+        return authenticationService.getLoggedUser().isPresent() && u.get().getId() == userId;
     }
 
     @Override
