@@ -6,6 +6,7 @@ import ar.edu.itba.paw2019a2.interfaces.service.RecipeService;
 import ar.edu.itba.paw2019a2.model.*;
 import ar.edu.itba.paw2019a2.model.Enum.Order;
 import ar.edu.itba.paw2019a2.model.Enum.Status;
+import ar.edu.itba.paw2019a2.model.Enum.Tag;
 import ar.edu.itba.paw2019a2.model.Enum.Warnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -500,6 +501,51 @@ public class RecipeServiceImpl implements RecipeService {
 
             rec.setTags(tagString);
         }
+    }
+
+    private List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to) {
+
+        List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId, from, to);
+
+        for (Recipe rec : recipeList) {
+
+            rec.setComments(this.getRecipeComments(rec.getId()));
+
+            rec.setIngredients(ingredientsDao.getByRecipeId(rec.getId()));
+
+            List<String> tagsString = new ArrayList<>();
+            List<RecipeTag> recipeTags = recipeDao.getAllRecipeTags(rec);
+            for (RecipeTag rt : recipeTags) {
+                tagsString.add(rt.getTag());
+            }
+            rec.setTags(tagsString);
+        }
+
+        return recipeList;
+    }
+
+    @Override
+    public Map<Tag,Integer> tagStatistics(int userId, Date from, Date to) {
+
+        List<Recipe> recipeList = getRecipesCookedRangeTime(userId,from,to);
+
+        if(recipeList.isEmpty()) {
+            return new HashMap<>();
+        }
+
+        Map<Tag,Integer> retMap = new HashMap<>();
+
+        for(Tag tag:Tag.values()) {
+            retMap.put(tag,0);
+        }
+
+        for (Recipe recipe: recipeList) {
+            for (String tag:recipe.getTags()) {
+                int aux = retMap.get(Tag.valueOf("tag"));
+                retMap.put(Tag.valueOf("tag"),aux + 1);
+            }
+        }
+        return retMap;
     }
 
 }

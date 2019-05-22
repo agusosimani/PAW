@@ -2,12 +2,10 @@ package ar.edu.itba.paw2019a2.interfaces.service;
 
 import ar.edu.itba.paw2019a2.model.*;
 import ar.edu.itba.paw2019a2.model.Enum.Order;
+import ar.edu.itba.paw2019a2.model.Enum.Tag;
 import ar.edu.itba.paw2019a2.model.Enum.Warnings;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public interface RecipeService {
 
@@ -58,4 +56,6 @@ public interface RecipeService {
     List<RecipeIngredient> getIngredientsCookedRangeTime(int userId, Date from, Date to);
 
     Set<Recipe> getRecipesOrderCooked(int userId);
+
+    Map<Tag,Integer> tagStatistics(int userId, Date from, Date to);
 }
