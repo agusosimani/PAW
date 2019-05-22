@@ -74,7 +74,6 @@ public class CooklistController {
 
     @RequestMapping(value = "/cooklist", method = {RequestMethod.GET})
     public ModelAndView cooklist(@RequestParam int cookListId, @RequestParam int userId) {
-        //TODO: tomar la cooklist con el userId dueño
 
         final ModelAndView mav = new ModelAndView("cooklist_recipes");
 
@@ -83,7 +82,7 @@ public class CooklistController {
         if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
         else {
-            //TODO: tirar el error
+            return new ModelAndView("404");
         }
 
         mav.addObject("cooklist", recipeService.getCookList(cookListId).getValue());
@@ -143,23 +142,15 @@ public class CooklistController {
     public ModelAndView deleteCooklist(@RequestParam int cooklistId) {
         Either<RecipeList, Warnings> eitherCooklist = recipeService.getCookList(cooklistId);
 
-        /*if (eitherCooklist.isValuePresent() && (eitherCooklist.getValue()  == getCurrentUserID() || isAdmin())) {
-            recipeService.deleteRecipe(recipeId);
-            return new ModelAndView("redirect:/my_recipes");
-        } else {
-            return new ModelAndView("redirect:/403");
-        }*/
-
-        //TODO VERIFICAR QUE ESTE AUTORIZADO!
-        //TODO Por que le tengo que pasar el userId?
-        recipeService.deleteCookList(cooklistId,getCurrentUserID());
+        if(eitherCooklist.isValuePresent())
+            recipeService.deleteCookList(cooklistId,getCurrentUserID());
         return new ModelAndView("redirect:/your_cooklists");
     }
 
     @RequestMapping(value = "/add_recipe_to_cooklist", method = RequestMethod.POST) //Le digo que url mappeo
     public ModelAndView addRecipeToCooklist(@ModelAttribute("selectCookListForm") final SelectCookListForm form, final BindingResult errors, @RequestParam int recipeId) {
         if (errors.hasErrors()) {
-            //TODO
+            return new ModelAndView("400");
         }
 
         recipeService.addRecipeToCookList(form.getCooklistId(), recipeId);

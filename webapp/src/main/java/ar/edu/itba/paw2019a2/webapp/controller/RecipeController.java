@@ -65,8 +65,6 @@ public class RecipeController {
         if(filterForm.getOrder() == null )
             filterForm.setOrder(Order.New);
 
-
-        System.out.printf("PAGINA: %d", page);
         if(page == null)
             page = 1;
 
@@ -190,9 +188,6 @@ public class RecipeController {
             return newRecipe(recipeForm);
         }
 
-        for (String tag : recipeForm.getTags()) {
-            System.out.printf("LA LISTA TIENE TAGS: %s", tag);
-        }
         List<RecipeIngredient> listIngredients = new ArrayList<>();
 
         byte[] bytes = null;
@@ -316,18 +311,15 @@ public class RecipeController {
         Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
         if (maybeRecipe.isPresent()) {
             Recipe recipe = maybeRecipe.get();
-            //recipeForm.setIngredients(recipe.getIngredients());
             recipeForm.setTags(recipe.getTags());
             recipeForm.setInstructions(recipe.getInstructions());
 
             Gson g = new Gson();
-            System.out.printf(g.toJson(recipe.getIngredients()));
             mav.addObject("recipeIngredientsList", g.toJson(recipe.getIngredients()));
 
             mav.addObject("allTags", Tag.values());
             mav.addObject("recipeName", recipe.getName());
             mav.addObject("recipeDescription", recipe.getDescription());
-            //mav.addObject("recipeInstructions", recipe.getInstructions());
             mav.addObject("allIngredients", ingredientService.getAllIngredients());
             mav.addObject("recipeId", recipeId);
 
@@ -347,8 +339,6 @@ public class RecipeController {
             return new ModelAndView("redirect:/404");
         if(maybeRecipe.get().getUserId() != getCurrentUserID())
             return new ModelAndView("redirect:/403");
-
-        //TODO CAMBIAR en recipe forms a lista de recipeIngredients
 
         List<RecipeIngredient> ingList = new ArrayList<>();
 

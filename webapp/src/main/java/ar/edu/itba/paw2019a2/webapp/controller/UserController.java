@@ -73,15 +73,10 @@ public class UserController {
 
     @RequestMapping(value = "/add_ingredient_user", method = {RequestMethod.POST})
     public ModelAndView addIngredientUser(@Valid @ModelAttribute("recipeForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
-        if (errors.hasErrors()) {
-            System.out.printf("ERROR\n");
-            //return myIngredients(addIngredientForm);
-        }
 
         List<RecipeIngredient> ingredientsList = addIngredientForm.getIngredients();
 
         for (RecipeIngredient ri : ingredientsList) {
-            System.out.printf("Nombre: %s,  %f", ingredientService.getById(ri.getIngredient().getId()).get().getName(), ri.getAmount());
             ingredientService.addNewUserIngredient(ri, getCurrentUserID());
         }
         return new ModelAndView("redirect:/my_ingredients");
@@ -122,7 +117,7 @@ public class UserController {
                 mapUserParams(mav,eitherUser.getValue());
             }
             catch (Exception e){
-                //TODO
+                return new ModelAndView("404");
             }
         } else {
             return new ModelAndView("404");
@@ -167,17 +162,10 @@ public class UserController {
 
         }
 
-
-        System.out.printf("DATE: %s \n TO:  %s\n", dateForm.getFrom(), dateForm.getTo());
-
-        Map<NutritionalInfoTypes, Float> nutricionalList = recipeService.nutritionStatistics(getCurrentUserID(),from,to);
-
         Gson g = new Gson();
-        System.out.printf("\n\n%s\n\n", g.toJson(recipeService.tagStatistics(getCurrentUserID(),from, to)));
 
-        System.out.printf("\n\n%s\n\n", g.toJson(nutricionalList));
         mav.addObject("donutList", g.toJson(recipeService.tagStatistics(getCurrentUserID(),from, to)));
-        mav.addObject("list", g.toJson(nutricionalList));
+        mav.addObject("list", g.toJson(recipeService.nutritionStatistics(getCurrentUserID(),from,to)));
         return mav;
     }
 
@@ -194,10 +182,6 @@ public class UserController {
         }
 
         List<Ingredient> allIngredients = ingredientService.getAllIngredients();
-        for(Ingredient in : allIngredients){
-            System.out.printf("%s\n", in.getName());
-        }
-
 
         mav.addObject("averageRate",userService.getRelativeRatingFromUser(getCurrentUserID()));
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(getCurrentUserID()).size());
@@ -211,11 +195,9 @@ public class UserController {
 
         Either<User,Warnings> user = userService.getById(getCurrentUserID());
         if(!user.isValuePresent()){
-            //TODO: ESTO NO ES UN 404
             return new ModelAndView("redirect:/404");
         }
         if(user.getValue().isAdmin()){
-            System.out.printf("BANEANDO, %d",userId);
             userService.deleteAccount(userId);
         }
         else{
