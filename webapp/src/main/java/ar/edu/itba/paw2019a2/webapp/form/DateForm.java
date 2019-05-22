@@ -6,8 +6,10 @@ import java.util.Date;
 
 public class DateForm
 {
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private String from;
 
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private String to;
 
     public String getFrom() {

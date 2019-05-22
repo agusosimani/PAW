@@ -23,6 +23,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import javax.validation.Valid;
@@ -52,6 +56,9 @@ public class HomeController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    private String fromDefaultDate = "01/05/2019";
+
+    private String toDefaultDate = "01/06/2019";
 
     private int getCurrentUserID() {
         if (authenticationService.getAuthentication() == null || !authenticationService.getAuthentication().isAuthenticated()
@@ -299,14 +306,31 @@ public class HomeController {
         return mav;
     }
 
+    private Date parseStringToDate(String date){
+        DateTimeFormatter fromPattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter toPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        return Date.valueOf(LocalDate.parse(date, fromPattern).format(toPattern));
+    }
+
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public ModelAndView statistics(@Valid @ModelAttribute("dateForm") final DateForm dateForm, final BindingResult errors) {
         final ModelAndView mav = new ModelAndView("statistics");
-        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(),new Date(2019,4,1), new Date(2019,6,1));
+
+        if(dateForm.getFrom() == null){
+            dateForm.setFrom(fromDefaultDate);
+        }
+        if(dateForm.getTo() == null){
+            dateForm.setTo(toDefaultDate);
+        }
+
+        System.out.printf("DATE: %s    %s", dateForm.getFrom(), dateForm.getTo());
+
+        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(), parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()));
         double calorie = 0, fat = 0, carbohydrate= 0, protein = 0;
 
         for(RecipeIngredient recipeIngredient : list){
-            System.out.printf("Nombre: %s, grasa: %d\n", recipeIngredient.getIngredient().getName(), recipeIngredient.getIngredient().getTotalFat());
+            System.out.printf("Nombre: %s, grasa: %f\n", recipeIngredient.getIngredient().getName(), recipeIngredient.getIngredient().getTotalFat());
             fat +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getTotalFat();
             calorie +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCalories();
             carbohydrate +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCarbohydrates();
@@ -320,7 +344,6 @@ public class HomeController {
         nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
 
         Gson g = new Gson();
-        System.out.printf("%s", g.toJson(nutricionalList));
         mav.addObject("list", g.toJson(nutricionalList));
         return mav;
     }

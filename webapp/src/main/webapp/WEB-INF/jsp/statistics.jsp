@@ -32,9 +32,11 @@
     <h4 class="navigation-title"><spring:message code="myStatistics"/></h4>
     <section class="browse">
 
-        <form:form modelAttribute="dateForm">
+        <c:url value="/statistics" var="statisticsUrl"/>
+        <form:form modelAttribute="dateForm" action="${statisticsUrl}" method="get">
             <form:input path="from" id="datepicker" maxlength="10"/>
             <form:input path="to" id="datepicker2" maxlength="10"/>
+            <button class="btn btn-green" type="submit">dasdassad</button>
         </form:form>
 
 
