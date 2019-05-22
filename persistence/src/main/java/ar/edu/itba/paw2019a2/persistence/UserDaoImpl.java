@@ -137,20 +137,4 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    @Override
-    public void updatePassword(int id, String password) {
-        jdbcTemplate.update(String.format("UPDATE users SET password = ? WHERE user_id = ? ",
-                password,
-                id));
-    }
-
-    @Override
-    public Optional<String> getUsernameFromId(int userId) {
-        final List<String> list = jdbcTemplate.query("SELECT	username	FROM	users	WHERE	user_id	=	?", STRING_ROW_MAPPER, userId);
-        if (list.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(list.get(0));
-    }
 }

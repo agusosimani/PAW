@@ -73,11 +73,6 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Optional<Recipe> findByName(String name) {
-        return recipeDao.getByName(name);
-    }
-
-    @Override
     public List<Recipe> findByUser(int userId) {
         return recipeDao.getByUserId(userId);
     }
@@ -257,24 +252,6 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<RecipeTag> getAllRecipeTags(Recipe recipe) {
-        return recipeDao.getAllRecipeTags(recipe);
-    }
-
-    @Transactional
-    @Override
-    public void removeTagFromRecipe(Recipe recipe, RecipeTag tag) {
-        recipeDao.removeTagFromRecipe(tag);
-    }
-
-    @Transactional
-    @Override
-    public void addNewRecipeTag(RecipeTag tag) {
-
-        recipeDao.addNewRecipeTag(tag);
-    }
-
-    @Override
     @Transactional
     public void addNewRating(int user, int recipe, float rating) {
         Optional<Rating> maybeRating = ratingsDao.getSpecificRating(user, recipe);
@@ -288,13 +265,6 @@ public class RecipeServiceImpl implements RecipeService {
             updateRatingRecipe(recipe, rating);
 
         }
-    }
-
-    @Override
-    @Transactional
-    public void updateRating(int user, int recipe, float rating) {
-        ratingsDao.update(user, recipe, "rating", rating);
-        updateRatingRecipe(recipe, rating);
     }
 
     private void updateRatingRecipe(int recipe, float rating) {
@@ -313,49 +283,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    @Transactional
-    public void deleteRating(int user, int recipe) {
-        ratingsDao.update(user, recipe, "status", Status.DELETED.toString());
-        Optional<Float> maybeTotalRating = ratingsDao.getRecipeRating(recipe);
-        Map<String, Object> map = new HashMap<>();
-        if (maybeTotalRating.isPresent()) {
-            float totalRating = maybeTotalRating.get();
-            map.put("rating", totalRating);
-            recipeDao.update(recipe, map);
-        }
-    }
-
-    @Override
     public List<Recipe> getAllRecipesByUserId(int userId) {
         return recipeDao.getAllRecipesByUserId(userId);
-    }
-
-    @Override
-    public List<Recipe> getRecipes() {
-        List<Recipe> rList = recipeDao.getAllRecipes("", 0);
-        putIngredientsAndTagsToRecipe(rList);
-        return rList;
-    }
-
-    @Override
-    public List<RecipeTag> getAllTags() {
-        return recipeDao.getAllTags();
-    }
-
-
-    @Override
-    public List<Recipe> FilterRecipesByTags(List<String> tags) {
-        return recipeDao.getRecipesWithTagAndOrder(null, tags, "", 0);
-    }
-
-    @Override
-    public List<Recipe> getAllRecipesByDate() {
-        return recipeDao.getAllRecipesOrderedByDateNew("", 0);
-    }
-
-    @Override
-    public List<Recipe> getAllRecipesByRating() {
-        return recipeDao.getAllRecipesOrderedByRating("", 0);
     }
 
     @Override
@@ -401,15 +330,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public void addNewCookListWithIngredients(int userId, RecipeList recipeList) {
-        recipeDao.addNewUserList(recipeList, userId);
-        for (Recipe recipe : recipeList.getList()) {
-            recipeDao.addRecipeToUserList(recipeList.getId(), recipe.getId());
-        }
-    }
-
-    @Transactional
-    @Override
     public RecipeList addNewCookListWithoutIngredients(int userId, String name) {
         return recipeDao.addNewUserList(name, userId);
 
@@ -420,14 +340,6 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void addRecipeToCookList(int listId, int recipeId) {//TODO cambiar bien el add
         recipeDao.addRecipeToUserList(listId, recipeId);
-    }
-
-    @Override
-    public Either<List<Recipe>, Warnings> getRecipesFromCookList(int listId) {
-        List<Recipe> list = recipeDao.getRecipesfromCookList(listId);
-        if (list.isEmpty())
-            return Either.alternative(Warnings.valueOf("NoRecipesInCookList"));
-        return Either.value(list);
     }
 
     @Override
@@ -474,20 +386,6 @@ public class RecipeServiceImpl implements RecipeService {
         return Warnings.valueOf("AuthorizationDenied");
 
     }
-
-    @Override
-    @Transactional
-    public Warnings changeCookListName(int listId, String name, int userId) {
-        if (recipeDao.checkCookListUser(listId, userId)) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("list_name", name);
-            recipeDao.updateURList(listId, map);
-            return Warnings.valueOf("Success");
-        }
-        return Warnings.valueOf("AuthorizationDenied");
-    }
-
-    //rising = order by rating where date > ayer
 
     @Override
     public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId, String search, int limit) {
@@ -584,29 +482,6 @@ public class RecipeServiceImpl implements RecipeService {
 
 
     @Override
-    public List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to) {
-
-        List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId, from, to);
-
-        for (Recipe rec : recipeList) {
-
-            rec.setComments(this.getRecipeComments(rec.getId()));
-
-            rec.setIngredients(ingredientsDao.getByRecipeId(rec.getId()));
-
-            List<String> tagsString = new ArrayList<>();
-            List<RecipeTag> recipeTags = recipeDao.getAllRecipeTags(rec);
-            for (RecipeTag rt : recipeTags) {
-                tagsString.add(rt.getTag());
-            }
-            rec.setTags(tagsString);
-        }
-
-        return recipeList;
-    }
-
-
-    @Override
     public Set<Recipe> getRecipesOrderCooked(int userId) {
         List<Recipe> list = recipeDao.getRecipesInCookOrder(userId);
         putIngredientsAndTagsToRecipe(list);
@@ -627,12 +502,5 @@ public class RecipeServiceImpl implements RecipeService {
             rec.setTags(tagString);
         }
     }
-
-    @Override
-    public int getRecipesAmountBasedOnOrderTags(List<String> tags, Order order, String search) {
-
-        return recipeDao.amountOfRecipesApplied(order, tags, search);
-    }
-
 
 }

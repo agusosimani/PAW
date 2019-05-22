@@ -15,7 +15,5 @@ public interface UserDao {
     Optional<User> getByEmail(final String email);
     Optional<User> getByUsername(final String username);
     Warnings setUserStatus(final int userId, boolean status);
-    void updatePassword(final int id, final String password);
 
-    Optional<String> getUsernameFromId(int userId);
 }

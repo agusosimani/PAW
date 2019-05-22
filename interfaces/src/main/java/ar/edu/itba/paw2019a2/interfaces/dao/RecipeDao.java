@@ -32,24 +32,16 @@ public interface RecipeDao {
 
     void update(int recipe, Map<String,Object> changes);
 
-    List<RecipeTag> getAllTags();
-
     List<RecipeTag> getAllRecipeTags(Recipe recipe);
-
-    void removeTagFromRecipe(RecipeTag tag);
 
     void addNewRecipeTag(RecipeTag tag);
 
     List<Recipe> getAllRecipesByUserId(int userId);
 
     //PARA LAS LISTAS
-    void addNewUserList(RecipeList rl, int userId);
-
     RecipeList addNewUserList(String name, int userId);
 
     void addRecipeToUserList(int listId, int recipeId);
-
-    List<RecipeList> getCookLists();
 
     List<RecipeList> getUserCookLists(int userId);
 
@@ -74,7 +66,5 @@ public interface RecipeDao {
     List<Recipe> getRecipesInCookOrder(int userId);
 
     List<Recipe> getRecipesCookedInBetweenDates(int userId, Date from, Date to);
-
-    int amountOfRecipesApplied(Order order, List<String> tags, String search);
 
 }

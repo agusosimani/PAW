@@ -17,8 +17,8 @@ import java.util.*;
 @Repository
 public class CommentsDaoImpl implements CommentsDao {
 
-    JdbcTemplate jdbcTemplate;
-    SimpleJdbcInsert jdbcInsertComment;
+    private JdbcTemplate jdbcTemplate;
+    private SimpleJdbcInsert jdbcInsertComment;
 
     private final static RowMapper<Comment> COMMENT_ROW_MAPPER = (rs, rowNum) ->
             new Comment(
@@ -77,16 +77,6 @@ public class CommentsDaoImpl implements CommentsDao {
         return list;
     }
 
-
-    @Override
-    public Optional<Comment> getSpecificComment(int id) {
-        List<Comment> list = jdbcTemplate.query(
-                "SELECT * FROM recipes_comments WHERE comment_id = ? AND comment_status = 'REGULAR'"
-                ,COMMENT_ROW_MAPPER,id);
-        if(list.isEmpty())
-            return Optional.empty();
-        return Optional.of(list.get(0));
-    }
 
     @Override
     public void update(int commentId, Map<String, Object> changes) {

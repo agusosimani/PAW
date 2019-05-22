@@ -13,11 +13,7 @@ public interface RecipeService {
 
     Optional<Recipe> getById(final int id);
 
-    List<Recipe> getRecipes();
-
     Optional<Recipe> getByIdWithIngredients(final int id);
-
-    Optional<Recipe> findByName(final String name);
 
     List<Recipe> findByUser(int userId);
 
@@ -31,27 +27,9 @@ public interface RecipeService {
 
     void deleteRecipe(int recipeId);
 
-    List<RecipeTag> getAllRecipeTags(Recipe recipe);
-
-    void removeTagFromRecipe(Recipe recipe, RecipeTag tag);
-
-    void addNewRecipeTag(RecipeTag tag);
-
     void addNewRating(int user, int recipe, float rating);
 
-    void updateRating(int user, int recipe, float rating);
-
-    void deleteRating(int user, int recipe);
-
     List<Recipe> getAllRecipesByUserId(int userId);
-
-    List<RecipeTag> getAllTags();
-
-    List<Recipe> FilterRecipesByTags(List<String> tags);
-
-    List<Recipe> getAllRecipesByDate();
-
-    List<Recipe> getAllRecipesByRating();
 
     List<Recipe> getFavouriteRecipes(int userId);
 
@@ -59,25 +37,19 @@ public interface RecipeService {
 
     Either<Comment, Warnings> addComment(Comment comment);
 
-    List<Comment> getRecipeComments(int recipeId);
+    Warnings deleteRecipeFromCookList(int listId, int recipeId, int userId);
 
-    void addNewCookListWithIngredients(int userId, RecipeList recipeList);
+    List<Comment> getRecipeComments(int recipeId);
 
     RecipeList addNewCookListWithoutIngredients(int userId, String name);
 
     void addRecipeToCookList(int listId, int recipeId);
 
-    Either<List<Recipe>,Warnings> getRecipesFromCookList(int listId);
-
     List<RecipeList> getUserCookLists(int userId);
 
     Either<RecipeList,Warnings> getCookList(int cookListId);
 
-    Warnings deleteRecipeFromCookList(int listId, int recipeId, int userId);
-
     Warnings deleteCookList(int listId, int userId);
-
-    Warnings changeCookListName(int listId, String name, int userId);
 
     Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId,String search, int limit);
 
@@ -85,9 +57,5 @@ public interface RecipeService {
 
     List<RecipeIngredient> getIngredientsCookedRangeTime(int userId, Date from, Date to);
 
-    List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to);
-
     Set<Recipe> getRecipesOrderCooked(int userId);
-
-    int getRecipesAmountBasedOnOrderTags(List<String> tags, Order order, String search);
 }

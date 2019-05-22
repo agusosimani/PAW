@@ -39,10 +39,6 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientsDao.getById(id);
     }
 
-    @Override
-    public Optional<Ingredient> findByName(String name) {
-        return ingredientsDao.getByIngredientName(name);
-    }
 
     @Override
     public List<RecipeIngredient> findByUser(int userId) {
@@ -140,13 +136,6 @@ public class IngredientServiceImpl implements IngredientService {
         return ri;
     }
 
-    @Override
-    public void addNewUserIngredient(List<RecipeIngredient> recipeIngredientList, int user) {
-        for (RecipeIngredient ri: recipeIngredientList) {
-            addNewUserIngredient(ri,user);
-        }
-    }
-
         @Transactional
     @Override
     public Ingredient addNewIngredient(Ingredient i) {
@@ -231,26 +220,11 @@ public class IngredientServiceImpl implements IngredientService {
         }
     }
 
-
-    @Override
-    public void deleteRI(int ri, int recipe) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("ri_status", "DELETED");
-        ingredientsDao.updateRecipeIngredient(ri, map, recipe);
-    }
-
     @Override
     public void deleteUI(int ri, int user) {
         Map<String, Object> map = new HashMap<>();
         map.put("ui_status", "DELETED");
         ingredientsDao.updateUserIngredient(ri, map, user);
-    }
-
-    @Override
-    public void deleteI(Ingredient i) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("ingredient_status", "DELETED");
-        ingredientsDao.updateIngredient(i, map);
     }
 
     @Override

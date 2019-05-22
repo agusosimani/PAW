@@ -14,8 +14,6 @@ public interface IngredientService {
 
     Optional<Ingredient> getById(final int id);
 
-    Optional<Ingredient> findByName(final String name);
-
     List<RecipeIngredient> findByUser(int userId);
 
     Optional<List<RecipeIngredient>> findByRecipe(int recipeId);
@@ -26,8 +24,6 @@ public interface IngredientService {
 
     RecipeIngredient addNewUserIngredient(RecipeIngredient ui, int userId);
 
-    void addNewUserIngredient(List<RecipeIngredient> recipeIngredientList, int user);
-
     Ingredient addNewIngredient(Ingredient i);
 
     void updateI(Ingredient ingredient);
@@ -36,12 +32,7 @@ public interface IngredientService {
 
     void updateUI(RecipeIngredient ri, int userId);
 
-    void deleteRI(int ri, int recipeId);
-
     void deleteUI(int ri, int userId);
-
-    void deleteI(Ingredient i);
-
 
     Warnings cookRecipe(int recipeId, List<RecipeIngredient> ri, int currentUserID);
 }

@@ -30,7 +30,6 @@ public interface IngredientsDao {
     void updateRecipeIngredient(int ingredient, Map<String, Object> changes, int recipeId);
     void updateUserIngredient(int ingredient, Map<String, Object> changes, int userId);
 
-    void deleteRI(int id);
     boolean isRecipeIngredientDeleted(int id);
 
 }

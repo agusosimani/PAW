@@ -13,7 +13,5 @@ public interface CommentsDao {
 
     List<Comment> getAllRecipeComments(int recipeId);
 
-    Optional<Comment> getSpecificComment(int id);
-
     void update(int commentId, Map<String, Object> changes);
 }
