@@ -715,6 +715,7 @@ public class HomeController {
             ri.setIngredient(new Ingredient());
             ri.getIngredient().setId(recipeForm.getIngredients().get(i));
             ri.setAmount(recipeForm.getIngredientsAmount().get(i));
+            ingList.add(ri);
         }
 
         Recipe recipe = new Recipe.Builder(recipeForm.getName(),ingList,recipeForm.getInstructions(),getCurrentUserID()).description(recipeForm.getDescription()).tags(recipeForm.getTags()).build();
