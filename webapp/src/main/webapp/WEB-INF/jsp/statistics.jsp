@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="string" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -31,27 +32,37 @@
 
     <h4 class="navigation-title"><spring:message code="myStatistics"/></h4>
     <section class="browse">
+        <div class="card">
 
-        <c:url value="/statistics" var="statisticsUrl"/>
-        <form:form modelAttribute="dateForm" action="${statisticsUrl}" method="get">
+            <div class="flex">
+                <div class="recipe-body">
+                    <c:url value="/statistics" var="statisticsUrl"/>
+                    <form:form modelAttribute="dateForm" action="${statisticsUrl}" method="get">
 
-            <div>
-                <form:label path="from"><spring:message code="date.from"/></form:label>
-                <form:input id="datepicker" path="from" maxlength="10"/>
-                <form:label path="to"><spring:message code="date.to"/></form:label>
-                <form:input id="datepicker2" path="to" maxlength="10"/>
-                <button class="btn btn-green" type="submit">
-                    <spring:message code="getStatistics"/>
-                </button>
+                        <div>
+                            <form:label path="from"><spring:message code="date.from"/></form:label>
+                            <form:input id="datepicker" path="from" maxlength="10"/>
+                            <form:label path="to"><spring:message code="date.to"/></form:label>
+                            <form:input id="datepicker2" path="to" maxlength="10"/>
+                            <button class="btn btn-green" type="submit">
+                                <spring:message code="getStatistics"/>
+                            </button>
+                        </div>
+                    </form:form>
+
+                    <h3><spring:message code="nutritionalChart"/></h3>
+                    <canvas id="barChart"></canvas>
+                    <br>
+                    <h3><spring:message code="tagChart"/></h3>
+                    <canvas id="doughnutChart"></canvas>
+                </div>
             </div>
-        </form:form>
-
+        </div>
         <div>
 
         </div>
 
-        <canvas id="barChart"></canvas>
-        <canvas id="doughnutChart"></canvas>
+
     </section>
 
     <section class="side_card">
