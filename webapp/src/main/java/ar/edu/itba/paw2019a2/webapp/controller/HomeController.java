@@ -253,6 +253,8 @@ public class HomeController {
         if(!maybeRI.isPresent()){
             return new ModelAndView("redirect:/403");
         }
+        ingredientService.deleteUI(ingredientId, getCurrentUserID());
+        return new ModelAndView("redirect:/my_ingredients");
     }
 
     @RequestMapping(value = "/rate_recipe", method = RequestMethod.POST) //Le digo que url mappeo
@@ -316,7 +318,12 @@ public class HomeController {
             //TODO: ESTO NO ES UN 404
             return new ModelAndView("redirect:/404");
         }
-        
+        if(user.getValue().isAdmin()){
+            //userService.deleteAccount();
+        }
+        else{
+            return new ModelAndView("redirect:/403");
+        }
 
         return new ModelAndView("redirect:/");
     }
