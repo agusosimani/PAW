@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -19,16 +19,16 @@
     <!-- Your custom styles (optional) -->
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/style_spotify.css"/>" rel="stylesheet">
-  </head>
-  <body class="error">
-    <div class="offset_error"></div>
-    <div class="centered_error text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
-      <img class="logo_error" src="./resources/img/foodify.png" alt="LOGO">
-      <h2 class="font-weight-light align-content-center"><spring:message code="apology"/><br><spring:message code="not_found"/></h2>
-      <c:url var="mainPageUrl" value="/"/>
-      <a href="${mainPageUrl}">
+</head>
+<body class="error">
+<div class="offset_error"></div>
+<div class="centered_error text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
+    <img class="logo_error" src="./resources/img/foodify.png" alt="LOGO">
+    <h2 class="font-weight-light align-content-center"><spring:message code="apology"/><br><spring:message code="barRequest"/></h2>
+    <c:url var="mainPageUrl" value="/"/>
+    <a href="${mainPageUrl}">
         <button class="btn btn-green"><spring:message code="goMainPage"/></button>
-      </a>
-    </div>
-  </body>
+    </a>
+</div>
+</body>
 </html>

@@ -7,6 +7,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ErrorController {
+
+    @RequestMapping(value = "/400", method = {RequestMethod.GET})
+    public ModelAndView badRequest() {
+        return new ModelAndView("400");
+    }
+
     @RequestMapping(value = "/403", method = {RequestMethod.GET})
     public ModelAndView forbidden() {
         return new ModelAndView("403");

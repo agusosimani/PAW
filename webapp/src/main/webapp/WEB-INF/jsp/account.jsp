@@ -74,11 +74,13 @@
 
 
                 <div class="card card-cascade card-recipe ">
-                    <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
-                        <a>
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
+                    <div class="view view-cascade">
+                        <div class="bg-dark">
+                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><strong><spring:message code="myLists"/></strong></h4>
@@ -110,11 +112,13 @@
 
 
                 <div class="card card-cascade card-recipe ">
-                    <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
-                        <a>
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
+                    <div class="view view-cascade">
+                        <div class="bg-dark">
+                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><strong>Cocinadas recientemente</strong></h4>
@@ -125,16 +129,21 @@
                 <!-- Post title -->
 
                 <div class="card card-cascade card-recipe ">
-                    <div class="view overlay rounded z-depth-2 mb-4">
-                        <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
-                        <a>
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
+                    <div class="view view-cascade">
+                        <div class="bg-dark">
+                            <img class="card-img-top" src="<c:url value="/resources/img/recipe_2.png"/>" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><strong><spring:message code="myFavouriteRecipes"/></strong></h4>
-
                         <p class="card-text"><spring:message code="myFavouriteRecipesExplanation"/></p>
+                        <c:url var="favouritesUrl" value="/favourites_recipes">
+                            <c:param name="userId" value="${user.id}"/>
+                        </c:url>
+                        <a href="${favouritesUrl}" class="stretched-link"></a>
                     </div>
                 </div>
                 <!-- Post title -->

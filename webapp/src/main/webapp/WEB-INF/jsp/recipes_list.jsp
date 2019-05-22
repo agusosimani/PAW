@@ -27,17 +27,10 @@
 <section class="main_container">
 
     <h4 class="navigation-title">${title}</h4>
-    <c:if test="${empty RecipeList}">
-        <c:choose>
-            <c:when test="${yourAccount}">
-                <h3 class="navigation-subtitle"><spring:message code="emptyMyRecipes"/></h3>
-            </c:when>
-            <c:otherwise>
-                <h3 class="navigation-subtitle"><spring:message code="emptyRecipes" arguments="${user.username}"/></h3>
-            </c:otherwise>
-        </c:choose>
-    </c:if>
     <section class="browse">
+        <c:if test="${empty RecipeList}">
+            <h3 class="navigation-subtitle">${emptyWarning}</h3>
+        </c:if>
         <%@include file="recipe_cards.jsp" %>
     </section>
     <section class="side_card">
@@ -49,10 +42,12 @@
     </section>
 </section>
 
-<c:url value="/new_recipe" var="newRecipeUrl"/>
-<a href="${newRecipeUrl}">
-    <button class="btn btn-green add">+</button>
-</a>
+<c:if test="${editable}">
+    <c:url value="/new_recipe" var="newRecipeUrl"/>
+    <a href="${newRecipeUrl}">
+        <button class="btn btn-green add">+</button>
+    </a>
+</c:if>
 
 <!-- SCRIPTS -->
 <!-- JQuery -->

@@ -9,7 +9,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -137,10 +136,13 @@ public class HomeController {
         if (userId == -1)
             userId = getCurrentUserID();
 
-        User user = userService.getById(userId).getValue();
+        Either<User,Warnings> eitherUser = userService.getById(userId);
+        if(!eitherUser.isValuePresent()) {
+            return new ModelAndView("404");
+        }
 
         if (userId != getCurrentUserID())
-            mav.addObject("title", messageSource.getMessage("cooklist.title", new Object[]{user.getName()}, Locale.getDefault()));
+            mav.addObject("title", messageSource.getMessage("cooklist.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
         else
             mav.addObject("title", messageSource.getMessage("myCooklists", null, Locale.getDefault()));
 
@@ -260,11 +262,13 @@ public class HomeController {
 
     @RequestMapping(value = "/my_account", method = RequestMethod.GET)
     public ModelAndView myAccount(Authentication authentication) {
-        return account(authentication, getCurrentUserID());
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("userId", getCurrentUserID());
+        return new ModelAndView("redirect:/account", arguments);
     }
 
     @RequestMapping(value = "/account", method = RequestMethod.GET)
-    public ModelAndView account(Authentication authentication, @RequestParam int userId) {
+    public ModelAndView account(@RequestParam int userId) {
         final ModelAndView mav = new ModelAndView("account");
 
         Either<User, Warnings> eitherUser = userService.getById(userId);
@@ -272,7 +276,7 @@ public class HomeController {
         if (eitherUser.isValuePresent()) {
             mav.addObject("user", eitherUser.getValue());
         } else {
-            //TODO: tirar el warning
+            return new ModelAndView("404");
         }
 
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
@@ -281,27 +285,34 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/my_ingredients", method = RequestMethod.GET)
-    public ModelAndView myIngredients(Authentication authentication, @Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
+    public ModelAndView myIngredients(@Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
         final ModelAndView mav = new ModelAndView("ingredients");
 
         int id = getCurrentUserID();
-
-        List<RecipeIngredient> ingredientList = ingredientService.findByUser(id);
-
-
-        List<Ingredient> allIngredientsList = ingredientService.getAllIngredients();
-
         Either<User, Warnings> eitherUser = userService.getById(id);
-
-        mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(getCurrentUserID()).size());
         if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
         else {
-            //TODO: tirar el warning
+            return new ModelAndView("404");
         }
-        mav.addObject("allIngredients", allIngredientsList);
-        mav.addObject("ingredientsList", ingredientList);
+
+        mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(getCurrentUserID()).size());
+        mav.addObject("allIngredients", ingredientService.getAllIngredients());
+        mav.addObject("ingredientsList", ingredientService.findByUser(id));
         return mav;
+    }
+
+    @RequestMapping(value = "/ban_user", method = {RequestMethod.POST})
+    public ModelAndView banUser(@RequestParam int userId) {
+
+        Either<User,Warnings> user = userService.getById(getCurrentUserID());
+        if(!user.isValuePresent()){
+            //TODO: ESTO NO ES UN 404
+            return new ModelAndView("redirect:/404");
+        }
+        
+
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/cook_recipe", method = {RequestMethod.POST})
@@ -309,6 +320,7 @@ public class HomeController {
 
 
         List<RecipeIngredient> list = ingredientService.findByRecipe(recipeId);
+
         Boolean s = ingredientService.cookRecipe(list, this.getCurrentUserID()).equals(Warnings.Success);
 
 
@@ -325,27 +337,30 @@ public class HomeController {
         final ModelAndView mav = new ModelAndView("recipe");
 
         Optional<Recipe> maybeRecipe = recipeService.getById(recipeId);
-
         if(!maybeRecipe.isPresent()) {
-            return new ModelAndView("redirect:/404");
+            return new ModelAndView("404");
         }
-
         Recipe recipe = maybeRecipe.get();
 
         Either<User, Warnings> eitherUser = userService.getById(recipe.getUserId());
+        Boolean isAdmin = false;
+        Boolean disabledUser = false;
+        if(!eitherUser.isValuePresent()){
+            disabledUser = true;
+        }
+        else{
+            isAdmin = eitherUser.getValue().isAdmin();
+        }
+
 
         float userRating = 0;
         Optional<Float> maybeUserRating = recipeService.getUserRating(getCurrentUserID(), recipeId);
         if (maybeUserRating.isPresent())
             userRating = maybeUserRating.get();
 
-        double fat =0;
-        double calorie=0,carbohydrate=0,protein=0;
+        double fat =0, calorie=0,carbohydrate=0,protein=0;
         for(RecipeIngredient recipeIngredient : recipe.getIngredients()){
-            System.out.printf("RECIPE CANTIDA: %f\n EN SERVING: %f\n", recipeIngredient.getAmount(),recipeIngredient.getIngredient().getServing());
-            double fatAdd = recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getTotalFat();
-            System.out.printf("Agrego: %f", recipeIngredient.getIngredient().getTotalFat());
-            fat +=  fatAdd;
+            fat +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getTotalFat();
             calorie +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCalories();
             carbohydrate +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getCarbohydrates();
             protein +=  recipeIngredient.getAmount() / recipeIngredient.getIngredient().getServing() * recipeIngredient.getIngredient().getProtein();
@@ -357,6 +372,8 @@ public class HomeController {
         nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Carbohydrate,carbohydrate));
         nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
 
+        mav.addObject("isAdmin", isAdmin);
+        mav.addObject("disabledUser", disabledUser);
         mav.addObject("nutricionalInfoList", nutricionalInfo);
         mav.addObject("cooked", cooked);
         mav.addObject("editable", recipe.getUserId() == getCurrentUserID());
@@ -367,9 +384,7 @@ public class HomeController {
         mav.addObject("recipe", recipe);
         if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
-        else {
-            //TODO tirar el warning
-        }
+
         mav.addObject("ingredientsList", recipe.getIngredients());
         return mav;
     }
@@ -444,25 +459,66 @@ public class HomeController {
     @RequestMapping("/user_recipes") //Le digo que url mappeo
     public ModelAndView userRecipes(@RequestParam int userId) {
 
-        final ModelAndView mav = new ModelAndView("user_recipes");
+        final ModelAndView mav = new ModelAndView("recipes_list");
 
         List<Recipe> recipeList = recipeService.getAllRecipesByUserId(userId);
 
         Either<User, Warnings> eitherUser = userService.getById(userId);
-
-        mav.addObject("RecipeList", recipeList);
         if (eitherUser.isValuePresent())
             mav.addObject("user", eitherUser.getValue());
         else {
-            //TODO: tirar el error
+            return new ModelAndView("404");
         }
-        List<Recipe> rec = recipeService.getAllRecipesByUserId(userId);
+
+        mav.addObject("RecipeList", recipeList);
 
         if (userId != getCurrentUserID())
             mav.addObject("title", messageSource.getMessage("recipe.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
         else
             mav.addObject("title", messageSource.getMessage("myRecipes", null, Locale.getDefault()));
-        mav.addObject("yourAccount", getCurrentUserID() == userId);
+
+        String emptyWarning;
+        if(getCurrentUserID() == userId)
+            emptyWarning = messageSource.getMessage("emptyMyRecipes", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault());
+        else
+            emptyWarning = messageSource.getMessage("emptyRecipes", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault());
+
+        mav.addObject("emptyWarning", emptyWarning);
+        mav.addObject("editable", getCurrentUserID() == userId);
+        mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
+
+        return mav;
+    }
+
+    @RequestMapping("/favourites_recipes") //Le digo que url mappeo
+    public ModelAndView favouriteRecipes(@RequestParam int userId) {
+
+        final ModelAndView mav = new ModelAndView("recipes_list");
+
+
+        Either<User, Warnings> eitherUser = userService.getById(userId);
+        if (eitherUser.isValuePresent())
+            mav.addObject("user", eitherUser.getValue());
+        else {
+            return new ModelAndView("404");
+        }
+
+        List<Recipe> recipeList = recipeService.getFavouriteRecipes(userId);
+
+        if (userId != getCurrentUserID())
+            mav.addObject("title", messageSource.getMessage("favourites.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
+        else
+            mav.addObject("title", messageSource.getMessage("yourFavourites", null, Locale.getDefault()));
+
+        String emptyWarning;
+        if(getCurrentUserID() == userId)
+            emptyWarning = messageSource.getMessage("emptyMyfavourites", null, Locale.getDefault());
+        else
+            emptyWarning = messageSource.getMessage("emptyFavourites", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault());
+
+        mav.addObject("RecipeList", recipeList);
+        mav.addObject("emptyWarning", emptyWarning);
+        mav.addObject("editable", false);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
 
         return mav;
@@ -488,7 +544,7 @@ public class HomeController {
 
             return mav;
         }
-        return new ModelAndView("redirect:/404");
+        return new ModelAndView("404");
 
     }
 
