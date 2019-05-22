@@ -708,16 +708,20 @@ public class HomeController {
 
         //TODO CAMBIAR en recipe forms a lista de recipeIngredients
 
-        Recipe recipe = new Recipe.Builder(recipeForm.getName(),new ArrayList<>(),recipeForm.getInstructions(),getCurrentUserID()).description(recipeForm.getDescription()).tags(recipeForm.getTags()).build();
+        List<RecipeIngredient> ingList = new ArrayList<>();
+
+        for (int i = 0; i < recipeForm.getIngredientsAmount().size();i++) {
+            RecipeIngredient ri = new RecipeIngredient();
+            ri.setIngredient(new Ingredient());
+            ri.getIngredient().setId(recipeForm.getIngredients().get(i));
+            ri.setAmount(recipeForm.getIngredientsAmount().get(i));
+        }
+
+        Recipe recipe = new Recipe.Builder(recipeForm.getName(),ingList,recipeForm.getInstructions(),getCurrentUserID()).description(recipeForm.getDescription()).tags(recipeForm.getTags()).build();
 
         recipe.setId(recipeId);
 
-        for (int i = 0; i < recipeForm.getIngredientsAmount().size();i++) {
-
-        }
-
-
-        //recipeService.update(recipe);
+        recipeService.update(recipe);
 
 
 

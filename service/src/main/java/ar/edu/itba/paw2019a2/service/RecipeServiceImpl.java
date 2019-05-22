@@ -133,7 +133,7 @@ public class RecipeServiceImpl implements RecipeService {
         if (maybeOldRecipe.isPresent()) {
             Recipe oldRecipe = maybeOldRecipe.get();
             Map<String, Object> map = new HashMap<>();
-
+            
             if (!oldRecipe.getDescription().equals(recipe.getDescription())) {
                 map.put("description", recipe.getDescription());
             }
@@ -143,27 +143,60 @@ public class RecipeServiceImpl implements RecipeService {
             if (!oldRecipe.getInstructions().equals(recipe.getInstructions())) {
                 map.put("instructions", recipe.getInstructions());
             }
+            if (oldRecipe.getImage() != null && recipe.getImage() != null && Arrays.equals(recipe.getImage(), oldRecipe.getImage()))
+                map.put("image", recipe.getImage());
+
 
             recipeDao.update(recipe.getId(), map);
 
-            int aux = 0;
+            List<RecipeIngredient> oldIngList = oldRecipe.getIngredients();
 
-            for (RecipeIngredient ri : recipe.getIngredients()) {
+            int deleteIngredients = oldIngList.size();
 
-                Optional<RecipeIngredient> maybeIng = ingredientsDao.getUserIngById(ri.getIngredient().getId(), recipe.getUserId());
-                if (maybeIng.isPresent()) {
-                    ri.setIngredient(ri.getIngredient());
-                    ingredientService.updateUI(ri, recipe.getUserId());
-                } else {
-                    Optional<Ingredient> maybeI = ingredientsDao.getById(ri.getIngredient().getId());
-                    if(maybeI.isPresent()){
-                        ri.setIngredient(maybeI.get());
-                        ingredientService.addNewUserIngredient(ri, recipe.getUserId());
+
+
+            for (RecipeIngredient recipeIngredient : recipe.getIngredients()) {
+                boolean newIng = true;
+
+
+                for (RecipeIngredient oldIng : oldIngList) {
+
+                    if (oldIng.getIngredient().getId() == recipeIngredient.getIngredient().getId()) {
+                        newIng = false;
                     }
+                    System.out.println("opa");
                 }
-                aux++;
+
+                if (newIng) {
+                    if (ingredientsDao.isRecipeIngredientDeleted(recipeIngredient.getIngredient().getId())) {
+                        Map<String, Object> RIDmap = new HashMap<>();
+                        RIDmap.put("ri_status", Status.REGULAR.toString());
+                        RIDmap.put("amount", recipeIngredient.getAmount());
+                        ingredientsDao.updateRecipeIngredient(recipe.getId(), RIDmap, recipe.getId());
+                    } else {
+                        ingredientsDao.addNewRecipeIngredient(recipe.getId(), recipeIngredient);
+                    }
+                } else {
+                    deleteIngredients--;
+                }
             }
 
+            while (deleteIngredients > 0) {
+                for (RecipeIngredient oldIng : oldIngList) {
+                    boolean oldIngDelete = true;
+                    for (RecipeIngredient recipeIngredient : recipe.getIngredients()) {
+                        if (oldIng.getIngredient().getId() == recipeIngredient.getIngredient().getId())
+                            oldIngDelete = false;
+                    }
+                    if(oldIngDelete) {
+                        Map<String, Object> RDmap = new HashMap<>();
+                        RDmap.put("ri_status", Status.REGULAR.toString());
+                        ingredientsDao.updateRecipeIngredient(oldIng.getIngredient().getId(), RDmap, oldRecipe.getId());
+                        deleteIngredients--;
+                    }
+
+                }
+            }
 
 
             List<RecipeTag> listTagsOld = recipeDao.getAllRecipeTags(oldRecipe);
@@ -505,7 +538,7 @@ public class RecipeServiceImpl implements RecipeService {
             }
         }
 
-        return new HashSet<>(returnList);
+        return new LinkedHashSet<>(returnList);
     }
 
     @Override
@@ -530,7 +563,7 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
 
-        return new HashSet<>(list);
+        return new LinkedHashSet<>(list);
     }
 
     @Override
@@ -596,7 +629,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public int getRecipesAmountBasedOnOrderTags(List<String> tags, Order order, String search) {
 
-        return recipeDao.amountOfRecipesApplied(order,tags,search);
+        return recipeDao.amountOfRecipesApplied(order, tags, search);
     }
 
 

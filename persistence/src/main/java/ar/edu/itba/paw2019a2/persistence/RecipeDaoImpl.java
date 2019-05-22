@@ -197,10 +197,10 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public boolean isTagDeleted(String tag, int id) {
-        final List<Recipe> list =
+        final List<RecipeTag> list =
                 jdbcTemplate.query("SELECT	*	FROM recipe_tags " +
                         "WHERE tags_status = 'DELETED'" +
-                        "AND tag = ? AND recipe_id = ?", ROW_MAPPER, tag, id);
+                        "AND tag = ? AND recipe_id = ?", TAG_ROW_MAPPER, tag, id);
         return !list.isEmpty();
     }
 

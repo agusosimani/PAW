@@ -94,7 +94,7 @@ public class IngredientServiceImpl implements IngredientService {
             if (maybeDeleted.isPresent()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("ri_status", "REGULAR");
-                map.put("serving_amount", 0);
+                map.put("serving_amount", ri.getAmount());
                 ingredientsDao.updateRecipeIngredient(ri.getIngredient().getId(), map, recipe);
                 this.updateRI(ri, recipe);
 

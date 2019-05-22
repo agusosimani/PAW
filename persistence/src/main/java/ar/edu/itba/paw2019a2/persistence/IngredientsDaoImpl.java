@@ -354,5 +354,19 @@ public class IngredientsDaoImpl implements IngredientsDao {
         }
     }
 
+    @Override
+    public void deleteRI(int id){
+        jdbcTemplate.update("UPDATE recipes_ingredients SET ri_status = 'DELETED' WHERE recipe_id = ?", id);
+    }
+
+    @Override
+    public boolean isRecipeIngredientDeleted(int id) {
+        final List<RecipeIngredient> list =
+                jdbcTemplate.query("SELECT	*	FROM recipes_ingredients " +
+                        "WHERE ri_status = 'DELETED'" +
+                        "AND ingredient_id = ? ", RECIPE_INGREDIENT_ROW_MAPPER, id);
+        return !list.isEmpty();
+    }
+
 
 }
