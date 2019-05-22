@@ -260,14 +260,14 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append(")) AND recipes.rating >= 4 AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%");
             sb.append(search);
-            sb.append("%\' ORDER BY recipes.date_created DESC, recipe_name ").append(limit);
+            sb.append("%\' ORDER BY recipes.date_created DESC, recipe_name limit ").append(limit);
 
         } else if (order.equals(Order.TopRated)) {
             sb.append("SELECT	 *	FROM recipe_tags LEFT OUTER JOIN recipes ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE (recipe_tags.tag in(");
             queryAppender(tags, sb);
             sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%");
             sb.append(search);
-            sb.append("%\' ORDER BY recipes.rating DESC, recipe_name ").append(limit);
+            sb.append("%\' ORDER BY recipes.rating DESC, recipe_name limit ").append(limit);
 
 
         } else if (order.equals(Order.New)) {
@@ -278,7 +278,7 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
                     .append(search)
-                    .append("%\' ORDER BY recipes.date_created DESC,recipe_name ")
+                    .append("%\' ORDER BY recipes.date_created DESC,recipe_name limit ")
                     .append(limit);
 
         } else if (order.equals(Order.Old)) {
@@ -289,7 +289,7 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
                     .append(search)
-                    .append("%\' ORDER BY recipes.date_created,recipe_name ")
+                    .append("%\' ORDER BY recipes.date_created,recipe_name limit ")
                     .append(limit);
 
         } else {
@@ -299,7 +299,7 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append(")) AND recipe_status = 'REGULAR' AND recipe_name ILIKE \'%")
                     .append(search)
-                    .append("%\' ORDER BY recipe_name ")
+                    .append("%\' ORDER BY recipe_name limit ")
                     .append(limit);
 
         }
