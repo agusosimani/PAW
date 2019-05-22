@@ -128,6 +128,7 @@ public class HomeController {
         mav.addObject("cooklist", recipeService.getCookList(cookListId).getValue());
         mav.addObject("yourCooklist", userId == getCurrentUserID());
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
+        mav.addObject("averageRate",userService.getRelativeRatingFromUser(userId));
 
         return mav;
     }
@@ -156,6 +157,7 @@ public class HomeController {
         else
             mav.addObject("title", messageSource.getMessage("myCooklists", null, Locale.getDefault()));
 
+        mav.addObject("averageRate",userService.getRelativeRatingFromUser(userId));
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(userId).size());
         mav.addObject("editable", getCurrentUserID() == userId);
         mav.addObject("cookList", recipeService.getUserCookLists(userId));
@@ -303,6 +305,7 @@ public class HomeController {
             return new ModelAndView("404");
         }
 
+        mav.addObject("averageRate",userService.getRelativeRatingFromUser(userId));
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
         mav.addObject("yourAccount", getCurrentUserID() == userId);
         return mav;
@@ -363,6 +366,7 @@ public class HomeController {
             return new ModelAndView("404");
         }
 
+        mav.addObject("averageRate",userService.getRelativeRatingFromUser(getCurrentUserID()));
         mav.addObject("recipes_amount", recipeService.getAllRecipesByUserId(getCurrentUserID()).size());
         mav.addObject("allIngredients", ingredientService.getAllIngredients());
         mav.addObject("ingredientsList", ingredientService.findByUser(id));
@@ -475,6 +479,8 @@ public class HomeController {
             mav.addObject("isAdmin", false);
         mav.addObject("user", user);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(user.getId()));
+        mav.addObject("averageRate",userService.getRelativeRatingFromUser(user.getId()));
+
     }
 
     @RequestMapping(value = "/add_recipe_to_cooklist", method = RequestMethod.POST) //Le digo que url mappeo
@@ -573,6 +579,8 @@ public class HomeController {
         mav.addObject("emptyWarning", emptyWarning);
         mav.addObject("editable", getCurrentUserID() == userId);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
+        mav.addObject("averageRate",userService.getRelativeRatingFromUser(userId));
+
 
         return mav;
     }
@@ -607,6 +615,8 @@ public class HomeController {
         mav.addObject("emptyWarning", emptyWarning);
         mav.addObject("editable", false);
         mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
+        mav.addObject("averageRate",userService.getRelativeRatingFromUser(userId));
+
 
         return mav;
     }

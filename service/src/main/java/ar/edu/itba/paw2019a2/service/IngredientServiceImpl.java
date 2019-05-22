@@ -108,6 +108,9 @@ public class IngredientServiceImpl implements IngredientService {
     @Transactional
     @Override
     public RecipeIngredient addNewUserIngredient(RecipeIngredient ri, int user) {
+        if(ri.getAmount() <= 0)
+            return ri;
+
         Optional<Ingredient> maybeIngredient = ingredientsDao.getById(ri.getIngredient().getId());
         if (!maybeIngredient.isPresent()) {
             Ingredient i = this.addNewIngredient(ri.getIngredient());
