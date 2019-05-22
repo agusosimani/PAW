@@ -31,7 +31,7 @@
         <section class="browse">
             <c:if test="${empty RecipeList}">
                 <c:choose>
-                    <c:when test="${empty filterForm.tags}">
+                    <c:when test="${empty filterForm.tags && filterForm.withMyIngredients eq false}">
                         <h3 class="navigation-subtitle"><spring:message code="NoRecipesYet"/></h3>
                     </c:when>
                     <c:otherwise>

@@ -79,7 +79,6 @@ public class UserDaoImpl implements UserDao {
 
     private void update(User user, String k, Object v) {
         if(k.equals("password")){
-            System.out.println(v);
             jdbcTemplate.update("UPDATE users SET password = ? WHERE user_id = ?",v,user.getId());
         }
         if(k.equals("mail")){
@@ -95,6 +94,7 @@ public class UserDaoImpl implements UserDao {
             jdbcTemplate.update("UPDATE users SET gender = ? WHERE user_id = ?",v,user.getId());
         }
         if(k.equals("user_status")){
+            System.out.println(v);
             jdbcTemplate.update("UPDATE users SET user_status = ? WHERE user_id = ?",v,user.getId());
         }
     }

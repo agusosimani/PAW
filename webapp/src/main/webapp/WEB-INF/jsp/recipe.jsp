@@ -295,6 +295,7 @@
 
 <%@include file="add_recipe_to_cooklist.jsp" %>
 <%@include file="delete_recipe_modal.jsp" %>
+<%@include file="ban_user_modal.jsp"%>
 
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <!-- Bootstrap tooltips -->
