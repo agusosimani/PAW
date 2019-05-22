@@ -45,8 +45,7 @@ public class RegistrationController {
     private EmailService emailService;
 
     @RequestMapping(value = "/create/registration-confirm", method = RequestMethod.GET)
-    public ModelAndView confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token, HttpServletResponse response) {
-        //Se busca en la DB al token pasado en la url
+    public ModelAndView confirmRegistration(HttpServletRequest request, Model model, @RequestParam("token") String token, HttpServletResponse response) {
         Either<VerificationToken, Warnings> verificationToken = userService.getVerificationToken(token);
         if(!verificationToken.isValuePresent()) {
             return new ModelAndView("redirect:/error").addObject("message", verificationToken.getAlternative().getWarning());
@@ -57,12 +56,9 @@ public class RegistrationController {
             return new ModelAndView("redirect:/error").addObject("message", messageSource.getMessage(verificationToken.getAlternative().name(), null, LocaleContextHolder.getLocale()));
         }
         if(userTokenState.getValue() == UserTokenState.USER_DISABLED_EXPIRED_TOKEN) {
-            //resend email verification
-            ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
-            builder.scheme("http");
+            ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromContextPath(request);
             URI uri = builder.build().toUri();
-            // TODO resend email
-            return new ModelAndView("indexResendEmailVerification").addObject("token", token).addObject("uri", uri);
+            return new ModelAndView("resend_email_verification").addObject("token", token).addObject("uri", uri);
         }
         if(userTokenState.getValue() == UserTokenState.USER_ENABLED_EXPIRED_TOKEN) {
             return new ModelAndView("redirect:/login");

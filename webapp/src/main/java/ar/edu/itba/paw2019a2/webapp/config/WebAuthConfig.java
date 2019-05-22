@@ -41,6 +41,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/register").permitAll()
                     .antMatchers("/create").anonymous()
                     .antMatchers("/create/registration-confirm").anonymous()
+                    .antMatchers("/create/resend-email-verification").anonymous()
                     //.antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/**").hasRole("VALIDATED")
                 .and().formLogin()
