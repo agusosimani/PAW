@@ -149,7 +149,6 @@ public class RecipeServiceImpl implements RecipeService {
             int deleteIngredients = oldIngList.size();
 
 
-
             for (RecipeIngredient recipeIngredient : recipe.getIngredients()) {
                 boolean newIng = true;
 
@@ -185,7 +184,7 @@ public class RecipeServiceImpl implements RecipeService {
                         if (oldIng.getIngredient().getId() == recipeIngredient.getIngredient().getId())
                             oldIngDelete = false;
                     }
-                    if(oldIngDelete) {
+                    if (oldIngDelete) {
                         Map<String, Object> RDmap = new HashMap<>();
                         RDmap.put("ri_status", Status.DELETED.toString());
                         ingredientsDao.updateRecipeIngredient(oldIng.getIngredient().getId(), RDmap, oldRecipe.getId());
@@ -338,8 +337,14 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Transactional
     @Override
-    public void addRecipeToCookList(int listId, int recipeId) {//TODO cambiar bien el add
-        recipeDao.addRecipeToUserList(listId, recipeId);
+    public void addRecipeToCookList(int listId, int recipeId) {
+        List<Recipe> list = recipeDao.getRecipesfromCookList(listId);
+        Optional<Recipe> maybeRecipe = this.getById(recipeId);
+        if (maybeRecipe.isPresent()) {
+            if (!list.contains(maybeRecipe.get())) {
+                recipeDao.addRecipeToUserList(listId, recipeId);
+            }
+        }
     }
 
     @Override
@@ -525,7 +530,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Map<Tag,Integer> tagStatistics(int userId, Date from, Date to) {
+    public Map<Tag, Integer> tagStatistics(int userId, Date from, Date to) {
 
 
         Timestamp timestamp = new Timestamp(to.getTime());
@@ -537,29 +542,29 @@ public class RecipeServiceImpl implements RecipeService {
 
         timestamp = new Timestamp(cal.getTime().getTime());
 
-        List<Recipe> recipeList = getRecipesCookedRangeTime(userId,from,timestamp);
+        List<Recipe> recipeList = getRecipesCookedRangeTime(userId, from, timestamp);
 
-        if(recipeList.isEmpty()) {
+        if (recipeList.isEmpty()) {
             return new HashMap<>();
         }
 
-        Map<Tag,Integer> retMap = new HashMap<>();
+        Map<Tag, Integer> retMap = new HashMap<>();
 
-        for(Tag tag:Tag.values()) {
-            retMap.put(tag,0);
+        for (Tag tag : Tag.values()) {
+            retMap.put(tag, 0);
         }
 
-        for (Recipe recipe: recipeList) {
-            for (String tag:recipe.getTags()) {
+        for (Recipe recipe : recipeList) {
+            for (String tag : recipe.getTags()) {
                 int aux = retMap.get(Tag.valueOf(tag));
-                retMap.put(Tag.valueOf(tag),aux + 1);
+                retMap.put(Tag.valueOf(tag), aux + 1);
             }
         }
         return retMap;
     }
 
     @Override
-    public Map<NutritionalInfoTypes,Float> nutritionStatistics(int userId, Date from, Date to) {
+    public Map<NutritionalInfoTypes, Float> nutritionStatistics(int userId, Date from, Date to) {
 
         Timestamp timestamp = new Timestamp(to.getTime());
 
@@ -571,13 +576,12 @@ public class RecipeServiceImpl implements RecipeService {
         timestamp = new Timestamp(cal.getTime().getTime());
 
 
-        List<RecipeIngredient> list = this.getIngredientsCookedRangeTime(userId,from,timestamp);
+        List<RecipeIngredient> list = this.getIngredientsCookedRangeTime(userId, from, timestamp);
 
-        Map<NutritionalInfoTypes,Float> retMap = new HashMap<>();
+        Map<NutritionalInfoTypes, Float> retMap = new HashMap<>();
 
 
-
-        for(NutritionalInfoTypes tag : NutritionalInfoTypes.values()) {
+        for (NutritionalInfoTypes tag : NutritionalInfoTypes.values()) {
             retMap.put(tag, (float) 0);
         }
 
@@ -587,10 +591,10 @@ public class RecipeServiceImpl implements RecipeService {
             float auxProtein = retMap.get(NutritionalInfoTypes.valueOf("Protein"));
             float auxCalorie = retMap.get(NutritionalInfoTypes.valueOf("Calorie"));
 
-            retMap.put(NutritionalInfoTypes.Fat, (float) (auxFat + ri.getAmount()/ri.getIngredient().getServing()*ri.getIngredient().getTotalFat()));
-            retMap.put(NutritionalInfoTypes.Calorie, (float) (auxCalorie + ri.getAmount()/ri.getIngredient().getServing()*ri.getIngredient().getCalories()));
-            retMap.put(NutritionalInfoTypes.Carbohydrate, (float) (auxCarbohydrate + ri.getAmount()/ri.getIngredient().getServing()*ri.getIngredient().getCarbohydrates()));
-            retMap.put(NutritionalInfoTypes.Protein, (float) (auxProtein + ri.getAmount()/ri.getIngredient().getServing()*ri.getIngredient().getProtein()));
+            retMap.put(NutritionalInfoTypes.Fat, (float) (auxFat + ri.getAmount() / ri.getIngredient().getServing() * ri.getIngredient().getTotalFat()));
+            retMap.put(NutritionalInfoTypes.Calorie, (float) (auxCalorie + ri.getAmount() / ri.getIngredient().getServing() * ri.getIngredient().getCalories()));
+            retMap.put(NutritionalInfoTypes.Carbohydrate, (float) (auxCarbohydrate + ri.getAmount() / ri.getIngredient().getServing() * ri.getIngredient().getCarbohydrates()));
+            retMap.put(NutritionalInfoTypes.Protein, (float) (auxProtein + ri.getAmount() / ri.getIngredient().getServing() * ri.getIngredient().getProtein()));
 
         }
 
