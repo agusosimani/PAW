@@ -57,9 +57,9 @@ public class HomeController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    private String fromDefaultDate = "01/05/2019";
+    private Date fromDefaultDate = parseStringToDate("01/05/2019");
 
-    private String toDefaultDate = "01/06/2019";
+    private Date toDefaultDate = parseStringToDate("01/06/2019");
 
     private int cardsPerPage = 999;
 
@@ -378,7 +378,7 @@ public class HomeController {
 
         System.out.printf("DATE: %s    %s", dateForm.getFrom(), dateForm.getTo());
 
-        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(), parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()));
+        List<RecipeIngredient> list = recipeService.getIngredientsCookedRangeTime(getCurrentUserID(), dateForm.getFrom(), dateForm.getTo());
 
         double calorie = 0, fat = 0, carbohydrate= 0, protein = 0;
 

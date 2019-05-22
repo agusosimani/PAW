@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="defaultPattern"	value="paw2019a2 %d{HH:mm:s s.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="defaultPattern"	value="paw-2019a-2 %d{HH:mm:s s.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
     <appender name="root-appender" class="ch.qos.logb ack.core.rolling.RollingFileAppender">
         <rollingPolicy	class="ch.qos.logback.core .rolling.TimeBasedRollingPolicy">
             <maxHistory>5</maxHistory>

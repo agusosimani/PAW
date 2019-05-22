@@ -6,25 +6,23 @@ import java.util.Date;
 
 public class DateForm
 {
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private String from;
+    private Date from;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private String to;
+    private Date to;
 
-    public String getFrom() {
+    public Date getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(Date from) {
         this.from = from;
     }
 
-    public String getTo() {
+    public Date getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(Date to) {
         this.to = to;
     }
 }
