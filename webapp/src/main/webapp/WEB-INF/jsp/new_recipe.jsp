@@ -90,13 +90,16 @@
                         </form:label>
                         <form:input type="number" class="form-control mb-4" path="ingredientsAmount"/>
                     </div>
+                    <div class="new-recipe-ingredient-amount">
+                        <label class="ingredientAmountLabel"><spring:message code="addIngredient.type"/></label>
+                        <label class="ingredientTypeAmountInput form-control mb-4">Grams</label>
+                    </div>
+                    <button type="button" onclick="$(this).parent().remove();" class="btnDel btn btn-danger text-center">X</button>
                 </div>
 
                 <div class="form-row mb-4">
                     <button type="button" id="btnAdd_1" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">
                         <spring:message code="Recipe.addIngredient"/></button>
-                    <button type="button" id="btnDel_1" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn">
-                        <spring:message code="Recipe.DeleteIngredient"/></button>
                 </div>
 
                 <div class="form-row">

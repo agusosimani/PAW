@@ -1,6 +1,7 @@
 package ar.edu.itba.paw2019a2.service;
 
 import ar.edu.itba.paw2019a2.interfaces.dao.*;
+import ar.edu.itba.paw2019a2.interfaces.service.IngredientService;
 import ar.edu.itba.paw2019a2.interfaces.service.RecipeService;
 import ar.edu.itba.paw2019a2.model.*;
 import ar.edu.itba.paw2019a2.model.Enum.Order;
@@ -29,6 +30,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     CommentsDao commentsDao;
+
+    @Autowired
+    IngredientService ingredientService;
 
     @Override
     public Optional<Recipe> getById(int id) {
@@ -141,6 +145,59 @@ public class RecipeServiceImpl implements RecipeService {
             }
 
             recipeDao.update(recipe.getId(), map);
+
+            for (RecipeIngredient ri : recipe.getIngredients()) {
+                Optional<RecipeIngredient> maybeIng = ingredientsDao.getUserIngById(ri.getIngredient().getId(), recipe.getUserId());
+                if (maybeIng.isPresent()) {
+                    ingredientService.updateUI(ri, recipe.getUserId());
+                } else {
+                    ingredientService.addNewUserIngredient(ri, recipe.getUserId());
+                }
+            }
+
+            List<RecipeTag> listTagsOld = recipeDao.getAllRecipeTags(oldRecipe);
+
+            int deleteTags = listTagsOld.size();
+
+
+            for (String tag : recipe.getTags()) {
+
+                boolean newTag = true;
+
+                for (RecipeTag oldTag : listTagsOld) {
+                    if (oldTag.getTag().equals(tag)) {
+                        newTag = false;
+                    }
+                }
+
+                if (newTag) {
+                    if (recipeDao.isTagDeleted(tag, recipe.getId())) {
+                        recipeDao.changeTagStatus(tag, recipe.getId(), Status.REGULAR);
+
+                    } else {
+                        recipeDao.addNewRecipeTag(new RecipeTag(tag, recipe.getId()));
+                    }
+                } else {
+                    deleteTags--;
+                }
+            }
+            while (deleteTags > 0) {
+
+                for (RecipeTag oldTag : listTagsOld) {
+                    boolean oldTagDelete = true;
+                    for (String tag : recipe.getTags()) {
+                        if (oldTag.getTag().equals(tag)) {
+                            oldTagDelete = false;
+                        }
+                    }
+                    if (oldTagDelete) {
+                        recipeDao.changeTagStatus(oldTag.getTag(), oldTag.getRecipeId(), Status.DELETED);
+                        deleteTags--;
+                    }
+                }
+            }
+
+
         }
 
     }
@@ -265,8 +322,16 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Rating> getFavouriteRecipes(int userId) {
-        return ratingsDao.getRatingsBiggerThanFour(userId);
+    public List<Recipe> getFavouriteRecipes(int userId) {
+        List<Rating> ratingsList =  ratingsDao.getRatingsBiggerThanFour(userId);
+
+        List<Recipe> retList = new ArrayList<>();
+
+        for (Rating rating : ratingsList) {
+            Optional<Recipe> maybeRec = recipeDao.getById(rating.getRecipeId());
+            maybeRec.ifPresent(retList::add);
+        }
+        return retList;
     }
 
     @Override
@@ -388,8 +453,8 @@ public class RecipeServiceImpl implements RecipeService {
     //rising = order by rating where date > ayer
 
     @Override
-    public List<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId) {
-        if(tags == null)
+    public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId) {
+        if (tags == null)
             tags = new ArrayList<>();
         List<Recipe> recipeList = recipeDao.getRecipesWithtagAndOrder(order, tags);
 
@@ -438,24 +503,22 @@ public class RecipeServiceImpl implements RecipeService {
             }
         }
 
-
-        return returnList;
+        return new HashSet<>(returnList);
     }
 
     @Override
-    public List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order) {
-        if(tags == null)
+    public Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order) {
+        if (tags == null)
             tags = new ArrayList<>();
 
 
         List<Recipe> list = recipeDao.getRecipesWithtagAndOrder(order, tags);
 
 
-
-        for (Recipe recipe:list) {
+        for (Recipe recipe : list) {
             List<String> tagsString = new ArrayList<>();
             List<RecipeTag> recipeTags = recipeDao.getAllRecipeTags(recipe);
-            for(RecipeTag rt:recipeTags){
+            for (RecipeTag rt : recipeTags) {
                 tagsString.add(rt.getTag());
             }
             recipe.setTags(tagsString);
@@ -465,7 +528,7 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
 
-        return list;
+        return new HashSet<>(list);
     }
 
 }

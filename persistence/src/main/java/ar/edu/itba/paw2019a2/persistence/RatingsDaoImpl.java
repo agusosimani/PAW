@@ -29,6 +29,9 @@ public class RatingsDaoImpl implements RatingsDao {
     private final static RowMapper<Float> ROW_MAPPER_RECIPE_TOTAL_RATING = (rs, rowNum) ->
             rs.getFloat("totalRating");
 
+    private final static RowMapper<Integer> ROW_MAPPER_RECIPE_NUMBER_RATING = (rs, rowNum) ->
+            rs.getInt("amountOfRatings");
+
     @Autowired
     public RatingsDaoImpl(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
@@ -125,6 +128,20 @@ public class RatingsDaoImpl implements RatingsDao {
         }
 
         return list;
+    }
+
+    @Override
+    public int getAmountRatings(int recipeId) {
+
+        final List<Integer> list =
+                jdbcTemplate.query("select count(rating) " +
+                                "as amountOfRatings from ratings where " +
+                                "recipe_id = ? and status = 'REGULAR'",
+                        ROW_MAPPER_RECIPE_NUMBER_RATING, recipeId);
+        if(list.isEmpty()){
+            return 0;
+        }
+        return list.get(0);
     }
 
 
