@@ -19,6 +19,7 @@
     <link href="<c:url value="/resources/css/mdb.css"/>" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
+    <link href="<c:url value="/resources/css/jquery-ui.min.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/style_spotify.css"/>" rel="stylesheet">
 </head>
 
@@ -28,22 +29,30 @@
 
 <section class="main_container">
 
+    <h4 class="navigation-title"><spring:message code="myStatistics"/></h4>
     <section class="browse">
 
+        <form:form modelAttribute="dateForm">
+            <form:input path="from" id="datepicker" maxlength="10"/>
+            <form:input path="to" id="datepicker2" maxlength="10"/>
+        </form:form>
+
+
+        <canvas id="barChart"></canvas>
     </section>
 
     <section class="side_card">
         <div class="card">
-            <div class="card-body" id="filters-big-card">
-                <%@include file="filters_card.jsp" %>
+            <div class="card-body" id="user-big-card">
+                <%@include file="userbar.jsp" %>
             </div>
         </div>
     </section>
 </section>
-
 <!-- SCRIPTS -->
 <!-- JQuery -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery-ui.min.js"/>"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="<c:url value="/resources/js/popper.min.js"/>"></script>
 <!-- Bootstrap core JavaScript -->
@@ -51,15 +60,12 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
 
-<%--TODO no deberia estar aca
+<script type="text/javascript" src="<c:url value="/resources/js/chart.js"/>"></script>
 <script>
-    autocomplete(document.getElementById("Item"), ingredients);
-    autocomplete(document.getElementById("cuisine"), cuisine);
-    autocomplete(document.getElementById("special_consideration"), special_considerations);
+    var number = ${paramTry};
 </script>
---%>
+
 </body>
 
 </html>

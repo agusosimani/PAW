@@ -101,7 +101,6 @@
                     </div>
                     <div class="new-recipe-ingredient-amount">
                         <label class="ingredientAmountLabel"><spring:message code="addIngredient.type"/></label>
-                        <label class="ingredientTypeAmountInput form-control mb-4">Grams</label>
                     </div>
                     <button type="button" onclick="delete_item_edit_recipe(this)" class="btnDel_2 btn btn-danger text-center">X</button>
                 </div>

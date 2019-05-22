@@ -58,6 +58,11 @@
             <a href="${cooklistsUrl}" class="navigation__list__item">
                 <span><spring:message code="myCooklists"/></span>
             </a>
+
+            <c:url var="statisticsUrl" value="/statistics"/>
+            <a href="${statisticsUrl}" class="navigation__list__item">
+                <span><spring:message code="myStatistics"/></span>
+            </a>
         </div>
 
     </div>

@@ -9,14 +9,12 @@
 <div class="modal fade" id="delete-recipe" tabindex="-1" role="form">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+
+            <div class="modal-body">
                 <h3><spring:message code="recipe.deleteWarning"/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-
-            <div class="modal-body">
                 <c:url value="/delete_recipe" var="deleteRecipeUrl">
                     <c:param name="recipeId" value="${recipe.id}"/>
                 </c:url>

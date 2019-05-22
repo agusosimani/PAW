@@ -12,6 +12,7 @@ function add_rate(clicked_id) {
 };
 
 $(function () {
+
     $('#btnAdd_1').click(function () {
         var num = JSON.parse(localStorage.getItem("count_new_recipe")),
             newNum = new Number(num + 1),

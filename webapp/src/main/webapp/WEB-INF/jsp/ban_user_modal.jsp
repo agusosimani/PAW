@@ -9,19 +9,18 @@
 <div class="modal fade" id="ban-user" tabindex="-1" role="form">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+
+            <div class="modal-body">
                 <h3><spring:message code="user.banWarning" arguments="${user.username}"/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-
-            <div class="modal-body">
                 <c:if test="${isAdmin}">
                     <c:url var="banUserUrl" value="/ban_user">
                         <c:param name="userId" value="${user.id}"/>
                     </c:url>
                     <form:form action="${banUserUrl}" method="post">
+                        <a class="btn btn-blue-grey" data-dismiss="modal"><spring:message code="close"/></a>
                         <button type="submit" class="btn btn-red float-right"><spring:message code="confirm"/></button>
                     </form:form>
                 </c:if>

@@ -297,6 +297,13 @@ public class HomeController {
         return mav;
     }
 
+    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
+    public ModelAndView statistics(@Valid @ModelAttribute("dateForm") final DateForm dateForm, final BindingResult errors) {
+        final ModelAndView mav = new ModelAndView("statistics");
+        List<RecipeIngredient> list = recipeService.
+        return mav;
+    }
+
     @RequestMapping(value = "/my_ingredients", method = RequestMethod.GET)
     public ModelAndView myIngredients(@Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
         final ModelAndView mav = new ModelAndView("ingredients");

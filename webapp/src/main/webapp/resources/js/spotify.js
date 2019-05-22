@@ -36,7 +36,7 @@ $(".navigation__list__header").on( "click" , function() {
 // Media Queries
 
 $(window).on("resize load", function(){
-    if ($(window).width() <= 768){
+    if ($(window).width() <= 790){
 
         $(".collapse").removeClass("in");
 
@@ -48,7 +48,7 @@ $(window).on("resize load", function(){
 });
 
 $(window).on("resize load", function(){
-    if ($(window).width() > 768){
+    if ($(window).width() > 790){
 
         $(".collapse").addClass("in");
 

@@ -57,13 +57,15 @@
 
                     <div class="recipe-nutritional-div">
                         <p class="recipe-nutritional-title"><spring:message code="nutritionalValueAprox"/></p>
-                    <c:forEach var="nutrition" items="${nutricionalInfoList}">
-                        <div class="recipe-nutritional-item">
+                        <c:forEach var="nutrition" items="${nutricionalInfoList}">
+                            <div class="recipe-nutritional-item">
 
-                            <p class="recipe-nutritional-type">${nutrition.type}</p>
-                            <p class="recipe-nutritional-amount"><fmt:formatNumber type="number" maxFractionDigits="2" value="${nutrition.amount}"/></p>
-                        </div>
-                    </c:forEach>
+                                <p class="recipe-nutritional-type">${nutrition.type}</p>
+                                <p class="recipe-nutritional-amount"><fmt:formatNumber type="number"
+                                                                                       maxFractionDigits="2"
+                                                                                       value="${nutrition.amount}"/></p>
+                            </div>
+                        </c:forEach>
                     </div>
 
                     <div class="recipe-body-bottom">
@@ -209,7 +211,7 @@
                             <p class="ingredients-title"><spring:message code="ingredients"/></p>
                             <c:forEach var="ingredient" items="${recipe.ingredients}">
                                 <div class="ingredients-recipe">
-                                    <spring:message var="ingredientsName" code="${ingredient.ingredient.name}" />
+                                    <spring:message var="ingredientsName" code="${ingredient.ingredient.name}"/>
                                     <p class="ingredients-item"><c:out value="${ingredientsName}"/></p>
                                     <p class="ingredients-amount">${ingredient.amount}</p>
                                 </div>
@@ -295,7 +297,6 @@
 
 <%@include file="add_recipe_to_cooklist.jsp" %>
 <%@include file="delete_recipe_modal.jsp" %>
-<%@include file="ban_user_modal.jsp"%>
 
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <!-- Bootstrap tooltips -->
