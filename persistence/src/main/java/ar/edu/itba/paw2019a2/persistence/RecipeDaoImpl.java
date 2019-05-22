@@ -63,7 +63,6 @@ public class RecipeDaoImpl implements RecipeDao {
                 .withTableName("recipe_list");
     }
 
-
     @Override
     public Optional<Recipe> getById(int id) {
         final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   recipe_id	=	? AND recipe_status = 'REGULAR'", ROW_MAPPER, id);
@@ -76,7 +75,7 @@ public class RecipeDaoImpl implements RecipeDao {
 
     @Override
     public Optional<Recipe> getByName(String name) {
-        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   name	=	? AND recipe_status = 'REGULAR'", ROW_MAPPER, name);
+        final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes WHERE   recipe_name	=	? AND recipe_status = 'REGULAR'", ROW_MAPPER, name);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -331,7 +330,6 @@ public class RecipeDaoImpl implements RecipeDao {
         if (k.equals("rating")) {
             jdbcTemplate.update("UPDATE recipes SET rating = ? WHERE recipe_id = ?", v, recipe);
         }
-
     }
 
     @Override

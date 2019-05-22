@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-@Sql("classpath:schema.sql")
+@Sql({"classpath:schema.sql"})
 public class UserDaoTest {
 
     @Autowired
@@ -69,10 +69,13 @@ public class UserDaoTest {
     private static final String GENDER4 = "female";
     private static final String STATUS4 = "REGULAR";
 
-
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
+    }
+
+    @After
+    public void cleanUp() {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
     }
 
@@ -106,26 +109,6 @@ public class UserDaoTest {
         assertEquals(STATUS2, user.getStatus());
         assertEquals(GENDER2, user.getGender());
 
-
-        assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
-    }
-
-    @Test
-    public void testSignUpUserFAIL() {
-        User user = userDao
-                .signUpUser(new User.Builder(USERNAME3,PASSWORD3,EMAIL3)
-                        .status(STATUS3).gender(GENDER3).surname(SURNAME3).name(NAME3)
-                        .build());
-
-        assertNotNull(user);
-        assertNotEquals(USERNAME3, "");
-        assertEquals(PASSWORD3, user.getPassword());
-        assertEquals(EMAIL3, user.getEmail());
-
-        assertEquals(NAME3, user.getName());
-        assertEquals(SURNAME3, user.getSurname());
-        assertNotEquals(0, user.getStatus());
-        assertEquals(GENDER3, user.getGender());
 
         assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
     }
