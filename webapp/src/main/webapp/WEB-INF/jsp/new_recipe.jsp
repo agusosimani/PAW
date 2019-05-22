@@ -90,8 +90,8 @@
                         </form:label>
                         <form:input type="number" cssClass="form-control mb-4 select-ingredient-recipe-amount" path="ingredientsAmount"/>
                     </div>
-                    <button type="button" id="0" onclick="delete_item_edit_recipe(this)" class="btnDel_1 btn btn-danger text-center delete-ingredient-button">
-                        <i class="fas fa-trash fa-2x white-ic"></i>
+                    <button type="button" id="0" onclick="delete_item_edit_recipe(this)" class="btnDel_1 bg-transparent text-center delete-ingredient-button">
+                        <i class="fas fa-trash fa-2x red-ic"></i>
                     </button>
                 </div>
 

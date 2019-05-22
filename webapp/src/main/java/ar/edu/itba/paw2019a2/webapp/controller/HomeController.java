@@ -5,6 +5,7 @@ import ar.edu.itba.paw2019a2.model.Enum.*;
 import ar.edu.itba.paw2019a2.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw2019a2.webapp.form.*;
 import com.google.gson.Gson;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -29,6 +30,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -59,6 +61,8 @@ public class HomeController {
 
     private String toDefaultDate = "01/06/2019";
 
+    private int cardsPerPage = 999;
+
     private int getCurrentUserID() {
         if (authenticationService.getAuthentication() == null || !authenticationService.getAuthentication().isAuthenticated()
                 || authenticationService.getAuthentication() instanceof AnonymousAuthenticationToken)
@@ -74,15 +78,14 @@ public class HomeController {
 
     @RequestMapping("/") //Le digo que url mappeo
     public ModelAndView index(@ModelAttribute("filterForm") final FilterForm filterForm, @RequestParam(required=false) Integer page) {
+
         final ModelAndView mav = new ModelAndView("index");
 
         //filterForm.setTags(tags);
         if(filterForm.getSearchBar() == null)
             filterForm.setSearchBar("");
 
-        if(filterForm.getOrder() != null )
-            ;//filterForm.setOrder(order);
-        else
+        if(filterForm.getOrder() == null )
             filterForm.setOrder(Order.New);
 
         if(filterForm.getTags() != null ) {
@@ -92,17 +95,22 @@ public class HomeController {
         }
 
         System.out.printf("PAGINA: %d", page);
-        if(page != null)
-            mav.addObject("page", page);
-        else
-            mav.addObject("page", 0);
+        if(page == null)
+            page = 1;
 
+        int limit = page * cardsPerPage;
+        Set<Recipe> recipeList;
+        if(filterForm.getWithMyIngredients())
+            recipeList = recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID(),filterForm.getSearchBar(),limit);
+        else
+            recipeList = recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder(),filterForm.getSearchBar(),limit);
+
+
+        mav.addObject("RecipeList",recipeList);
+        mav.addObject("page", page);
+        mav.addObject("hasMoreRecipes", recipeList.size() + 1 >= limit);
         mav.addObject("allOrders", Order.values());
         mav.addObject("allTags", Tag.values());
-        if(filterForm.getWithMyIngredients())
-            mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTagsCookable(filterForm.getTags(),filterForm.getOrder(),getCurrentUserID(),filterForm.getSearchBar(),0));
-        else
-            mav.addObject("RecipeList", recipeService.getRecipesBasedOnOrderTags(filterForm.getTags(),filterForm.getOrder(),filterForm.getSearchBar(),0));
         return mav;
     }
 
@@ -143,6 +151,39 @@ public class HomeController {
     @RequestMapping(value = "/your_cooklists", method = {RequestMethod.GET})
     public ModelAndView yourCooklists(@Valid @ModelAttribute("newCookListForm") final NewCookListForm form) {
         return userCooklists(form, getCurrentUserID());
+    }
+
+    @RequestMapping(value = "/recently_cooked", method = {RequestMethod.GET})
+    public ModelAndView yourCooklists(@RequestParam int userId) {
+        final ModelAndView mav = new ModelAndView("recipes_list");
+
+        Set<Recipe> recipeList = recipeService.getRecipesOrderCooked(userId);
+
+        Either<User, Warnings> eitherUser = userService.getById(userId);
+        if (eitherUser.isValuePresent())
+            mav.addObject("user", eitherUser.getValue());
+        else {
+            return new ModelAndView("404");
+        }
+
+        mav.addObject("RecipeList", recipeList);
+
+        String emptyWarning;
+        if (userId != getCurrentUserID()) {
+            emptyWarning = messageSource.getMessage("recentlyCooked.empty", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault());
+            mav.addObject("title", messageSource.getMessage("recentlyCooked.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
+        }
+        else {
+            emptyWarning = messageSource.getMessage("myRecentlyCooked.empty", null, Locale.getDefault());
+            mav.addObject("title", messageSource.getMessage("myRecentlyCooked.title", null, Locale.getDefault()));
+        }
+
+        mav.addObject("emptyWarning", emptyWarning);
+        mav.addObject("editable", false);
+        mav.addObject("recipes_amount", recipeService.userRecipesNumber(userId));
+        mav.addObject("averageRate",userService.getRelativeRatingFromUser(userId));
+
+        return mav;
     }
 
 
@@ -571,16 +612,16 @@ public class HomeController {
 
         mav.addObject("RecipeList", recipeList);
 
-        if (userId != getCurrentUserID())
-            mav.addObject("title", messageSource.getMessage("recipe.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
-        else
-            mav.addObject("title", messageSource.getMessage("myRecipes", null, Locale.getDefault()));
-
         String emptyWarning;
-        if(getCurrentUserID() == userId)
-            emptyWarning = messageSource.getMessage("emptyMyRecipes", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault());
-        else
+        if (userId != getCurrentUserID()) {
             emptyWarning = messageSource.getMessage("emptyRecipes", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault());
+            mav.addObject("title", messageSource.getMessage("recipe.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
+        }
+        else {
+            emptyWarning = messageSource.getMessage("emptyMyRecipes", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault());
+            mav.addObject("title", messageSource.getMessage("myRecipes", null, Locale.getDefault()));
+        }
+
 
         mav.addObject("emptyWarning", emptyWarning);
         mav.addObject("editable", getCurrentUserID() == userId);
@@ -606,16 +647,15 @@ public class HomeController {
 
         List<Recipe> recipeList = recipeService.getFavouriteRecipes(userId);
 
-        if (userId != getCurrentUserID())
-            mav.addObject("title", messageSource.getMessage("favourites.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
-        else
-            mav.addObject("title", messageSource.getMessage("yourFavourites", null, Locale.getDefault()));
-
         String emptyWarning;
-        if(getCurrentUserID() == userId)
-            emptyWarning = messageSource.getMessage("emptyMyfavourites", null, Locale.getDefault());
-        else
+        if (userId != getCurrentUserID()) {
             emptyWarning = messageSource.getMessage("emptyFavourites", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault());
+            mav.addObject("title", messageSource.getMessage("favourites.title", new Object[]{eitherUser.getValue().getName()}, Locale.getDefault()));
+        }
+        else {
+            emptyWarning = messageSource.getMessage("emptyMyfavourites", null, Locale.getDefault());
+            mav.addObject("title", messageSource.getMessage("yourFavourites", null, Locale.getDefault()));
+        }
 
         mav.addObject("RecipeList", recipeList);
         mav.addObject("emptyWarning", emptyWarning);

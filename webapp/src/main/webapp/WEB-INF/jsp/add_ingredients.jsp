@@ -39,8 +39,8 @@
                         <form:input type="number" cssClass="ingredientAmountInput form-control mb-4" path="ingredients[0].amount" value="0"/>
                     </div>
 
-                    <button type="button" id="0" onclick="delete_ingredient2(this)" name="btnDel" class="btn btn-danger new-recipe-ingredient-btn delete-ingredient-button">
-                        Delete ingredienttt
+                    <button type="button" id="0" onclick="delete_ingredient2(this)" name="btnDel" class="bg-transparent new-recipe-ingredient-btn delete-ingredient-button">
+                        <i class="fas fa-trash fa-2x red-ic"></i>
                     </button>
                 </div>
 

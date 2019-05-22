@@ -142,7 +142,6 @@
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><strong><spring:message code="recentlyCooked"/></strong></h4>
-
                         <p class="card-text">
                             <c:choose>
                                 <c:when test="${yourAccount}">
@@ -153,6 +152,10 @@
                                 </c:otherwise>
                             </c:choose>
                         </p>
+                        <c:url var="recentlyCookedUrl" value="/recently_cooked">
+                            <c:param name="userId" value="${user.id}"/>
+                        </c:url>
+                        <a href="${recentlyCookedUrl}" class="stretched-link"></a>
                     </div>
                 </div>
                 <!-- Post title -->
