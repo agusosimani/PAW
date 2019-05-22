@@ -17,7 +17,10 @@ public class RecipeForm {
 
     private List<String> tags;
 
+    @IngredientType
     private List<Integer> ingredients;
+
+    @IngredientsAmount
     private List<Integer> ingredientsAmount;
 
     @ImageFormat

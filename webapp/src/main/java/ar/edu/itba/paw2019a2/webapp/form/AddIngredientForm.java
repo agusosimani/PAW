@@ -6,6 +6,7 @@ import java.util.List;
 
 public class AddIngredientForm {
 
+    @RecipeIngredientValidatorInterface
     private List<RecipeIngredient> ingredients;
 
 

@@ -63,7 +63,8 @@
 
                 <div class="form-row mb-4">
                     <spring:message code="instructions.title" var="instructionsTitle"/>
-                    <form:label path="instructions" for="recipe_description"><spring:message code="Recipe.instructions"/>
+                    <form:label path="instructions" for="recipe_description"><spring:message
+                            code="Recipe.instructions"/>
                         <a href="#" class="tooltip-test" title="${instructionsTitle}">
                             <i class="fas fa-info-circle"></i>
                         </a>
@@ -81,19 +82,24 @@
                         </form:label>
                         <form:select path="ingredients" cssClass="form-control" multiple="">
                             <c:forEach var="ingredient_type" items="${allIngredients}">
-                                <form:option value="${ingredient_type.id}"><spring:message code="${ingredient_type.name}"/> (${ingredient_type.typeOfServing})</form:option>
+                                <form:option value="${ingredient_type.id}"><spring:message
+                                        code="${ingredient_type.name}"/> (${ingredient_type.typeOfServing})</form:option>
                             </c:forEach>
                         </form:select>
                     </div>
                     <div class="new-recipe-ingredient-amount">
                         <form:label path="ingredientsAmount"><spring:message code="addIngredient.amount"/>
                         </form:label>
-                        <form:input type="number" cssClass="form-control mb-4 select-ingredient-recipe-amount" path="ingredientsAmount"/>
+                        <form:input type="number" value="0" cssClass="form-control mb-4 select-ingredient-recipe-amount"
+                                    path="ingredientsAmount"/>
                     </div>
-                    <button type="button" id="0" onclick="delete_item_edit_recipe(this)" class="btnDel_1 bg-transparent text-center delete-ingredient-button">
+                    <button type="button" id="0" onclick="delete_item_edit_recipe(this)"
+                            class="btnDel_1 bg-transparent text-center delete-ingredient-button">
                         <i class="fas fa-trash fa-2x red-ic"></i>
                     </button>
                 </div>
+                <form:errors path="ingredientsAmount" cssClass="form-text text-muted" element="small"/>
+                <form:errors path="ingredients" cssClass="form-text text-muted" element="small"/>
 
                 <div class="form-row mb-4">
                     <button type="button" id="btnAdd_3" name="btnAdd" class="btn btn-green new-recipe-ingredient-btn">
@@ -109,20 +115,27 @@
                 <div class="form-row">
                     <button type="button" id="btnFile" name="btnAdd" class="btn btn-green">
                         <spring:message code="Recipe.addImage"/></button>
-                    <form:input path="image" id="fileInput" cssClass="d-none"  type="file"/>
+                    <form:input path="image" id="fileInput" cssClass="d-none" type="file"/>
                 </div>
                 <div class="form-row mb-4">
                     <form:errors path="image" cssClass="form-text text-muted" element="small"/>
                 </div>
-                
+
                 <p>
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
                             aria-expanded="false" aria-controls="collapseExample">
                         <spring:message code="tags.select"/>
                     </button>
                 </p>
-                <div class="collapse" id="collapseExample">
-                    <form:checkboxes path="tags" element="span class='custom-control custom-checkbox'" items="${allTags}"/>
+                <div class="collapse recipe-tags" id="collapseExample">
+                    <c:forEach var="tag" items="${allTags}">
+                        <div class="custom-control custom-checkbox">
+                            <form:checkbox path="tags" value="${tag}" class="custom-control-input" id="${tag}"
+                                           name="groupTagFilter"/>
+                            <form:label class="custom-control-label" path="tags" for="${tag}"><spring:message
+                                    code="${tag}"/></form:label>
+                        </div>
+                    </c:forEach>
                 </div>
                 <div class="float-right">
                     <c:url var="indexUrl" value="/"/>
@@ -143,13 +156,14 @@
 <script type="text/javascript" src="<c:url value="/resources/js/mdb.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/spotify.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/utils.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/loadItems.js"/>"></script>
 
 <script>
     document.getElementById("fileInput").onchange = function () {
         document.getElementById("btnFile").textContent = "<spring:message code='Recipe.selectedFile'/> " + this.value.replace(/C:\\fakepath\\/i, '');
     };
 
-    $("#btnFile").on("click", function() {
+    $("#btnFile").on("click", function () {
         $("#fileInput").trigger("click");
     });
 </script>

@@ -266,8 +266,8 @@ public class HomeController {
     @RequestMapping(value = "/add_ingredient_user", method = {RequestMethod.POST})
     public ModelAndView addIngredientUser(@Valid @ModelAttribute("recipeForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
         if (errors.hasErrors()) {
-            //TODO
-            return null;
+            System.out.printf("ERROR\n");
+            //return myIngredients(addIngredientForm);
         }
 
         List<RecipeIngredient> ingredientsList = addIngredientForm.getIngredients();
@@ -402,7 +402,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/my_ingredients", method = RequestMethod.GET)
-    public ModelAndView myIngredients(@Valid @ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm, final BindingResult errors) {
+    public ModelAndView myIngredients(@ModelAttribute("addIngredientForm") final AddIngredientForm addIngredientForm) {
         final ModelAndView mav = new ModelAndView("ingredients");
 
         int id = getCurrentUserID();

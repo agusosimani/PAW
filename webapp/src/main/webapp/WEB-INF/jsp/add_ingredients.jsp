@@ -22,6 +22,8 @@
                 <form:form autocomplete="off" modelAttribute="addIngredientForm" action="${addIngredient}"
                            method="post">
 
+
+                <form:errors path="ingredients" cssClass="form-text text-muted" element="small"/>
                 <div id="cloneInput1" class="cloneInput_1 flex">
                     <div class="new-recipe-ingredient-select">
                         <form:label class="ingredientLabel" path="ingredients[0].ingredient.id"><spring:message code="addIngredient.select"/>

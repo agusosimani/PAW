@@ -83,6 +83,9 @@
                     <form:errors path="instructions" cssClass="form-text text-muted" element="small"/>
                 </div>
 
+
+                <form:errors path="ingredientsAmount" cssClass="form-text text-muted" element="small"/>
+                <form:errors path="ingredients" cssClass="form-text text-muted" element="small"/>
                 <div id="clonedInput1" class="to_clone clonedInput_1 flex">
                     <div class="new-recipe-ingredient-select">
                         <form:label path="ingredients"><spring:message code="addIngredient.select"/>
