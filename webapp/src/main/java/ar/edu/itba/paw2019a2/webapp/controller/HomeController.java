@@ -5,7 +5,6 @@ import ar.edu.itba.paw2019a2.model.Enum.*;
 import ar.edu.itba.paw2019a2.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw2019a2.webapp.form.*;
 import com.google.gson.Gson;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,13 +23,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -397,10 +393,10 @@ public class HomeController {
         }
 
         List<NutricionalInfo> nutricionalList = new ArrayList<>();
-        nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Calorie,calorie));
-        nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Fat,fat));
-        nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Carbohydrate,carbohydrate));
-        nutricionalList.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
+        nutricionalList.add(new NutricionalInfo(NutritionalInfoTypes.Calorie,calorie));
+        nutricionalList.add(new NutricionalInfo(NutritionalInfoTypes.Fat,fat));
+        nutricionalList.add(new NutricionalInfo(NutritionalInfoTypes.Carbohydrate,carbohydrate));
+        nutricionalList.add(new NutricionalInfo(NutritionalInfoTypes.Protein,protein));
 
         Gson g = new Gson();
         System.out.printf("\n\n%s\n\n", g.toJson(recipeService.tagStatistics(getCurrentUserID(),parseStringToDate(dateForm.getFrom()), parseStringToDate(dateForm.getTo()))));
@@ -515,10 +511,10 @@ public class HomeController {
         }
 
         List<NutricionalInfo> nutricionalInfo = new ArrayList<>();
-        nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Fat,fat));
-        nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Calorie,calorie));
-        nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Carbohydrate,carbohydrate));
-        nutricionalInfo.add(new NutricionalInfo(NutricionalInfoTypes.Protein,protein));
+        nutricionalInfo.add(new NutricionalInfo(NutritionalInfoTypes.Fat,fat));
+        nutricionalInfo.add(new NutricionalInfo(NutritionalInfoTypes.Calorie,calorie));
+        nutricionalInfo.add(new NutricionalInfo(NutritionalInfoTypes.Carbohydrate,carbohydrate));
+        nutricionalInfo.add(new NutricionalInfo(NutritionalInfoTypes.Protein,protein));
 
 
         mav.addObject("nutricionalInfoList", nutricionalInfo);

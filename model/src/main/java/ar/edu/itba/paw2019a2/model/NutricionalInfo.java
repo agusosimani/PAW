@@ -1,24 +1,22 @@
 package ar.edu.itba.paw2019a2.model;
 
-import ar.edu.itba.paw2019a2.model.Enum.NutricionalInfoTypes;
-
-import java.util.Objects;
+import ar.edu.itba.paw2019a2.model.Enum.NutritionalInfoTypes;
 
 public class NutricionalInfo {
 
-    private NutricionalInfoTypes type;
+    private NutritionalInfoTypes type;
     private double amount;
 
-    public NutricionalInfo(NutricionalInfoTypes type, double amount){
+    public NutricionalInfo(NutritionalInfoTypes type, double amount){
         this.type = type;
         this.amount = amount;
     }
 
-    public NutricionalInfoTypes getType() {
+    public NutritionalInfoTypes getType() {
         return type;
     }
 
-    public void setType(NutricionalInfoTypes type) {
+    public void setType(NutritionalInfoTypes type) {
         this.type = type;
     }
 

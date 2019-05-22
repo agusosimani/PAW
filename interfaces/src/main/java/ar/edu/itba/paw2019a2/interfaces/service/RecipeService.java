@@ -1,6 +1,7 @@
 package ar.edu.itba.paw2019a2.interfaces.service;
 
 import ar.edu.itba.paw2019a2.model.*;
+import ar.edu.itba.paw2019a2.model.Enum.NutritionalInfoTypes;
 import ar.edu.itba.paw2019a2.model.Enum.Order;
 import ar.edu.itba.paw2019a2.model.Enum.Tag;
 import ar.edu.itba.paw2019a2.model.Enum.Warnings;
@@ -58,4 +59,6 @@ public interface RecipeService {
     Set<Recipe> getRecipesOrderCooked(int userId);
 
     Map<Tag,Integer> tagStatistics(int userId, Date from, Date to);
+
+    Map<NutritionalInfoTypes,Float> nutritionStatistics(int userId, Date from, Date to);
 }

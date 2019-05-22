@@ -4,10 +4,7 @@ import ar.edu.itba.paw2019a2.interfaces.dao.*;
 import ar.edu.itba.paw2019a2.interfaces.service.IngredientService;
 import ar.edu.itba.paw2019a2.interfaces.service.RecipeService;
 import ar.edu.itba.paw2019a2.model.*;
-import ar.edu.itba.paw2019a2.model.Enum.Order;
-import ar.edu.itba.paw2019a2.model.Enum.Status;
-import ar.edu.itba.paw2019a2.model.Enum.Tag;
-import ar.edu.itba.paw2019a2.model.Enum.Warnings;
+import ar.edu.itba.paw2019a2.model.Enum.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -546,6 +543,35 @@ public class RecipeServiceImpl implements RecipeService {
             }
         }
         return retMap;
+    }
+
+    @Override
+    public Map<NutritionalInfoTypes,Float> nutritionStatistics(int userId, Date from, Date to) {
+
+        List<RecipeIngredient> list = this.getIngredientsCookedRangeTime(userId,from,to);
+
+        Map<NutritionalInfoTypes,Float> retMap = new HashMap<>();
+
+
+        for(NutritionalInfoTypes tag : NutritionalInfoTypes.values()) {
+            retMap.put(tag, (float) 0);
+        }
+
+        for (RecipeIngredient ri : list) {
+            float auxFat = retMap.get(NutritionalInfoTypes.valueOf("Fat"));
+            float auxCarbohydrate = retMap.get(NutritionalInfoTypes.valueOf("Carbohydrate"));
+            float auxProtein = retMap.get(NutritionalInfoTypes.valueOf("Protein"));
+            float auxCalorie = retMap.get(NutritionalInfoTypes.valueOf("Calorie"));
+
+            retMap.put(NutritionalInfoTypes.Fat, (float) (auxFat + ri.getAmount()/ri.getIngredient().getServing()*ri.getIngredient().getTotalFat()));
+            retMap.put(NutritionalInfoTypes.Calorie, (float) (auxCalorie + ri.getAmount()/ri.getIngredient().getServing()*ri.getIngredient().getCalories()));
+            retMap.put(NutritionalInfoTypes.Carbohydrate, (float) (auxCarbohydrate + ri.getAmount()/ri.getIngredient().getServing()*ri.getIngredient().getCarbohydrates()));
+            retMap.put(NutritionalInfoTypes.Protein, (float) (auxProtein + ri.getAmount()/ri.getIngredient().getServing()*ri.getIngredient().getProtein()));
+
+        }
+
+        return retMap;
+
     }
 
 }

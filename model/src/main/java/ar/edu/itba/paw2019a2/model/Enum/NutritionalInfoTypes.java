@@ -1,6 +1,6 @@
 package ar.edu.itba.paw2019a2.model.Enum;
 
-public enum NutricionalInfoTypes {
+public enum NutritionalInfoTypes {
     Fat,
     Carbohydrate,
     Protein,
