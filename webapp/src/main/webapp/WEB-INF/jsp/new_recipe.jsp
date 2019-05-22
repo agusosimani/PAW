@@ -75,7 +75,7 @@
                     <form:errors path="instructions" cssClass="form-text text-muted" element="small"/>
                 </div>
 
-                <div id="clonedInput1" class="clonedInput_1 flex">
+                <div id="clonedInput1" class="to_clone clonedInput_1 flex">
                     <div class="new-recipe-ingredient-select">
                         <form:label path="ingredients"><spring:message code="addIngredient.select"/>
                         </form:label>
@@ -94,7 +94,7 @@
                         <label class="ingredientAmountLabel"><spring:message code="addIngredient.type"/></label>
                         <label class="ingredientTypeAmountInput form-control mb-4">Grams</label>
                     </div>
-                    <button type="button" onclick="$(this).parent().remove();" class="btnDel btn btn-danger text-center">X</button>
+                    <button type="button" onclick="delete_item_new_recipe(this)" class="btnDel_1 btn btn-danger text-center">X</button>
                 </div>
 
                 <div class="form-row mb-4">
