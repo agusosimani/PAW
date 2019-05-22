@@ -11,10 +11,15 @@
 <div id="filters-card">
     <h4><spring:message code="searchFilters"/></h4>
 
-    <label class="text-filter"><spring:message code="sortBy"/> </label>
     <c:url value="/" var="filter"/>
     <form:form autocomplete="off" modelAttribute="filterForm" action="${filter}" method="get"
                enctype="multipart/form-data">
+        <spring:message code="search" var="search"/>
+
+        <form:input path="searchBar" placeholder="${search}"/>
+
+        <label class="text-filter"><spring:message code="sortBy"/> </label>
+
         <c:forEach var="order" items="${allOrders}">
             <div class="custom-control custom-radio">
                 <form:radiobutton path="order" value="${order}" class="custom-control-input" id="${order}" name="groupOrderFilter"/>
