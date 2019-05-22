@@ -91,12 +91,14 @@ $(function () {
     });
 
     $('#btnAdd_3').click(function () {
-        var num = JSON.parse(localStorage.getItem("count_edit_recipe")),
+        var num = $('.clonedInput_1').length,
             newNum = new Number(num + 1),
-            newElem = $('.to_clone:first').clone().attr('id', 'clonedInput' + newNum).fadeIn('slow');
+            newElem = $('#clonedInput' + num).clone().attr('id', 'clonedInput' + newNum).fadeIn('slow');
 
-        $('.to_clone:last').after(newElem);
-        localStorage.setItem("count_edit_recipe", JSON.stringify(JSON.parse(localStorage.getItem("count_edit_recipe")) +1));
+        newElem.find('.delete-ingredient-button').attr('id', num);
+        newElem.find('.select-ingredient-recipe-amount').val(0);
+
+        $('#clonedInput' + num).after(newElem);
     });
 
     $(window).on('load', function () {
