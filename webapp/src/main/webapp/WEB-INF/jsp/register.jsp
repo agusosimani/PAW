@@ -26,7 +26,7 @@
   <div class="offset_register"></div>
   <!-- Default form register -->
   <form:form modelAttribute="registerForm" action="${createUrl}" method="post" enctype="application/x-www-form-urlencoded" class="centered_register text-center border border-light p-5 col-xl-4 col-lg-6 col-md-6 col-sm-8 col-xs-10 container">
-    <img class="logo" src="./resources/img/foodify.png" alt="LOGO">
+    <img class="logo" src="<c:url value="/resources/img/foodify.png"/>" alt="LOGO">
 
     <div class="form-row mb-4">
       <div class="col">
