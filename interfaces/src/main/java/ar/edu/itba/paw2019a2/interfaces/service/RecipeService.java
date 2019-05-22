@@ -6,6 +6,7 @@ import ar.edu.itba.paw2019a2.model.Enum.Warnings;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface RecipeService {
 
@@ -77,7 +78,7 @@ public interface RecipeService {
 
     Warnings changeCookListName(int listId, String name, int userId);
 
-    List<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId);
+    Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId);
 
-    List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order);
+    Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order);
 }

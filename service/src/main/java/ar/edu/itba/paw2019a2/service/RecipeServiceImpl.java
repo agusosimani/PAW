@@ -445,7 +445,7 @@ public class RecipeServiceImpl implements RecipeService {
     //rising = order by rating where date > ayer
 
     @Override
-    public List<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId) {
+    public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId) {
         if (tags == null)
             tags = new ArrayList<>();
         List<Recipe> recipeList = recipeDao.getRecipesWithtagAndOrder(order, tags);
@@ -495,12 +495,11 @@ public class RecipeServiceImpl implements RecipeService {
             }
         }
 
-
-        return returnList;
+        return new HashSet<>(returnList);
     }
 
     @Override
-    public List<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order) {
+    public Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order) {
         if (tags == null)
             tags = new ArrayList<>();
 
@@ -521,7 +520,7 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
 
-        return list;
+        return new HashSet<>(list);
     }
 
 }
