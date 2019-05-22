@@ -12,8 +12,8 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            ar.edu.itba.paw.webapp.config.WebConfig,
-            ar.edu.itba.paw.webapp.config.WebAuthConfig
+            ar.edu.itba.paw2019a2.webapp.config.WebConfig,
+            ar.edu.itba.paw2019a2.webapp.config.WebAuthConfig
         </param-value>
     </context-param>
 
@@ -59,16 +59,16 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-   <!-- <error-page>
-        <error-code>404</error-code>
-        <location>/404</location>
-    </error-page>
-    <error-page>
-        <error-code>403</error-code>
-        <location>/403</location>
-    </error-page>
-    <error-page>
-        <exception-type>java.lang.Exception</exception-type>
-        <location>/error</location>
-    </error-page>-->
+<!--   <error-page>-->
+<!--        <error-code>404</error-code>-->
+<!--        <location>/404</location>-->
+<!--    </error-page>-->
+<!--    <error-page>-->
+<!--        <error-code>403</error-code>-->
+<!--        <location>/403</location>-->
+<!--    </error-page>-->
+<!--    <error-page>-->
+<!--        <exception-type>java.lang.Exception</exception-type>-->
+<!--        <location>/error</location>-->
+<!--    </error-page>-->
 </web-app>

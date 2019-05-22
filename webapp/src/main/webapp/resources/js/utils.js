@@ -84,6 +84,19 @@ $(function () {
     $('#btnAdd_2').attr('disabled', false);
     $('#btnDel_2').attr('disabled', true);
 
+    $(window).on('load',function(){
+        var win = $(this); //this = window
+        if (win.width() > 768) {
+            $("#filters-big-card").append($("#filters-card").show());
+            console.log("asdmoaskd");
+        }
+        if(win.width() <= 768){
+            console.log("modal");
+            $("#filters-modal-body").append($("#filters-card").show());
+        }
+        console.log("asdmoaskd");
+    });
+
     $(window).on('resize', function(){
         var win = $(this); //this = window
         if (win.width() > 768) {
