@@ -98,13 +98,13 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public List<Recipe> getAllRecipes(String search) {
+    public List<Recipe> getAllRecipes(String search, int limit) {
         String searchAux = '%' +
                 search +
                 '%';
         final List<Recipe> list = jdbcTemplate.query("SELECT	*	FROM recipes" +
                 " WHERE recipe_status =" +
-                " 'REGULAR' AND recipe_name LIKE ? ORDER BY recipe_name", ROW_MAPPER, searchAux);
+                " 'REGULAR' AND recipe_name LIKE ? ORDER BY recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -113,14 +113,14 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public List<Recipe> getAllRecipesOrderedByRating(String search) {
+    public List<Recipe> getAllRecipesOrderedByRating(String search, int limit) {
 
         String searchAux = '%' +
                 search +
                 '%';
 
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' AND recipe_name LIKE ? ORDER BY rating DESC, recipe_name", ROW_MAPPER, searchAux);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' AND recipe_name LIKE ? ORDER BY rating DESC, recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -129,14 +129,19 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public List<Recipe> getAllRecipesOrderedByDateNew(String search) {
+    public List<Recipe> getAllRecipesOrderedByDateNew(String search, int limit) {
+
+        if(limit <= 0) {
+            limit = Integer.MAX_VALUE;
+        }
+
 
         String searchAux = '%' +
                 search +
                 '%';
 
         final List<Recipe> list =
-                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' AND recipe_name LIKE ? ORDER BY date_created DESC, recipe_name", ROW_MAPPER,searchAux);
+                jdbcTemplate.query("SELECT	*	FROM recipes WHERE recipe_status = 'REGULAR' AND recipe_name LIKE ? ORDER BY date_created DESC, recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -145,7 +150,11 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public List<Recipe> getAllRecipesOrderByRising(String search) {
+    public List<Recipe> getAllRecipesOrderByRising(String search, int limit) {
+
+        if(limit <= 0) {
+            limit = Integer.MAX_VALUE;
+        }
 
         String searchAux = '%' +
                 search +
@@ -154,7 +163,7 @@ public class RecipeDaoImpl implements RecipeDao {
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recipes " +
                         "WHERE recipe_status = 'REGULAR' " +
-                        "AND rating >= 4 AND recipe_name LIKE ? ORDER BY date_created DESC, recipe_name", ROW_MAPPER,searchAux);
+                        "AND rating >= 4 AND recipe_name LIKE ? ORDER BY date_created DESC, recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -162,7 +171,11 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public List<Recipe> getAllRecipesOrderedByDateOld(String search) {
+    public List<Recipe> getAllRecipesOrderedByDateOld(String search, int limit) {
+
+        if(limit <= 0) {
+            limit = Integer.MAX_VALUE;
+        }
 
         String searchAux = '%' +
                 search +
@@ -170,7 +183,8 @@ public class RecipeDaoImpl implements RecipeDao {
 
         final List<Recipe> list =
                 jdbcTemplate.query("SELECT	*	FROM recipes WHERE " +
-                        "recipe_status = 'REGULAR' AND recipe_name LIKE ? ORDER BY date_created, recipe_name", ROW_MAPPER,searchAux);
+                        "recipe_status = 'REGULAR' AND recipe_name LIKE ?" +
+                        " ORDER BY date_created, recipe_name LIMIT ?", ROW_MAPPER,searchAux,limit);
         if (list.isEmpty()) {
             return new ArrayList<>();
         }
@@ -198,14 +212,18 @@ public class RecipeDaoImpl implements RecipeDao {
     }
 
     @Override
-    public List<Recipe> getRecipesWithTagAndOrder(Order order, List<String> tags, String search) {
+    public List<Recipe> getRecipesWithTagAndOrder(Order order, List<String> tags, String search, int limit) {
+
+        if(limit <= 0) {
+            limit = Integer.MAX_VALUE;
+        }
 
         if(search == null)
             search = "";
 
 
         if (tags.size() == 0) {
-            return this.getAllRecipesOnOrder(order,search);
+            return this.getAllRecipesOnOrder(order,search,limit);
         }
 
         List<String>list = new ArrayList<>();
@@ -218,11 +236,11 @@ public class RecipeDaoImpl implements RecipeDao {
             }
         }
 
-        return jdbcTemplate.query(queryBuilder(order,list,search),ROW_MAPPER);
+        return jdbcTemplate.query(queryBuilder(order,list,search, limit),ROW_MAPPER);
 
     }
 
-    private String queryBuilder(Order order, List<String> tags,String search) {
+    private String queryBuilder(Order order, List<String> tags,String search,int limit) {
 
         StringBuilder sb = new StringBuilder();
 
@@ -232,7 +250,7 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append(")) AND recipe_status = 'REGULAR' AND recipe_name LIKE \'%");
             sb.append(search);
-            sb.append("%\' ORDER BY recipe_name");
+            sb.append("%\' ORDER BY recipe_name limit ").append(limit);
 
         }
         else if (order.equals(Order.Rising)) {
@@ -242,14 +260,14 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append(")) AND recipes.rating >= 4 AND recipe_status = 'REGULAR' AND recipe_name LIKE \'%");
             sb.append(search);
-            sb.append("%\' ORDER BY recipes.date_created DESC, recipe_name");
+            sb.append("%\' ORDER BY recipes.date_created DESC, recipe_name ").append(limit);
 
         } else if (order.equals(Order.TopRated)) {
             sb.append("SELECT	 *	FROM recipe_tags LEFT OUTER JOIN recipes ON (recipe_tags.recipe_id = recipes.recipe_id) WHERE (recipe_tags.tag in(");
             queryAppender(tags, sb);
             sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name LIKE \'%");
             sb.append(search);
-            sb.append("%\' ORDER BY recipes.rating DESC, recipe_name");
+            sb.append("%\' ORDER BY recipes.rating DESC, recipe_name ").append(limit);
 
 
         } else if (order.equals(Order.New)) {
@@ -260,7 +278,8 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name LIKE \'%")
                     .append(search)
-                    .append("%\' ORDER BY recipes.date_created DESC,recipe_name");
+                    .append("%\' ORDER BY recipes.date_created DESC,recipe_name ")
+                    .append(limit);
 
         } else if (order.equals(Order.Old)) {
 
@@ -270,7 +289,8 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append("))  AND recipe_status = 'REGULAR' AND recipe_name LIKE \'%")
                     .append(search)
-                    .append("%\' ORDER BY recipes.date_created,recipe_name");
+                    .append("%\' ORDER BY recipes.date_created,recipe_name ")
+                    .append(limit);
 
         } else {
 
@@ -279,7 +299,8 @@ public class RecipeDaoImpl implements RecipeDao {
             queryAppender(tags, sb);
             sb.append(")) AND recipe_status = 'REGULAR' AND recipe_name LIKE \'%")
                     .append(search)
-                    .append("%\' ORDER BY recipe_name");
+                    .append("%\' ORDER BY recipe_name ")
+                    .append(limit);
 
         }
         return sb.toString();
@@ -295,25 +316,25 @@ public class RecipeDaoImpl implements RecipeDao {
         }
     }
 
-    private List<Recipe> getAllRecipesOnOrder(Order order, String search) {
+    private List<Recipe> getAllRecipesOnOrder(Order order, String search,int limit) {
 
         if (order == null) {
-            return this.getAllRecipes(search);
+            return this.getAllRecipes(search,limit);
         }
 
         if (order.equals(Order.Rising)) {
-            return this.getAllRecipesOrderByRising(search);
+            return this.getAllRecipesOrderByRising(search,limit);
         }
         if (order.equals(Order.TopRated)) {
-            return this.getAllRecipesOrderedByRating(search);
+            return this.getAllRecipesOrderedByRating(search,limit);
         }
         if (order.equals(Order.New)) {
-            return this.getAllRecipesOrderedByDateNew(search);
+            return this.getAllRecipesOrderedByDateNew(search,limit);
         }
         if (order.equals(Order.Old)) {
-            return this.getAllRecipesOrderedByDateOld(search);
+            return this.getAllRecipesOrderedByDateOld(search,limit);
         } else {
-            return this.getAllRecipes(search);
+            return this.getAllRecipes(search,limit);
         }
     }
 

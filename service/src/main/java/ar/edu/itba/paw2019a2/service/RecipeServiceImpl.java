@@ -286,7 +286,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getRecipes() {
-        List<Recipe> rList = recipeDao.getAllRecipes("");
+        List<Recipe> rList = recipeDao.getAllRecipes("",0);
         putIngredientsAndTagsToRecipe(rList);
         return rList;
     }
@@ -299,17 +299,17 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> FilterRecipesByTags(List<String> tags) {
-        return recipeDao.getRecipesWithTagAndOrder(null, tags,"");
+        return recipeDao.getRecipesWithTagAndOrder(null, tags,"",0);
     }
 
     @Override
     public List<Recipe> getAllRecipesByDate() {
-        return recipeDao.getAllRecipesOrderedByDateNew("");
+        return recipeDao.getAllRecipesOrderedByDateNew("",0);
     }
 
     @Override
     public List<Recipe> getAllRecipesByRating() {
-        return recipeDao.getAllRecipesOrderedByRating("");
+        return recipeDao.getAllRecipesOrderedByRating("",0);
     }
 
     @Override
@@ -444,10 +444,10 @@ public class RecipeServiceImpl implements RecipeService {
     //rising = order by rating where date > ayer
 
     @Override
-    public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId,String search) {
+    public Set<Recipe> getRecipesBasedOnOrderTagsCookable(List<String> tags, Order order, int userId,String search,int limit) {
         if (tags == null)
             tags = new ArrayList<>();
-        List<Recipe> recipeList = recipeDao.getRecipesWithTagAndOrder(order, tags,search);
+        List<Recipe> recipeList = recipeDao.getRecipesWithTagAndOrder(order, tags,search, limit);
 
         List<Recipe> returnList = new ArrayList<>();
 
@@ -498,12 +498,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order,String search) {
+    public Set<Recipe> getRecipesBasedOnOrderTags(List<String> tags, Order order,String search, int limit) {
         if (tags == null)
             tags = new ArrayList<>();
 
 
-        List<Recipe> list = recipeDao.getRecipesWithTagAndOrder(order, tags,search);
+        List<Recipe> list = recipeDao.getRecipesWithTagAndOrder(order, tags,search, limit);
 
 
         for (Recipe recipe : list) {
@@ -541,7 +541,6 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> getRecipesCookedRangeTime(int userId, Date from, Date to) {
 
         List<Recipe> recipeList = recipeDao.getRecipesCookedInBetweenDates(userId,from,to);
-        System.out.printf("holisssss");
 
         for (Recipe rec: recipeList) {
 

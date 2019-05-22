@@ -36,7 +36,9 @@
         <form:form modelAttribute="dateForm" action="${statisticsUrl}" method="get">
             <form:input path="from" id="datepicker" maxlength="10"/>
             <form:input path="to" id="datepicker2" maxlength="10"/>
-            <button class="btn btn-green" type="submit">dasdassad</button>
+            <button class="btn btn-green" type="submit">
+                <spring:message code="getStatistics"/>
+            </button>
         </form:form>
 
 

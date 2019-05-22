@@ -100,7 +100,7 @@ public class RecipeDaoImplTest {
 
     @Test
     public void testGetAllRecipes() {
-        List<Recipe> allRecipes = recipeDao.getAllRecipes("");
+        List<Recipe> allRecipes = recipeDao.getAllRecipes("",0);
 
         Assert.assertEquals(2, allRecipes.size());
 
