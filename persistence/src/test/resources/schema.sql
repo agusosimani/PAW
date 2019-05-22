@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS users
     username    varchar(255),
     gender      varchar(20) DEFAULT 'notSpecified',
     user_status varchar(20) DEFAULT 'REGULAR',
+    enabled     BOOLEAN DEFAULT FALSE,
+    is_admin    BOOLEAN DEFAULT FALSE,
     image       blob
 );
 
@@ -42,7 +44,7 @@ CREATE TABLE IF NOT EXISTS recipes
     instructions  varchar(1000000),
     recipe_status varchar(20)        DEFAULT 'REGULAR',
     rating        float              DEFAULT NULL,
-    date_created  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    date_created  timestamp NOT NULL,
     image         blob,
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 ) ;
@@ -79,7 +81,7 @@ CREATE TABLE IF NOT EXISTS ratings
     user_id   int       NOT NULL,
     recipe_id int       NOT NULL,
     rating    float              DEFAULT NULL,
-    date      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    date      timestamp NOT NULL,
     status    varchar(20)        DEFAULT 'REGULAR',
     PRIMARY KEY (user_id, recipe_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id),
@@ -125,7 +127,7 @@ CREATE TABLE IF NOT EXISTS recipes_comments
     recipe_id      int       NOT NULL,
     user_id        int       NOT NULL,
     comment_status varchar(20)        DEFAULT 'REGULAR',
-    comment_date   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    comment_date   timestamp NOT NULL,
     FOREIGN KEY (recipe_id) REFERENCES recipes (recipe_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );

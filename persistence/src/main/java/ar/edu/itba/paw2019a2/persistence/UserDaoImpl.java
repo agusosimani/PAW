@@ -55,14 +55,12 @@ public class UserDaoImpl implements UserDao {
             map.put("name",user.getName());
         if(!user.getSurname().isEmpty() && !user.getSurname().equals(""))
             map.put("surname",user.getSurname());
-        if(!user.getGender().isEmpty() && user.getSurname().equals(""))
+        if(!user.getGender().isEmpty() && !user.getSurname().equals(""))
             map.put("gender",user.getGender());
 
         map.put("user_status","REGULAR");
         map.put("enabled",false);
         map.put("is_admin",false);
-
-        System.out.printf("%s", user.toString());
 
 //        if(!user.getImage().isEmpty())
 //            map.put("image",user.getImage());
@@ -81,22 +79,23 @@ public class UserDaoImpl implements UserDao {
 
     private void update(User user, String k, Object v) {
         if(k.equals("password")){
-            jdbcTemplate.update("UPDATE users SET password = ? WHERE user_id = ?",k,v,user.getId());
+            System.out.println(v);
+            jdbcTemplate.update("UPDATE users SET password = ? WHERE user_id = ?",v,user.getId());
         }
         if(k.equals("mail")){
-            jdbcTemplate.update("UPDATE users SET mail = ? WHERE user_id = ?",k,v,user.getId());
+            jdbcTemplate.update("UPDATE users SET mail = ? WHERE user_id = ?",v,user.getId());
         }
         if(k.equals("name")){
-            jdbcTemplate.update("UPDATE users SET name = ? WHERE user_id = ?",k,v,user.getId());
+            jdbcTemplate.update("UPDATE users SET name = ? WHERE user_id = ?",v,user.getId());
         }
         if(k.equals("surname")){
-            jdbcTemplate.update("UPDATE users SET surname = ? WHERE user_id = ?",k,v,user.getId());
+            jdbcTemplate.update("UPDATE users SET surname = ? WHERE user_id = ?",v,user.getId());
         }
         if(k.equals("gender")){
-            jdbcTemplate.update("UPDATE users SET gender = ? WHERE user_id = ?",k,v,user.getId());
+            jdbcTemplate.update("UPDATE users SET gender = ? WHERE user_id = ?",v,user.getId());
         }
         if(k.equals("user_status")){
-            jdbcTemplate.update("UPDATE users SET user_status = ? WHERE user_id = ?",k,v,user.getId());
+            jdbcTemplate.update("UPDATE users SET user_status = ? WHERE user_id = ?",v,user.getId());
         }
     }
 
