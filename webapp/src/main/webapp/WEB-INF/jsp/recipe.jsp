@@ -262,11 +262,6 @@
                                 </a>
                                 <p class="card-comments-date">${comment.date}</p>
                             </div>
-                            <div class="float-right">
-                                <p class="comment-vote">23</p>
-                                <i class="fas fa-arrow-up arrow-up-enabled"></i>
-                                <i class="fas fa-arrow-down arrow-down-enabled"></i>
-                            </div>
                         </div>
                         <div class="card-comments-text">
                             <p class="card-text"><c:out value="${comment.message}"/></p>
